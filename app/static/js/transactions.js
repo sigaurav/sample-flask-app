@@ -1,0 +1,220 @@
+/**
+ * transactions.js — Standalone Transactions page bootstrap.
+ *
+ * Initialises the transactions AG Grid, wires toolbar controls,
+ * and provides drill-down into analyst comments via DrillDown.openComments().
+ *
+ * Depends on: api-utils.js, grid-config.js, modal-manager.js, drill-down.js
+ */
+const TransactionsApp = (function () {
+
+  /** @type {GridManager|null} */
+  let _grid = null;
+
+  /** @type {Object[]|null} */
+  let _allRecords = null;
+
+  // ── Column definitions ──────────────────────────────────────────────────────
+
+  function _buildColumns() {
+    return [
+      ColumnHelper.text('transaction_id', 'Txn ID', {
+        width: 130, pinned: 'left',
+      }),
+      ColumnHelper.text('obligor_id', 'Obligor ID', {
+        width: 110,
+      }),
+      ColumnHelper.text('reference_number', 'Reference', {
+        width: 130, hide: true,
+      }),
+      ColumnHelper.text('transaction_type', 'Type', {
+        flex: 1, minWidth: 130,
+      }),
+      ColumnHelper.money('amount', 'Amount', {
+        flex: 1, minWidth: 120,
+      }),
+      ColumnHelper.text('currency', 'Currency', {
+        width: 80,
+      }),
+      ColumnHelper.date('transaction_date', 'Txn Date', {
+        width: 115,
+      }),
+      ColumnHelper.date('value_date', 'Value Date', {
+        width: 115, hide: true,
+      }),
+      {
+        headerName:   'Status',
+        field:        'status',
+        width:        118,
+        filter:       'agTextColumnFilter',
+        cellRenderer: CellRenderer.status,
+      },
+      ColumnHelper.text('created_by', 'Created By', {
+        width: 120, hide: true,
+      }),
+      ColumnHelper.text('approved_by', 'Approved By', {
+        width: 120, hide: true,
+      }),
+      ColumnHelper.text('description', 'Description', {
+        flex: 2, minWidth: 160, tooltipField: 'description',
+      }),
+      // Drill-down to comments
+      {
+        headerName:   'Comments',
+        field:        'comment_count',
+        width:        100,
+        pinned:       'right',
+        sortable:     true,
+        filter:       'agNumberColumnFilter',
+        cellClass:    'drill-down-cell',
+        cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
+          DrillDown.openComments(
+            p.data.transaction_id,
+            p.data.transaction_type,
+            p.data.reference_number,
+            p.data.obligor_id,
+          );
+        }),
+      },
+    ];
+  }
+
+  // ── KPI strip ──────────────────────────────────────────────────────────────
+
+  function _updateKpi(records) {
+    const total     = records.length;
+    const completed = records.filter(r => r.status === 'Completed').length;
+
+    const elTotal  = document.getElementById('kpiTotal');
+    const elActive = document.getElementById('kpiActive');
+
+    if (elTotal)  elTotal.textContent  = total.toLocaleString();
+    if (elActive) elActive.textContent = completed.toLocaleString();
+  }
+
+  // ── Data loading ───────────────────────────────────────────────────────────
+
+  async function _loadTransactions(search = '') {
+    try {
+      const url  = ApiUtils.buildUrl('/api/transactions', { per_page: 1000, search });
+      const resp = await ApiUtils.get(url);
+
+      _allRecords = resp.data || [];
+      _grid.setData(_allRecords);
+      _updateKpi(_allRecords);
+
+      setTimeout(() => _grid.getApi().sizeColumnsToFit(), 50);
+
+    } catch (err) {
+      Toast.error('Failed to load transactions', err.message || 'Please ensure the server is running.');
+      console.error('Transactions load error:', err);
+    }
+  }
+
+  // ── Toolbar wiring ─────────────────────────────────────────────────────────
+
+  function _wireToolbar() {
+    const gridSearch = document.getElementById('gridSearch');
+    if (gridSearch) {
+      let _debounce;
+      gridSearch.addEventListener('input', () => {
+        clearTimeout(_debounce);
+        _debounce = setTimeout(() => {
+          _grid.setQuickFilter(gridSearch.value);
+        }, 200);
+      });
+    }
+
+    const globalSearch = document.getElementById('globalSearch');
+    if (globalSearch) {
+      globalSearch.addEventListener('input', () => {
+        if (gridSearch) gridSearch.value = globalSearch.value;
+        _loadTransactions(globalSearch.value.trim());
+      });
+    }
+
+    const btnShowHide = document.getElementById('btnShowHideColumns');
+    if (btnShowHide) {
+      btnShowHide.addEventListener('click', () => _grid.toggleColumnsPanel());
+    }
+
+    const btnClearFilters = document.getElementById('btnClearFilters');
+    if (btnClearFilters) {
+      btnClearFilters.addEventListener('click', () => {
+        _grid.clearFilters();
+        if (gridSearch) gridSearch.value = '';
+        _grid.setQuickFilter('');
+        Toast.info('Filters cleared', 'All column filters have been removed.');
+      });
+    }
+
+    document.querySelectorAll('.btn-export[data-format]').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const fmt = btn.dataset.format;
+        if (fmt === 'csv') {
+          _grid.exportCsv('transactions.csv');
+          Toast.success('CSV exported', 'Downloading current view as CSV.');
+        } else {
+          ApiUtils.downloadFile(`/api/export/transactions?format=${fmt}`);
+          Toast.success('Export started', `Downloading full transactions dataset as ${fmt.toUpperCase()}.`);
+        }
+      });
+    });
+
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const sidebar        = document.getElementById('sidebar');
+    if (sidebarToggle && sidebar) {
+      sidebarToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+        sidebar.classList.toggle('collapsed');
+        const main = document.getElementById('mainContent');
+        if (main) main.classList.toggle('sidebar-collapsed');
+        setTimeout(() => _grid && _grid.getApi().sizeColumnsToFit(), 200);
+      });
+    }
+  }
+
+  // ── Public init ────────────────────────────────────────────────────────────
+
+  async function init() {
+    _grid = new GridManager(
+      'transactionsGrid',
+      _buildColumns(),
+      {
+        sideBar: {
+          toolPanels: [
+            {
+              id:           'columns',
+              labelDefault: 'Columns',
+              labelKey:     'columns',
+              iconKey:      'columns',
+              toolPanel:    'agColumnsToolPanel',
+              toolPanelParams: {
+                suppressRowGroups: true, suppressValues: true,
+                suppressPivots: true,   suppressPivotMode: true,
+              },
+            },
+            {
+              id:           'filters',
+              labelDefault: 'Filters',
+              labelKey:     'filters',
+              iconKey:      'filter',
+              toolPanel:    'agFiltersToolPanel',
+            },
+          ],
+          defaultToolPanel: '',
+        },
+        paginationPageSize:         25,
+        paginationPageSizeSelector: [10, 25, 50, 100],
+      }
+    ).init();
+
+    _wireToolbar();
+    await _loadTransactions();
+
+    Toast.success('Transactions ready', `${(_allRecords || []).length} transactions loaded.`, undefined, 3000);
+  }
+
+  return { init };
+
+}());

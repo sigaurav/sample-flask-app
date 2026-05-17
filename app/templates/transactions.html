@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Transactions{% endblock %}
+
+{% block content %}
+
+{# ── Breadcrumb ───────────────────────────────────────────────────────────── #}
+{% with crumbs=[{label: 'Transactions'}] %}
+  {% include 'components/breadcrumb.html' %}
+{% endwith %}
+
+{# ── Page header ──────────────────────────────────────────────────────────── #}
+<div class="page-header">
+  <div class="page-header-left">
+    <h1 class="page-title">Transaction Ledger</h1>
+    <p class="page-subtitle">
+      All transactions across the credit facility portfolio with analyst comment drill-down.
+    </p>
+  </div>
+  <div class="page-header-right">
+    <div class="kpi-strip" id="kpiStrip">
+      <div class="kpi-card">
+        <span class="kpi-value" id="kpiTotal">–</span>
+        <span class="kpi-label">Total Transactions</span>
+      </div>
+      <div class="kpi-card">
+        <span class="kpi-value" id="kpiActive">–</span>
+        <span class="kpi-label">Completed</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+{# ── Toolbar ──────────────────────────────────────────────────────────────── #}
+<div class="toolbar">
+  <div class="toolbar-left">
+    <div class="search-box">
+      <svg class="search-icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <input type="text"
+             id="gridSearch"
+             class="search-input"
+             placeholder="Search transactions…"
+             aria-label="Search transactions" />
+    </div>
+  </div>
+  <div class="toolbar-right">
+    <div class="btn-group">
+      <button class="btn btn-outline" id="btnShowHideColumns" title="Show/Hide columns">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+          <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+          <line x1="8" y1="18" x2="21" y2="18"/>
+          <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/>
+          <line x1="3" y1="18" x2="3.01" y2="18"/>
+        </svg>
+        Columns
+      </button>
+      <button class="btn btn-outline" id="btnClearFilters" title="Clear all filters">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="15" height="15">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"/>
+        </svg>
+        Clear Filters
+      </button>
+    </div>
+    <div class="btn-group export-group">
+      <span class="btn-group-label">Export</span>
+      <button class="btn btn-export" data-format="csv" title="Export as CSV">CSV</button>
+      <button class="btn btn-export" data-format="excel" title="Export as Excel">Excel</button>
+      <button class="btn btn-export" data-format="parquet" title="Export as Parquet">Parquet</button>
+    </div>
+  </div>
+</div>
+
+{# ── AG Grid container ────────────────────────────────────────────────────── #}
+<div class="grid-card">
+  <div id="transactionsGrid" class="ag-theme-quartz wf-grid" style="width:100%; height:620px;"></div>
+</div>
+
+{% endblock %}
+
+
+{% block scripts_extra %}
+<script src="{{ url_for('static', filename='js/transactions.js') }}"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () { TransactionsApp.init(); });
+</script>
+{% endblock %}

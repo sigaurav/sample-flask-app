@@ -1,0 +1,229 @@
+/* ============================================================
+   WF Enterprise Analytics — Modal & Drill-Down Styles
+   Stacked modal system with smooth transitions
+   ============================================================ */
+
+/* ── Backdrop ────────────────────────────────────────────────────────────────── */
+.modal-backdrop {
+  position:         fixed;
+  inset:            0;
+  background:       rgba(0, 0, 0, .45);
+  z-index:          1100;
+  display:          flex;
+  align-items:      center;
+  justify-content:  center;
+  opacity:          0;
+  transition:       opacity .25s ease;
+  padding:          20px;
+}
+
+.modal-backdrop.show { opacity: 1; }
+
+/* z-index is set via JavaScript (backdrop.style.zIndex) so nth-of-type is not needed here. */
+
+/* ── Modal panel ─────────────────────────────────────────────────────────────── */
+.modal-panel {
+  background:       #fff;
+  border-radius:    10px;
+  box-shadow:       0 20px 60px rgba(0,0,0,.25), 0 4px 12px rgba(0,0,0,.12);
+  width:            100%;
+  max-width:        1140px;
+  max-height:       calc(100vh - 80px);
+  display:          flex;
+  flex-direction:   column;
+  transform:        translateY(30px) scale(.97);
+  transition:       transform .3s cubic-bezier(.34,1.2,.64,1);
+  overflow:         hidden;
+}
+
+.modal-backdrop.show .modal-panel {
+  transform:        translateY(0) scale(1);
+}
+
+/* Nested panels step down slightly so the user can see depth visually */
+.modal-backdrop[data-depth="2"] .modal-panel { max-width: 1060px; }
+.modal-backdrop[data-depth="3"] .modal-panel { max-width:  960px; }
+.modal-backdrop[data-depth="4"] .modal-panel { max-width:  860px; }
+
+/* ── Modal header ────────────────────────────────────────────────────────────── */
+.modal-header {
+  display:          flex;
+  align-items:      center;
+  justify-content:  space-between;
+  padding:          16px 20px;
+  background:       #fafafa;
+  border-bottom:    1px solid #e0e0e0;
+  flex-shrink:      0;
+  gap:              12px;
+}
+
+.modal-header-left { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+
+.modal-title {
+  font-size:        16px;
+  font-weight:      700;
+  color:            #1a1a1a;
+  white-space:      nowrap;
+  overflow:         hidden;
+  text-overflow:    ellipsis;
+}
+
+.modal-subtitle {
+  font-size:        12px;
+  color:            #6e6e6e;
+  white-space:      nowrap;
+  overflow:         hidden;
+  text-overflow:    ellipsis;
+}
+
+/* Hierarchy trail shown below the modal title */
+.modal-trail {
+  display:          flex;
+  align-items:      center;
+  gap:              4px;
+  margin-top:       3px;
+  flex-wrap:        wrap;
+}
+.modal-crumb {
+  font-size:        11px;
+  color:            #6e6e6e;
+  white-space:      nowrap;
+}
+.modal-crumb-sep {
+  font-size:        10px;
+  color:            #c8c8c8;
+  flex-shrink:      0;
+}
+.modal-crumb.modal-crumb-active {
+  color:            #D71E28;
+  font-weight:      700;
+}
+
+.modal-header-actions {
+  display:          flex;
+  align-items:      center;
+  gap:              6px;
+  flex-shrink:      0;
+}
+
+.modal-close-btn {
+  background:       transparent;
+  border:           none;
+  cursor:           pointer;
+  padding:          6px;
+  border-radius:    6px;
+  color:            #6e6e6e;
+  display:          flex;
+  align-items:      center;
+  transition:       background .12s ease, color .12s ease;
+}
+.modal-close-btn:hover { background: #fdecea; color: #D71E28; }
+
+/* ── Modal toolbar ───────────────────────────────────────────────────────────── */
+.modal-toolbar {
+  display:          flex;
+  align-items:      center;
+  justify-content:  space-between;
+  padding:          10px 20px;
+  border-bottom:    1px solid #f0f0f0;
+  gap:              10px;
+  flex-shrink:      0;
+  flex-wrap:        wrap;
+  background:       #fff;
+}
+
+.modal-toolbar-left, .modal-toolbar-right {
+  display:          flex;
+  align-items:      center;
+  gap:              8px;
+}
+
+.modal-search {
+  position:         relative;
+  display:          flex;
+  align-items:      center;
+}
+.modal-search svg {
+  position:         absolute;
+  left:             9px;
+  color:            #9e9e9e;
+  pointer-events:   none;
+}
+.modal-search-input {
+  padding:          6px 10px 6px 30px;
+  border:           1px solid #e0e0e0;
+  border-radius:    5px;
+  font-size:        12px;
+  width:            220px;
+  outline:          none;
+  transition:       border-color .12s;
+}
+.modal-search-input:focus { border-color: #D71E28; }
+
+/* ── Modal body / grid area ──────────────────────────────────────────────────── */
+.modal-body {
+  flex:             1;
+  overflow:         hidden;
+  display:          flex;
+  flex-direction:   column;
+  padding:          16px 20px;
+  gap:              12px;
+}
+
+.modal-grid-wrap {
+  flex:             1;
+  overflow:         hidden;
+  border:           1px solid #e0e0e0;
+  border-radius:    6px;
+}
+
+.modal-grid {
+  width:            100%;
+  height:           460px;
+}
+
+/* ── Modal footer ────────────────────────────────────────────────────────────── */
+.modal-footer {
+  display:          flex;
+  align-items:      center;
+  justify-content:  space-between;
+  padding:          12px 20px;
+  border-top:       1px solid #e0e0e0;
+  background:       #fafafa;
+  flex-shrink:      0;
+  gap:              12px;
+  flex-wrap:        wrap;
+}
+
+.modal-footer-left { display: flex; align-items: center; gap: 8px; }
+.modal-footer-right { display: flex; align-items: center; gap: 6px; }
+
+.record-count {
+  font-size:        12px;
+  color:            #6e6e6e;
+}
+.record-count strong { color: #2c2c2c; }
+
+/* Export button group in footer */
+.export-label {
+  font-size:        11px;
+  font-weight:      600;
+  color:            #9e9e9e;
+  text-transform:   uppercase;
+  letter-spacing:   .5px;
+  margin-right:     2px;
+}
+
+/* ── Comment text cell ───────────────────────────────────────────────────────── */
+.comment-text-cell {
+  white-space:      normal !important;
+  line-height:      1.4;
+  padding-top:      6px !important;
+  padding-bottom:   6px !important;
+  font-size:        12px;
+  color:            #424242;
+}
+
+/* ── Utility ─────────────────────────────────────────────────────────────────── */
+.text-muted { color: #9e9e9e; font-style: italic; }
+.text-right { text-align: right !important; justify-content: flex-end !important; }

@@ -1,0 +1,178 @@
+/* ============================================================
+   WF Enterprise Analytics — AG Grid custom theme overrides
+   Applies on top of ag-theme-quartz base styles
+   ============================================================ */
+
+/* ── Grid wrapper ────────────────────────────────────────────────────────────── */
+.wf-grid {
+  --ag-font-family:           system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --ag-font-size:             13px;
+  --ag-grid-size:             5px;
+  --ag-row-height:            40px;
+  --ag-header-height:         44px;
+  --ag-header-foreground-color: #2c2c2c;
+  --ag-header-background-color: #F8F8F8;
+  --ag-header-column-separator-color: #e0e0e0;
+  --ag-row-hover-color:       rgba(215, 30, 40, .04);
+  --ag-selected-row-background-color: rgba(215, 30, 40, .08);
+  --ag-range-selection-border-color: #D71E28;
+  --ag-border-color:          #e0e0e0;
+  --ag-secondary-border-color: #e0e0e0;
+  --ag-cell-horizontal-padding: 14px;
+  --ag-checkbox-checked-color: #D71E28;
+  --ag-input-focus-border-color: #D71E28;
+  --ag-pagination-panel-background-color: #fafafa;
+  --ag-control-panel-background-color: #fafafa;
+  --ag-subheader-background-color: #f0f0f0;
+  --ag-odd-row-background-color: #fafcff;
+  --ag-even-row-background-color: #ffffff;
+}
+
+/* Header cell ─────────────────────────────────────────────────────────────── */
+.wf-grid .ag-header-cell {
+  font-weight:    700;
+  font-size:      11px;
+  letter-spacing: .4px;
+  text-transform: uppercase;
+  color:          var(--gray-700, #424242);
+}
+
+.wf-grid .ag-header-cell:hover {
+  background:     rgba(215, 30, 40, .06) !important;
+}
+
+/* Sorted column header accent */
+.wf-grid .ag-header-cell.ag-header-active {
+  background:     rgba(215, 30, 40, .08) !important;
+}
+.wf-grid .ag-sort-indicator-icon { color: #D71E28; }
+
+/* Row styling ──────────────────────────────────────────────────────────────── */
+.wf-grid .ag-row {
+  border-bottom:  1px solid #f0f0f0;
+  transition:     background .12s ease;
+}
+
+.wf-grid .ag-row-selected {
+  background:     rgba(215, 30, 40, .06) !important;
+}
+
+/* Pinned row styling */
+.wf-grid .ag-row-pinned {
+  background:     #fff8dc !important;
+  font-weight:    600;
+}
+
+/* Cell styling ─────────────────────────────────────────────────────────────── */
+.wf-grid .ag-cell {
+  display:        flex;
+  align-items:    center;
+  font-size:      13px;
+  color:          #2c2c2c;
+}
+
+/* Drill-down clickable cells */
+.wf-grid .drill-down-cell {
+  cursor:         pointer;
+}
+
+.drill-link {
+  display:          inline-flex;
+  align-items:      center;
+  gap:              5px;
+  color:            #D71E28;
+  font-weight:      600;
+  font-size:        13px;
+  padding:          2px 8px;
+  background:       rgba(215, 30, 40, .07);
+  border-radius:    4px;
+  border:           1px solid rgba(215, 30, 40, .15);
+  transition:       background .12s ease, color .12s ease, border-color .12s ease;
+  white-space:      nowrap;
+}
+.drill-link:hover {
+  background:       rgba(215, 30, 40, .14);
+  border-color:     rgba(215, 30, 40, .3);
+  color:            #A8151D;
+}
+.drill-link::after {
+  content:          "↗";
+  font-size:        11px;
+  opacity:          .7;
+}
+
+/* Money / numeric cells ─────────────────────────────────────────────────────── */
+.cell-numeric {
+  font-family:    "SFMono-Regular", Consolas, monospace;
+  font-size:      12.5px;
+  color:          #1a3a5c;
+}
+
+/* Risk rating cell ──────────────────────────────────────────────────────────── */
+.risk-chip {
+  display:        inline-block;
+  padding:        2px 7px;
+  border-radius:  4px;
+  font-size:      11px;
+  font-weight:    700;
+  letter-spacing: .3px;
+}
+.risk-aaa, .risk-aa, .risk-a { background: #e6f4ec; color: #1b7a3e; }
+.risk-bbb { background: #eff6ff; color: #1565c0; }
+.risk-bb  { background: #fff3cd; color: #c47a00; }
+.risk-b   { background: #fdecea; color: #c0392b; }
+
+/* Utilization bar ───────────────────────────────────────────────────────────── */
+.util-bar-wrap {
+  display:        flex;
+  align-items:    center;
+  gap:            8px;
+  width:          100%;
+}
+.util-bar {
+  flex:           1;
+  height:         6px;
+  background:     #e0e0e0;
+  border-radius:  3px;
+  overflow:       hidden;
+}
+.util-bar-fill {
+  height:         100%;
+  border-radius:  3px;
+  transition:     width .4s ease;
+}
+.util-pct { font-size: 11px; color: #5a5a5a; white-space: nowrap; min-width: 36px; text-align: right; }
+
+/* Pagination panel ──────────────────────────────────────────────────────────── */
+.wf-grid .ag-paging-panel {
+  border-top:     1px solid #e0e0e0;
+  font-size:      12px;
+  color:          #5a5a5a;
+  padding:        0 16px;
+  height:         44px;
+}
+
+.wf-grid .ag-paging-button {
+  color:          #D71E28;
+}
+.wf-grid .ag-paging-button:hover:not(.ag-disabled) {
+  color:          #A8151D;
+}
+
+/* Column menu / filter panel ────────────────────────────────────────────────── */
+.wf-grid .ag-filter-toolpanel-header,
+.wf-grid .ag-column-select-header {
+  background:     #fafafa;
+}
+
+/* Loading cell */
+.wf-grid .ag-loading-text {
+  color:          #D71E28;
+  font-style:     italic;
+}
+
+/* No rows overlay */
+.wf-grid .ag-overlay-no-rows-center {
+  color:          #6e6e6e;
+  font-size:      14px;
+}

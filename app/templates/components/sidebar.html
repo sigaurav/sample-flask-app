@@ -1,0 +1,97 @@
+{# ── Left navigation sidebar ────────────────────────────────────────────────── #}
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar-nav">
+
+    <div class="nav-section">
+      <span class="nav-section-label">Portfolio</span>
+      <ul>
+        <li class="nav-item {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
+          <a href="/" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+              <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
+            </svg>
+            <span>Credit Facilities</span>
+          </a>
+        </li>
+        <li class="nav-item {% if request.endpoint == 'main.obligors' %}active{% endif %}">
+          <a href="/obligors" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+              <circle cx="9" cy="7" r="4"/>
+              <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+              <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+            </svg>
+            <span>Obligors</span>
+          </a>
+        </li>
+        <li class="nav-item {% if request.endpoint == 'main.transactions' %}active{% endif %}">
+          <a href="/transactions" class="nav-link">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="12" y1="1" x2="12" y2="23"/>
+              <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+            </svg>
+            <span>Transactions</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-label">Risk Management</span>
+      <ul>
+        <li class="nav-item">
+          <a href="#" class="nav-link disabled">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+            <span>Risk Dashboard</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link disabled">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+            </svg>
+            <span>Compliance</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-label">Reporting</span>
+      <ul>
+        <li class="nav-item">
+          <a href="#" class="nav-link disabled">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="20" x2="18" y2="10"/>
+              <line x1="12" y1="20" x2="12" y2="4"/>
+              <line x1="6" y1="20" x2="6" y2="14"/>
+            </svg>
+            <span>Analytics</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link disabled">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+              <polyline points="7 10 12 15 17 10"/>
+              <line x1="12" y1="15" x2="12" y2="3"/>
+            </svg>
+            <span>Export Center</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="env-badge">
+      <span class="env-dot"></span>
+      <span>Development</span>
+    </div>
+    <span class="version">v1.0.0</span>
+  </div>
+</aside>

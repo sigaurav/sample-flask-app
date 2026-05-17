@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Wells Fargo Enterprise Credit Analytics Platform" />
+  <title>{% block title %}{{ title | default('WF Analytics') }}{% endblock %} | WF Enterprise Analytics</title>
+
+  {# ── AG Grid Community (local) ──────────────────────────────────────────────── #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/ag-grid/ag-grid.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/ag-grid/ag-theme-quartz.css') }}" />
+
+  {# ── Application styles ───────────────────────────────────────────────────── #}
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}" />
+
+  {% block head_extra %}{% endblock %}
+</head>
+<body class="app-body">
+
+  {# ── Header ───────────────────────────────────────────────────────────────── #}
+  {% include 'components/header.html' %}
+
+  <div class="app-layout">
+
+    {# ── Sidebar ──────────────────────────────────────────────────────────────── #}
+    {% include 'components/sidebar.html' %}
+
+    {# ── Main content ─────────────────────────────────────────────────────────── #}
+    <main class="main-content" id="mainContent">
+      {% block content %}{% endblock %}
+    </main>
+
+  </div>
+
+  {# ── Toast notification container ─────────────────────────────────────────── #}
+  <div class="toast-container" id="toastContainer" aria-live="polite"></div>
+
+  {# ── Loading overlay ──────────────────────────────────────────────────────── #}
+  <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
+    <div class="loading-spinner">
+      <div class="spinner-ring"></div>
+      <span class="loading-text">Loading…</span>
+    </div>
+  </div>
+
+  {# ── AG Grid Community JS ─────────────────────────────────────────────────── #}
+  <script src="{{ url_for('static', filename='vendor/ag-grid/ag-grid-community.min.js') }}"></script>
+
+  {# ── Application JS modules (order matters) ─────────────────────────────── #}
+  <script src="{{ url_for('static', filename='js/api-utils.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/grid-config.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/modal-manager.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/drill-down.js') }}"></script>
+
+  {% block scripts_extra %}{% endblock %}
+</body>
+</html>
