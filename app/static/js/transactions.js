@@ -135,7 +135,7 @@ const TransactionsApp = (function () {
 
     const btnShowHide = document.getElementById('btnShowHideColumns');
     if (btnShowHide) {
-      btnShowHide.addEventListener('click', () => _grid.toggleColumnsPanel());
+      btnShowHide.addEventListener('click', () => _grid.toggleColumnsPanel(btnShowHide));
     }
 
     const btnClearFilters = document.getElementById('btnClearFilters');
@@ -181,29 +181,6 @@ const TransactionsApp = (function () {
       'transactionsGrid',
       _buildColumns(),
       {
-        sideBar: {
-          toolPanels: [
-            {
-              id:           'columns',
-              labelDefault: 'Columns',
-              labelKey:     'columns',
-              iconKey:      'columns',
-              toolPanel:    'agColumnsToolPanel',
-              toolPanelParams: {
-                suppressRowGroups: true, suppressValues: true,
-                suppressPivots: true,   suppressPivotMode: true,
-              },
-            },
-            {
-              id:           'filters',
-              labelDefault: 'Filters',
-              labelKey:     'filters',
-              iconKey:      'filter',
-              toolPanel:    'agFiltersToolPanel',
-            },
-          ],
-          defaultToolPanel: '',
-        },
         paginationPageSize:         25,
         paginationPageSizeSelector: [10, 25, 50, 100],
       }

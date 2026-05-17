@@ -69,6 +69,15 @@
   align-items:    center;
   font-size:      13px;
   color:          #2c2c2c;
+  overflow:       hidden;
+}
+
+/* Prevent text from bleeding into adjacent columns */
+.wf-grid .ag-cell-value {
+  overflow:       hidden;
+  text-overflow:  ellipsis;
+  white-space:    nowrap;
+  min-width:      0;
 }
 
 /* Drill-down clickable cells */

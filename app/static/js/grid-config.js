@@ -192,7 +192,8 @@ class GridManager {
     this._containerId = containerId;
     this._columnDefs  = columnDefs;
     this._options     = options;
-    this._api         = null;    // AG Grid GridApi
+    this._api         = null;   // AG Grid GridApi
+    this._colPanel    = null;   // custom column-picker dropdown
   }
 
   /**
@@ -264,14 +265,73 @@ class GridManager {
     this._api.exportDataAsCsv({ fileName: filename });
   }
 
-  /** Show/hide the columns tool panel. */
-  toggleColumnsPanel() {
-    const panel = this._api.getOpenedToolPanel();
-    if (panel === 'columns') {
-      this._api.closeToolPanel();
-    } else {
-      this._api.openToolPanel('columns');
+  /**
+   * Show/hide a custom column-visibility dropdown anchored to anchorEl.
+   * @param {HTMLElement} anchorEl - The button that was clicked (used for positioning).
+   */
+  toggleColumnsPanel(anchorEl) {
+    // If already open, close it
+    if (this._colPanel) {
+      this._colPanel.remove();
+      this._colPanel = null;
+      return;
     }
+
+    const panel = document.createElement('div');
+    panel.className = 'col-picker-panel';
+
+    // Header row with a "Reset" link
+    const header = document.createElement('div');
+    header.className = 'col-picker-header';
+    header.innerHTML = '<span>Show / Hide Columns</span>';
+    panel.appendChild(header);
+
+    const list = document.createElement('div');
+    list.className = 'col-picker-list';
+
+    // Iterate every column the grid knows about
+    this._api.getColumns().forEach(col => {
+      const colDef = col.getColDef();
+      const colId  = col.getColId();
+      const label  = colDef.headerName || colId;
+
+      // Skip columns without a useful label (e.g. action-only columns)
+      if (!label || label === '') return;
+
+      const item = document.createElement('label');
+      item.className = 'col-picker-item';
+
+      const cb = document.createElement('input');
+      cb.type    = 'checkbox';
+      cb.checked = col.isVisible();
+      cb.addEventListener('change', () => {
+        this._api.setColumnVisible(colId, cb.checked);
+      });
+
+      item.appendChild(cb);
+      item.appendChild(document.createTextNode(' ' + label));
+      list.appendChild(item);
+    });
+
+    panel.appendChild(list);
+    document.body.appendChild(panel);
+    this._colPanel = panel;
+
+    // Position below the anchor button
+    const rect = anchorEl.getBoundingClientRect();
+    panel.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
+    panel.style.left = (rect.left  + window.scrollX)      + 'px';
+
+    // Close when clicking outside
+    const onOutsideClick = (e) => {
+      if (!panel.contains(e.target) && e.target !== anchorEl) {
+        panel.remove();
+        this._colPanel = null;
+        document.removeEventListener('mousedown', onOutsideClick);
+      }
+    };
+    // Delay one tick so the current click doesn't immediately close it
+    setTimeout(() => document.addEventListener('mousedown', onOutsideClick), 0);
   }
 
   /** Return the raw GridApi for advanced use. */

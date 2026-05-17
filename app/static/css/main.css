@@ -550,29 +550,116 @@ a:hover { color: var(--wf-red-dark); }
   flex-shrink:      0;
 }
 
-.chip-active     { background: var(--success-light); color: var(--success); }
+/* ── Facility statuses ───────────────────────────────────────────────────────── */
+.chip-active        { background: var(--success-light); color: var(--success); }
 .chip-active .status-dot { background: var(--success); }
 
-.chip-closed     { background: var(--gray-100); color: var(--gray-600); }
+.chip-closed        { background: var(--gray-100); color: var(--gray-600); }
 .chip-closed .status-dot { background: var(--gray-400); }
 
-.chip-review     { background: var(--warning-light); color: var(--warning); }
-.chip-review .status-dot { background: var(--warning); }
-
-.chip-pending    { background: var(--info-light); color: var(--info); }
+.chip-pending       { background: var(--info-light); color: var(--info); }
 .chip-pending .status-dot { background: var(--info); }
 
-.chip-defaulted  { background: var(--danger-light); color: var(--danger); }
+.chip-under-review  { background: #fff3cd; color: #b45309; }
+.chip-under-review .status-dot { background: #b45309; }
+
+/* ── Obligor statuses ────────────────────────────────────────────────────────── */
+.chip-defaulted     { background: var(--danger-light); color: var(--danger); }
 .chip-defaulted .status-dot { background: var(--danger); }
 
-.chip-watchlist  { background: var(--warning-light); color: var(--warning); }
+.chip-restructuring { background: #ede9fe; color: #6d28d9; }
+.chip-restructuring .status-dot { background: #6d28d9; }
+
+.chip-watchlist     { background: var(--warning-light); color: var(--warning); }
 .chip-watchlist .status-dot { background: var(--warning); }
 
-/* Priority chips */
-.chip-critical   { background: #fdecea; color: #b71c1c; }
-.chip-high       { background: #fef3c7; color: #92400e; }
-.chip-medium     { background: #eff6ff; color: #1e40af; }
-.chip-low        { background: #f0fdf4; color: #15803d; }
+/* ── Transaction statuses ────────────────────────────────────────────────────── */
+.chip-completed     { background: #dcfce7; color: #15803d; }
+.chip-completed .status-dot { background: #15803d; }
+
+.chip-cancelled     { background: var(--gray-100); color: var(--gray-500); }
+.chip-cancelled .status-dot { background: var(--gray-400); }
+
+.chip-failed        { background: #fee2e2; color: #b91c1c; }
+.chip-failed .status-dot { background: #b91c1c; }
+
+/* ── Comment statuses ────────────────────────────────────────────────────────── */
+.chip-open          { background: #fff3cd; color: #b45309; }
+.chip-open .status-dot { background: #b45309; }
+
+.chip-acknowledged  { background: var(--info-light); color: var(--info); }
+.chip-acknowledged .status-dot { background: var(--info); }
+
+.chip-escalated     { background: #fee2e2; color: #b91c1c; }
+.chip-escalated .status-dot { background: #b91c1c; }
+
+.chip-resolved      { background: #dcfce7; color: #15803d; }
+.chip-resolved .status-dot { background: #15803d; }
+
+/* ── Legacy / review alias ───────────────────────────────────────────────────── */
+.chip-review        { background: var(--warning-light); color: var(--warning); }
+.chip-review .status-dot { background: var(--warning); }
+
+/* ── Priority chips ──────────────────────────────────────────────────────────── */
+.chip-critical      { background: #fdecea; color: #b71c1c; }
+.chip-high          { background: #fef3c7; color: #92400e; }
+.chip-medium        { background: #eff6ff; color: #1e40af; }
+.chip-low           { background: #f0fdf4; color: #15803d; }
+
+/* ── Column picker dropdown ──────────────────────────────────────────────────── */
+.col-picker-panel {
+  position:         absolute;
+  z-index:          9000;
+  background:       #fff;
+  border:           1px solid #e0e0e0;
+  border-radius:    8px;
+  box-shadow:       0 4px 20px rgba(0,0,0,.12);
+  min-width:        220px;
+  max-height:       380px;
+  display:          flex;
+  flex-direction:   column;
+  overflow:         hidden;
+}
+
+.col-picker-header {
+  padding:          10px 14px 8px;
+  font-size:        11px;
+  font-weight:      700;
+  letter-spacing:   .4px;
+  text-transform:   uppercase;
+  color:            #6e6e6e;
+  border-bottom:    1px solid #f0f0f0;
+  flex-shrink:      0;
+}
+
+.col-picker-list {
+  overflow-y:       auto;
+  padding:          6px 0;
+}
+
+.col-picker-item {
+  display:          flex;
+  align-items:      center;
+  gap:              8px;
+  padding:          7px 14px;
+  font-size:        13px;
+  color:            #2c2c2c;
+  cursor:           pointer;
+  user-select:      none;
+  transition:       background .1s ease;
+}
+
+.col-picker-item:hover {
+  background:       rgba(215, 30, 40, .05);
+}
+
+.col-picker-item input[type="checkbox"] {
+  accent-color:     #D71E28;
+  width:            14px;
+  height:           14px;
+  cursor:           pointer;
+  flex-shrink:      0;
+}
 
 /* ── Loading overlay ─────────────────────────────────────────────────────────── */
 .loading-overlay {
