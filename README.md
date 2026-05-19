@@ -239,4 +239,4 @@ Adding a new drill-down level requires:
 | Export | pandas + openpyxl (Excel), pyarrow (Parquet) |
 | Frontend | Vanilla JavaScript (ES2020), HTML5, CSS3 |
 | Grid | AG Grid Community 31.3.2 (CDN) |
-| Styling | Custom CSS — Wells Fargo design system |
+| Styling | Custom CSS — WF design system |
