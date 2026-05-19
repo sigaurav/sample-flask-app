@@ -6,10 +6,6 @@
   <meta name="description" content="Wells Fargo Enterprise Credit Analytics Platform" />
   <title>{% block title %}{{ title | default('WF Analytics') }}{% endblock %} | WF Enterprise Analytics</title>
 
-  {# ── AG Grid Community (local) ──────────────────────────────────────────────── #}
-  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/ag-grid/ag-grid.css') }}" />
-  <link rel="stylesheet" href="{{ url_for('static', filename='vendor/ag-grid/ag-theme-quartz.css') }}" />
-
   {# ── Application styles ───────────────────────────────────────────────────── #}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}" />
@@ -44,9 +40,6 @@
       <span class="loading-text">Loading…</span>
     </div>
   </div>
-
-  {# ── AG Grid Community JS ─────────────────────────────────────────────────── #}
-  <script src="{{ url_for('static', filename='vendor/ag-grid/ag-grid-community.min.js') }}"></script>
 
   {# ── Application JS modules (order matters) ─────────────────────────────── #}
   <script src="{{ url_for('static', filename='js/api-utils.js') }}"></script>

@@ -1,88 +1,435 @@
 /* ============================================================
-   WF Enterprise Analytics — AG Grid custom theme overrides
-   Applies on top of ag-theme-quartz base styles
+   WF Enterprise Analytics — Custom table grid styles
    ============================================================ */
 
-/* ── Grid wrapper ────────────────────────────────────────────────────────────── */
+/* ── Grid container — flex column so pagBar always sits at the bottom ─────────── */
 .wf-grid {
-  --ag-font-family:           system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-  --ag-font-size:             13px;
-  --ag-grid-size:             5px;
-  --ag-row-height:            40px;
-  --ag-header-height:         44px;
-  --ag-header-foreground-color: #2c2c2c;
-  --ag-header-background-color: #F8F8F8;
-  --ag-header-column-separator-color: #e0e0e0;
-  --ag-row-hover-color:       rgba(215, 30, 40, .04);
-  --ag-selected-row-background-color: rgba(215, 30, 40, .08);
-  --ag-range-selection-border-color: #D71E28;
-  --ag-border-color:          #e0e0e0;
-  --ag-secondary-border-color: #e0e0e0;
-  --ag-cell-horizontal-padding: 14px;
-  --ag-checkbox-checked-color: #D71E28;
-  --ag-input-focus-border-color: #D71E28;
-  --ag-pagination-panel-background-color: #fafafa;
-  --ag-control-panel-background-color: #fafafa;
-  --ag-subheader-background-color: #f0f0f0;
-  --ag-odd-row-background-color: #fafcff;
-  --ag-even-row-background-color: #ffffff;
+  display:          flex;
+  flex-direction:   column;
+  overflow:         hidden;
 }
 
-/* Header cell ─────────────────────────────────────────────────────────────── */
-.wf-grid .ag-header-cell {
-  font-weight:    700;
-  font-size:      11px;
-  letter-spacing: .4px;
-  text-transform: uppercase;
-  color:          var(--gray-700, #424242);
+/* ── Table wrapper — takes remaining height, scrolls both axes ───────────────── */
+.wf-table-wrapper {
+  flex:             1;
+  min-height:       0;
+  overflow-x:       auto;
+  overflow-y:       auto;
 }
 
-.wf-grid .ag-header-cell:hover {
-  background:     rgba(215, 30, 40, .06) !important;
+/* ── Table base ──────────────────────────────────────────────────────────────── */
+.wf-table {
+  table-layout:     fixed;
+  border-collapse:  separate;   /* required for position:sticky to work */
+  border-spacing:   0;
+  font-family:      system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  font-size:        13px;
+  color:            #2c2c2c;
 }
 
-/* Sorted column header accent */
-.wf-grid .ag-header-cell.ag-header-active {
-  background:     rgba(215, 30, 40, .08) !important;
-}
-.wf-grid .ag-sort-indicator-icon { color: #D71E28; }
-
-/* Row styling ──────────────────────────────────────────────────────────────── */
-.wf-grid .ag-row {
-  border-bottom:  1px solid #f0f0f0;
-  transition:     background .12s ease;
-}
-
-.wf-grid .ag-row-selected {
-  background:     rgba(215, 30, 40, .06) !important;
-}
-
-/* Pinned row styling */
-.wf-grid .ag-row-pinned {
-  background:     #fff8dc !important;
-  font-weight:    600;
-}
-
-/* Cell styling ─────────────────────────────────────────────────────────────── */
-.wf-grid .ag-cell {
-  display:        flex;
-  align-items:    center;
-  font-size:      13px;
-  color:          #2c2c2c;
-  overflow:       hidden;
+/* ── Header ──────────────────────────────────────────────────────────────────── */
+.wf-th {
+  height:           44px;
+  padding:          0 14px;
+  background:       #F8F8F8;
+  border-bottom:    2px solid #e0e0e0;
+  border-right:     1px solid #e8e8e8;
+  font-size:        11px;
+  font-weight:      700;
+  letter-spacing:   .4px;
+  text-transform:   uppercase;
+  color:            #424242;
+  text-align:       left;
+  white-space:      nowrap;
+  overflow:         hidden;
+  cursor:           grab;
+  user-select:      none;
+  position:         relative;
+  vertical-align:   middle;
 }
 
-/* Prevent text from bleeding into adjacent columns */
-.wf-grid .ag-cell-value {
-  overflow:       hidden;
-  text-overflow:  ellipsis;
-  white-space:    nowrap;
-  min-width:      0;
+/* Resize handle — sits on the right edge of each header cell */
+.wf-resize-handle {
+  position:         absolute;
+  right:            0;
+  top:              0;
+  width:            6px;
+  height:           100%;
+  cursor:           col-resize;
+  z-index:          5;
 }
 
-/* Drill-down clickable cells */
-.wf-grid .drill-down-cell {
-  cursor:         pointer;
+.wf-resize-handle:hover,
+.wf-resize-handle:active {
+  background:       rgba(215, 30, 40, .35);
+}
+
+/* Drag-over drop target */
+.wf-th-drag-over {
+  background:       rgba(215, 30, 40, .14) !important;
+  border-left:      3px solid #D71E28;
+}
+
+/* Column being dragged */
+.wf-th-dragging {
+  opacity:          .5;
+}
+
+.wf-th:last-child { border-right: none; }
+
+.wf-th:hover {
+  background:       rgba(215, 30, 40, .06);
+}
+
+.wf-th-sorted {
+  background:       rgba(215, 30, 40, .08) !important;
+}
+
+/* Inner flex layout for header content */
+.wf-th-inner {
+  display:          flex;
+  align-items:      center;
+  gap:              4px;
+  width:            100%;
+  overflow:         hidden;
+}
+
+.wf-th-label {
+  overflow:         hidden;
+  text-overflow:    ellipsis;
+  white-space:      nowrap;
+  flex:             1;
+  min-width:        0;
+}
+
+/* Sort icon — hidden when column is not sorted (no text content) */
+.wf-sort-icon {
+  flex-shrink:      0;
+  font-size:        12px;
+  color:            #D71E28;
+  line-height:      1;
+}
+.wf-sort-icon:empty { display: none; }
+
+/* Filter button — hidden by default, appears on header hover or when filter is active */
+.wf-filter-btn {
+  flex-shrink:      0;
+  background:       none;
+  border:           none;
+  padding:          2px 3px;
+  cursor:           pointer;
+  color:            #aaa;
+  line-height:      1;
+  border-radius:    3px;
+  display:          none;
+  align-items:      center;
+}
+.wf-th:hover .wf-filter-btn       { display: flex; }
+.wf-filter-btn.wf-filter-active   { display: flex; color: #D71E28; }
+
+.wf-filter-btn:hover {
+  color:            #D71E28;
+  background:       rgba(215, 30, 40, .08);
+}
+
+/* Pinned column dividers */
+.wf-th-pinned-left {
+  position:         sticky;
+  z-index:          3;
+  background:       #F8F8F8;
+  box-shadow:       2px 0 4px rgba(0,0,0,.08);
+}
+
+.wf-th-pinned-right {
+  position:         sticky;
+  z-index:          3;
+  background:       #F8F8F8;
+  box-shadow:       -2px 0 4px rgba(0,0,0,.08);
+}
+
+/* ── Rows ────────────────────────────────────────────────────────────────────── */
+.wf-tr {
+  height:           40px;
+  border-bottom:    1px solid #f0f0f0;
+  transition:       background .12s ease;
+}
+
+.wf-tr:nth-child(odd)  { background: #fafcff; }
+.wf-tr:nth-child(even) { background: #ffffff; }
+
+.wf-tr:hover { background: rgba(215, 30, 40, .04) !important; }
+
+/* ── Cells ───────────────────────────────────────────────────────────────────── */
+.wf-td {
+  padding:          0 14px;
+  overflow:         hidden;
+  text-overflow:    ellipsis;
+  white-space:      nowrap;
+  border-right:     1px solid #f0f0f0;
+  border-bottom:    1px solid #f0f0f0;
+  vertical-align:   middle;
+  background:       inherit;
+}
+
+.wf-td:last-child { border-right: none; }
+
+.wf-td-right { text-align: right; }
+
+/* Pinned cell dividers */
+.wf-td-pinned-left {
+  position:         sticky;
+  z-index:          2;
+  box-shadow:       2px 0 4px rgba(0,0,0,.08);
+}
+
+.wf-td-pinned-right {
+  position:         sticky;
+  z-index:          2;
+  box-shadow:       -2px 0 4px rgba(0,0,0,.08);
+}
+
+/* Wrap-text variant (used for comments) */
+.wf-td-wrap {
+  white-space:      normal;
+  word-break:       break-word;
+  height:           auto;
+}
+
+/* ── No-rows overlay ─────────────────────────────────────────────────────────── */
+.wf-no-rows {
+  padding:          32px;
+  text-align:       center;
+  color:            #6e6e6e;
+  font-size:        14px;
+  font-style:       italic;
+}
+
+/* ── Pagination bar ──────────────────────────────────────────────────────────── */
+.wf-pag-bar {
+  display:          flex;
+  align-items:      center;
+  justify-content:  space-between;
+  flex-wrap:        wrap;
+  gap:              8px;
+  height:           44px;
+  min-height:       44px;
+  padding:          0 12px;
+  border-top:       1px solid #e0e0e0;
+  background:       #fafafa;
+  font-size:        12px;
+  color:            #5a5a5a;
+  flex-shrink:      0;
+}
+
+.wf-pag-info {
+  white-space:      nowrap;
+}
+
+.wf-pag-controls {
+  display:          flex;
+  align-items:      center;
+  gap:              6px;
+  flex-wrap:        wrap;
+}
+
+.wf-pag-size {
+  height:           28px;
+  padding:          0 4px;
+  border:           1px solid #ddd;
+  border-radius:    4px;
+  font-size:        12px;
+  color:            #424242;
+  background:       #fff;
+  cursor:           pointer;
+}
+
+.wf-pag-btn {
+  width:            28px;
+  height:           28px;
+  display:          inline-flex;
+  align-items:      center;
+  justify-content:  center;
+  border:           1px solid #ddd;
+  border-radius:    4px;
+  background:       #fff;
+  color:            #D71E28;
+  font-size:        14px;
+  cursor:           pointer;
+  transition:       background .12s, border-color .12s;
+  padding:          0;
+  line-height:      1;
+}
+
+.wf-pag-btn:hover:not(:disabled) {
+  background:       rgba(215, 30, 40, .08);
+  border-color:     rgba(215, 30, 40, .3);
+}
+
+.wf-pag-btn:disabled {
+  color:            #bbb;
+  cursor:           default;
+  border-color:     #eee;
+}
+
+.wf-pag-page {
+  white-space:      nowrap;
+  padding:          0 4px;
+}
+
+/* ── Column filter popup ─────────────────────────────────────────────────────── */
+.wf-col-filter-popup {
+  position:         fixed;
+  z-index:          9000;
+  background:       #fff;
+  border:           1px solid #ddd;
+  border-radius:    6px;
+  box-shadow:       0 4px 16px rgba(0,0,0,.15);
+  min-width:        240px;
+  font-size:        13px;
+}
+
+.wf-cfp-header {
+  padding:          10px 12px 6px;
+  font-size:        11px;
+  font-weight:      700;
+  text-transform:   uppercase;
+  letter-spacing:   .4px;
+  color:            #424242;
+  border-bottom:    1px solid #f0f0f0;
+}
+
+.wf-cfp-body {
+  padding:          10px 12px;
+  display:          flex;
+  flex-direction:   column;
+  gap:              8px;
+}
+
+.wf-cfp-op {
+  width:            100%;
+  height:           30px;
+  border:           1px solid #ddd;
+  border-radius:    4px;
+  padding:          0 8px;
+  font-size:        13px;
+  color:            #2c2c2c;
+  background:       #fff;
+}
+
+.wf-cfp-val {
+  width:            100%;
+  height:           30px;
+  border:           1px solid #ddd;
+  border-radius:    4px;
+  padding:          0 8px;
+  font-size:        13px;
+  color:            #2c2c2c;
+  box-sizing:       border-box;
+}
+
+.wf-cfp-val:focus {
+  outline:          none;
+  border-color:     #D71E28;
+  box-shadow:       0 0 0 2px rgba(215, 30, 40, .12);
+}
+
+.wf-cfp-footer {
+  display:          flex;
+  gap:              8px;
+  padding:          8px 12px;
+  border-top:       1px solid #f0f0f0;
+}
+
+.wf-cfp-apply {
+  flex:             1;
+  height:           30px;
+  background:       #D71E28;
+  color:            #fff;
+  border:           none;
+  border-radius:    4px;
+  font-size:        12px;
+  font-weight:      600;
+  cursor:           pointer;
+  transition:       background .12s;
+}
+
+.wf-cfp-apply:hover { background: #A8151D; }
+
+.wf-cfp-clear {
+  flex:             1;
+  height:           30px;
+  background:       #f5f5f5;
+  color:            #5a5a5a;
+  border:           1px solid #ddd;
+  border-radius:    4px;
+  font-size:        12px;
+  cursor:           pointer;
+  transition:       background .12s;
+}
+
+.wf-cfp-clear:hover { background: #ebebeb; }
+
+/* ── Column picker dropdown ──────────────────────────────────────────────────── */
+.col-picker-panel {
+  position:         absolute;
+  z-index:          8000;
+  background:       #fff;
+  border:           1px solid #ddd;
+  border-radius:    6px;
+  box-shadow:       0 4px 16px rgba(0,0,0,.15);
+  min-width:        220px;
+  max-height:       340px;
+  overflow-y:       auto;
+  padding-bottom:   4px;
+}
+
+.col-picker-header {
+  padding:          10px 14px 6px;
+  font-size:        11px;
+  font-weight:      700;
+  text-transform:   uppercase;
+  letter-spacing:   .4px;
+  color:            #424242;
+  border-bottom:    1px solid #f0f0f0;
+  position:         sticky;
+  top:              0;
+  background:       #fff;
+}
+
+.col-picker-list {
+  padding:          4px 0;
+}
+
+.col-picker-item {
+  display:          flex;
+  align-items:      center;
+  gap:              10px;
+  padding:          7px 14px;
+  cursor:           pointer;
+  font-size:        13px;
+  color:            #2c2c2c;
+  transition:       background .10s;
+}
+
+.col-picker-item:hover { background: rgba(215, 30, 40, .04); }
+
+.col-picker-item input[type="checkbox"] {
+  accent-color:     #D71E28;
+  width:            14px;
+  height:           14px;
+  cursor:           pointer;
+  flex-shrink:      0;
+}
+
+.col-picker-select-all {
+  font-weight:      600;
+  color:            #D71E28;
+  background:       rgba(215, 30, 40, .03);
+}
+
+/* ── Drill-down link ─────────────────────────────────────────────────────────── */
+.drill-down-cell {
+  cursor:           pointer;
 }
 
 .drill-link {
@@ -99,89 +446,67 @@
   transition:       background .12s ease, color .12s ease, border-color .12s ease;
   white-space:      nowrap;
 }
+
 .drill-link:hover {
   background:       rgba(215, 30, 40, .14);
   border-color:     rgba(215, 30, 40, .3);
   color:            #A8151D;
 }
+
 .drill-link::after {
   content:          "↗";
   font-size:        11px;
   opacity:          .7;
 }
 
-/* Money / numeric cells ─────────────────────────────────────────────────────── */
+/* ── Money / numeric cells ───────────────────────────────────────────────────── */
 .cell-numeric {
-  font-family:    "SFMono-Regular", Consolas, monospace;
-  font-size:      12.5px;
-  color:          #1a3a5c;
+  font-family:      "SFMono-Regular", Consolas, monospace;
+  font-size:        12.5px;
+  color:            #1a3a5c;
 }
 
-/* Risk rating cell ──────────────────────────────────────────────────────────── */
+/* ── Risk rating chips ───────────────────────────────────────────────────────── */
 .risk-chip {
-  display:        inline-block;
-  padding:        2px 7px;
-  border-radius:  4px;
-  font-size:      11px;
-  font-weight:    700;
-  letter-spacing: .3px;
+  display:          inline-block;
+  padding:          2px 7px;
+  border-radius:    4px;
+  font-size:        11px;
+  font-weight:      700;
+  letter-spacing:   .3px;
 }
+
 .risk-aaa, .risk-aa, .risk-a { background: #e6f4ec; color: #1b7a3e; }
 .risk-bbb { background: #eff6ff; color: #1565c0; }
 .risk-bb  { background: #fff3cd; color: #c47a00; }
 .risk-b   { background: #fdecea; color: #c0392b; }
 
-/* Utilization bar ───────────────────────────────────────────────────────────── */
+/* ── Utilisation bar ─────────────────────────────────────────────────────────── */
 .util-bar-wrap {
-  display:        flex;
-  align-items:    center;
-  gap:            8px;
-  width:          100%;
+  display:          flex;
+  align-items:      center;
+  gap:              8px;
+  width:            100%;
 }
+
 .util-bar {
-  flex:           1;
-  height:         6px;
-  background:     #e0e0e0;
-  border-radius:  3px;
-  overflow:       hidden;
+  flex:             1;
+  height:           6px;
+  background:       #e0e0e0;
+  border-radius:    3px;
+  overflow:         hidden;
 }
+
 .util-bar-fill {
-  height:         100%;
-  border-radius:  3px;
-  transition:     width .4s ease;
-}
-.util-pct { font-size: 11px; color: #5a5a5a; white-space: nowrap; min-width: 36px; text-align: right; }
-
-/* Pagination panel ──────────────────────────────────────────────────────────── */
-.wf-grid .ag-paging-panel {
-  border-top:     1px solid #e0e0e0;
-  font-size:      12px;
-  color:          #5a5a5a;
-  padding:        0 16px;
-  height:         44px;
+  height:           100%;
+  border-radius:    3px;
+  transition:       width .4s ease;
 }
 
-.wf-grid .ag-paging-button {
-  color:          #D71E28;
-}
-.wf-grid .ag-paging-button:hover:not(.ag-disabled) {
-  color:          #A8151D;
-}
-
-/* Column menu / filter panel ────────────────────────────────────────────────── */
-.wf-grid .ag-filter-toolpanel-header,
-.wf-grid .ag-column-select-header {
-  background:     #fafafa;
-}
-
-/* Loading cell */
-.wf-grid .ag-loading-text {
-  color:          #D71E28;
-  font-style:     italic;
-}
-
-/* No rows overlay */
-.wf-grid .ag-overlay-no-rows-center {
-  color:          #6e6e6e;
-  font-size:      14px;
+.util-pct {
+  font-size:        11px;
+  color:            #5a5a5a;
+  white-space:      nowrap;
+  min-width:        36px;
+  text-align:       right;
 }

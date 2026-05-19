@@ -1,23 +1,16 @@
 /**
- * grid-config.js — Reusable AG Grid factory and column definition helpers.
+ * grid-config.js — Custom table grid factory and column definition helpers.
  *
  * Responsibilities:
- *  - GridManager class: wraps agGrid.createGrid(), manages lifecycle.
+ *  - GridManager class: custom HTML table grid (no external dependencies).
  *  - ColumnHelper:      builds typed column definitions.
  *  - CellRenderer:      provides common cell rendering functions.
- *
- * All code is namespaced under the global `GridConfig` object.
  */
 
 // ── Cell renderers ─────────────────────────────────────────────────────────────
 
 const CellRenderer = (function () {
 
-  /**
-   * Render a status string as a coloured chip.
-   * @param {Object} params - AG Grid cell params.
-   * @returns {HTMLElement}
-   */
   function status(params) {
     const val = (params.value || '').toString();
     const key = val.toLowerCase().replace(/\s+/g, '-');
@@ -27,29 +20,19 @@ const CellRenderer = (function () {
     return el;
   }
 
-  /**
-   * Render a risk rating with colour-coded background.
-   * @param {Object} params
-   * @returns {HTMLElement}
-   */
   function riskRating(params) {
     const val = (params.value || '').toString();
-    const key = val.replace(/[^a-z]/gi, '').toLowerCase().slice(0, 3);  // aaa, aa, a, bbb, bb, b
+    const key = val.replace(/[^a-z]/gi, '').toLowerCase().slice(0, 3);
     const el  = document.createElement('span');
     el.className = `risk-chip risk-${key}`;
     el.textContent = val;
     return el;
   }
 
-  /**
-   * Render a utilisation percentage with an inline progress bar.
-   * @param {Object} params
-   * @returns {HTMLElement}
-   */
   function utilisation(params) {
-    const pct  = parseFloat(params.value) || 0;
+    const pct   = parseFloat(params.value) || 0;
     const color = pct >= 90 ? '#c0392b' : pct >= 70 ? '#c47a00' : '#1b7a3e';
-    const el   = document.createElement('div');
+    const el    = document.createElement('div');
     el.className = 'util-bar-wrap';
     el.innerHTML = `
       <div class="util-bar">
@@ -60,25 +43,12 @@ const CellRenderer = (function () {
     return el;
   }
 
-  /**
-   * Render a monetary amount with locale formatting.
-   * @param {Object} params
-   * @returns {string}
-   */
   function money(params) {
     if (params.value === null || params.value === undefined || params.value === '') return '–';
     const n = parseFloat(params.value);
     return isNaN(n) ? params.value : '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   }
 
-  /**
-   * Render a drill-down trigger link for a count value.
-   * Returns a plain span if value is zero.
-   *
-   * @param {Object} params
-   * @param {Function} clickHandler  - Called with (params) when clicked.
-   * @returns {HTMLElement}
-   */
   function drillDownLink(params, clickHandler) {
     const val = parseInt(params.value, 10) || 0;
     if (val === 0) {
@@ -88,8 +58,8 @@ const CellRenderer = (function () {
       return span;
     }
     const a = document.createElement('a');
-    a.href      = 'javascript:void(0)';
-    a.className = 'drill-link';
+    a.href        = 'javascript:void(0)';
+    a.className   = 'drill-link';
     a.textContent = val.toLocaleString();
     a.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -107,70 +77,32 @@ const CellRenderer = (function () {
 
 const ColumnHelper = (function () {
 
-  /** Common defaults shared by all columns. */
-  const _base = {
-    sortable:   true,
-    filter:     true,
-    resizable:  true,
-    minWidth:   80,
-  };
+  const _base = { sortable: true, filter: true, resizable: true, minWidth: 80 };
 
-  /**
-   * Plain text column.
-   * @param {string} field
-   * @param {string} header
-   * @param {Object} extra  - Overrides / additions.
-   */
   function text(field, header, extra = {}) {
     return { ..._base, field, headerName: header, filter: 'agTextColumnFilter', ...extra };
   }
 
-  /**
-   * Numeric column (right-aligned, number filter).
-   * @param {string} field
-   * @param {string} header
-   * @param {Object} extra
-   */
   function number(field, header, extra = {}) {
-    return {
-      ..._base,
-      field,
-      headerName:    header,
-      filter:        'agNumberColumnFilter',
-      type:          'numericColumn',
-      ...extra,
-    };
+    return { ..._base, field, headerName: header, filter: 'agNumberColumnFilter', type: 'numericColumn', ...extra };
   }
 
-  /**
-   * Date column with date filter.
-   */
   function date(field, header, extra = {}) {
     return { ..._base, field, headerName: header, filter: 'agDateColumnFilter', ...extra };
   }
 
-  /**
-   * Money column — right-aligned, formatted with CellRenderer.money.
-   */
   function money(field, header, extra = {}) {
     return {
       ...number(field, header),
-      cellRenderer:  CellRenderer.money,
-      cellClass:     'cell-numeric text-right',
-      headerClass:   'ag-right-aligned-header',
+      cellRenderer: CellRenderer.money,
+      cellClass:    'cell-numeric',
+      _alignRight:  true,
       ...extra,
     };
   }
 
-  /**
-   * Status chip column.
-   */
   function statusChip(field, header, extra = {}) {
-    return {
-      ...text(field, header),
-      cellRenderer: CellRenderer.status,
-      ...extra,
-    };
+    return { ...text(field, header), cellRenderer: CellRenderer.status, ...extra };
   }
 
   return { text, number, date, money, statusChip };
@@ -182,95 +114,112 @@ const ColumnHelper = (function () {
 
 class GridManager {
   /**
-   * Wraps an AG Grid instance for a given container element.
+   * Custom HTML table grid — drop-in replacement for the former AG Grid wrapper.
    *
-   * @param {string}   containerId - DOM element ID to mount the grid in.
-   * @param {Object[]} columnDefs  - AG Grid column definitions.
-   * @param {Object}   [options]   - Additional AG Grid options.
+   * @param {string}   containerId - DOM element ID to mount into.
+   * @param {Object[]} columnDefs  - Column definitions (same shape as before).
+   * @param {Object}   [options]   - paginationPageSize, paginationPageSizeSelector, rowHeight.
    */
   constructor(containerId, columnDefs, options = {}) {
     this._containerId = containerId;
     this._columnDefs  = columnDefs;
     this._options     = options;
-    this._api         = null;   // AG Grid GridApi
-    this._colPanel    = null;   // custom column-picker dropdown
+
+    // Dataset state
+    this._allData      = [];
+    this._filteredData = [];
+    this._sortCol      = null;
+    this._sortDir      = null;   // 'asc' | 'desc' | null
+
+    // Pagination state
+    this._page     = 0;
+    this._pageSize = options.paginationPageSize ?? 25;
+    this._pageSizeOptions = options.paginationPageSizeSelector ?? [10, 25, 50, 100];
+
+    // Filter state
+    this._quickFilter = '';
+    this._colFilters  = new Map();   // field → { op, val }
+
+    // Column visibility — initialise from col.hide
+    this._hiddenCols = new Set(columnDefs.filter(c => c.hide).map(c => c.field));
+
+    // UI state
+    this._colPanel     = null;   // open column-picker dropdown
+    this._filterPopup  = null;   // open column-filter popup
+
+    // DOM ref for <colgroup> (set in _buildTable, rebuilt in _buildHeaders)
+    this._colgroup = null;
+
+    // Column resize / reorder state
+    this._colWidthOverrides = new Map();  // field → user-dragged px width
+    this._dragSrcField      = null;       // field currently being column-dragged
+    this._didDrag           = false;      // suppresses sort click after a drop
+
+    // DOM refs (set in _buildTable)
+    this._container = null;
+    this._wrapper   = null;
+    this._table     = null;
+    this._thead     = null;
+    this._tbody     = null;
+    this._pagBar    = null;
   }
 
-  /**
-   * Create and mount the AG Grid instance.
-   * @returns {GridManager} this (chainable)
-   */
+  // ── Public lifecycle ─────────────────────────────────────────────────────────
+
   init() {
-    const container = document.getElementById(this._containerId);
-    if (!container) throw new Error(`Grid container '${this._containerId}' not found in DOM.`);
+    this._container = document.getElementById(this._containerId);
+    if (!this._container) throw new Error(`Grid container '${this._containerId}' not found.`);
+    this._buildTable();
+    this._render();
+    requestAnimationFrame(() => this._recalcWidths());
 
-    const gridOptions = {
-      columnDefs:    this._columnDefs,
-      rowData:       [],
-
-      defaultColDef: {
-        sortable:    true,
-        filter:      true,
-        resizable:   true,
-        minWidth:    80,
-        filterParams: { buttons: ['reset', 'apply'], closeOnApply: true },
-      },
-
-      // Pagination
-      pagination:              true,
-      paginationPageSize:      25,
-      paginationPageSizeSelector: [10, 25, 50, 100],
-
-      // UX
-      animateRows:             true,
-      enableCellTextSelection: true,
-      suppressMenuHide:        false,
-      tooltipShowDelay:        400,
-
-      // Callbacks
-      onGridReady:             (e) => this._onGridReady(e),
-
-      ...this._options,
-    };
-
-    this._api = agGrid.createGrid(container, gridOptions);
+    if (typeof ResizeObserver !== 'undefined') {
+      new ResizeObserver(() => this._recalcWidths()).observe(this._container);
+    }
     return this;
   }
 
-  // ── Data management ──────────────────────────────────────────────────────────
+  // ── Public data API ──────────────────────────────────────────────────────────
 
-  /**
-   * Replace the grid's row data.
-   * @param {Object[]} rows
-   */
   setData(rows) {
-    this._api.setGridOption('rowData', rows);
+    this._allData = rows || [];
+    this._page    = 0;
+    this._render();
   }
 
-  /**
-   * Apply a quick-filter string across all visible columns.
-   * @param {string} text
-   */
   setQuickFilter(text) {
-    this._api.setGridOption('quickFilterText', text);
+    this._quickFilter = text || '';
+    this._render();
   }
 
-  /** Remove all active column filters. */
   clearFilters() {
-    this._api.setFilterModel(null);
+    this._quickFilter = '';
+    this._colFilters.clear();
+    this._render();
   }
 
-  /** Export visible data as CSV via AG Grid's built-in exporter. */
   exportCsv(filename = 'export.csv') {
-    this._api.exportDataAsCsv({ fileName: filename });
+    const cols   = this._visibleCols();
+    const escape = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
+    const header = cols.map(c => escape(c.headerName || c.field)).join(',');
+    const body   = this._filteredData
+      .map(row => cols.map(c => escape(row[c.field])).join(','))
+      .join('\n');
+    const blob = new Blob([header + '\n' + body], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = Object.assign(document.createElement('a'), { href: url, download: filename });
+    a.click();
+    URL.revokeObjectURL(url);
   }
 
-  /**
-   * Show/hide a custom column-visibility dropdown anchored to anchorEl.
-   * @param {HTMLElement} anchorEl - The button that was clicked (used for positioning).
-   */
+  /** Compatibility shim — callers use getApi().sizeColumnsToFit() */
+  getApi() {
+    return { sizeColumnsToFit: () => this._recalcWidths() };
+  }
+
+  // ── Column picker panel ──────────────────────────────────────────────────────
+
   toggleColumnsPanel(anchorEl) {
-    // If already open, close it
     if (this._colPanel) {
       this._colPanel.remove();
       this._colPanel = null;
@@ -280,32 +229,65 @@ class GridManager {
     const panel = document.createElement('div');
     panel.className = 'col-picker-panel';
 
-    // Header row with a "Reset" link
     const header = document.createElement('div');
     header.className = 'col-picker-header';
-    header.innerHTML = '<span>Show / Hide Columns</span>';
+    header.textContent = 'Show / Hide Columns';
     panel.appendChild(header);
 
     const list = document.createElement('div');
     list.className = 'col-picker-list';
 
-    // Iterate every column the grid knows about
-    this._api.getColumns().forEach(col => {
-      const colDef = col.getColDef();
-      const colId  = col.getColId();
-      const label  = colDef.headerName || colId;
+    // ── Select All / Deselect All row ──────────────────────────────────────────
+    const allItem = document.createElement('label');
+    allItem.className = 'col-picker-item col-picker-select-all';
 
-      // Skip columns without a useful label (e.g. action-only columns)
-      if (!label || label === '') return;
+    const allCb = document.createElement('input');
+    allCb.type = 'checkbox';
+
+    const visibleDefs  = this._columnDefs.filter(c => c.headerName || c.field);
+    const allVisible   = visibleDefs.every(c => !this._hiddenCols.has(c.field));
+    const noneVisible  = visibleDefs.every(c =>  this._hiddenCols.has(c.field));
+    allCb.checked       = allVisible;
+    allCb.indeterminate = !allVisible && !noneVisible;
+
+    const updateAllCb = () => {
+      const cbs = list.querySelectorAll('input[type="checkbox"]:not(.col-picker-all-cb)');
+      const checkedCount = [...cbs].filter(c => c.checked).length;
+      allCb.checked       = checkedCount === cbs.length;
+      allCb.indeterminate = checkedCount > 0 && checkedCount < cbs.length;
+    };
+
+    allCb.className = 'col-picker-all-cb';
+    allCb.addEventListener('change', () => {
+      const cbs = list.querySelectorAll('input[type="checkbox"]:not(.col-picker-all-cb)');
+      cbs.forEach(cb => { cb.checked = allCb.checked; cb.dispatchEvent(new Event('change')); });
+    });
+
+    allItem.appendChild(allCb);
+    allItem.appendChild(document.createTextNode(' Select All'));
+    list.appendChild(allItem);
+
+    // divider
+    const divider = document.createElement('div');
+    divider.style.cssText = 'height:1px;background:#f0f0f0;margin:2px 0';
+    list.appendChild(divider);
+
+    // ── Individual column rows ─────────────────────────────────────────────────
+    this._columnDefs.forEach(col => {
+      const label = col.headerName || col.field;
+      if (!label) return;
 
       const item = document.createElement('label');
       item.className = 'col-picker-item';
 
       const cb = document.createElement('input');
       cb.type    = 'checkbox';
-      cb.checked = col.isVisible();
+      cb.checked = !this._hiddenCols.has(col.field);
       cb.addEventListener('change', () => {
-        this._api.setColumnVisible(colId, cb.checked);
+        if (cb.checked) this._hiddenCols.delete(col.field);
+        else            this._hiddenCols.add(col.field);
+        updateAllCb();
+        this._render();
       });
 
       item.appendChild(cb);
@@ -317,35 +299,664 @@ class GridManager {
     document.body.appendChild(panel);
     this._colPanel = panel;
 
-    // Position below the anchor button
     const rect = anchorEl.getBoundingClientRect();
     panel.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
     panel.style.left = (rect.left  + window.scrollX)      + 'px';
 
-    // Close when clicking outside
-    const onOutsideClick = (e) => {
+    const onOutside = (e) => {
       if (!panel.contains(e.target) && e.target !== anchorEl) {
         panel.remove();
         this._colPanel = null;
-        document.removeEventListener('mousedown', onOutsideClick);
+        document.removeEventListener('mousedown', onOutside);
       }
     };
-    // Delay one tick so the current click doesn't immediately close it
-    setTimeout(() => document.addEventListener('mousedown', onOutsideClick), 0);
+    setTimeout(() => document.addEventListener('mousedown', onOutside), 0);
   }
 
-  /** Return the raw GridApi for advanced use. */
-  getApi() {
-    return this._api;
+  // ── DOM construction (one-time) ──────────────────────────────────────────────
+
+  _buildTable() {
+    this._container.innerHTML = '';
+
+    this._wrapper = document.createElement('div');
+    this._wrapper.className = 'wf-table-wrapper';
+
+    this._table = document.createElement('table');
+    this._table.className = 'wf-table';
+
+    this._colgroup = document.createElement('colgroup');
+    this._thead    = document.createElement('thead');
+    this._tbody    = document.createElement('tbody');
+    this._table.appendChild(this._colgroup);
+    this._table.appendChild(this._thead);
+    this._table.appendChild(this._tbody);
+
+    this._pagBar = document.createElement('div');
+    this._pagBar.className = 'wf-pag-bar';
+
+    this._wrapper.appendChild(this._table);
+    this._container.appendChild(this._wrapper);
+    this._container.appendChild(this._pagBar);
   }
 
-  // ── Internal callbacks ────────────────────────────────────────────────────────
+  // ── Render pipeline ──────────────────────────────────────────────────────────
 
-  _onGridReady(event) {
-    // Defer one frame so the browser has computed the container's final width
-    // before AG Grid distributes column space. Without this, grids inside
-    // freshly-injected DOM (e.g. modals) can measure a 0-px container.
-    requestAnimationFrame(() => event.api.sizeColumnsToFit());
+  _render() {
+    this._applyFilters();
+    this._applySort();
+    const start    = this._page * this._pageSize;
+    const pageData = this._filteredData.slice(start, start + this._pageSize);
+    this._buildHeaders();
+    this._buildRows(pageData);
+    this._buildPagination();
+    this._recalcWidths();
   }
 
+  _applyFilters() {
+    let rows = this._allData;
+    const q  = this._quickFilter.trim().toLowerCase();
+
+    if (q) {
+      rows = rows.filter(row =>
+        this._columnDefs.some(col => {
+          if (this._hiddenCols.has(col.field)) return false;
+          return String(row[col.field] ?? '').toLowerCase().includes(q);
+        })
+      );
+    }
+
+    this._colFilters.forEach(({ op, val }, field) => {
+      if (val === '' || val === null || val === undefined) return;
+      rows = rows.filter(row => {
+        const cell = row[field];
+        const s    = String(cell ?? '').toLowerCase();
+        const sv   = String(val).toLowerCase();
+        switch (op) {
+          case 'contains':   return s.includes(sv);
+          case 'equals':     return s === sv;
+          case 'startsWith': return s.startsWith(sv);
+          case 'numEq':      return parseFloat(cell) === parseFloat(val);
+          case 'gt':         return parseFloat(cell) >  parseFloat(val);
+          case 'gte':        return parseFloat(cell) >= parseFloat(val);
+          case 'lt':         return parseFloat(cell) <  parseFloat(val);
+          case 'lte':        return parseFloat(cell) <= parseFloat(val);
+          default:           return true;
+        }
+      });
+    });
+
+    this._filteredData = rows;
+    this._page = 0;
+  }
+
+  _applySort() {
+    if (!this._sortCol || !this._sortDir) return;
+    const col       = this._columnDefs.find(c => c.field === this._sortCol);
+    const isNumeric = col && (col.filter === 'agNumberColumnFilter' || col.type === 'numericColumn');
+
+    this._filteredData.sort((a, b) => {
+      let av = a[this._sortCol], bv = b[this._sortCol];
+      if (isNumeric) {
+        av = parseFloat(av) || 0;
+        bv = parseFloat(bv) || 0;
+      } else {
+        av = String(av ?? '').toLowerCase();
+        bv = String(bv ?? '').toLowerCase();
+      }
+      if (av < bv) return this._sortDir === 'asc' ? -1 :  1;
+      if (av > bv) return this._sortDir === 'asc' ?  1 : -1;
+      return 0;
+    });
+  }
+
+  // ── Header building ──────────────────────────────────────────────────────────
+
+  _buildHeaders() {
+    this._thead.innerHTML   = '';
+    this._colgroup.innerHTML = '';   // one <col> per visible column
+    this._visibleCols().forEach(col => {
+      const c = document.createElement('col');
+      c.dataset.field = col.field;
+      this._colgroup.appendChild(c);
+    });
+
+    const tr = document.createElement('tr');
+
+    // Compute sticky offsets
+    const leftOffsets  = this._stickyOffsets('left');
+    const rightOffsets = this._stickyOffsets('right');
+
+    this._visibleCols().forEach(col => {
+      const th = document.createElement('th');
+      th.className  = 'wf-th';
+      th.dataset.field = col.field;
+
+      // Alignment
+      const isRight = col._alignRight || col.type === 'numericColumn' ||
+                      col.filter === 'agNumberColumnFilter';
+      if (isRight) th.classList.add('wf-th-right');
+
+      // Pinning
+      if (col.pinned === 'left') {
+        th.classList.add('wf-th-pinned-left');
+        th.style.position = 'sticky';
+        th.style.left     = leftOffsets[col.field] + 'px';
+        th.style.zIndex   = '3';
+      } else if (col.pinned === 'right') {
+        th.classList.add('wf-th-pinned-right');
+        th.style.position = 'sticky';
+        th.style.right    = rightOffsets[col.field] + 'px';
+        th.style.zIndex   = '3';
+      }
+
+      // Sort state
+      if (this._sortCol === col.field) th.classList.add('wf-th-sorted');
+
+      // Inner layout: label | sort icon | filter btn
+      const inner = document.createElement('div');
+      inner.className = 'wf-th-inner';
+
+      const label = document.createElement('span');
+      label.className   = 'wf-th-label';
+      label.textContent = col.headerName || col.field;
+      inner.appendChild(label);
+
+      // Sort icon
+      const sortIcon = document.createElement('span');
+      sortIcon.className = 'wf-sort-icon';
+      if (this._sortCol === col.field) {
+        sortIcon.textContent = this._sortDir === 'asc' ? '↑' : '↓';
+      }
+      inner.appendChild(sortIcon);
+
+      // Filter button (only for filterable columns)
+      if (col.filter && col.filter !== false) {
+        const filterBtn = document.createElement('button');
+        filterBtn.className = 'wf-filter-btn';
+        filterBtn.title     = 'Filter column';
+        filterBtn.innerHTML = '<svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>';
+        if (this._colFilters.has(col.field)) filterBtn.classList.add('wf-filter-active');
+
+        filterBtn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          this._openFilterPopup(col, filterBtn);
+        });
+        inner.appendChild(filterBtn);
+      }
+
+      th.appendChild(inner);
+
+      // ── Resize handle (skip for right-pinned — no room to drag) ──────────────
+      if (col.pinned !== 'right') {
+        const handle = document.createElement('div');
+        handle.className = 'wf-resize-handle';
+        handle.setAttribute('draggable', 'false');
+        handle.addEventListener('mousedown', (e) => {
+          e.stopPropagation();
+          e.preventDefault();
+          const startX      = e.clientX;
+          const startW      = th.offsetWidth;       // actual rendered px width
+          const startTableW = this._table.offsetWidth;
+          const minW        = col.minWidth ?? 50;
+          // The <col> element for this column — updating it is the only DOM
+          // change needed; table-layout:fixed propagates it to every cell.
+          const colEl = this._colgroup.querySelector(`col[data-field="${col.field}"]`);
+
+          document.body.style.cursor     = 'col-resize';
+          document.body.style.userSelect = 'none';
+
+          const onMove = (ev) => {
+            const newW = Math.max(minW, startW + (ev.clientX - startX));
+            if (colEl) colEl.style.width = newW + 'px';
+            // Grow/shrink table by the same delta so other columns stay fixed.
+            this._table.style.width = (startTableW + newW - startW) + 'px';
+          };
+
+          const onUp = (ev) => {
+            document.removeEventListener('mousemove', onMove);
+            document.removeEventListener('mouseup', onUp);
+            document.body.style.cursor     = '';
+            document.body.style.userSelect = '';
+            this._colWidthOverrides.set(col.field, Math.max(minW, startW + (ev.clientX - startX)));
+            // Reflow flex columns to fill any gap left by the resize.
+            this._recalcWidths();
+          };
+
+          document.addEventListener('mousemove', onMove);
+          document.addEventListener('mouseup', onUp);
+        });
+        th.appendChild(handle);
+      }
+
+      // ── Column drag-to-reorder ─────────────────────────────────────────────
+      th.setAttribute('draggable', 'true');
+      th.addEventListener('dragstart', (e) => {
+        this._dragSrcField = col.field;
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData('text/plain', col.field);
+        th.classList.add('wf-th-dragging');
+      });
+      th.addEventListener('dragend', () => {
+        this._dragSrcField  = null;
+        this._didDrag       = true;
+        setTimeout(() => { this._didDrag = false; }, 0);
+        document.querySelectorAll('.wf-th-dragging, .wf-th-drag-over')
+          .forEach(el => el.classList.remove('wf-th-dragging', 'wf-th-drag-over'));
+      });
+      th.addEventListener('dragover', (e) => {
+        if (!this._dragSrcField || this._dragSrcField === col.field) return;
+        e.preventDefault();
+        e.dataTransfer.dropEffect = 'move';
+        th.classList.add('wf-th-drag-over');
+      });
+      th.addEventListener('dragleave', () => th.classList.remove('wf-th-drag-over'));
+      th.addEventListener('drop', (e) => {
+        e.preventDefault();
+        th.classList.remove('wf-th-drag-over');
+        if (this._dragSrcField && this._dragSrcField !== col.field) {
+          this._moveColumn(this._dragSrcField, col.field);
+        }
+        this._dragSrcField = null;
+      });
+
+      // Sort click on th (not on filter button or resize handle)
+      if (col.sortable !== false) {
+        th.style.cursor = 'grab';
+        th.addEventListener('click', () => this._onSortClick(col.field));
+      }
+
+      tr.appendChild(th);
+    });
+
+    this._thead.appendChild(tr);
+  }
+
+  _onSortClick(field) {
+    if (this._didDrag) return;   // drag just finished; don't sort
+    if (this._sortCol === field) {
+      if (this._sortDir === null)       this._sortDir = 'asc';
+      else if (this._sortDir === 'asc') this._sortDir = 'desc';
+      else { this._sortCol = null; this._sortDir = null; }
+    } else {
+      this._sortCol = field;
+      this._sortDir = 'asc';
+    }
+    this._render();
+  }
+
+  // ── Row building ─────────────────────────────────────────────────────────────
+
+  _buildRows(pageData) {
+    this._tbody.innerHTML = '';
+
+    if (pageData.length === 0) {
+      const cols = this._visibleCols();
+      const tr = document.createElement('tr');
+      const td = document.createElement('td');
+      td.className   = 'wf-no-rows';
+      td.colSpan     = cols.length || 1;
+      td.textContent = 'No records match the current filters.';
+      tr.appendChild(td);
+      this._tbody.appendChild(tr);
+      return;
+    }
+
+    const leftOffsets  = this._stickyOffsets('left');
+    const rightOffsets = this._stickyOffsets('right');
+
+    pageData.forEach(row => {
+      const tr = document.createElement('tr');
+      tr.className = 'wf-tr';
+
+      this._visibleCols().forEach(col => {
+        const td = document.createElement('td');
+        td.className = 'wf-td';
+
+        // Extra cellClass
+        if (col.cellClass) {
+          String(col.cellClass).split(/\s+/).forEach(c => c && td.classList.add(c));
+        }
+
+        // Alignment
+        const isRight = col._alignRight || col.type === 'numericColumn' ||
+                        col.filter === 'agNumberColumnFilter';
+        if (isRight) td.classList.add('wf-td-right');
+
+        // Pinning
+        if (col.pinned === 'left') {
+          td.classList.add('wf-td-pinned-left');
+          td.style.position = 'sticky';
+          td.style.left     = leftOffsets[col.field] + 'px';
+          td.style.zIndex   = '2';
+        } else if (col.pinned === 'right') {
+          td.classList.add('wf-td-pinned-right');
+          td.style.position = 'sticky';
+          td.style.right    = rightOffsets[col.field] + 'px';
+          td.style.zIndex   = '2';
+        }
+
+        // Tooltip
+        if (col.tooltipField && row[col.tooltipField]) {
+          td.title = String(row[col.tooltipField]);
+        }
+
+        // Wrap text
+        if (col.wrapText) {
+          td.style.whiteSpace    = 'normal';
+          td.style.height        = 'auto';
+          td.style.verticalAlign = 'top';
+          td.style.paddingTop    = '8px';
+          td.style.paddingBottom = '8px';
+        }
+
+        // Cell content
+        const params = { value: row[col.field], data: row, colDef: col };
+        if (typeof col.cellRenderer === 'function') {
+          const result = col.cellRenderer(params);
+          if (result instanceof HTMLElement) td.appendChild(result);
+          else td.textContent = result ?? '';
+        } else {
+          td.textContent = row[col.field] ?? '';
+        }
+
+        tr.appendChild(td);
+      });
+
+      this._tbody.appendChild(tr);
+    });
+  }
+
+  // ── Pagination bar ───────────────────────────────────────────────────────────
+
+  _buildPagination() {
+    this._pagBar.innerHTML = '';
+
+    const total     = this._filteredData.length;
+    const totalPages = Math.max(1, Math.ceil(total / this._pageSize));
+    const start     = total === 0 ? 0 : this._page * this._pageSize + 1;
+    const end       = Math.min(total, (this._page + 1) * this._pageSize);
+
+    // Left: row count info
+    const info = document.createElement('span');
+    info.className   = 'wf-pag-info';
+    info.textContent = `Rows ${start}–${end} of ${total.toLocaleString()}`;
+    this._pagBar.appendChild(info);
+
+    // Right: controls
+    const controls = document.createElement('div');
+    controls.className = 'wf-pag-controls';
+
+    // Page size selector
+    const sizeLabel = document.createElement('label');
+    sizeLabel.textContent = 'Rows per page:';
+    sizeLabel.style.marginRight = '4px';
+    controls.appendChild(sizeLabel);
+
+    const sizeSelect = document.createElement('select');
+    sizeSelect.className = 'wf-pag-size';
+    this._pageSizeOptions.forEach(n => {
+      const opt = document.createElement('option');
+      opt.value       = n;
+      opt.textContent = n;
+      opt.selected    = n === this._pageSize;
+      sizeSelect.appendChild(opt);
+    });
+    sizeSelect.addEventListener('change', () => {
+      this._pageSize = parseInt(sizeSelect.value, 10);
+      this._page     = 0;
+      this._render();
+    });
+    controls.appendChild(sizeSelect);
+
+    // Nav buttons
+    const mkBtn = (label, action, disabled) => {
+      const btn = document.createElement('button');
+      btn.className       = 'wf-pag-btn';
+      btn.textContent     = label;
+      btn.disabled        = disabled;
+      btn.addEventListener('click', () => { this._page = action(); this._render(); });
+      return btn;
+    };
+
+    controls.appendChild(mkBtn('«', () => 0,                this._page === 0));
+    controls.appendChild(mkBtn('‹', () => this._page - 1,   this._page === 0));
+
+    const pageLabel = document.createElement('span');
+    pageLabel.className   = 'wf-pag-page';
+    pageLabel.textContent = `Page ${this._page + 1} of ${totalPages}`;
+    controls.appendChild(pageLabel);
+
+    controls.appendChild(mkBtn('›', () => this._page + 1,       this._page >= totalPages - 1));
+    controls.appendChild(mkBtn('»', () => totalPages - 1,       this._page >= totalPages - 1));
+
+    this._pagBar.appendChild(controls);
+  }
+
+  // ── Column width calculation ─────────────────────────────────────────────────
+
+  _recalcWidths() {
+    const containerWidth = this._container.clientWidth;
+    if (!containerWidth) return;
+
+    const cols     = this._visibleCols();
+    let   fixedSum = 0;
+    let   flexSum  = 0;
+
+    cols.forEach(col => {
+      if (this._colWidthOverrides.has(col.field)) {
+        fixedSum += this._colWidthOverrides.get(col.field);
+      } else if (col.flex) {
+        flexSum  += col.flex;
+      } else {
+        fixedSum += col.width ?? col.minWidth ?? 80;
+      }
+    });
+
+    const flexPool = Math.max(0, containerWidth - fixedSum);
+
+    // Build width map
+    const widths = {};
+    cols.forEach(col => {
+      if (this._colWidthOverrides.has(col.field)) {
+        widths[col.field] = this._colWidthOverrides.get(col.field);
+      } else if (col.flex) {
+        widths[col.field] = Math.max(
+          col.minWidth ?? 80,
+          Math.floor((col.flex / (flexSum || 1)) * flexPool)
+        );
+      } else {
+        widths[col.field] = col.width ?? col.minWidth ?? 80;
+      }
+    });
+
+    // Ensure totalColWidth == containerWidth so the table always fills the container.
+    // This prevents table-layout:fixed from redistributing surplus AND prevents the
+    // right-pinned sticky column from floating away from the content columns.
+    let totalColWidth = cols.reduce((sum, col) => sum + widths[col.field], 0);
+    const gap = containerWidth - totalColWidth;
+    if (gap > 0) {
+      // Tier 1: last non-overridden flex column (natural expansion target)
+      let expandIdx = -1;
+      for (let i = cols.length - 1; i >= 0; i--) {
+        const c = cols[i];
+        if (c.flex && !this._colWidthOverrides.has(c.field) && c.pinned !== 'right') {
+          expandIdx = i; break;
+        }
+      }
+      // Tier 2: last non-right-pinned column of any kind (when all flex cols overridden)
+      if (expandIdx === -1) {
+        for (let i = cols.length - 1; i >= 0; i--) {
+          if (cols[i].pinned !== 'right') { expandIdx = i; break; }
+        }
+      }
+      if (expandIdx !== -1) {
+        widths[cols[expandIdx].field] += gap;
+        totalColWidth = containerWidth;
+      }
+    }
+    // totalColWidth > containerWidth when fixed cols overflow → horizontal scroll
+    this._table.style.width = totalColWidth + 'px';
+
+    // Apply widths to <col> elements only.  With table-layout:fixed, <col> widths
+    // are the canonical source of truth — the browser applies them to every cell in
+    // the column automatically, with zero redistribution across other columns.
+    this._colgroup.querySelectorAll('col').forEach((colEl, i) => {
+      const col = cols[i];
+      if (col) colEl.style.width = widths[col.field] + 'px';
+    });
+  }
+
+  // ── Column filter popup ──────────────────────────────────────────────────────
+
+  _openFilterPopup(col, anchorEl) {
+    // Close existing popup
+    if (this._filterPopup) {
+      this._filterPopup.remove();
+      this._filterPopup = null;
+      // If clicking the same column's button, just close
+      if (this._filterPopupField === col.field) {
+        this._filterPopupField = null;
+        return;
+      }
+    }
+    this._filterPopupField = col.field;
+
+    const isNumeric = col.filter === 'agNumberColumnFilter';
+    const current   = this._colFilters.get(col.field) || {};
+
+    const popup = document.createElement('div');
+    popup.className = 'wf-col-filter-popup';
+
+    // Header
+    const hdr = document.createElement('div');
+    hdr.className   = 'wf-cfp-header';
+    hdr.textContent = 'Filter: ' + (col.headerName || col.field);
+    popup.appendChild(hdr);
+
+    // Body
+    const body = document.createElement('div');
+    body.className = 'wf-cfp-body';
+
+    const opSel = document.createElement('select');
+    opSel.className = 'wf-cfp-op';
+
+    const textOps   = [['contains','Contains'],['equals','Equals'],['startsWith','Starts with']];
+    const numericOps= [['numEq','Equals'],['gt','Greater than'],['gte','Greater than or equal'],
+                       ['lt','Less than'],['lte','Less than or equal']];
+    (isNumeric ? numericOps : textOps).forEach(([val, lbl]) => {
+      const opt = document.createElement('option');
+      opt.value       = val;
+      opt.textContent = lbl;
+      opt.selected    = val === (current.op || (isNumeric ? 'numEq' : 'contains'));
+      opSel.appendChild(opt);
+    });
+
+    const valInput = document.createElement('input');
+    valInput.className   = 'wf-cfp-val';
+    valInput.type        = isNumeric ? 'number' : 'text';
+    valInput.placeholder = 'Value…';
+    valInput.value       = current.val ?? '';
+    valInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
+
+    body.appendChild(opSel);
+    body.appendChild(valInput);
+    popup.appendChild(body);
+
+    // Footer
+    const footer = document.createElement('div');
+    footer.className = 'wf-cfp-footer';
+
+    const clearBtn = document.createElement('button');
+    clearBtn.className   = 'wf-cfp-clear';
+    clearBtn.textContent = 'Clear';
+    clearBtn.addEventListener('click', () => {
+      this._colFilters.delete(col.field);
+      popup.remove();
+      this._filterPopup = null;
+      this._render();
+    });
+
+    const applyBtn = document.createElement('button');
+    applyBtn.className   = 'wf-cfp-apply';
+    applyBtn.textContent = 'Apply';
+    applyBtn.addEventListener('click', () => {
+      const val = valInput.value.trim();
+      if (val !== '') {
+        this._colFilters.set(col.field, { op: opSel.value, val });
+      } else {
+        this._colFilters.delete(col.field);
+      }
+      popup.remove();
+      this._filterPopup = null;
+      this._render();
+    });
+
+    footer.appendChild(clearBtn);
+    footer.appendChild(applyBtn);
+    popup.appendChild(footer);
+
+    document.body.appendChild(popup);
+    this._filterPopup = popup;
+
+    // Position below the filter button
+    const rect = anchorEl.getBoundingClientRect();
+    popup.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
+    popup.style.left = (rect.left   + window.scrollX - 180) + 'px';
+
+    // Focus the value input
+    setTimeout(() => valInput.focus(), 0);
+
+    // Outside-click closes
+    const onOutside = (e) => {
+      if (!popup.contains(e.target) && e.target !== anchorEl) {
+        popup.remove();
+        this._filterPopup      = null;
+        this._filterPopupField = null;
+        document.removeEventListener('mousedown', onOutside);
+      }
+    };
+    setTimeout(() => document.addEventListener('mousedown', onOutside), 0);
+  }
+
+  // ── Helpers ──────────────────────────────────────────────────────────────────
+
+  _visibleCols() {
+    return this._columnDefs.filter(c => !this._hiddenCols.has(c.field));
+  }
+
+  /** Compute sticky pixel offsets for left- or right-pinned columns. */
+  _stickyOffsets(side) {
+    const result   = {};
+    const cols     = this._visibleCols();
+    let   offset   = 0;
+    const colWidth = (col) =>
+      this._colWidthOverrides.get(col.field) ?? col.width ?? col.minWidth ?? 80;
+
+    if (side === 'left') {
+      cols.forEach(col => {
+        if (col.pinned === 'left') {
+          result[col.field] = offset;
+          offset += colWidth(col);
+        }
+      });
+    } else {
+      [...cols].reverse().forEach(col => {
+        if (col.pinned === 'right') {
+          result[col.field] = offset;
+          offset += colWidth(col);
+        }
+      });
+    }
+    return result;
+  }
+
+  /** Move a column from srcField's position to tgtField's position. */
+  _moveColumn(srcField, tgtField) {
+    const srcIdx = this._columnDefs.findIndex(c => c.field === srcField);
+    const tgtIdx = this._columnDefs.findIndex(c => c.field === tgtField);
+    if (srcIdx === -1 || tgtIdx === -1 || srcIdx === tgtIdx) return;
+    const [col] = this._columnDefs.splice(srcIdx, 1);
+    this._columnDefs.splice(tgtIdx, 0, col);
+    this._render();
+  }
 }

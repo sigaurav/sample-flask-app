@@ -37,7 +37,6 @@ const DrillDown = (function () {
 
     const columnDefs = _obligorColumns(facilityId, facilityName);
     const mgr = new GridManager(`drill-grid-obligors-${safeId}`, columnDefs, {
-      sideBar:           false,
       paginationPageSize: 20,
     });
     mgr.init();
@@ -117,7 +116,6 @@ const DrillDown = (function () {
 
     const columnDefs = _transactionColumns(obligorId, obligorName);
     const mgr = new GridManager(`drill-grid-transactions-${safeId}`, columnDefs, {
-      sideBar:           false,
       paginationPageSize: 20,
     });
     mgr.init();
@@ -196,9 +194,7 @@ const DrillDown = (function () {
 
     const columnDefs = _commentColumns();
     const mgr = new GridManager(`drill-grid-comments-${safeId}`, columnDefs, {
-      sideBar:            false,
       paginationPageSize: 15,
-      rowHeight:          60,
     });
     mgr.init();
 
@@ -281,7 +277,7 @@ const DrillDown = (function () {
         </div>
       </div>
       <div class="modal-grid-wrap">
-        <div id="drill-grid-${entityType}-${safeId}" class="ag-theme-quartz wf-grid modal-grid"></div>
+        <div id="drill-grid-${entityType}-${safeId}" class="wf-grid modal-grid"></div>
       </div>
       <div class="modal-footer">
         <div class="modal-footer-left">
