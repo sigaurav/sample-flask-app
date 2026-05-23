@@ -66,7 +66,7 @@ class FacilityService(BaseService):
             for row in df_page.to_dict(orient="records")
         ]
 
-        self.log.debug("get_facilities → %d/%d records (page %d)", len(records), total, page)
+        self.log.debug("get_facilities -> %d/%d records (page %d)", len(records), total, page)
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
     def get_facility_by_id(self, facility_id: str) -> Facility | None:

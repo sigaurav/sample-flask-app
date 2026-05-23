@@ -27,15 +27,40 @@ class BaseConfig:
     EXPORT_DIR: str = os.path.join(BASE_DIR, "exports")
 
     # ── Logging ────────────────────────────────────────────────────────────────
-    LOG_LEVEL:  str = "INFO"
-    LOG_FORMAT: str = "%(asctime)s | %(levelname)-8s | %(name)s | %(message)s"
+    LOG_LEVEL:         str = "INFO"
+    LOG_FORMAT:        str = (
+        "%(asctime)s | %(levelname)-8s | %(name)s | "
+        "req=%(request_id)s user=%(user_id)s | %(message)s"
+    )
+    LOG_FILE:          str = ""
+    LOG_MAX_BYTES:     int = 10 * 1024 * 1024   # 10 MB
+    LOG_BACKUP_COUNT:  int = 5
 
     # ── Pagination ─────────────────────────────────────────────────────────────
     DEFAULT_PAGE_SIZE: int = 50
     MAX_PAGE_SIZE:     int = 500
 
-    # ── Export ─────────────────────────────────────────────────────────────────
-    MAX_EXPORT_ROWS: int = 100_000
+    # ── Sync export (legacy drill-down) ────────────────────────────────────────
+    MAX_EXPORT_ROWS:   int = 100_000
+
+    # ── Async export worker ────────────────────────────────────────────────────
+    EXPORT_WORKER_THREADS: int = 4   # ThreadPoolExecutor max_workers
+
+    # ── External data sources (Phase 2) ───────────────────────────────────────
+    DREMIO_HOST:    str = ""
+    DREMIO_PORT:    int = 32010
+    DREMIO_USER:    str = ""
+    DREMIO_PASSWORD: str = ""
+    DREMIO_SOURCE:  str = "FR_Y14Q"
+
+    SQLSERVER_HOST:     str = ""
+    SQLSERVER_PORT:     int = 1433
+    SQLSERVER_DB:       str = ""
+    SQLSERVER_USER:     str = ""
+    SQLSERVER_PASSWORD: str = ""
+    SQLSERVER_SCHEMA:   str = "dbo"
+
+    EXCEL_DATA_PATH: str = ""
 
 
 class DevelopmentConfig(BaseConfig):

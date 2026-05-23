@@ -54,7 +54,7 @@ class TransactionService(BaseService):
         ]
 
         self.log.debug(
-            "get_transactions_for_obligor(%s) → %d/%d records",
+            "get_transactions_for_obligor(%s) -> %d/%d records",
             obligor_id, len(records), total,
         )
         return {"records": records, "total": total, "page": page, "per_page": per_page}

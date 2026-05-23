@@ -43,16 +43,25 @@ FACILITY_TYPES = [
     "Leveraged Buyout Facility",
 ]
 
-FACILITY_ADJECTIVES = [
-    "Global", "Corporate", "Senior", "Secured", "Unsecured",
-    "Multi-Currency", "Bilateral", "Club", "Enhanced", "Strategic",
-    "Premier", "Priority", "Institutional", "Commercial", "Structured",
-]
-
-FACILITY_NOUNS = [
-    "Alpha", "Beta", "Gamma", "Delta", "Epsilon",
-    "Capital", "Growth", "Expansion", "Investment", "Operations",
-    "Holdings", "Ventures", "Solutions", "Partners", "Group",
+# Borrower name pool — deliberately small (15 names) so each borrower appears
+# multiple times across different facility types, giving secondary/tertiary
+# sort keys visible groups to work within.
+FACILITY_BORROWERS = [
+    "Apex Capital Corp.",
+    "Atlantic Finance Group",
+    "Bilateral Holdings Ltd.",
+    "Continental Partners LLC",
+    "Enhanced Capital Inc.",
+    "Global Ventures Corp.",
+    "Horizon Credit Group",
+    "Meridian Finance Corp.",
+    "National Holdings Inc.",
+    "Pacific Capital Group",
+    "Premier Partners LLC",
+    "Secured Finance Corp.",
+    "Strategic Holdings Ltd.",
+    "Summit Capital Group",
+    "United Ventures LLC",
 ]
 
 RISK_RATINGS = ["AAA", "AA+", "AA", "AA-", "A+", "A", "A-",
@@ -195,10 +204,8 @@ def make_company_name() -> str:
 
 
 def make_facility_name(ftype: str) -> str:
-    """Assemble a facility name."""
-    adj  = random.choice(FACILITY_ADJECTIVES)
-    noun = random.choice(FACILITY_NOUNS)
-    return f"{adj} {noun} {ftype}"
+    """Return a borrower company name (type stored separately in facility_type)."""
+    return random.choice(FACILITY_BORROWERS)
 
 
 # ── Generators ─────────────────────────────────────────────────────────────────

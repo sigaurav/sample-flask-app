@@ -3,7 +3,7 @@
   <nav class="sidebar-nav">
 
     <div class="nav-section">
-      <span class="nav-section-label">Portfolio</span>
+      <span class="nav-section-label">Schedule H1 — Wholesale</span>
       <ul>
         <li class="nav-item {% if request.endpoint == 'main.dashboard' %}active{% endif %}">
           <a href="/" class="nav-link">
@@ -11,7 +11,7 @@
               <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
               <rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/>
             </svg>
-            <span>Credit Facilities</span>
+            <span>Credit Exposures</span>
           </a>
         </li>
         <li class="nav-item {% if request.endpoint == 'main.obligors' %}active{% endif %}">
@@ -22,7 +22,7 @@
               <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
               <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
             </svg>
-            <span>Obligors</span>
+            <span>Counterparties</span>
           </a>
         </li>
         <li class="nav-item {% if request.endpoint == 'main.transactions' %}active{% endif %}">
@@ -31,14 +31,37 @@
               <line x1="12" y1="1" x2="12" y2="23"/>
               <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
             </svg>
-            <span>Transactions</span>
+            <span>Exposure Events</span>
           </a>
         </li>
       </ul>
     </div>
 
     <div class="nav-section">
-      <span class="nav-section-label">Reporting</span>
+      <span class="nav-section-label">Schedule H2 — Securities</span>
+      <ul>
+        <li class="nav-item">
+          <a href="#" class="nav-link disabled">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+            </svg>
+            <span>Securities Positions</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a href="#" class="nav-link disabled">
+            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10"/>
+              <path d="M12 8v4l3 3"/>
+            </svg>
+            <span>Market Risk</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="nav-section">
+      <span class="nav-section-label">Regulatory Reporting</span>
       <ul>
         <li class="nav-item">
           <a href="#" class="nav-link disabled">
@@ -70,6 +93,6 @@
       <span class="env-dot"></span>
       <span>Development</span>
     </div>
-    <span class="version">v1.0.0</span>
+    <span class="version">v2.0.0</span>
   </div>
 </aside>

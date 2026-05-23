@@ -1,64 +1,47 @@
 /**
- * transactions.js — Standalone Transactions page bootstrap.
+ * transactions.js — FR Y-14Q Schedule H1 Exposure Event Ledger page bootstrap.
  *
- * Initialises the transactions AG Grid, wires toolbar controls,
- * and provides drill-down into analyst comments via DrillDown.openComments().
+ * Initialises the exposure events grid, wires toolbar controls including
+ * the async export dropdown, and provides drill-down into analyst comments.
  *
  * Depends on: api-utils.js, grid-config.js, modal-manager.js, drill-down.js
  */
 const TransactionsApp = (function () {
 
-  /** @type {GridManager|null} */
-  let _grid = null;
-
-  /** @type {Object[]|null} */
+  let _grid       = null;
   let _allRecords = null;
 
-  // ── Column definitions ──────────────────────────────────────────────────────
+  // ── Column definitions ─────────────────────────────────────────────────────
 
   function _buildColumns() {
     return [
-      ColumnHelper.text('transaction_id', 'Txn ID', {
+      ColumnHelper.text('transaction_id', 'Transaction ID', {
         width: 130, pinned: 'left',
       }),
-      ColumnHelper.text('obligor_id', 'Obligor ID', {
-        width: 110,
-      }),
-      ColumnHelper.text('reference_number', 'Reference', {
-        width: 130, hide: true,
-      }),
-      ColumnHelper.text('transaction_type', 'Type', {
-        flex: 1, minWidth: 130,
-      }),
-      ColumnHelper.money('amount', 'Amount', {
-        flex: 1, minWidth: 120,
-      }),
-      ColumnHelper.text('currency', 'Currency', {
-        width: 80,
-      }),
-      ColumnHelper.date('transaction_date', 'Txn Date', {
-        width: 115,
-      }),
-      ColumnHelper.date('value_date', 'Value Date', {
-        width: 115, hide: true,
-      }),
+      ColumnHelper.text('obligor_id',      'Obligor ID',       { width: 120 }),
+      ColumnHelper.text('reference_number','Reference',        { width: 130, hide: true }),
+      ColumnHelper.text('transaction_type','Transaction Type', { flex: 1, minWidth: 140 }),
+      ColumnHelper.money('amount',         'Amount',           { flex: 1, minWidth: 130 }),
+      ColumnHelper.text('currency',        'Currency',         { width: 70 }),
+      ColumnHelper.date('transaction_date','Transaction Date', { width: 115 }),
+      ColumnHelper.date('value_date',      'Value Date',      { width: 115, hide: true }),
+      /* Status column — hidden per product decision; restore by removing this comment block
       {
         headerName:   'Status',
         field:        'status',
         width:        118,
         filter:       'agTextColumnFilter',
         cellRenderer: CellRenderer.status,
+        values:       ['Pending', 'Active', 'Completed', 'Cancelled', 'Failed'],
       },
-      ColumnHelper.text('created_by', 'Created By', {
-        width: 120, hide: true,
-      }),
-      ColumnHelper.text('approved_by', 'Approved By', {
-        width: 120, hide: true,
-      }),
+      */
+      ColumnHelper.text('created_by',  'Created By',  { width: 130, hide: true }),
+      ColumnHelper.text('approved_by', 'Approved By', { width: 130, hide: true }),
       ColumnHelper.text('description', 'Description', {
-        flex: 2, minWidth: 160, tooltipField: 'description',
+        flex: 2, minWidth: 180, tooltipField: 'description',
       }),
-      // Drill-down to comments
+
+      // Drill-down to analyst comments
       {
         headerName:   'Comments',
         field:        'comment_count',
@@ -82,14 +65,10 @@ const TransactionsApp = (function () {
   // ── KPI strip ──────────────────────────────────────────────────────────────
 
   function _updateKpi(records) {
-    const total     = records.length;
-    const completed = records.filter(r => r.status === 'Completed').length;
-
-    const elTotal  = document.getElementById('kpiTotal');
-    const elActive = document.getElementById('kpiActive');
-
-    if (elTotal)  elTotal.textContent  = total.toLocaleString();
-    if (elActive) elActive.textContent = completed.toLocaleString();
+    const el = (id) => document.getElementById(id);
+    if (el('kpiTotal'))  el('kpiTotal').textContent  = records.length.toLocaleString();
+    if (el('kpiActive')) el('kpiActive').textContent =
+      records.filter(r => r.status === 'Completed').length.toLocaleString();
   }
 
   // ── Data loading ───────────────────────────────────────────────────────────
@@ -98,16 +77,47 @@ const TransactionsApp = (function () {
     try {
       const url  = ApiUtils.buildUrl('/api/transactions', { per_page: 1000, search });
       const resp = await ApiUtils.get(url);
-
       _allRecords = resp.data || [];
       _grid.setData(_allRecords);
       _updateKpi(_allRecords);
-
       setTimeout(() => _grid.getApi().sizeColumnsToFit(), 50);
-
     } catch (err) {
-      Toast.error('Failed to load transactions', err.message || 'Please ensure the server is running.');
+      Toast.error('Failed to load exposure events', err.message || 'Ensure the server is running.');
       console.error('Transactions load error:', err);
+    }
+  }
+
+  // ── Async export ───────────────────────────────────────────────────────────
+
+  async function _triggerAsyncExport(exportType, fileFormat) {
+    const state = _grid.getFilterSortState();
+    const spec  = {
+      entity_type:   'transactions',
+      export_type:   exportType,
+      schedule_type: 'H1',
+      source_type:   'csv',
+      file_format:   fileFormat,
+      filters:       exportType === 'partial'
+        ? { col_filters: state.col_filters, quick_filter: state.quick_filter }
+        : {},
+      sorts: exportType === 'partial' ? state.sort_state : [],
+    };
+    try {
+      const job   = await ApiUtils.createExportJob(spec);
+      const label = exportType === 'partial' ? 'Partial' : 'Full';
+      Toast.info(`${label} export queued`, `Preparing ${fileFormat.toUpperCase()} file…`);
+      await ApiUtils.pollUntilComplete(job.job_id, (status, data) => {
+        if (status === 'COMPLETED') {
+          ApiUtils.downloadExport(job.job_id);
+          Toast.success('Export ready', `${label} exposure event export downloaded.`);
+        } else if (status === 'FAILED') {
+          Toast.error('Export failed', 'Check the server log for details.');
+        } else if (status === 'TIMEOUT') {
+          Toast.warning('Export delayed', 'Job still processing — retry later.');
+        }
+      });
+    } catch (err) {
+      Toast.error('Export error', err.message || 'Failed to start export.');
     }
   }
 
@@ -116,12 +126,10 @@ const TransactionsApp = (function () {
   function _wireToolbar() {
     const gridSearch = document.getElementById('gridSearch');
     if (gridSearch) {
-      let _debounce;
+      let _t;
       gridSearch.addEventListener('input', () => {
-        clearTimeout(_debounce);
-        _debounce = setTimeout(() => {
-          _grid.setQuickFilter(gridSearch.value);
-        }, 200);
+        clearTimeout(_t);
+        _t = setTimeout(() => _grid.setQuickFilter(gridSearch.value), 200);
       });
     }
 
@@ -133,43 +141,46 @@ const TransactionsApp = (function () {
       });
     }
 
-    const btnShowHide = document.getElementById('btnShowHideColumns');
-    if (btnShowHide) {
-      btnShowHide.addEventListener('click', () => _grid.toggleColumnsPanel(btnShowHide));
-    }
-
-    const btnClearFilters = document.getElementById('btnClearFilters');
-    if (btnClearFilters) {
-      btnClearFilters.addEventListener('click', () => {
-        _grid.clearFilters();
-        if (gridSearch) gridSearch.value = '';
-        _grid.setQuickFilter('');
-        Toast.info('Filters cleared', 'All column filters have been removed.');
-      });
-    }
-
-    document.querySelectorAll('.btn-export[data-format]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const fmt = btn.dataset.format;
-        if (fmt === 'csv') {
-          _grid.exportCsv('transactions.csv');
-          Toast.success('CSV exported', 'Downloading current view as CSV.');
-        } else {
-          ApiUtils.downloadFile(`/api/export/transactions?format=${fmt}`);
-          Toast.success('Export started', `Downloading full transactions dataset as ${fmt.toUpperCase()}.`);
-        }
-      });
+    document.getElementById('btnShowHideColumns')?.addEventListener('click', (e) => {
+      _grid.toggleColumnsPanel(e.currentTarget);
     });
 
+    document.getElementById('btnClearFilters')?.addEventListener('click', () => {
+      _grid.clearFilters();
+      if (gridSearch) gridSearch.value = '';
+      Toast.info('Filters cleared', 'All filters and sort order reset.');
+    });
+
+    // Export dropdown
+    const btnExport  = document.getElementById('btnExport');
+    const exportMenu = document.getElementById('exportMenu');
+    if (btnExport && exportMenu) {
+      btnExport.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const open = exportMenu.getAttribute('aria-hidden') !== 'true';
+        exportMenu.setAttribute('aria-hidden', open ? 'true' : 'false');
+      });
+      document.addEventListener('click', (e) => {
+        if (!exportMenu.contains(e.target) && e.target !== btnExport)
+          exportMenu.setAttribute('aria-hidden', 'true');
+      });
+      const _fmt = () => (document.querySelector('input[name="exportFmt"]:checked') || {}).value || 'csv';
+      document.getElementById('btnPartialExport')?.addEventListener('click', () => {
+        exportMenu.setAttribute('aria-hidden', 'true');
+        _triggerAsyncExport('partial', _fmt());
+      });
+      document.getElementById('btnFullExport')?.addEventListener('click', () => {
+        exportMenu.setAttribute('aria-hidden', 'true');
+        _triggerAsyncExport('full', _fmt());
+      });
+    }
+
     const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar        = document.getElementById('sidebar');
-    if (sidebarToggle && sidebar) {
+    if (sidebarToggle) {
       sidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        sidebar.classList.toggle('collapsed');
-        const main = document.getElementById('mainContent');
-        if (main) main.classList.toggle('sidebar-collapsed');
-        setTimeout(() => _grid && _grid.getApi().sizeColumnsToFit(), 200);
+        document.getElementById('sidebar')?.classList.toggle('collapsed');
+        document.getElementById('mainContent')?.classList.toggle('sidebar-collapsed');
+        setTimeout(() => _grid?.getApi().sizeColumnsToFit(), 200);
       });
     }
   }
@@ -180,16 +191,17 @@ const TransactionsApp = (function () {
     _grid = new GridManager(
       'transactionsGrid',
       _buildColumns(),
-      {
-        paginationPageSize:         25,
-        paginationPageSizeSelector: [10, 25, 50, 100],
-      }
+      { paginationPageSize: 25, paginationPageSizeSelector: [10, 25, 50, 100] }
     ).init();
 
     _wireToolbar();
     await _loadTransactions();
 
-    Toast.success('Transactions ready', `${(_allRecords || []).length} transactions loaded.`, undefined, 3000);
+    Toast.success(
+      'H1 Exposure Events loaded',
+      `${(_allRecords || []).length} exposure events ready.`,
+      undefined, 3000
+    );
   }
 
   return { init };

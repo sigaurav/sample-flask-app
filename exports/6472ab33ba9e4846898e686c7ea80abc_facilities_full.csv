@@ -1,0 +1,101 @@
+﻿facility_id,facility_name,facility_type,credit_limit,currency,outstanding_balance,available_credit,utilization_pct,status,risk_rating,risk_score,relationship_manager,region,country,created_date,maturity_date,interest_rate
+FAC-0001,Global Ventures Term Loan,Term Loan,1378771445.25,EUR,384082418.15,994689027.1,27.86,Active,A-,1.29,Robert Ashford,Americas,Chile,2015-12-23,2025-08-05,5.543
+FAC-0002,Enhanced Delta Revolving Credit Facility,Revolving Credit Facility,3581517966.55,USD,2367598191.3,1213919775.25,66.11,Active,A+,8.28,William Stanton,Global,United States,2020-01-14,2029-08-22,4.222
+FAC-0003,Secured Solutions Bridge Loan,Bridge Loan,1686289752.84,SGD,293746067.53,1392543685.31,17.42,Pending,A+,8.26,David Harrington,Americas,Brazil,2018-11-09,2028-08-15,9.285
+FAC-0004,Corporate Investment Construction Loan,Construction Loan,1469425515.63,CHF,885934040.78,583491474.85,60.29,Active,AAA,6.95,Robert Ashford,APAC,South Korea,2017-02-26,2020-12-06,8.432
+FAC-0005,Unsecured Expansion Construction Loan,Construction Loan,3180243799.1,EUR,1246228599.82,1934015199.28,39.19,Pending,BB,9.43,Michael Pemberton,APAC,Singapore,2017-05-08,2023-05-05,5.773
+FAC-0006,Senior Expansion Syndicated Credit Facility,Syndicated Credit Facility,1900379931.58,AUD,1694414247.06,205965684.52,89.16,Under Review,AA-,8.4,Angela Drummond,EMEA,UAE,2018-08-21,2022-04-06,2.03
+FAC-0007,Structured Ventures Leveraged Buyout Facility,Leveraged Buyout Facility,1576816014.59,CHF,984486548.67,592329465.92,62.44,Closed,AA,3.22,Patricia Holloway,Global,United States,2016-08-08,2022-07-27,4.927
+FAC-0008,Bilateral Capital Leveraged Buyout Facility,Leveraged Buyout Facility,1100507191.99,CAD,988288567.38,112218624.61,89.8,Pending,AA,6.65,Rebecca Lawson,Global,United States,2015-07-12,2019-10-03,4.578
+FAC-0009,Club Investment Leveraged Buyout Facility,Leveraged Buyout Facility,1260813529.31,AUD,684093108.7,576720420.61,54.26,Active,BB-,3.4,Steven Caldwell,Americas,United States,2022-08-24,2031-08-31,4.978
+FAC-0010,Global Ventures Acquisition Facility,Acquisition Facility,4379885437.19,JPY,1360879637.88,3019005799.31,31.07,Active,B+,6.75,Thomas Blackwood,EMEA,Switzerland,2016-03-11,2022-07-15,7.6
+FAC-0011,Institutional Group Trade Finance Facility,Trade Finance Facility,2654116592.61,CHF,266625962.46,2387490630.15,10.05,Active,B,4.27,James Thornton,APAC,Hong Kong,2015-03-21,2019-06-21,3.427
+FAC-0012,Corporate Beta Leveraged Buyout Facility,Leveraged Buyout Facility,3660878436.25,CAD,2755977389.16,904901047.09,75.28,Active,BBB,2.49,Andrew Davenport,EMEA,Germany,2022-05-26,2030-09-22,7.542
+FAC-0013,Priority Epsilon Syndicated Credit Facility,Syndicated Credit Facility,1997966538.49,EUR,1273403109.61,724563428.88,63.73,Active,AA+,3.23,Sarah Mitchell,APAC,Hong Kong,2020-10-20,2028-11-11,6.206
+FAC-0014,Strategic Delta Syndicated Credit Facility,Syndicated Credit Facility,40918240.73,JPY,27262709.07,13655531.66,66.63,Active,B+,3.97,Daniel Fowler,Americas,Canada,2015-10-04,2019-02-08,3.214
+FAC-0015,Priority Group Bridge Loan,Bridge Loan,4412503460.33,CAD,2475279064.65,1937224395.68,56.1,Active,AA-,1.85,William Stanton,EMEA,South Africa,2020-04-21,2027-11-13,4.789
+FAC-0016,Premier Holdings Revolving Credit Facility,Revolving Credit Facility,4920905230.77,SGD,879534536.64,4041370694.13,17.87,Active,AA-,2.71,William Stanton,Global,United States,2016-03-23,2022-01-04,2.968
+FAC-0017,Secured Partners Acquisition Facility,Acquisition Facility,4616711668.38,EUR,2098316671.88,2518394996.5,45.45,Active,B+,1.13,Michael Pemberton,Americas,United States,2022-04-25,2031-05-17,4.751
+FAC-0018,Secured Partners Acquisition Facility,Acquisition Facility,2008196261.28,SGD,295020738.93,1713175522.35,14.69,Active,B,8.06,William Stanton,Global,United States,2019-05-19,2025-05-08,7.073
+FAC-0019,Premier Ventures Trade Finance Facility,Trade Finance Facility,2435923701.21,USD,613653742.67,1822269958.54,25.19,Active,AAA,7.73,Patricia Holloway,EMEA,United Kingdom,2021-06-30,2030-07-28,5.314
+FAC-0020,Senior Alpha Trade Finance Facility,Trade Finance Facility,4804090621.86,CAD,788299253.28,4015791368.58,16.41,Active,BB+,8.76,Patricia Holloway,EMEA,United Kingdom,2021-09-03,2025-06-07,3.47
+FAC-0021,Global Operations Leveraged Buyout Facility,Leveraged Buyout Facility,414507110.45,GBP,259439391.76,155067718.69,62.59,Closed,AA-,3.39,Steven Caldwell,APAC,Singapore,2017-04-16,2023-10-23,5.158
+FAC-0022,Global Expansion Term Loan,Term Loan,3107690481.19,AUD,1710457042.94,1397233438.25,55.04,Active,BBB,3.39,Robert Ashford,Americas,United States,2021-01-11,2026-06-02,4.456
+FAC-0023,Club Partners Bridge Loan,Bridge Loan,2718373721.5,EUR,929721093.57,1788652627.93,34.2,Active,B,2.21,Andrew Davenport,Americas,Chile,2018-05-11,2022-07-08,2.744
+FAC-0024,Strategic Delta Asset-Based Lending,Asset-Based Lending,3589472874.76,USD,943592911.45,2645879963.31,26.29,Active,B,9.17,William Stanton,APAC,South Korea,2020-06-24,2026-04-17,8.135
+FAC-0025,Global Capital Revolving Credit Facility,Revolving Credit Facility,3856740518.98,USD,2351418833.84,1505321685.14,60.97,Active,BB,4.85,Rebecca Lawson,APAC,Australia,2019-12-15,2029-02-19,9.06
+FAC-0026,Enhanced Alpha Bridge Loan,Bridge Loan,4173802124.33,USD,2362403945.28,1811398179.05,56.6,Active,A+,4.28,Christine Wallace,EMEA,Netherlands,2016-06-06,2019-11-24,6.957
+FAC-0027,Multi-Currency Solutions Term Loan,Term Loan,2801618178.12,GBP,2240650671.34,560967506.78,79.98,Closed,B,4.71,Laura Whitfield,EMEA,Germany,2016-10-27,2021-10-21,7.759
+FAC-0028,Institutional Holdings Construction Loan,Construction Loan,4320999821.73,SGD,3234698104.08,1086301717.65,74.86,Active,A-,8.85,Christine Wallace,APAC,Australia,2022-11-12,2027-01-27,8.033
+FAC-0029,Multi-Currency Epsilon Acquisition Facility,Acquisition Facility,4103579222.95,EUR,3270792407.45,832786815.5,79.71,Active,A-,3.95,Thomas Blackwood,EMEA,United Kingdom,2022-05-27,2027-07-26,6.632
+FAC-0030,Premier Partners Construction Loan,Construction Loan,2683397583.73,CAD,2284617096.69,398780487.04,85.14,Active,A+,1.34,Laura Whitfield,Americas,Brazil,2017-01-01,2026-07-06,4.991
+FAC-0031,Corporate Growth Trade Finance Facility,Trade Finance Facility,4498026140.89,JPY,1133786051.32,3364240089.57,25.21,Active,B,8.26,William Stanton,Americas,Mexico,2015-01-07,2023-11-05,2.06
+FAC-0032,Strategic Capital Standby Letter of Credit,Standby Letter of Credit,3318620443.95,CHF,662729340.71,2655891103.24,19.97,Pending,A,4.62,Natalie Forsythe,APAC,South Korea,2018-06-20,2026-01-16,3.035
+FAC-0033,Premier Ventures Construction Loan,Construction Loan,4514513700.93,CAD,2674451787.04,1840061913.89,59.24,Pending,A+,3.58,Charles Sutherland,APAC,Hong Kong,2021-02-22,2024-02-23,6.738
+FAC-0034,Club Expansion Acquisition Facility,Acquisition Facility,3379758029.78,AUD,1720091339.42,1659666690.36,50.89,Active,BBB,6.97,Robert Ashford,EMEA,UAE,2015-12-14,2022-02-17,6.882
+FAC-0035,Institutional Delta Syndicated Credit Facility,Syndicated Credit Facility,741033041.42,JPY,101500017.8,639533023.62,13.7,Closed,B,6.67,Emily Garrison,Global,United States,2020-02-09,2027-10-02,5.455
+FAC-0036,Senior Holdings Syndicated Credit Facility,Syndicated Credit Facility,3439673953.34,SGD,2800334398.06,639339555.28,81.41,Active,BB-,9.62,Andrew Davenport,Americas,Mexico,2017-06-15,2022-06-04,3.494
+FAC-0037,Club Gamma Term Loan,Term Loan,4008075925.6,CAD,2541369383.32,1466706542.28,63.41,Pending,B+,7.47,Katherine Mercer,APAC,China,2019-12-18,2029-10-30,8.678
+FAC-0038,Club Epsilon Acquisition Facility,Acquisition Facility,3760125048.57,SGD,2902404090.41,857720958.16,77.19,Active,BB+,3.15,Steven Caldwell,APAC,China,2020-11-05,2029-04-11,3.376
+FAC-0039,Multi-Currency Group Standby Letter of Credit,Standby Letter of Credit,2703060351.48,CAD,569532786.63,2133527564.85,21.07,Under Review,BB,2.93,Laura Whitfield,EMEA,Netherlands,2022-10-13,2027-06-29,5.841
+FAC-0040,Global Delta Construction Loan,Construction Loan,4165291390.86,CHF,1714356670.88,2450934719.98,41.16,Under Review,AAA,9.48,William Stanton,Americas,Chile,2019-04-08,2027-08-12,5.806
+FAC-0041,Institutional Operations Trade Finance Facility,Trade Finance Facility,4489567680.26,CAD,2202508194.39,2287059485.87,49.06,Closed,A-,4.03,Michael Pemberton,APAC,Hong Kong,2020-06-12,2023-10-08,8.224
+FAC-0042,Strategic Investment Bridge Loan,Bridge Loan,139697427.27,GBP,58004635.61,81692791.66,41.52,Active,AA,8.8,Angela Drummond,Americas,United States,2022-03-17,2030-01-04,4.533
+FAC-0043,Club Capital Syndicated Credit Facility,Syndicated Credit Facility,1690815237.63,USD,1358928477.33,331886760.3,80.37,Closed,B+,1.74,Andrew Davenport,APAC,China,2019-09-23,2025-07-21,1.917
+FAC-0044,Secured Holdings Standby Letter of Credit,Standby Letter of Credit,347748760.41,GBP,301090781.42,46657978.99,86.58,Active,B+,1.18,Natalie Forsythe,Americas,United States,2017-10-09,2023-01-02,5.288
+FAC-0045,Strategic Delta Term Loan,Term Loan,2327844747.26,GBP,709980909.17,1617863838.09,30.5,Active,BB,7.47,David Harrington,APAC,Australia,2021-10-17,2031-08-08,6.129
+FAC-0046,Strategic Holdings Asset-Based Lending,Asset-Based Lending,4540590624.48,CHF,1817351271.46,2723239353.02,40.02,Closed,AA+,7.27,Charles Sutherland,EMEA,United Kingdom,2021-08-22,2027-05-12,7.944
+FAC-0047,Institutional Alpha Leveraged Buyout Facility,Leveraged Buyout Facility,1739282807.72,SGD,769984691.67,969298116.05,44.27,Active,AAA,8.65,William Stanton,APAC,Japan,2020-09-03,2027-07-01,9.186
+FAC-0048,Priority Gamma Acquisition Facility,Acquisition Facility,2180258289.31,CHF,1497916464.32,682341824.99,68.7,Active,BBB+,4.92,Robert Ashford,APAC,South Korea,2021-01-13,2029-06-15,8.146
+FAC-0049,Unsecured Group Term Loan,Term Loan,2256755990.97,SGD,1580589075.17,676166915.8,70.04,Active,B+,3.93,Thomas Blackwood,Global,United States,2015-04-28,2023-11-11,7.883
+FAC-0050,Unsecured Group Standby Letter of Credit,Standby Letter of Credit,2982794264.65,SGD,2398422739.83,584371524.82,80.41,Pending,AA-,7.48,Robert Ashford,Americas,Chile,2017-02-21,2021-02-05,7.025
+FAC-0051,Club Solutions Acquisition Facility,Acquisition Facility,91130080.45,AUD,30563977.8,60566102.65,33.54,Under Review,A,5.26,Andrew Davenport,Global,United States,2018-06-08,2027-12-15,4.146
+FAC-0052,Unsecured Epsilon Acquisition Facility,Acquisition Facility,1260761362.62,JPY,247770758.4,1012990604.22,19.65,Active,BB-,7.21,Daniel Fowler,EMEA,France,2016-05-04,2025-05-06,3.712
+FAC-0053,Institutional Investment Leveraged Buyout Facility,Leveraged Buyout Facility,2985969748.86,GBP,2640817039.68,345152709.18,88.44,Active,AA,3.72,James Thornton,EMEA,France,2017-07-20,2024-08-05,9.294
+FAC-0054,Unsecured Ventures Trade Finance Facility,Trade Finance Facility,4720727625.9,SGD,2881039884.66,1839687741.24,61.03,Active,A+,5.22,Michael Pemberton,Global,United States,2015-02-20,2024-07-28,9.224
+FAC-0055,Commercial Expansion Asset-Based Lending,Asset-Based Lending,574865267.92,CHF,87537463.86,487327804.06,15.23,Active,AA,2.34,Robert Ashford,Global,United States,2021-06-21,2025-01-25,2.448
+FAC-0056,Strategic Operations Construction Loan,Construction Loan,3954750445.07,CAD,1109504089.11,2845246355.96,28.05,Active,B+,6.3,Patricia Holloway,Global,United States,2019-12-19,2026-04-18,6.468
+FAC-0057,Priority Beta Leveraged Buyout Facility,Leveraged Buyout Facility,4738213050.63,EUR,1261455998.77,3476757051.86,26.62,Active,AA,3.16,Sarah Mitchell,EMEA,France,2022-05-29,2026-04-25,4.768
+FAC-0058,Club Epsilon Leveraged Buyout Facility,Leveraged Buyout Facility,168036077.63,CHF,55533220.24,112502857.39,33.05,Closed,BB+,3.1,Patricia Holloway,APAC,India,2020-02-03,2023-11-20,6.789
+FAC-0059,Bilateral Beta Syndicated Credit Facility,Syndicated Credit Facility,2725089081.66,CHF,1684398759.08,1040690322.58,61.81,Pending,AAA,2.49,Patricia Holloway,APAC,China,2016-08-05,2020-05-23,8.87
+FAC-0060,Corporate Expansion Acquisition Facility,Acquisition Facility,3444946566.1,USD,2272930780.8,1172015785.3,65.98,Under Review,BBB+,1.72,Laura Whitfield,APAC,South Korea,2021-01-20,2029-08-03,6.33
+FAC-0061,Corporate Delta Revolving Credit Facility,Revolving Credit Facility,4809745955.45,SGD,3697573445.27,1112172510.18,76.88,Pending,BB-,7.81,Katherine Mercer,Americas,Brazil,2021-06-18,2024-11-28,8.829
+FAC-0062,Strategic Growth Bridge Loan,Bridge Loan,3175749673.67,EUR,1566853412.04,1608896261.63,49.34,Active,A,3.89,Laura Whitfield,Americas,Mexico,2018-11-26,2026-06-24,4.793
+FAC-0063,Unsecured Holdings Acquisition Facility,Acquisition Facility,4726241730.12,CAD,3548711967.88,1177529762.24,75.09,Pending,A+,3.91,Sarah Mitchell,Americas,Mexico,2015-12-27,2022-07-06,6.761
+FAC-0064,Club Growth Trade Finance Facility,Trade Finance Facility,275749406.46,CHF,141942424.45,133806982.01,51.48,Under Review,A+,5.94,Daniel Fowler,Global,United States,2015-07-31,2020-11-09,2.471
+FAC-0065,Institutional Delta Leveraged Buyout Facility,Leveraged Buyout Facility,3550365211.38,EUR,1237657705.76,2312707505.62,34.86,Under Review,AA-,9.93,David Harrington,Americas,Chile,2019-07-30,2023-08-14,6.682
+FAC-0066,Club Group Bridge Loan,Bridge Loan,3584433613.33,GBP,1817657725.89,1766775887.44,50.71,Under Review,AA-,5.11,Christine Wallace,APAC,Hong Kong,2020-05-30,2028-09-14,8.875
+FAC-0067,Priority Group Trade Finance Facility,Trade Finance Facility,686859181.23,CHF,107045673.42,579813507.81,15.58,Pending,B+,1.02,Patricia Holloway,Global,United States,2020-09-10,2026-09-08,9.491
+FAC-0068,Commercial Gamma Acquisition Facility,Acquisition Facility,2235504228.25,JPY,1089748195.08,1145756033.17,48.75,Closed,BBB+,9.4,Robert Ashford,APAC,South Korea,2021-02-03,2028-04-27,6.074
+FAC-0069,Commercial Solutions Syndicated Credit Facility,Syndicated Credit Facility,2056821602.27,GBP,729227714.78,1327593887.49,35.45,Pending,BBB+,9.68,Patricia Holloway,Global,United States,2019-05-01,2024-01-13,4.156
+FAC-0070,Commercial Partners Term Loan,Term Loan,2204329517.8,GBP,1147928556.24,1056400961.56,52.08,Active,B+,6.89,Daniel Fowler,Global,United States,2016-08-13,2024-03-18,7.752
+FAC-0071,Multi-Currency Operations Asset-Based Lending,Asset-Based Lending,3465059469.94,SGD,2147884064.54,1317175405.4,61.99,Pending,A-,9.59,James Thornton,APAC,China,2022-07-25,2031-07-18,6.44
+FAC-0072,Premier Holdings Syndicated Credit Facility,Syndicated Credit Facility,4605040848.41,CHF,4135053779.62,469987068.79,89.79,Active,BBB+,2.5,James Thornton,Americas,Mexico,2016-02-08,2020-03-24,4.095
+FAC-0073,Unsecured Capital Revolving Credit Facility,Revolving Credit Facility,1877331243.43,CAD,406359304.8,1470971938.63,21.65,Pending,AA+,6.49,Robert Ashford,Global,United States,2016-11-27,2021-11-13,5.481
+FAC-0074,Senior Delta Leveraged Buyout Facility,Leveraged Buyout Facility,2308443817.21,GBP,699878316.83,1608565500.38,30.32,Active,B,3.59,Katherine Mercer,APAC,India,2015-02-08,2023-04-27,9.062
+FAC-0075,Unsecured Holdings Leveraged Buyout Facility,Leveraged Buyout Facility,4810335218.75,JPY,3137545042.65,1672790176.1,65.23,Under Review,B+,5.35,Patricia Holloway,Global,United States,2017-03-26,2024-07-17,4.372
+FAC-0076,Priority Epsilon Asset-Based Lending,Asset-Based Lending,114588291.31,USD,87548897.85,27039393.46,76.4,Pending,B+,7.17,Daniel Fowler,Global,United States,2015-02-03,2024-06-08,8.163
+FAC-0077,Institutional Solutions Asset-Based Lending,Asset-Based Lending,1154441362.9,GBP,856070873.91,298370488.99,74.15,Closed,A+,7.1,David Harrington,EMEA,UAE,2017-02-17,2027-02-03,8.727
+FAC-0078,Unsecured Solutions Revolving Credit Facility,Revolving Credit Facility,2206911834.86,JPY,1243945815.68,962966019.18,56.37,Active,BB,4.74,Andrew Davenport,EMEA,United Kingdom,2018-04-23,2024-12-20,8.512
+FAC-0079,Enhanced Investment Standby Letter of Credit,Standby Letter of Credit,4567867437.54,EUR,3491577813.11,1076289624.43,76.44,Under Review,BB,8.83,Rebecca Lawson,APAC,China,2020-05-27,2026-09-16,2.626
+FAC-0080,Commercial Holdings Syndicated Credit Facility,Syndicated Credit Facility,3622462476.82,SGD,3202089450.82,420373026.0,88.4,Active,A+,5.83,Angela Drummond,APAC,Japan,2019-06-05,2022-07-31,6.176
+FAC-0081,Corporate Holdings Standby Letter of Credit,Standby Letter of Credit,1172940401.55,CHF,140775978.24,1032164423.31,12.0,Closed,BB+,8.41,William Stanton,APAC,South Korea,2017-06-25,2021-03-09,2.433
+FAC-0082,Global Epsilon Revolving Credit Facility,Revolving Credit Facility,4979657236.9,CAD,960557877.45,4019099359.45,19.29,Pending,BBB+,4.34,Natalie Forsythe,EMEA,Switzerland,2016-07-09,2023-11-16,8.583
+FAC-0083,Commercial Expansion Term Loan,Term Loan,3080182809.19,JPY,2621982368.86,458200440.33,85.12,Active,AA-,4.99,David Harrington,APAC,Japan,2022-09-28,2029-11-22,9.347
+FAC-0084,Enhanced Group Standby Letter of Credit,Standby Letter of Credit,4889323434.61,EUR,1891870277.24,2997453157.37,38.69,Closed,B+,8.42,Christine Wallace,Global,United States,2017-02-16,2021-06-30,6.634
+FAC-0085,Global Alpha Leveraged Buyout Facility,Leveraged Buyout Facility,3935038979.32,JPY,1160266381.52,2774772597.8,29.49,Pending,AA+,8.47,Christine Wallace,EMEA,South Africa,2021-05-01,2026-08-18,8.004
+FAC-0086,Multi-Currency Solutions Syndicated Credit Facility,Syndicated Credit Facility,742033128.81,GBP,608782402.45,133250726.36,82.04,Active,BBB,3.26,Sarah Mitchell,Americas,Brazil,2016-08-15,2021-01-28,2.554
+FAC-0087,Institutional Solutions Standby Letter of Credit,Standby Letter of Credit,1193468372.42,EUR,428475637.04,764992735.38,35.9,Closed,BB,4.79,Rebecca Lawson,EMEA,France,2015-08-03,2020-01-03,5.31
+FAC-0088,Enhanced Operations Standby Letter of Credit,Standby Letter of Credit,549724779.97,USD,276550568.3,273174211.67,50.31,Under Review,BB+,9.68,Emily Garrison,Americas,Chile,2018-05-20,2026-07-08,4.91
+FAC-0089,Club Ventures Term Loan,Term Loan,4548955641.43,AUD,722340369.01,3826615272.42,15.88,Under Review,AA+,2.14,Charles Sutherland,Americas,Brazil,2021-10-27,2026-06-25,5.744
+FAC-0090,Enhanced Operations Acquisition Facility,Acquisition Facility,2153845632.49,CAD,1581949808.27,571895824.22,73.45,Active,BBB+,8.99,Katherine Mercer,Americas,Chile,2017-05-30,2025-03-25,4.69
+FAC-0091,Multi-Currency Growth Term Loan,Term Loan,1566055237.85,EUR,475942724.47,1090112513.38,30.39,Under Review,AA+,8.49,David Harrington,EMEA,UAE,2020-04-26,2024-01-25,7.457
+FAC-0092,Institutional Gamma Standby Letter of Credit,Standby Letter of Credit,2784071824.4,CAD,1584615912.72,1199455911.68,56.92,Closed,A,8.86,James Thornton,APAC,India,2016-05-15,2023-12-22,9.247
+FAC-0093,Unsecured Capital Leveraged Buyout Facility,Leveraged Buyout Facility,522484826.79,AUD,264340768.05,258144058.74,50.59,Active,B+,1.97,Angela Drummond,EMEA,UAE,2020-05-29,2025-12-02,6.093
+FAC-0094,Commercial Investment Construction Loan,Construction Loan,4872860277.62,CHF,3677749814.96,1195110462.66,75.47,Active,AAA,2.62,Thomas Blackwood,Americas,Chile,2022-05-18,2028-05-16,1.549
+FAC-0095,Strategic Holdings Bridge Loan,Bridge Loan,2006917798.28,AUD,428476394.66,1578441403.62,21.35,Active,A-,4.78,Thomas Blackwood,Americas,United States,2020-12-12,2026-05-11,3.993
+FAC-0096,Institutional Operations Standby Letter of Credit,Standby Letter of Credit,2983137742.16,SGD,2406418902.12,576718840.04,80.67,Closed,BB+,1.73,William Stanton,EMEA,Germany,2021-12-05,2025-06-25,5.385
+FAC-0097,Bilateral Epsilon Acquisition Facility,Acquisition Facility,1081766981.86,SGD,551568151.7,530198830.16,50.99,Pending,BB+,7.11,Steven Caldwell,APAC,Hong Kong,2016-03-30,2022-06-02,1.863
+FAC-0098,Strategic Alpha Construction Loan,Construction Loan,43396994.07,USD,14804254.82,28592739.25,34.11,Under Review,A+,3.95,William Stanton,EMEA,South Africa,2016-07-16,2022-05-27,2.906
+FAC-0099,Enhanced Ventures Construction Loan,Construction Loan,1154403026.8,EUR,631434044.81,522968981.99,54.7,Active,A-,1.17,Patricia Holloway,APAC,Japan,2019-06-15,2022-12-04,4.934
+FAC-0100,Priority Holdings Construction Loan,Construction Loan,2091381329.42,AUD,401835285.93,1689546043.49,19.21,Active,BBB+,8.49,William Stanton,Americas,Brazil,2016-12-04,2026-11-08,8.256

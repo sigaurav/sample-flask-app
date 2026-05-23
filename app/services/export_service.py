@@ -119,5 +119,5 @@ class ExportService(BaseService):
 
         buf.seek(0)
         filename = stem + _EXT[fmt]
-        log.info("Exported %d rows as %s → %s", len(df), fmt.upper(), filename)
+        log.info("Exported %d rows as %s -> %s", len(df), fmt.upper(), filename)
         return buf, _MIME[fmt], filename

@@ -111,6 +111,16 @@
 }
 .wf-sort-icon:empty { display: none; }
 
+/* Multi-sort priority superscript */
+.wf-sort-priority {
+  font-size:        9px;
+  font-weight:      700;
+  color:            #D71E28;
+  vertical-align:   super;
+  line-height:      1;
+  margin-left:      1px;
+}
+
 /* Filter button — hidden by default, appears on header hover or when filter is active */
 .wf-filter-btn {
   flex-shrink:      0;
@@ -274,6 +284,17 @@
 .wf-pag-page {
   white-space:      nowrap;
   padding:          0 4px;
+}
+
+/* Sort hint displayed in the pagination bar when multi-column sort is active */
+.wf-sort-hint {
+  font-size:        11px;
+  color:            #9e9e9e;
+  white-space:      nowrap;
+  overflow:         hidden;
+  text-overflow:    ellipsis;
+  max-width:        260px;
+  font-style:       italic;
 }
 
 /* ── Column filter popup ─────────────────────────────────────────────────────── */

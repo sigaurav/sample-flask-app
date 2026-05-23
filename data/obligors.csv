@@ -1,501 +1,501 @@
 obligor_id,facility_id,obligor_name,obligor_type,tin,industry,sub_industry,country,credit_score,exposure_amount,outstanding_amount,status,risk_grade,created_date,review_date
-OBL-00001,FAC-0094,Pinnacle Resources Ltd.,Financial Institution,54-3602504,Healthcare,Pharmaceuticals,Brazil,582,928628397.0,634382531.04,Active,Investment Grade,2022-12-21,2024-12-14
-OBL-00002,FAC-0079,Vantage Properties Inc.,Corporate,15-7748892,Banking & Finance,Insurance,Canada,749,412806551.05,39568282.94,Active,Distressed,2020-08-03,2022-05-02
-OBL-00003,FAC-0095,Horizon Analytics Group,Corporate,48-3403511,Healthcare,Pharmaceuticals,Switzerland,833,797666622.19,177443685.1,Active,High Yield,2022-12-31,2024-05-20
-OBL-00004,FAC-0031,Meridian Aerospace Inc.,Corporate,92-7394713,Real Estate,Development,Chile,837,1708903133.3,1428178533.44,Active,High Yield,2016-12-24,2018-09-02
-OBL-00005,FAC-0019,Premier Infrastructure LLC,Non-Profit Organization,69-1966769,Retail & Consumer,Grocery,Hong Kong,722,199046150.38,101718922.7,Active,Distressed,2022-03-03,2023-04-17
-OBL-00006,FAC-0081,Summit Holdings AG,Government Entity,34-1864641,Transportation,Shipping,United States,574,128376335.05,40278055.09,Active,Distressed,2018-05-14,2020-02-13
-OBL-00007,FAC-0081,Allied Ventures PLC,Corporate,37-4188068,Government,Federal Agency,Canada,420,379814219.35,212014008.07,Defaulted,High Yield,2019-11-30,2021-09-30
-OBL-00008,FAC-0082,Meridian Manufacturing Group,Corporate,43-7033835,Healthcare,Medical Devices,United States,825,1121971173.72,826599009.47,Active,High Yield,2020-10-15,2022-08-03
-OBL-00009,FAC-0064,Atlantic Capital PLC,Special Purpose Vehicle,84-8005797,Technology,Cloud Services,Australia,602,42623942.27,16761168.91,Active,Investment Grade,2021-11-20,2022-12-31
-OBL-00010,FAC-0012,International Innovations GmbH,Government Entity,92-9230828,Manufacturing,Aerospace,United States,771,749482776.06,466086525.9,Active,Sub-Investment Grade,2023-05-11,2024-10-17
-OBL-00011,FAC-0094,Titan Industries Corp.,Non-Profit Organization,95-1813936,Energy,Renewable Energy,United States,306,1791218422.48,922531246.67,Active,Investment Grade,2023-04-11,2023-12-07
-OBL-00012,FAC-0078,Vector Capital Inc.,Special Purpose Vehicle,80-7901115,Healthcare,Pharmaceuticals,United Kingdom,312,210320181.47,91112632.52,Active,Distressed,2018-08-24,2020-06-28
-OBL-00013,FAC-0007,Pacific Pharmaceuticals LLC,Corporate,34-9832465,Real Estate,Development,Chile,558,515825898.19,330299470.29,Restructuring,Sub-Investment Grade,2018-08-12,2019-05-28
-OBL-00014,FAC-0012,Premier Properties Corp.,Government Entity,93-1531577,Real Estate,Property Management,Brazil,395,1406239101.69,613187548.51,Active,High Yield,2022-09-27,2023-11-12
-OBL-00015,FAC-0035,Horizon Partners AG,Corporate,39-4546989,Retail & Consumer,Food & Beverage,United States,786,210534607.29,16537875.81,Active,Investment Grade,2022-07-16,2023-12-17
-OBL-00016,FAC-0085,Pinnacle Holdings PLC,Corporate,82-5034453,Technology,Semiconductors,Canada,698,1464695805.14,437593190.4,Defaulted,Distressed,2021-11-29,2022-10-22
-OBL-00017,FAC-0095,National Partners S.A.,Corporate,19-6714198,Manufacturing,Industrial Equipment,South Africa,706,793748840.69,546063794.52,Restructuring,Sub-Investment Grade,2022-05-08,2023-10-24
-OBL-00018,FAC-0046,United Properties N.V.,Government Entity,58-2437708,Banking & Finance,Asset Management,United States,602,449400289.53,236108548.03,Restructuring,Investment Grade,2022-09-10,2024-05-24
-OBL-00019,FAC-0092,Apex Financial Corp.,Corporate,10-6171869,Technology,Software,Australia,755,440440155.11,327993919.47,Active,Sub-Investment Grade,2018-02-05,2019-09-06
-OBL-00020,FAC-0074,Pacific Capital Corp.,Corporate,80-2561359,Technology,Hardware,Canada,632,411092317.78,217523654.47,Restructuring,High Yield,2020-11-06,2022-06-26
-OBL-00021,FAC-0080,Horizon Pharmaceuticals LLC,Government Entity,58-3843767,Banking & Finance,Asset Management,United States,442,1137003855.57,782942733.09,Active,Sub-Investment Grade,2022-07-24,2023-09-25
-OBL-00022,FAC-0011,American Financial PLC,Corporate,90-9318184,Real Estate,Property Management,United Kingdom,500,199618461.26,52332729.97,Active,Investment Grade,2018-07-30,2020-06-04
-OBL-00023,FAC-0051,Nexus Ventures S.A.,Non-Profit Organization,93-3283789,Energy,Utilities,Mexico,607,12718543.61,7493544.32,Active,Distressed,2022-12-10,2024-05-10
-OBL-00024,FAC-0035,Horizon Resources Group,Financial Institution,45-7592357,Healthcare,Biotech,Australia,673,286175180.4,263363859.34,Active,Distressed,2021-09-27,2023-08-10
-OBL-00025,FAC-0028,American Healthcare GmbH,Corporate,91-6080688,Healthcare,Medical Devices,Mexico,547,1632301830.37,325098988.06,Active,Investment Grade,2023-06-04,2024-09-24
-OBL-00026,FAC-0080,Titan Infrastructure S.A.,Special Purpose Vehicle,14-7031903,Retail & Consumer,Food & Beverage,Mexico,849,1435847187.38,653702405.98,Watchlist,Investment Grade,2021-09-02,2023-08-30
-OBL-00027,FAC-0009,Stellar Partners Inc.,Corporate,43-4724560,Technology,Hardware,Australia,822,330749138.39,13918538.56,Defaulted,Distressed,2023-03-16,2024-08-16
-OBL-00028,FAC-0053,Summit Capital GmbH,Corporate,47-7978909,Transportation,Shipping,United States,387,485346467.7,356110895.66,Active,Investment Grade,2023-02-28,2024-01-28
-OBL-00029,FAC-0063,Pacific Logistics GmbH,Corporate,18-6037595,Manufacturing,Consumer Goods,Hong Kong,345,1492855757.4,739051810.24,Restructuring,Investment Grade,2019-11-22,2021-09-19
-OBL-00030,FAC-0015,Meridian Enterprises Group,Special Purpose Vehicle,64-8751982,Banking & Finance,Asset Management,Canada,537,1644406579.66,1156782491.76,Restructuring,High Yield,2023-03-13,2024-03-05
-OBL-00031,FAC-0076,Horizon Healthcare S.A.,Corporate,37-4452490,Energy,Renewable Energy,United States,585,2450469.12,1429607.58,Restructuring,Investment Grade,2017-04-21,2019-01-21
-OBL-00032,FAC-0090,Titan Manufacturing Group,Special Purpose Vehicle,59-7585795,Government,Federal Agency,France,416,295365715.79,128387472.57,Active,Sub-Investment Grade,2020-05-08,2022-03-20
-OBL-00033,FAC-0067,Continental Dynamics Corp.,Corporate,57-3371602,Telecommunications,Broadband,South Korea,823,164959990.2,105327708.87,Active,High Yield,2022-06-13,2023-04-09
-OBL-00034,FAC-0009,Vector Dynamics LLC,Corporate,50-8566540,Government,Federal Agency,United States,354,103946438.4,62755225.67,Restructuring,Sub-Investment Grade,2022-11-20,2023-11-05
-OBL-00035,FAC-0071,Stellar Properties GmbH,Financial Institution,66-9199017,Banking & Finance,Insurance,Germany,471,1136311563.63,1040449632.68,Active,Distressed,2023-04-09,2025-02-23
-OBL-00036,FAC-0050,Horizon Services GmbH,Special Purpose Vehicle,75-2899365,Banking & Finance,Investment Banking,Japan,416,349561528.86,178530925.98,Active,Distressed,2019-01-10,2020-10-19
-OBL-00037,FAC-0086,National Logistics PLC,Corporate,21-8366370,Manufacturing,Automotive,United States,420,293854419.56,28590747.04,Restructuring,Investment Grade,2019-05-25,2020-09-20
-OBL-00038,FAC-0008,Horizon Financial AG,Corporate,86-3824903,Healthcare,Hospitals,United States,631,275455814.34,205381740.52,Defaulted,Sub-Investment Grade,2017-11-05,2018-07-03
-OBL-00039,FAC-0064,Atlantic Infrastructure LLC,Corporate,28-6403886,Real Estate,Development,Canada,553,106296178.47,79340158.1,Restructuring,High Yield,2016-03-29,2017-07-05
-OBL-00040,FAC-0001,Pinnacle Pharmaceuticals PLC,Government Entity,57-8628527,Telecommunications,Broadband,India,799,236525187.25,101562055.47,Active,Distressed,2023-01-30,2023-11-01
-OBL-00041,FAC-0053,Stellar Technologies GmbH,Corporate,51-5757902,Banking & Finance,Retail Banking,United States,645,1019832388.47,770885214.37,Watchlist,Distressed,2022-01-04,2023-02-11
-OBL-00042,FAC-0049,Global Partners LLC,Financial Institution,68-1011340,Energy,Mining,India,738,693453879.29,30266335.02,Active,Investment Grade,2022-05-05,2024-02-14
-OBL-00043,FAC-0037,National Energy PLC,Government Entity,99-4928281,Real Estate,Residential REIT,Japan,739,1063299681.19,252926898.05,Defaulted,Investment Grade,2022-01-17,2023-01-01
-OBL-00044,FAC-0021,Global Capital Group,Non-Profit Organization,25-8085252,Technology,Software,Netherlands,435,16744471.27,9443806.81,Active,Investment Grade,2023-02-11,2024-11-07
-OBL-00045,FAC-0031,Pinnacle Innovations LLC,Government Entity,96-3396676,Healthcare,Biotech,United States,370,226019507.13,78922306.33,Watchlist,Distressed,2018-05-16,2019-04-01
-OBL-00046,FAC-0051,Vantage Properties GmbH,Non-Profit Organization,37-2454383,Banking & Finance,Investment Banking,United States,402,26587063.39,15863863.6,Active,Investment Grade,2019-04-14,2020-12-05
-OBL-00047,FAC-0053,International Manufacturing Corp.,Corporate,80-5780177,Government,Municipal,United States,327,1151589986.52,344070311.25,Restructuring,Sub-Investment Grade,2019-02-12,2020-04-20
-OBL-00048,FAC-0030,Pinnacle Partners Ltd.,Financial Institution,91-2191383,Healthcare,Medical Devices,United States,840,703066836.5,523511665.5,Active,Sub-Investment Grade,2019-09-08,2021-07-25
-OBL-00049,FAC-0035,Global Consulting Corp.,Corporate,43-4619565,Manufacturing,Aerospace,United States,340,113015586.81,73323941.6,Active,High Yield,2022-09-30,2023-06-11
-OBL-00050,FAC-0015,Vantage Solutions PLC,Corporate,49-2325761,Transportation,Logistics,United States,823,1251854364.46,98028235.31,Active,Investment Grade,2023-04-24,2025-04-23
-OBL-00051,FAC-0033,Continental Holdings S.A.,Corporate,68-1923227,Transportation,Logistics,United States,616,591248263.75,245729720.2,Defaulted,Investment Grade,2021-10-24,2022-06-20
-OBL-00052,FAC-0006,Titan Services PLC,Corporate,57-3129542,Technology,Software,UAE,575,27416278.09,12929305.26,Defaulted,Investment Grade,2020-07-31,2022-07-16
-OBL-00053,FAC-0017,Vector Logistics AG,Corporate,17-9382064,Banking & Finance,Asset Management,United States,470,989375818.39,247148224.68,Active,Investment Grade,2023-02-14,2023-10-30
-OBL-00054,FAC-0096,National Aerospace Group,Financial Institution,29-4002466,Real Estate,Commercial REIT,Canada,336,891672356.63,2175752.54,Watchlist,High Yield,2021-12-17,2023-02-20
-OBL-00055,FAC-0043,Pacific Pharmaceuticals Inc.,Corporate,38-9653253,Healthcare,Hospitals,Netherlands,347,620839217.22,188696866.35,Active,Investment Grade,2020-02-29,2021-09-12
-OBL-00056,FAC-0068,Premier Consulting PLC,Government Entity,89-5069884,Telecommunications,Media,Singapore,775,97669970.54,42379866.27,Active,Distressed,2022-02-15,2023-03-07
-OBL-00057,FAC-0044,Global Ventures Inc.,Non-Profit Organization,94-7312844,Telecommunications,Broadband,Germany,614,4342468.92,1691540.61,Active,Investment Grade,2020-05-20,2021-11-05
-OBL-00058,FAC-0045,American Industries Ltd.,Non-Profit Organization,76-7929943,Transportation,Shipping,United States,681,895899389.57,827749464.53,Active,Investment Grade,2022-03-11,2023-06-20
-OBL-00059,FAC-0016,Stellar Properties LLC,Corporate,47-5378701,Government,Federal Agency,UAE,622,1622843328.97,115366244.68,Restructuring,High Yield,2022-08-04,2023-04-04
-OBL-00060,FAC-0048,Atlantic Partners LLC,Financial Institution,69-6268604,Manufacturing,Consumer Goods,United States,716,220442380.1,197599468.71,Active,Distressed,2021-06-01,2022-03-19
-OBL-00061,FAC-0004,Premier Infrastructure N.V.,Corporate,37-6499465,Manufacturing,Aerospace,United States,451,280227045.81,226944136.27,Active,Investment Grade,2018-03-03,2019-02-07
-OBL-00062,FAC-0031,Nexus Biotech AG,Corporate,22-8751799,Manufacturing,Industrial Equipment,Brazil,404,501372704.92,471863306.03,Restructuring,Investment Grade,2015-05-14,2016-12-28
-OBL-00063,FAC-0091,Horizon Consulting PLC,Non-Profit Organization,19-1365746,Technology,Software,Canada,366,95496392.52,74724947.78,Active,High Yield,2022-05-28,2023-02-18
-OBL-00064,FAC-0052,Pinnacle Aerospace Inc.,Financial Institution,97-8158234,Energy,Oil & Gas,Japan,476,33601262.71,14715510.91,Active,Investment Grade,2018-03-23,2019-12-06
-OBL-00065,FAC-0055,Premier Aerospace S.A.,Special Purpose Vehicle,71-2023059,Energy,Utilities,Hong Kong,389,203810019.63,6708808.62,Active,High Yield,2023-03-17,2024-05-21
-OBL-00066,FAC-0085,Pinnacle Infrastructure Group,Financial Institution,79-9131572,Energy,Mining,UAE,652,1396995822.25,697832040.53,Watchlist,Distressed,2023-02-05,2023-08-23
-OBL-00067,FAC-0026,National Aerospace AG,Corporate,84-4905100,Manufacturing,Industrial Equipment,Australia,463,84162872.64,47742276.17,Active,Investment Grade,2016-10-04,2018-01-14
-OBL-00068,FAC-0033,United Enterprises Ltd.,Special Purpose Vehicle,50-7019382,Healthcare,Hospitals,Canada,328,1058743402.64,988370215.11,Defaulted,Sub-Investment Grade,2022-03-26,2023-09-20
-OBL-00069,FAC-0074,United Aerospace Inc.,Corporate,17-4902772,Government,Municipal,Switzerland,524,876894049.72,697009757.01,Active,Distressed,2020-08-16,2021-12-25
-OBL-00070,FAC-0019,National Capital LLC,Special Purpose Vehicle,28-2860938,Telecommunications,Wireless,South Korea,838,215752464.89,26745769.05,Restructuring,Sub-Investment Grade,2021-12-28,2023-05-23
-OBL-00071,FAC-0066,Vector Manufacturing Group,Corporate,81-6986539,Technology,Semiconductors,United States,528,506332854.5,155177371.27,Defaulted,Distressed,2021-04-17,2023-01-04
-OBL-00072,FAC-0020,Horizon Industries LLC,Special Purpose Vehicle,50-4706007,Energy,Mining,India,406,1338008375.99,161873519.74,Active,Investment Grade,2021-09-04,2023-04-07
-OBL-00073,FAC-0068,Nexus Capital PLC,Corporate,41-2137407,Manufacturing,Automotive,France,658,878839452.51,140168781.15,Active,Investment Grade,2021-05-04,2022-10-09
-OBL-00074,FAC-0044,Pinnacle Financial AG,Financial Institution,22-9044494,Banking & Finance,Retail Banking,United States,530,102832074.05,94672013.11,Active,High Yield,2022-05-31,2024-04-14
-OBL-00075,FAC-0064,United Energy LLC,Government Entity,19-2562037,Technology,Software,Japan,646,37033033.36,33480788.69,Watchlist,Distressed,2016-05-29,2017-11-10
-OBL-00076,FAC-0048,Apex Technologies Ltd.,Financial Institution,99-5450404,Telecommunications,Wireless,United States,588,538205205.05,222004461.83,Active,Investment Grade,2021-03-08,2021-12-16
-OBL-00077,FAC-0055,Premier Properties N.V.,Financial Institution,35-2627170,Technology,Software,United States,326,40183125.03,13774271.97,Active,Investment Grade,2022-09-01,2023-05-28
-OBL-00078,FAC-0055,American Manufacturing AG,Financial Institution,33-7224691,Real Estate,Commercial REIT,United States,690,74880700.07,28274501.65,Active,Investment Grade,2022-11-03,2024-01-28
-OBL-00079,FAC-0099,Atlantic Innovations Corp.,Corporate,95-6767862,Telecommunications,Wireless,Hong Kong,723,220921112.03,47482611.34,Restructuring,Distressed,2020-12-16,2021-08-16
-OBL-00080,FAC-0054,Vector Dynamics Corp.,Financial Institution,14-9423864,Healthcare,Pharmaceuticals,United States,829,1825008774.06,1191209754.74,Restructuring,Distressed,2020-06-17,2021-08-12
-OBL-00081,FAC-0082,Atlantic Industries S.A.,Corporate,97-8304686,Government,Federal Agency,Mexico,506,385539003.31,360536641.16,Restructuring,Investment Grade,2018-11-23,2019-12-05
-OBL-00082,FAC-0029,Meridian Ventures PLC,Special Purpose Vehicle,68-1207430,Government,State Authority,India,835,1504076009.94,95751517.41,Restructuring,High Yield,2022-12-11,2024-07-19
-OBL-00083,FAC-0059,Horizon Innovations Corp.,Non-Profit Organization,46-9986438,Technology,Cloud Services,Germany,652,629418271.31,348410224.52,Active,Sub-Investment Grade,2017-09-19,2018-07-04
-OBL-00084,FAC-0018,National Energy Group,Government Entity,40-1826965,Retail & Consumer,Food & Beverage,United States,786,154948194.22,59318082.82,Active,Sub-Investment Grade,2022-11-05,2024-06-18
-OBL-00085,FAC-0034,Atlantic Dynamics GmbH,Non-Profit Organization,51-5520117,Banking & Finance,Asset Management,Singapore,726,403324082.66,188367774.83,Watchlist,Investment Grade,2017-01-19,2018-03-08
-OBL-00086,FAC-0018,National Pharmaceuticals LLC,Corporate,49-9502613,Healthcare,Biotech,South Africa,713,338976381.19,156009578.92,Active,Distressed,2022-04-10,2023-10-24
-OBL-00087,FAC-0043,National Logistics Inc.,Corporate,35-5596579,Government,Federal Agency,Germany,677,594017914.17,113273535.81,Restructuring,High Yield,2020-01-19,2021-03-29
-OBL-00088,FAC-0044,Vector Consulting AG,Corporate,54-3743303,Transportation,Rail,United States,564,36289619.88,16850990.71,Defaulted,Investment Grade,2022-10-10,2023-10-06
-OBL-00089,FAC-0095,Continental Properties Ltd.,Corporate,93-7870390,Real Estate,Commercial REIT,United States,825,147576468.97,80229232.79,Active,Investment Grade,2021-07-19,2022-08-29
-OBL-00090,FAC-0093,Stellar Energy Group,Financial Institution,42-4660940,Telecommunications,Broadband,Switzerland,777,168416335.43,35802202.29,Active,Distressed,2022-02-13,2023-05-20
-OBL-00091,FAC-0036,Premier Properties Corp.,Financial Institution,18-6641903,Government,State Authority,United States,583,720578499.73,453415143.36,Defaulted,Sub-Investment Grade,2021-08-25,2022-12-07
-OBL-00092,FAC-0061,Apex Properties LLC,Government Entity,13-9344531,Real Estate,Development,Australia,602,329334971.98,239492611.91,Active,High Yield,2021-08-15,2023-03-31
-OBL-00093,FAC-0064,Continental Properties AG,Government Entity,70-7014583,Retail & Consumer,Food & Beverage,Chile,819,78904836.22,42880068.84,Active,Investment Grade,2017-09-15,2019-02-28
-OBL-00094,FAC-0051,Apex Manufacturing Corp.,Corporate,55-4746820,Transportation,Shipping,Japan,614,17643197.34,12418569.31,Active,Sub-Investment Grade,2022-07-02,2023-07-04
-OBL-00095,FAC-0025,Vector Technologies AG,Corporate,97-7403346,Manufacturing,Consumer Goods,Hong Kong,842,1318902731.45,589562366.13,Active,High Yield,2023-03-24,2023-12-01
-OBL-00096,FAC-0091,Apex Infrastructure LLC,Non-Profit Organization,20-9180249,Banking & Finance,Investment Banking,Germany,640,224950139.96,210965444.03,Defaulted,Investment Grade,2022-11-19,2023-10-11
-OBL-00097,FAC-0065,Vector Innovations Corp.,Corporate,88-8276470,Manufacturing,Automotive,Mexico,739,414241936.57,299552269.97,Active,High Yield,2020-07-09,2021-06-16
-OBL-00098,FAC-0080,Titan Technologies Inc.,Government Entity,10-5174559,Telecommunications,Cable,United States,531,790331530.1,548589756.04,Defaulted,Sub-Investment Grade,2019-07-03,2020-11-23
-OBL-00099,FAC-0025,Premier Dynamics GmbH,Government Entity,76-9793234,Real Estate,Residential REIT,Mexico,645,795650300.08,231382536.64,Active,Investment Grade,2020-04-26,2020-12-08
-OBL-00100,FAC-0078,Global Resources Ltd.,Government Entity,26-4543184,Manufacturing,Industrial Equipment,China,322,184246579.58,165947234.36,Watchlist,Distressed,2023-06-16,2025-01-29
-OBL-00101,FAC-0040,Meridian Analytics Inc.,Special Purpose Vehicle,16-2813842,Energy,Oil & Gas,India,320,1098432109.35,38989129.26,Active,Investment Grade,2022-11-09,2024-01-24
-OBL-00102,FAC-0040,Global Dynamics S.A.,Government Entity,22-9729340,Retail & Consumer,Food & Beverage,United States,576,930693250.05,419441596.43,Watchlist,Distressed,2020-02-15,2021-03-11
-OBL-00103,FAC-0008,Vector Technologies N.V.,Corporate,43-9776935,Energy,Mining,Chile,506,319497957.7,35735156.46,Active,High Yield,2016-10-20,2017-08-04
-OBL-00104,FAC-0084,Continental Capital Inc.,Government Entity,21-2852723,Real Estate,Residential REIT,Chile,805,995360339.81,196393837.02,Active,Investment Grade,2022-07-08,2023-12-08
-OBL-00105,FAC-0008,Nexus Industries Corp.,Non-Profit Organization,32-1661769,Transportation,Airlines,Brazil,597,287553008.46,124773182.09,Active,Sub-Investment Grade,2018-11-05,2020-01-29
-OBL-00106,FAC-0079,Summit Logistics N.V.,Corporate,21-7251562,Retail & Consumer,E-Commerce,United States,650,62909619.61,8271024.66,Active,Investment Grade,2021-05-11,2022-10-09
-OBL-00107,FAC-0084,United Partners LLC,Government Entity,17-3674211,Retail & Consumer,Food & Beverage,United States,406,1642452109.37,1076475118.14,Active,Distressed,2022-06-28,2024-02-29
-OBL-00108,FAC-0096,Vector Aerospace Corp.,Financial Institution,66-1771287,Telecommunications,Cable,Switzerland,364,471642441.32,160673944.26,Active,Sub-Investment Grade,2022-01-03,2022-11-12
-OBL-00109,FAC-0087,Continental Aerospace Group,Government Entity,96-7457158,Banking & Finance,Investment Banking,South Korea,452,255414450.83,169991387.88,Restructuring,Distressed,2016-08-27,2018-05-12
-OBL-00110,FAC-0088,American Innovations GmbH,Corporate,40-6551494,Government,Federal Agency,Canada,584,113887226.46,50773714.63,Active,Distressed,2021-02-28,2022-02-12
-OBL-00111,FAC-0077,Vector Logistics Group,Corporate,73-1298116,Healthcare,Biotech,United States,405,47036480.79,19848427.48,Active,High Yield,2022-02-26,2022-11-23
-OBL-00112,FAC-0099,Nexus Ventures Group,Non-Profit Organization,16-4739945,Banking & Finance,Retail Banking,Chile,765,445180273.96,269628426.2,Active,Distressed,2022-04-21,2023-05-17
-OBL-00113,FAC-0093,Apex Financial PLC,Special Purpose Vehicle,76-7272839,Government,Municipal,United States,408,151105885.33,16368120.49,Active,Investment Grade,2021-08-26,2022-02-24
-OBL-00114,FAC-0072,Allied Logistics Ltd.,Government Entity,53-2808009,Telecommunications,Broadband,United States,724,502745348.08,93573675.89,Active,Distressed,2017-06-16,2019-01-19
-OBL-00115,FAC-0039,Horizon Aerospace AG,Non-Profit Organization,32-3913368,Technology,Cloud Services,United States,431,1043120058.18,4298433.1,Active,High Yield,2022-11-06,2024-07-21
-OBL-00116,FAC-0043,International Energy Group,Corporate,67-3237608,Government,Municipal,South Korea,441,598112906.77,237888348.69,Active,Distressed,2023-02-21,2024-04-30
-OBL-00117,FAC-0056,Allied Analytics PLC,Government Entity,54-3225862,Transportation,Logistics,India,482,1175981716.74,618451706.84,Watchlist,Distressed,2021-03-08,2022-03-28
-OBL-00118,FAC-0097,Premier Healthcare Inc.,Special Purpose Vehicle,23-1423996,Manufacturing,Automotive,South Korea,690,213480515.06,115729128.84,Active,Investment Grade,2020-12-03,2022-11-29
-OBL-00119,FAC-0029,Atlantic Industries PLC,Corporate,79-1542011,Banking & Finance,Investment Banking,China,667,1298198290.18,1212979068.15,Restructuring,High Yield,2023-05-11,2024-07-20
-OBL-00120,FAC-0014,Pinnacle Energy S.A.,Non-Profit Organization,97-6245463,Technology,Hardware,United States,355,8562538.72,6481773.01,Active,Sub-Investment Grade,2018-12-25,2019-08-10
-OBL-00121,FAC-0078,Allied Dynamics GmbH,Corporate,97-2249382,Healthcare,Biotech,UAE,491,628540268.57,386709881.87,Active,Distressed,2022-07-17,2023-08-02
-OBL-00122,FAC-0034,Global Ventures GmbH,Government Entity,29-1670091,Technology,Cloud Services,Mexico,457,401697004.01,100837041.09,Active,Distressed,2017-10-03,2018-12-18
-OBL-00123,FAC-0001,United Pharmaceuticals Corp.,Non-Profit Organization,74-3673793,Banking & Finance,Asset Management,United States,725,52977238.74,35616464.28,Watchlist,Distressed,2021-11-13,2022-12-23
-OBL-00124,FAC-0006,Premier Technologies N.V.,Special Purpose Vehicle,70-1147701,Retail & Consumer,E-Commerce,Australia,417,673731678.64,424563977.8,Defaulted,Sub-Investment Grade,2020-06-29,2021-12-30
-OBL-00125,FAC-0051,Pinnacle Systems AG,Government Entity,46-1414493,Telecommunications,Broadband,United Kingdom,829,25169675.37,7673986.35,Restructuring,Sub-Investment Grade,2022-11-24,2023-09-16
-OBL-00126,FAC-0057,American Partners LLC,Non-Profit Organization,78-9945709,Transportation,Rail,United States,307,595163378.79,368377436.37,Defaulted,Investment Grade,2022-11-09,2024-10-15
-OBL-00127,FAC-0037,Atlantic Capital GmbH,Government Entity,52-1635626,Healthcare,Medical Devices,United States,389,361432380.97,284559775.11,Active,Investment Grade,2022-05-27,2023-02-04
-OBL-00128,FAC-0035,Nexus Manufacturing S.A.,Financial Institution,50-1283383,Energy,Utilities,Chile,698,244860684.82,211911556.65,Defaulted,Investment Grade,2022-05-23,2023-12-21
-OBL-00129,FAC-0032,Pacific Dynamics PLC,Special Purpose Vehicle,21-5723078,Transportation,Airlines,Chile,748,92096937.43,74215274.22,Active,High Yield,2020-06-21,2022-05-16
-OBL-00130,FAC-0064,Atlantic Dynamics Group,Corporate,80-3371859,Banking & Finance,Insurance,Switzerland,426,26402352.95,18730257.32,Active,Investment Grade,2021-09-12,2023-01-07
-OBL-00131,FAC-0053,Stellar Manufacturing AG,Corporate,30-4086885,Government,Municipal,United States,526,384681137.32,273462802.94,Watchlist,Sub-Investment Grade,2021-05-28,2022-06-28
-OBL-00132,FAC-0079,Meridian Holdings PLC,Government Entity,18-5205840,Healthcare,Pharmaceuticals,UAE,400,1470247711.16,1190369256.44,Active,Distressed,2023-06-25,2025-04-07
-OBL-00133,FAC-0099,Allied Ventures GmbH,Financial Institution,52-6128383,Telecommunications,Media,Australia,456,313772827.14,69910533.26,Watchlist,Distressed,2021-01-18,2021-09-26
-OBL-00134,FAC-0063,International Financial LLC,Government Entity,52-9052291,Manufacturing,Consumer Goods,United States,773,56168709.04,13135972.74,Active,Sub-Investment Grade,2018-06-21,2020-03-08
-OBL-00135,FAC-0012,Meridian Technologies PLC,Government Entity,90-2282825,Real Estate,Property Management,Canada,377,958290303.64,74626865.48,Active,Distressed,2022-10-16,2023-09-04
-OBL-00136,FAC-0040,Atlantic Financial S.A.,Corporate,85-5882155,Banking & Finance,Insurance,United Kingdom,437,937697309.9,484129236.9,Active,Distressed,2022-04-17,2024-02-09
-OBL-00137,FAC-0037,Titan Solutions GmbH,Corporate,32-3452813,Transportation,Airlines,United States,795,825043331.48,519401545.15,Active,Investment Grade,2023-05-28,2024-05-11
-OBL-00138,FAC-0088,Titan Financial S.A.,Financial Institution,68-1779091,Healthcare,Biotech,United Kingdom,340,62173474.0,13822265.94,Defaulted,Sub-Investment Grade,2022-02-17,2023-03-15
-OBL-00139,FAC-0084,Horizon Manufacturing Corp.,Special Purpose Vehicle,42-7313749,Technology,Semiconductors,South Korea,528,1086879605.27,179506128.88,Watchlist,High Yield,2021-05-16,2022-11-21
-OBL-00140,FAC-0087,United Resources Corp.,Special Purpose Vehicle,92-5711201,Manufacturing,Consumer Goods,United States,516,424871229.36,2663008.84,Active,Investment Grade,2017-02-22,2018-11-14
-OBL-00141,FAC-0004,Vector Aerospace Ltd.,Special Purpose Vehicle,30-7893744,Energy,Utilities,Canada,322,252299387.08,79149730.58,Active,Investment Grade,2018-06-05,2020-04-08
-OBL-00142,FAC-0007,United Systems LLC,Special Purpose Vehicle,61-1312392,Energy,Renewable Energy,UAE,590,331022086.94,280130019.04,Active,Investment Grade,2018-04-01,2018-11-24
-OBL-00143,FAC-0014,Vantage Properties AG,Corporate,31-6749069,Telecommunications,Cable,United States,764,3909815.15,1525721.34,Watchlist,Distressed,2017-05-10,2018-05-11
-OBL-00144,FAC-0015,Stellar Solutions N.V.,Corporate,32-8983760,Technology,Hardware,United States,339,271647600.92,4274238.07,Restructuring,Distressed,2023-03-27,2025-02-20
-OBL-00145,FAC-0017,Stellar Pharmaceuticals S.A.,Corporate,15-9888846,Transportation,Airlines,Mexico,739,1233415085.86,1056895524.68,Active,High Yield,2023-01-26,2023-07-26
-OBL-00146,FAC-0042,Premier Analytics AG,Financial Institution,42-4171246,Retail & Consumer,Luxury Goods,Mexico,305,8691193.18,3939580.33,Defaulted,Investment Grade,2022-07-14,2023-04-05
-OBL-00147,FAC-0029,Stellar Financial Corp.,Corporate,64-5255251,Government,Municipal,Chile,567,52549124.25,32676034.16,Restructuring,Distressed,2023-05-14,2024-09-28
-OBL-00148,FAC-0052,United Financial AG,Special Purpose Vehicle,71-5257682,Retail & Consumer,Luxury Goods,India,614,208034598.67,40256562.6,Watchlist,Sub-Investment Grade,2022-07-13,2024-05-17
-OBL-00149,FAC-0005,Allied Pharmaceuticals S.A.,Non-Profit Organization,53-1873301,Retail & Consumer,Grocery,Canada,464,585711867.94,389115260.58,Active,Investment Grade,2019-03-01,2019-12-08
-OBL-00150,FAC-0061,Vantage Industries S.A.,Financial Institution,88-9741022,Technology,Hardware,United States,593,213431845.89,53344600.23,Defaulted,Distressed,2022-07-02,2023-03-20
-OBL-00151,FAC-0057,Allied Industries N.V.,Special Purpose Vehicle,76-4886793,Banking & Finance,Investment Banking,United States,473,67173906.91,54279153.66,Defaulted,Investment Grade,2023-02-18,2024-06-04
-OBL-00152,FAC-0035,Pinnacle Energy N.V.,Corporate,76-1257807,Manufacturing,Aerospace,Canada,370,32508153.89,8521688.33,Active,Distressed,2022-05-07,2023-10-30
-OBL-00153,FAC-0069,Pinnacle Consulting Inc.,Corporate,32-7830585,Real Estate,Development,China,818,242371869.42,139617161.11,Active,Distressed,2020-06-02,2022-03-09
-OBL-00154,FAC-0016,Nexus Energy N.V.,Financial Institution,41-6698561,Technology,Semiconductors,Japan,769,1590178098.09,1445271341.25,Defaulted,High Yield,2022-04-04,2023-06-14
-OBL-00155,FAC-0083,Apex Healthcare Group,Special Purpose Vehicle,78-1163128,Government,Federal Agency,United States,569,340513311.0,123790067.3,Active,Sub-Investment Grade,2023-01-18,2024-03-08
-OBL-00156,FAC-0005,Allied Consulting PLC,Corporate,97-4190481,Technology,Cloud Services,Japan,810,719609940.97,122018112.14,Defaulted,Investment Grade,2020-11-13,2022-05-09
-OBL-00157,FAC-0039,Pacific Partners Corp.,Government Entity,94-9265544,Healthcare,Medical Devices,Australia,306,268659702.53,213099117.95,Restructuring,Distressed,2023-04-13,2024-03-17
-OBL-00158,FAC-0086,Vector Enterprises AG,Corporate,60-4726098,Banking & Finance,Insurance,South Korea,431,98699750.8,84212121.73,Active,Distressed,2023-01-24,2024-04-29
-OBL-00159,FAC-0051,Nexus Partners AG,Financial Institution,50-1141240,Retail & Consumer,Food & Beverage,Chile,312,13254204.5,10833723.32,Defaulted,Investment Grade,2022-10-14,2023-10-07
-OBL-00160,FAC-0072,Continental Systems GmbH,Special Purpose Vehicle,53-7139188,Retail & Consumer,E-Commerce,Singapore,488,1146578992.74,282879073.93,Active,High Yield,2022-04-03,2023-06-26
-OBL-00161,FAC-0008,Horizon Properties Ltd.,Non-Profit Organization,22-5528994,Healthcare,Biotech,Singapore,541,377679953.21,100329945.09,Watchlist,High Yield,2017-07-17,2018-05-27
-OBL-00162,FAC-0097,Stellar Aerospace LLC,Non-Profit Organization,90-9673937,Retail & Consumer,Grocery,South Africa,846,415471744.86,59026342.68,Defaulted,Sub-Investment Grade,2016-05-08,2017-05-03
-OBL-00163,FAC-0003,National Technologies PLC,Financial Institution,90-2615677,Telecommunications,Media,South Korea,760,581459304.89,26353967.85,Defaulted,Sub-Investment Grade,2019-05-30,2020-05-11
-OBL-00164,FAC-0044,Stellar Partners Group,Non-Profit Organization,96-4337963,Real Estate,Development,South Korea,478,79085607.46,60857568.14,Restructuring,Sub-Investment Grade,2021-08-18,2022-03-06
-OBL-00165,FAC-0056,Atlantic Enterprises Group,Financial Institution,90-7790959,Manufacturing,Consumer Goods,United States,373,1411674490.88,511050797.29,Active,Investment Grade,2021-07-27,2023-05-12
-OBL-00166,FAC-0048,International Logistics Group,Government Entity,85-9739850,Manufacturing,Aerospace,Singapore,761,577060098.19,389464675.84,Active,Investment Grade,2022-09-24,2024-04-30
-OBL-00167,FAC-0029,Allied Enterprises S.A.,Corporate,22-2070258,Energy,Oil & Gas,UAE,784,416532187.91,99578125.67,Watchlist,Investment Grade,2023-06-11,2024-02-27
-OBL-00168,FAC-0100,Continental Resources PLC,Financial Institution,90-3120836,Banking & Finance,Insurance,United States,434,234980041.78,34662057.27,Watchlist,Investment Grade,2021-04-18,2022-08-27
-OBL-00169,FAC-0008,Meridian Logistics LLC,Government Entity,79-3970181,Banking & Finance,Retail Banking,China,767,403837971.41,331562719.98,Defaulted,Distressed,2020-10-06,2022-01-07
-OBL-00170,FAC-0046,Summit Healthcare PLC,Corporate,48-1177097,Retail & Consumer,Luxury Goods,Hong Kong,300,1001066592.37,765287758.34,Watchlist,Investment Grade,2022-11-17,2024-03-26
-OBL-00171,FAC-0084,Global Innovations S.A.,Non-Profit Organization,47-4879150,Manufacturing,Consumer Goods,United States,307,1360357856.9,635742936.2,Watchlist,Sub-Investment Grade,2022-06-24,2023-10-23
-OBL-00172,FAC-0045,Continental Systems Corp.,Financial Institution,90-5019180,Healthcare,Biotech,United States,829,250148999.87,169898970.34,Restructuring,Distressed,2022-11-20,2024-06-09
-OBL-00173,FAC-0085,Pacific Manufacturing GmbH,Special Purpose Vehicle,67-5565653,Real Estate,Development,Hong Kong,803,327868408.11,21324808.83,Active,Sub-Investment Grade,2021-09-17,2023-01-06
-OBL-00174,FAC-0027,Atlantic Infrastructure GmbH,Government Entity,11-4905912,Banking & Finance,Investment Banking,Chile,392,52197075.44,48215272.42,Active,Investment Grade,2019-12-26,2021-03-25
-OBL-00175,FAC-0064,National Ventures Corp.,Non-Profit Organization,28-1940167,Telecommunications,Broadband,Hong Kong,572,36265157.61,27542996.79,Restructuring,High Yield,2019-09-29,2021-07-14
-OBL-00176,FAC-0042,Pacific Innovations Ltd.,Financial Institution,66-5146693,Technology,Cloud Services,Germany,334,50196443.0,11925444.7,Active,High Yield,2022-09-28,2023-04-08
-OBL-00177,FAC-0028,National Services AG,Special Purpose Vehicle,25-5249882,Technology,Hardware,United States,792,1191569734.18,353305070.09,Defaulted,Sub-Investment Grade,2023-02-02,2024-01-10
-OBL-00178,FAC-0023,Global Enterprises PLC,Special Purpose Vehicle,25-7640561,Healthcare,Hospitals,Canada,548,1059015562.8,237396919.78,Active,Investment Grade,2020-10-16,2022-03-12
-OBL-00179,FAC-0045,American Properties N.V.,Corporate,90-2007511,Government,Municipal,United States,361,360456234.2,30640909.34,Active,Investment Grade,2022-03-27,2024-02-16
-OBL-00180,FAC-0051,Nexus Services Ltd.,Corporate,98-7337911,Transportation,Airlines,Netherlands,666,9180727.36,8561872.21,Defaulted,Investment Grade,2022-11-08,2024-04-26
-OBL-00181,FAC-0039,Horizon Enterprises AG,Corporate,51-8858359,Real Estate,Commercial REIT,United States,581,616350924.87,317788917.69,Restructuring,Distressed,2023-06-20,2024-06-28
-OBL-00182,FAC-0083,Nexus Capital AG,Financial Institution,33-1314067,Transportation,Shipping,Chile,672,217029484.99,60961201.12,Restructuring,Distressed,2023-02-09,2024-08-17
-OBL-00183,FAC-0087,Meridian Solutions N.V.,Corporate,51-7875379,Healthcare,Hospitals,Chile,629,393163565.28,70917263.32,Active,Investment Grade,2023-04-01,2025-02-18
-OBL-00184,FAC-0033,Allied Partners Inc.,Special Purpose Vehicle,92-7519606,Transportation,Airlines,Canada,801,359667388.02,10685741.93,Watchlist,Distressed,2021-06-11,2023-04-19
-OBL-00185,FAC-0031,Vector Holdings GmbH,Non-Profit Organization,91-2018380,Government,State Authority,Brazil,669,432178834.07,294725624.27,Watchlist,High Yield,2015-03-01,2016-03-28
-OBL-00186,FAC-0034,Allied Pharmaceuticals Corp.,Corporate,39-9919792,Manufacturing,Automotive,South Korea,694,87382729.25,5843171.53,Active,Investment Grade,2019-05-11,2020-01-25
-OBL-00187,FAC-0066,Nexus Infrastructure S.A.,Corporate,31-4026551,Transportation,Shipping,Switzerland,711,1083164937.6,427227731.54,Watchlist,Sub-Investment Grade,2021-01-01,2022-07-01
-OBL-00188,FAC-0013,Stellar Innovations S.A.,Non-Profit Organization,51-5038654,Energy,Mining,Singapore,519,448606870.45,424834204.76,Active,Distressed,2023-03-04,2024-09-14
-OBL-00189,FAC-0080,Vantage Capital AG,Corporate,48-1110206,Real Estate,Development,United States,607,1392226539.05,258740.38,Active,Investment Grade,2019-08-14,2020-11-27
-OBL-00190,FAC-0041,National Logistics Group,Corporate,27-5445763,Manufacturing,Automotive,South Korea,675,940096977.26,509659281.87,Watchlist,Investment Grade,2021-04-24,2022-01-25
-OBL-00191,FAC-0051,Apex Aerospace LLC,Financial Institution,98-2599943,Healthcare,Hospitals,Japan,607,21186831.69,11453848.89,Active,Distressed,2019-08-27,2020-05-12
-OBL-00192,FAC-0002,Continental Services N.V.,Corporate,91-7417066,Retail & Consumer,E-Commerce,Brazil,355,521801311.72,405066330.4,Active,Distressed,2022-05-16,2023-03-15
-OBL-00193,FAC-0056,Nexus Innovations N.V.,Special Purpose Vehicle,74-2511341,Banking & Finance,Asset Management,France,527,814427971.53,170832225.45,Active,Sub-Investment Grade,2020-03-31,2021-11-03
-OBL-00194,FAC-0072,International Holdings S.A.,Special Purpose Vehicle,65-3187332,Retail & Consumer,Grocery,France,438,194298618.54,105478611.45,Active,Distressed,2016-08-27,2018-04-07
-OBL-00195,FAC-0082,Continental Holdings PLC,Non-Profit Organization,65-6425946,Healthcare,Biotech,United States,391,1139621288.6,1079477579.75,Active,High Yield,2022-05-26,2023-08-01
-OBL-00196,FAC-0077,United Financial N.V.,Non-Profit Organization,66-3446428,Retail & Consumer,Luxury Goods,Australia,751,155951130.4,87985022.08,Active,Investment Grade,2017-05-27,2018-10-01
-OBL-00197,FAC-0073,Vantage Solutions PLC,Corporate,53-2866934,Healthcare,Hospitals,South Africa,612,552141579.68,45012634.23,Active,High Yield,2017-07-08,2018-09-09
-OBL-00198,FAC-0085,Meridian Aerospace N.V.,Government Entity,28-1308508,Banking & Finance,Asset Management,UAE,685,865008644.49,167475435.4,Watchlist,Distressed,2022-10-18,2024-01-05
-OBL-00199,FAC-0034,National Logistics Inc.,Corporate,59-5551832,Banking & Finance,Asset Management,United Kingdom,668,408157428.21,306007488.98,Restructuring,Investment Grade,2022-11-18,2024-02-18
-OBL-00200,FAC-0100,Vector Analytics AG,Corporate,33-4336572,Banking & Finance,Asset Management,United States,812,820070798.71,396187122.54,Active,Distressed,2018-01-15,2019-06-02
-OBL-00201,FAC-0060,Global Financial Group,Corporate,90-6072192,Banking & Finance,Retail Banking,Switzerland,541,444128484.65,206713475.63,Watchlist,Sub-Investment Grade,2023-02-21,2024-01-27
-OBL-00202,FAC-0060,Apex Energy LLC,Corporate,58-9736195,Banking & Finance,Asset Management,United States,532,1302924651.47,1174795819.67,Active,Investment Grade,2021-09-07,2022-08-08
-OBL-00203,FAC-0069,Allied Manufacturing LLC,Special Purpose Vehicle,79-4394202,Government,Federal Agency,United States,441,750321945.86,234716087.35,Active,Distressed,2022-05-15,2023-03-25
-OBL-00204,FAC-0058,Meridian Biotech Corp.,Corporate,50-3441467,Energy,Mining,UAE,330,62825610.85,54737222.74,Restructuring,Sub-Investment Grade,2021-11-14,2022-07-21
-OBL-00205,FAC-0100,Allied Partners LLC,Corporate,13-5477211,Retail & Consumer,Food & Beverage,Hong Kong,536,629061977.94,491054328.95,Watchlist,Investment Grade,2019-12-30,2020-11-29
-OBL-00206,FAC-0016,Summit Enterprises S.A.,Financial Institution,70-3307080,Healthcare,Pharmaceuticals,Japan,467,1369857490.85,620233265.22,Active,Investment Grade,2021-11-09,2023-08-31
-OBL-00207,FAC-0013,Allied Holdings LLC,Financial Institution,88-9219877,Banking & Finance,Insurance,Brazil,632,760380583.98,160764606.88,Restructuring,High Yield,2022-09-07,2023-09-29
-OBL-00208,FAC-0045,Vantage Services N.V.,Special Purpose Vehicle,78-9811906,Healthcare,Biotech,United States,339,575193405.58,450440909.45,Watchlist,Investment Grade,2022-09-02,2024-04-07
-OBL-00209,FAC-0062,Meridian Energy AG,Non-Profit Organization,90-1827040,Telecommunications,Cable,Canada,494,674192710.81,253382275.83,Active,High Yield,2023-01-09,2023-08-17
-OBL-00210,FAC-0047,Atlantic Logistics GmbH,Corporate,74-2898704,Retail & Consumer,Luxury Goods,Hong Kong,484,130324068.86,36451477.73,Restructuring,Distressed,2020-12-23,2022-12-02
-OBL-00211,FAC-0046,Nexus Holdings PLC,Corporate,98-3751363,Transportation,Shipping,United States,426,618200340.39,14630642.78,Active,Investment Grade,2022-11-29,2023-12-20
-OBL-00212,FAC-0002,Pinnacle Biotech S.A.,Corporate,31-6623607,Telecommunications,Media,Chile,453,1023736999.46,706921257.72,Active,Investment Grade,2022-11-26,2023-11-04
-OBL-00213,FAC-0028,United Partners LLC,Corporate,10-5246497,Energy,Oil & Gas,United States,312,564807129.84,412421545.62,Active,High Yield,2023-03-06,2024-06-23
-OBL-00214,FAC-0036,Nexus Holdings N.V.,Special Purpose Vehicle,10-5105605,Telecommunications,Wireless,United States,584,325327111.2,203816488.55,Watchlist,Distressed,2022-07-17,2024-03-07
-OBL-00215,FAC-0011,Horizon Analytics PLC,Corporate,21-1822609,Healthcare,Pharmaceuticals,Germany,411,83538149.41,27698647.42,Active,Investment Grade,2016-11-05,2017-06-06
-OBL-00216,FAC-0065,Premier Ventures Group,Financial Institution,18-8169304,Energy,Utilities,Netherlands,366,1073064424.8,367180342.75,Active,High Yield,2019-10-11,2020-07-12
-OBL-00217,FAC-0097,Pacific Consulting AG,Corporate,71-5818203,Energy,Oil & Gas,Singapore,737,233175485.25,116217902.71,Watchlist,Sub-Investment Grade,2018-08-03,2019-03-30
-OBL-00218,FAC-0070,United Analytics Ltd.,Government Entity,47-4247321,Real Estate,Development,Switzerland,301,505733571.69,249691037.03,Active,Investment Grade,2022-03-13,2024-01-26
-OBL-00219,FAC-0031,Summit Biotech Ltd.,Corporate,91-4375360,Telecommunications,Wireless,South Africa,588,1124372123.99,442890728.22,Active,Investment Grade,2015-07-12,2016-12-14
-OBL-00220,FAC-0075,Horizon Analytics Inc.,Non-Profit Organization,32-4255041,Real Estate,Development,China,638,59605788.96,38835794.12,Restructuring,Sub-Investment Grade,2021-01-22,2022-08-30
-OBL-00221,FAC-0052,Nexus Healthcare Inc.,Non-Profit Organization,76-6022154,Telecommunications,Cable,Canada,623,249357484.84,148577279.3,Watchlist,Distressed,2022-05-12,2023-10-17
-OBL-00222,FAC-0026,International Capital Group,Financial Institution,90-9963616,Banking & Finance,Investment Banking,China,469,1533090594.0,1159006768.79,Watchlist,Distressed,2017-03-04,2018-01-30
-OBL-00223,FAC-0090,Stellar Holdings GmbH,Corporate,57-8581730,Retail & Consumer,Grocery,Brazil,609,613961907.52,183436118.02,Active,Distressed,2017-10-06,2019-01-07
-OBL-00224,FAC-0005,Titan Capital GmbH,Special Purpose Vehicle,29-4191222,Real Estate,Residential REIT,Brazil,648,1005364599.77,742864779.34,Active,Distressed,2018-05-22,2020-02-15
-OBL-00225,FAC-0099,Allied Services Inc.,Financial Institution,59-9763492,Real Estate,Development,South Africa,418,404042911.41,315570278.36,Active,Sub-Investment Grade,2022-05-07,2023-03-18
-OBL-00226,FAC-0079,Horizon Innovations PLC,Government Entity,36-6383479,Banking & Finance,Retail Banking,Hong Kong,505,1629735125.84,159628787.61,Active,Sub-Investment Grade,2022-02-25,2022-09-16
-OBL-00227,FAC-0073,Vantage Biotech AG,Corporate,36-6877363,Real Estate,Development,United States,626,218399594.16,32677212.43,Active,Investment Grade,2018-03-10,2018-09-21
-OBL-00228,FAC-0029,National Solutions Inc.,Financial Institution,96-1846511,Real Estate,Residential REIT,United Kingdom,408,539363161.18,457180908.43,Active,Investment Grade,2023-02-27,2024-11-22
-OBL-00229,FAC-0047,Premier Ventures Ltd.,Government Entity,95-9950391,Technology,Cloud Services,United States,380,495389941.31,419452657.46,Restructuring,High Yield,2023-03-05,2024-08-30
-OBL-00230,FAC-0029,Vector Resources Ltd.,Corporate,88-5329406,Government,Federal Agency,Mexico,672,196695093.31,57999895.28,Active,Investment Grade,2023-04-21,2025-02-05
-OBL-00231,FAC-0012,Nexus Enterprises PLC,Non-Profit Organization,54-3137316,Manufacturing,Consumer Goods,United States,820,79818174.87,36043305.17,Active,High Yield,2022-11-21,2024-09-21
-OBL-00232,FAC-0011,Vantage Resources AG,Corporate,71-7439371,Technology,Semiconductors,Brazil,367,577989015.93,220084143.84,Active,Investment Grade,2019-11-08,2021-01-05
-OBL-00233,FAC-0075,Pacific Consulting N.V.,Financial Institution,51-2638360,Government,State Authority,United States,755,1069652515.63,239972908.47,Active,Sub-Investment Grade,2018-02-08,2019-12-18
-OBL-00234,FAC-0037,American Technologies LLC,Special Purpose Vehicle,91-1003092,Retail & Consumer,E-Commerce,Chile,450,1245805861.87,448447083.49,Defaulted,Investment Grade,2022-09-25,2023-05-25
-OBL-00235,FAC-0064,Horizon Properties PLC,Financial Institution,54-2497994,Telecommunications,Media,United States,308,23799926.27,15409046.84,Watchlist,Distressed,2019-02-16,2020-06-16
-OBL-00236,FAC-0013,Meridian Financial Corp.,Non-Profit Organization,46-1523193,Retail & Consumer,Grocery,Japan,540,307680710.16,160437300.2,Active,Distressed,2020-12-13,2021-06-11
-OBL-00237,FAC-0007,Atlantic Technologies AG,Financial Institution,56-8000050,Retail & Consumer,Luxury Goods,United States,457,250414730.89,129680485.86,Active,Investment Grade,2018-07-19,2020-05-15
-OBL-00238,FAC-0019,Atlantic Holdings LLC,Government Entity,63-8650891,Energy,Oil & Gas,United States,735,161156804.16,135475540.49,Watchlist,Investment Grade,2023-05-04,2025-01-20
-OBL-00239,FAC-0078,Horizon Aerospace Ltd.,Government Entity,74-5517272,Telecommunications,Cable,United States,720,327880493.87,57871393.09,Watchlist,Distressed,2021-09-12,2022-03-18
-OBL-00240,FAC-0081,Atlantic Services AG,Non-Profit Organization,45-8800337,Manufacturing,Automotive,Chile,829,232798843.61,81514437.99,Active,Distressed,2022-11-18,2023-08-06
-OBL-00241,FAC-0045,Vantage Industries Group,Special Purpose Vehicle,11-8866313,Government,Federal Agency,Netherlands,764,595831675.7,375701718.04,Watchlist,High Yield,2022-01-04,2023-05-18
-OBL-00242,FAC-0006,United Industries N.V.,Government Entity,48-5369510,Government,Municipal,Hong Kong,362,280565767.21,260609822.48,Defaulted,High Yield,2020-04-15,2021-08-04
-OBL-00243,FAC-0056,American Solutions AG,Corporate,45-5228713,Government,Federal Agency,Brazil,435,1287150072.88,763410195.15,Watchlist,Sub-Investment Grade,2021-07-28,2023-06-04
-OBL-00244,FAC-0061,Summit Enterprises PLC,Non-Profit Organization,99-4962709,Real Estate,Development,United States,796,1180746460.81,1020902807.42,Active,Distressed,2021-11-19,2023-08-18
-OBL-00245,FAC-0003,Pinnacle Resources GmbH,Government Entity,91-3806547,Banking & Finance,Asset Management,Canada,515,408524258.32,318909388.13,Watchlist,Sub-Investment Grade,2021-08-20,2023-04-14
-OBL-00246,FAC-0046,Meridian Resources S.A.,Government Entity,59-8962291,Banking & Finance,Asset Management,United States,568,342197774.4,129627104.85,Active,Distressed,2022-06-26,2024-04-23
-OBL-00247,FAC-0038,Pacific Biotech Group,Non-Profit Organization,65-5573311,Retail & Consumer,E-Commerce,China,643,695773701.47,448473974.59,Active,Sub-Investment Grade,2022-05-01,2022-12-09
-OBL-00248,FAC-0066,Apex Properties LLC,Corporate,80-1177469,Technology,Semiconductors,United States,308,1116654646.24,794652054.72,Restructuring,Investment Grade,2021-07-03,2023-06-15
-OBL-00249,FAC-0069,International Technologies Inc.,Corporate,89-2542518,Banking & Finance,Insurance,Chile,358,103918527.73,44024574.36,Watchlist,Investment Grade,2020-07-23,2021-11-05
-OBL-00250,FAC-0004,Pacific Infrastructure LLC,Corporate,47-8834214,Government,Municipal,United States,377,64200208.63,36879905.84,Defaulted,High Yield,2021-05-15,2022-05-19
-OBL-00251,FAC-0007,Pinnacle Ventures Inc.,Corporate,43-3985161,Real Estate,Property Management,Singapore,751,115370506.83,8110224.4,Active,High Yield,2017-04-20,2018-11-12
-OBL-00252,FAC-0036,Vantage Manufacturing Corp.,Financial Institution,43-2732870,Healthcare,Biotech,UAE,335,694478236.66,94920570.31,Active,Investment Grade,2022-04-16,2023-05-24
-OBL-00253,FAC-0090,National Properties S.A.,Corporate,29-6533643,Government,Municipal,China,700,396079289.62,337335492.13,Watchlist,Investment Grade,2019-01-29,2019-07-28
-OBL-00254,FAC-0018,Global Energy GmbH,Corporate,82-9980912,Transportation,Rail,United States,667,336425032.98,232597219.73,Active,Sub-Investment Grade,2019-10-09,2020-11-23
-OBL-00255,FAC-0039,Premier Manufacturing Ltd.,Corporate,80-1659867,Retail & Consumer,E-Commerce,Brazil,693,590630190.1,539174042.54,Defaulted,Investment Grade,2022-11-23,2024-09-03
-OBL-00256,FAC-0098,Atlantic Industries Ltd.,Corporate,85-5001116,Real Estate,Property Management,Brazil,800,8667958.56,7289349.63,Active,Investment Grade,2021-06-13,2022-06-22
-OBL-00257,FAC-0024,Apex Services Inc.,Financial Institution,25-4551370,Transportation,Logistics,United States,835,1388996474.77,21664694.23,Active,Distressed,2022-05-19,2023-01-11
-OBL-00258,FAC-0089,Vantage Industries Ltd.,Government Entity,93-3190059,Energy,Renewable Energy,United States,314,1350263283.37,627129751.8,Active,Investment Grade,2021-11-15,2023-09-08
-OBL-00259,FAC-0020,Vector Analytics N.V.,Corporate,18-4399754,Real Estate,Commercial REIT,United States,736,1613152816.92,98014736.97,Active,High Yield,2021-12-20,2022-10-12
-OBL-00260,FAC-0082,Apex Holdings Corp.,Corporate,28-7965133,Manufacturing,Automotive,France,472,1674193459.44,1261415347.07,Defaulted,Sub-Investment Grade,2017-01-11,2018-01-03
-OBL-00261,FAC-0037,United Capital GmbH,Corporate,10-1121198,Transportation,Shipping,United States,483,1487050104.81,57495230.37,Active,Distressed,2020-07-09,2022-01-25
-OBL-00262,FAC-0046,Stellar Resources LLC,Special Purpose Vehicle,98-1631179,Real Estate,Property Management,United States,484,410480676.96,249504283.6,Defaulted,High Yield,2023-02-08,2024-11-10
-OBL-00263,FAC-0057,Titan Partners N.V.,Corporate,79-9515120,Government,Federal Agency,Singapore,524,821257833.82,435122835.96,Active,Investment Grade,2022-09-04,2023-07-01
-OBL-00264,FAC-0099,United Enterprises Inc.,Corporate,92-7110145,Real Estate,Commercial REIT,United Kingdom,591,370192876.27,240988738.57,Active,High Yield,2022-02-10,2023-12-31
-OBL-00265,FAC-0080,United Capital GmbH,Special Purpose Vehicle,24-2188825,Real Estate,Development,United States,540,183746615.62,9156783.01,Defaulted,High Yield,2022-06-09,2023-06-04
-OBL-00266,FAC-0056,Pacific Ventures Ltd.,Corporate,40-7922203,Government,Municipal,Hong Kong,504,346092250.75,222540749.98,Active,Investment Grade,2021-10-16,2022-12-05
-OBL-00267,FAC-0068,United Energy Group,Corporate,68-4257379,Technology,Cloud Services,United States,667,798724756.81,109979773.09,Active,Investment Grade,2022-10-20,2024-07-26
-OBL-00268,FAC-0034,Stellar Enterprises Group,Corporate,47-3630468,Manufacturing,Aerospace,Chile,474,112424847.88,14578852.28,Watchlist,Distressed,2021-03-03,2022-12-12
-OBL-00269,FAC-0045,International Capital S.A.,Government Entity,41-5157921,Healthcare,Pharmaceuticals,United States,635,806034006.88,165737094.62,Active,Distressed,2023-02-13,2024-11-27
-OBL-00270,FAC-0089,National Healthcare AG,Financial Institution,71-2644153,Healthcare,Medical Devices,Mexico,763,1784426908.88,67907696.88,Active,Investment Grade,2023-02-20,2025-01-16
-OBL-00271,FAC-0070,Vector Properties PLC,Corporate,68-1409590,Technology,Software,United States,765,136134278.51,38253855.71,Active,Investment Grade,2017-08-19,2018-03-03
-OBL-00272,FAC-0070,Apex Pharmaceuticals Inc.,Corporate,64-5526314,Retail & Consumer,Grocery,India,512,421193049.74,253445415.28,Restructuring,Investment Grade,2017-05-29,2018-12-24
-OBL-00273,FAC-0023,Pacific Energy Group,Financial Institution,89-1685757,Government,State Authority,Chile,674,1029381989.26,659751832.17,Active,Investment Grade,2023-05-03,2023-12-21
-OBL-00274,FAC-0037,Horizon Infrastructure Ltd.,Non-Profit Organization,38-6376490,Transportation,Airlines,Germany,661,1573923850.86,356810221.23,Active,Distressed,2020-08-06,2022-06-06
-OBL-00275,FAC-0018,Pacific Aerospace AG,Government Entity,78-5903382,Retail & Consumer,Luxury Goods,United States,762,312068424.87,134123924.82,Watchlist,Sub-Investment Grade,2022-03-10,2024-02-27
-OBL-00276,FAC-0034,Pacific Enterprises PLC,Corporate,99-3482256,Technology,Hardware,United States,808,139470640.44,118975229.95,Active,Investment Grade,2019-03-09,2019-11-22
-OBL-00277,FAC-0034,Summit Healthcare GmbH,Government Entity,92-1360413,Transportation,Airlines,Hong Kong,598,1311799328.13,674741313.51,Active,Investment Grade,2017-06-06,2019-04-02
-OBL-00278,FAC-0082,Horizon Properties AG,Non-Profit Organization,80-8470161,Banking & Finance,Investment Banking,Hong Kong,768,1173679297.46,731169898.65,Active,Distressed,2020-03-06,2022-01-12
-OBL-00279,FAC-0032,Atlantic Financial PLC,Financial Institution,31-3697606,Energy,Utilities,South Africa,848,369703969.59,170075270.92,Active,Investment Grade,2020-01-31,2020-09-15
-OBL-00280,FAC-0081,International Financial LLC,Corporate,81-1581986,Energy,Renewable Energy,Germany,624,65212859.61,61566442.53,Active,Investment Grade,2018-11-25,2020-08-17
-OBL-00281,FAC-0070,Atlantic Logistics Group,Corporate,10-9512910,Manufacturing,Industrial Equipment,Switzerland,639,281290764.7,245964098.1,Defaulted,Sub-Investment Grade,2021-02-25,2023-01-17
-OBL-00282,FAC-0022,Pacific Services GmbH,Corporate,27-2960855,Telecommunications,Media,South Africa,615,716137098.28,616978427.15,Active,High Yield,2022-04-08,2023-09-16
-OBL-00283,FAC-0093,Continental Innovations PLC,Corporate,12-2402399,Government,Federal Agency,United States,756,24069643.54,1258408.0,Defaulted,Investment Grade,2021-07-02,2023-06-21
-OBL-00284,FAC-0095,Pinnacle Solutions S.A.,Corporate,59-7255068,Transportation,Rail,Netherlands,312,268777563.41,154499775.5,Active,Sub-Investment Grade,2021-02-07,2022-08-10
-OBL-00285,FAC-0078,Nexus Dynamics LLC,Non-Profit Organization,64-7949018,Manufacturing,Consumer Goods,United States,442,207716993.1,175191551.46,Restructuring,Distressed,2022-06-19,2024-02-14
-OBL-00286,FAC-0040,American Consulting S.A.,Corporate,10-7869609,Government,Federal Agency,Germany,579,534240873.73,501632577.27,Active,Investment Grade,2022-03-18,2023-08-23
-OBL-00287,FAC-0068,National Dynamics N.V.,Corporate,73-8775431,Transportation,Rail,Germany,529,184524114.61,66923400.74,Active,Investment Grade,2022-08-24,2024-07-06
-OBL-00288,FAC-0013,Stellar Enterprises GmbH,Government Entity,92-5106228,Energy,Utilities,India,329,670027664.58,300784873.25,Active,Sub-Investment Grade,2022-08-20,2023-12-07
-OBL-00289,FAC-0010,Pacific Financial AG,Government Entity,83-1294357,Telecommunications,Wireless,South Korea,565,864543410.19,358150150.12,Active,Distressed,2019-01-31,2020-11-28
-OBL-00290,FAC-0061,International Financial S.A.,Government Entity,55-1817300,Banking & Finance,Investment Banking,Hong Kong,596,1695645794.51,218267806.81,Active,Distressed,2021-12-02,2022-07-24
-OBL-00291,FAC-0063,Apex Properties PLC,Corporate,97-7082121,Technology,Hardware,South Africa,398,221464004.63,158346116.89,Watchlist,Distressed,2022-01-31,2023-06-25
-OBL-00292,FAC-0017,Apex Enterprises Corp.,Corporate,29-9445363,Manufacturing,Aerospace,Canada,526,979142639.6,346972398.42,Restructuring,Investment Grade,2022-12-29,2024-08-21
-OBL-00293,FAC-0050,Vector Financial PLC,Government Entity,56-3332267,Transportation,Airlines,United States,752,1095437613.89,121305878.5,Watchlist,Distressed,2018-08-12,2019-02-25
-OBL-00294,FAC-0076,Continental Dynamics LLC,Corporate,26-2318772,Manufacturing,Aerospace,Japan,735,34415388.32,3877480.15,Defaulted,Investment Grade,2016-07-14,2017-06-04
-OBL-00295,FAC-0060,Horizon Industries GmbH,Corporate,42-1726143,Technology,Software,United States,367,91572215.46,9379422.7,Active,Investment Grade,2023-04-12,2025-03-17
-OBL-00296,FAC-0095,American Solutions PLC,Special Purpose Vehicle,54-6908990,Technology,Software,Switzerland,464,725416891.28,127341663.91,Restructuring,Distressed,2021-12-06,2022-07-03
-OBL-00297,FAC-0017,Allied Dynamics LLC,Non-Profit Organization,78-1072627,Government,Federal Agency,United States,401,1521847002.93,1103463611.87,Active,Distressed,2023-01-20,2024-02-26
-OBL-00298,FAC-0095,Pinnacle Healthcare Ltd.,Special Purpose Vehicle,39-7838023,Telecommunications,Media,Netherlands,415,547236355.37,55795277.26,Restructuring,Sub-Investment Grade,2023-04-15,2024-10-09
-OBL-00299,FAC-0007,American Ventures GmbH,Corporate,59-5758210,Technology,Cloud Services,Chile,767,99348592.71,71944276.44,Watchlist,Sub-Investment Grade,2019-11-01,2020-06-09
-OBL-00300,FAC-0050,Summit Enterprises Inc.,Government Entity,72-2764491,Telecommunications,Broadband,United States,705,1175624536.18,477966120.9,Active,Distressed,2017-12-03,2019-10-01
-OBL-00301,FAC-0024,American Financial Ltd.,Corporate,35-7782844,Technology,Software,Netherlands,425,596726434.27,334781055.91,Active,High Yield,2021-01-18,2022-01-05
-OBL-00302,FAC-0062,Vector Properties N.V.,Financial Institution,72-9580111,Telecommunications,Media,China,585,1009577698.65,617497719.17,Active,High Yield,2021-02-22,2022-08-20
-OBL-00303,FAC-0053,Pacific Services Inc.,Non-Profit Organization,18-9357316,Technology,Software,Hong Kong,327,608949040.92,363513639.06,Active,High Yield,2019-01-22,2019-08-20
-OBL-00304,FAC-0083,Vector Logistics Ltd.,Corporate,94-9353359,Government,Municipal,Australia,802,394489849.6,233565994.91,Watchlist,Sub-Investment Grade,2022-11-06,2024-10-18
-OBL-00305,FAC-0005,Nexus Ventures S.A.,Financial Institution,68-1603663,Transportation,Logistics,United States,333,1260577120.07,1053992969.46,Active,Distressed,2018-09-07,2020-04-01
-OBL-00306,FAC-0005,Horizon Properties GmbH,Government Entity,80-8882244,Real Estate,Residential REIT,United States,787,198607543.35,135040623.19,Watchlist,Investment Grade,2022-10-25,2023-08-13
-OBL-00307,FAC-0014,Premier Ventures Inc.,Corporate,85-1756962,Transportation,Airlines,United States,431,8303519.8,7658562.34,Restructuring,Sub-Investment Grade,2022-09-03,2024-02-26
-OBL-00308,FAC-0079,Summit Industries Ltd.,Corporate,40-6236161,Manufacturing,Automotive,Hong Kong,386,219104701.14,71841336.91,Defaulted,Investment Grade,2022-05-28,2024-01-19
-OBL-00309,FAC-0006,Horizon Pharmaceuticals S.A.,Corporate,12-8880256,Real Estate,Commercial REIT,Australia,322,33613304.84,10413771.45,Active,High Yield,2021-03-21,2022-11-23
-OBL-00310,FAC-0088,Apex Aerospace AG,Non-Profit Organization,95-6696526,Government,State Authority,South Korea,470,26448915.21,12270727.88,Watchlist,Sub-Investment Grade,2022-04-03,2023-04-28
-OBL-00311,FAC-0057,Allied Dynamics PLC,Corporate,48-7744899,Manufacturing,Industrial Equipment,Netherlands,531,1221621431.77,1130490794.89,Watchlist,Investment Grade,2022-07-06,2024-07-03
-OBL-00312,FAC-0044,Allied Financial Corp.,Government Entity,48-9466446,Government,Federal Agency,Singapore,607,12600750.35,9590763.6,Active,Distressed,2023-02-06,2024-10-15
-OBL-00313,FAC-0059,Global Manufacturing AG,Non-Profit Organization,33-9375247,Manufacturing,Aerospace,United States,518,294291278.84,144085236.95,Defaulted,High Yield,2022-09-25,2023-09-24
-OBL-00314,FAC-0009,Premier Healthcare S.A.,Corporate,18-4415137,Real Estate,Property Management,Chile,722,111270236.84,48887952.87,Active,Sub-Investment Grade,2022-12-25,2023-11-24
-OBL-00315,FAC-0084,Premier Logistics GmbH,Special Purpose Vehicle,65-8080306,Energy,Utilities,Netherlands,337,503642042.76,71750928.2,Active,Investment Grade,2017-06-09,2018-08-14
-OBL-00316,FAC-0040,National Services GmbH,Non-Profit Organization,12-1928237,Real Estate,Residential REIT,Brazil,385,1324442858.62,349498474.48,Active,Distressed,2022-05-09,2023-05-04
-OBL-00317,FAC-0090,Continental Partners N.V.,Government Entity,74-3024047,Real Estate,Commercial REIT,United States,834,585742861.44,492863598.37,Defaulted,Distressed,2021-11-10,2022-09-29
-OBL-00318,FAC-0053,Horizon Services S.A.,Non-Profit Organization,40-8094564,Transportation,Logistics,United States,523,307106909.67,35674457.42,Active,Investment Grade,2021-01-23,2022-06-24
-OBL-00319,FAC-0003,Meridian Financial Corp.,Corporate,79-8109870,Energy,Renewable Energy,Hong Kong,786,285432308.32,233984543.92,Defaulted,Investment Grade,2019-03-03,2021-01-13
-OBL-00320,FAC-0069,National Infrastructure Ltd.,Corporate,80-7454030,Real Estate,Residential REIT,Hong Kong,616,594651353.25,464004725.19,Defaulted,Sub-Investment Grade,2019-06-13,2020-01-14
-OBL-00321,FAC-0011,American Innovations Ltd.,Corporate,36-3688166,Technology,Hardware,United States,749,34683415.55,31655919.95,Defaulted,Sub-Investment Grade,2018-01-30,2019-06-02
-OBL-00322,FAC-0064,Stellar Ventures S.A.,Non-Profit Organization,22-3690114,Retail & Consumer,E-Commerce,China,567,11371044.71,8420074.94,Watchlist,Investment Grade,2021-02-02,2022-11-26
-OBL-00323,FAC-0046,Nexus Manufacturing LLC,Corporate,61-4356706,Manufacturing,Industrial Equipment,Hong Kong,612,1276505045.45,924032225.34,Active,Distressed,2023-06-09,2024-06-11
-OBL-00324,FAC-0090,Apex Logistics GmbH,Non-Profit Organization,27-5373482,Technology,Software,Germany,477,455285699.82,419400699.01,Defaulted,Distressed,2018-11-13,2020-07-05
-OBL-00325,FAC-0065,Global Capital AG,Government Entity,88-4837070,Manufacturing,Consumer Goods,United Kingdom,391,609432989.64,105306846.14,Active,Investment Grade,2021-09-09,2022-10-23
-OBL-00326,FAC-0080,Summit Enterprises N.V.,Corporate,11-9822092,Real Estate,Residential REIT,Mexico,745,909316252.01,518649524.48,Restructuring,High Yield,2020-04-05,2021-01-01
-OBL-00327,FAC-0084,Vector Energy LLC,Financial Institution,36-4616607,Telecommunications,Wireless,UAE,589,436258155.72,392086891.11,Defaulted,Investment Grade,2020-02-11,2021-05-30
-OBL-00328,FAC-0092,Continental Financial N.V.,Government Entity,92-8686718,Retail & Consumer,Grocery,United States,387,59082222.92,54788230.63,Active,High Yield,2019-01-04,2020-10-06
-OBL-00329,FAC-0025,American Partners AG,Corporate,16-6584506,Energy,Utilities,United States,540,1111516551.96,748084549.98,Active,Sub-Investment Grade,2023-04-21,2024-07-06
-OBL-00330,FAC-0077,Summit Solutions AG,Corporate,84-4009366,Government,Municipal,United States,566,125748892.66,74025227.26,Active,Distressed,2020-07-10,2022-02-14
-OBL-00331,FAC-0072,International Partners Group,Corporate,26-9375364,Telecommunications,Media,United States,587,207055127.97,139708955.96,Defaulted,Sub-Investment Grade,2020-12-16,2021-11-06
-OBL-00332,FAC-0078,Stellar Enterprises Group,Government Entity,72-3537801,Retail & Consumer,Luxury Goods,South Korea,750,736092887.35,648042219.44,Active,Investment Grade,2021-03-16,2022-07-29
-OBL-00333,FAC-0086,Pacific Aerospace Inc.,Financial Institution,55-9140297,Energy,Oil & Gas,Germany,768,17798612.01,4400044.1,Active,Investment Grade,2021-11-10,2023-07-29
-OBL-00334,FAC-0077,International Consulting N.V.,Corporate,84-1069218,Energy,Oil & Gas,Japan,838,103271876.8,27874176.91,Restructuring,Distressed,2019-01-07,2020-12-07
-OBL-00335,FAC-0068,Premier Properties Corp.,Financial Institution,57-2779557,Energy,Mining,Canada,631,692154218.2,445098830.51,Active,Investment Grade,2022-01-05,2022-07-30
-OBL-00336,FAC-0091,National Manufacturing N.V.,Financial Institution,51-3169632,Technology,Cloud Services,United States,516,399436684.03,102196879.89,Restructuring,Investment Grade,2020-05-07,2021-10-06
-OBL-00337,FAC-0047,International Enterprises Ltd.,Non-Profit Organization,61-2496331,Real Estate,Development,United States,321,388539997.87,222313631.28,Restructuring,Investment Grade,2021-03-11,2022-10-20
-OBL-00338,FAC-0053,Premier Aerospace S.A.,Government Entity,49-3202624,Energy,Mining,United States,667,783505086.33,710412548.98,Defaulted,Investment Grade,2019-04-12,2020-02-09
-OBL-00339,FAC-0071,American Innovations S.A.,Non-Profit Organization,57-4126532,Manufacturing,Aerospace,United States,744,1231174040.1,557251165.16,Defaulted,High Yield,2023-05-09,2025-01-11
-OBL-00340,FAC-0020,Titan Manufacturing AG,Corporate,47-8855414,Technology,Software,Hong Kong,747,1315415799.68,809283376.17,Active,High Yield,2022-02-08,2023-12-27
-OBL-00341,FAC-0052,Premier Consulting Inc.,Special Purpose Vehicle,19-1756566,Real Estate,Residential REIT,UAE,825,456562552.29,365003980.44,Active,Distressed,2022-03-16,2023-11-23
-OBL-00342,FAC-0021,International Consulting Corp.,Non-Profit Organization,74-1272943,Retail & Consumer,Food & Beverage,Mexico,416,110977459.78,59933854.34,Defaulted,High Yield,2020-02-17,2021-08-13
-OBL-00343,FAC-0065,Horizon Services GmbH,Non-Profit Organization,95-8548873,Energy,Renewable Energy,United States,571,150831302.82,125630043.7,Active,Investment Grade,2021-03-30,2022-08-13
-OBL-00344,FAC-0061,Global Capital S.A.,Corporate,11-3881241,Healthcare,Medical Devices,Chile,788,534525789.42,341956632.81,Active,High Yield,2022-09-05,2024-09-01
-OBL-00345,FAC-0085,Premier Holdings LLC,Corporate,11-4201127,Government,Municipal,United States,414,988539857.24,914622577.84,Restructuring,Investment Grade,2022-05-05,2023-12-10
-OBL-00346,FAC-0052,American Dynamics GmbH,Corporate,70-8077958,Healthcare,Pharmaceuticals,Netherlands,322,331533661.39,204640092.3,Active,Investment Grade,2021-03-23,2022-04-02
-OBL-00347,FAC-0059,Premier Consulting S.A.,Corporate,52-1132108,Energy,Mining,United States,405,48110994.51,20545341.44,Defaulted,High Yield,2019-04-25,2020-05-15
-OBL-00348,FAC-0090,National Pharmaceuticals Inc.,Financial Institution,83-6299086,Retail & Consumer,Food & Beverage,Japan,365,431035428.23,199050398.94,Active,High Yield,2022-11-18,2024-01-09
-OBL-00349,FAC-0081,Allied Aerospace Group,Financial Institution,39-9516717,Telecommunications,Wireless,United States,524,216814401.1,89851899.7,Watchlist,Sub-Investment Grade,2019-04-16,2020-08-02
-OBL-00350,FAC-0083,Summit Aerospace LLC,Special Purpose Vehicle,36-5738845,Government,Municipal,United States,388,1091732674.62,749851405.36,Defaulted,High Yield,2023-04-15,2024-12-11
-OBL-00351,FAC-0029,Premier Resources Ltd.,Special Purpose Vehicle,16-1304180,Energy,Renewable Energy,Germany,667,1010474018.02,96862563.36,Active,Sub-Investment Grade,2022-12-25,2024-11-09
-OBL-00352,FAC-0097,Meridian Resources GmbH,Corporate,53-6959954,Energy,Renewable Energy,United States,347,153304289.22,16598382.44,Restructuring,Distressed,2018-10-14,2019-08-13
-OBL-00353,FAC-0068,Pacific Analytics N.V.,Non-Profit Organization,23-1704130,Real Estate,Residential REIT,United States,819,830236132.19,345324573.77,Active,Investment Grade,2022-05-17,2023-03-06
-OBL-00354,FAC-0035,Pacific Solutions Group,Corporate,27-3063320,Technology,Hardware,Australia,506,217905373.9,146596971.98,Active,High Yield,2022-12-11,2024-10-31
-OBL-00355,FAC-0066,Stellar Financial Ltd.,Corporate,77-8075324,Banking & Finance,Investment Banking,United States,533,436712110.94,71052495.22,Active,High Yield,2021-11-25,2023-06-09
-OBL-00356,FAC-0061,American Holdings Group,Corporate,61-3756910,Retail & Consumer,Food & Beverage,United States,744,1818366303.14,764531666.44,Active,High Yield,2021-06-28,2023-06-07
-OBL-00357,FAC-0062,Apex Financial Inc.,Non-Profit Organization,45-9854875,Banking & Finance,Investment Banking,Chile,450,1236439541.9,492523367.75,Defaulted,High Yield,2022-09-20,2024-01-24
-OBL-00358,FAC-0030,Premier Holdings Inc.,Special Purpose Vehicle,52-7543005,Telecommunications,Broadband,United States,429,955807998.08,709673042.65,Watchlist,Distressed,2021-07-15,2022-08-01
-OBL-00359,FAC-0054,Global Capital AG,Special Purpose Vehicle,43-5049009,Real Estate,Residential REIT,Chile,611,1063091253.98,526516218.66,Defaulted,High Yield,2022-04-07,2023-03-16
-OBL-00360,FAC-0006,Pacific Logistics PLC,Special Purpose Vehicle,10-8602547,Transportation,Airlines,Brazil,647,211521823.67,101979834.07,Active,Distressed,2019-05-01,2019-12-15
-OBL-00361,FAC-0065,Pinnacle Pharmaceuticals Ltd.,Corporate,51-9664623,Government,Municipal,France,497,449790896.93,284976832.13,Restructuring,Sub-Investment Grade,2022-10-15,2023-09-03
-OBL-00362,FAC-0027,Stellar Solutions GmbH,Corporate,67-2309842,Telecommunications,Wireless,UAE,678,493140640.1,193040053.85,Defaulted,Distressed,2017-11-08,2018-07-09
-OBL-00363,FAC-0081,Stellar Enterprises LLC,Special Purpose Vehicle,26-9132997,Retail & Consumer,Food & Beverage,South Korea,768,239916337.12,96506606.97,Active,Distressed,2022-06-01,2024-04-12
-OBL-00364,FAC-0038,Pacific Analytics S.A.,Corporate,25-7200623,Transportation,Airlines,Netherlands,596,731752931.27,518938317.12,Active,Distressed,2023-06-29,2025-01-07
-OBL-00365,FAC-0098,Atlantic Solutions N.V.,Financial Institution,16-6119801,Energy,Oil & Gas,Singapore,590,17206814.39,4957232.96,Active,Investment Grade,2021-12-27,2022-07-23
-OBL-00366,FAC-0086,Horizon Dynamics N.V.,Financial Institution,53-7330138,Telecommunications,Wireless,Chile,786,108316867.19,89567781.72,Restructuring,Distressed,2021-04-21,2023-02-22
-OBL-00367,FAC-0014,Vantage Properties N.V.,Financial Institution,59-4906109,Energy,Renewable Energy,United States,704,11056767.04,1564902.51,Active,Distressed,2019-05-28,2020-02-23
-OBL-00368,FAC-0091,Meridian Manufacturing Corp.,Government Entity,81-2428614,Banking & Finance,Insurance,India,497,69731205.35,10971092.43,Watchlist,Distressed,2020-06-15,2021-10-24
-OBL-00369,FAC-0100,United Capital PLC,Non-Profit Organization,36-5115227,Government,Federal Agency,South Africa,754,409023827.45,348496917.58,Active,Distressed,2018-04-10,2020-04-03
-OBL-00370,FAC-0013,United Healthcare Inc.,Non-Profit Organization,77-6324793,Government,State Authority,United States,691,402938874.24,357469778.68,Active,Investment Grade,2021-10-03,2023-06-22
-OBL-00371,FAC-0008,Premier Healthcare LLC,Corporate,88-6457472,Technology,Software,France,485,72824257.11,17680040.03,Active,Investment Grade,2016-07-13,2017-06-15
-OBL-00372,FAC-0027,Pacific Industries Ltd.,Corporate,86-4967662,Real Estate,Property Management,Brazil,804,183673008.24,155820919.6,Watchlist,Distressed,2019-09-18,2021-04-04
-OBL-00373,FAC-0065,Global Healthcare Ltd.,Corporate,44-2703045,Retail & Consumer,E-Commerce,Japan,552,476285802.45,250271534.06,Restructuring,Distressed,2019-12-11,2021-10-16
-OBL-00374,FAC-0016,Summit Biotech LLC,Non-Profit Organization,41-8109386,Energy,Utilities,United States,762,210242028.0,126988086.49,Active,Investment Grade,2018-07-04,2019-05-25
-OBL-00375,FAC-0008,Pinnacle Financial Ltd.,Special Purpose Vehicle,75-5719620,Telecommunications,Media,United Kingdom,346,36832063.1,32254580.81,Active,Distressed,2018-08-04,2019-10-14
-OBL-00376,FAC-0043,Stellar Technologies N.V.,Special Purpose Vehicle,50-6748465,Government,Federal Agency,Japan,567,277579297.02,32429066.5,Restructuring,High Yield,2020-07-05,2021-10-14
-OBL-00377,FAC-0034,Atlantic Manufacturing Inc.,Special Purpose Vehicle,70-1071793,Real Estate,Residential REIT,Singapore,309,311422120.59,283718957.16,Defaulted,Investment Grade,2019-08-20,2020-03-03
-OBL-00378,FAC-0093,Nexus Properties Corp.,Corporate,58-7005668,Retail & Consumer,Food & Beverage,United States,696,165653313.6,102148858.91,Active,Investment Grade,2020-11-03,2021-06-02
-OBL-00379,FAC-0044,Summit Technologies Corp.,Non-Profit Organization,88-6086491,Technology,Cloud Services,Australia,526,63772005.93,13420482.34,Active,High Yield,2017-12-29,2019-04-10
-OBL-00380,FAC-0069,Allied Manufacturing S.A.,Corporate,45-9394071,Manufacturing,Automotive,Hong Kong,805,746128408.82,501114468.11,Active,Distressed,2020-07-02,2021-01-05
-OBL-00381,FAC-0089,Titan Services PLC,Corporate,96-1387847,Healthcare,Medical Devices,Chile,845,273010549.41,16871193.43,Watchlist,Sub-Investment Grade,2022-07-19,2023-09-05
-OBL-00382,FAC-0056,Stellar Healthcare PLC,Corporate,97-9695551,Transportation,Rail,Mexico,777,1028143569.81,921134914.07,Active,Sub-Investment Grade,2020-04-03,2021-08-26
-OBL-00383,FAC-0005,Global Energy Ltd.,Corporate,20-1425670,Transportation,Airlines,United Kingdom,531,376521409.01,150254244.02,Defaulted,High Yield,2022-05-20,2023-10-05
-OBL-00384,FAC-0051,Global Aerospace S.A.,Non-Profit Organization,13-6608665,Technology,Hardware,Germany,556,12612185.07,752971.64,Active,Investment Grade,2021-12-09,2022-09-14
-OBL-00385,FAC-0087,Vantage Analytics GmbH,Non-Profit Organization,22-8490291,Telecommunications,Broadband,China,427,37270603.57,11811390.91,Active,Investment Grade,2018-03-29,2018-12-08
-OBL-00386,FAC-0031,National Dynamics N.V.,Government Entity,65-2103777,Banking & Finance,Insurance,China,404,1261299742.17,937793925.39,Defaulted,Investment Grade,2015-09-17,2017-06-10
-OBL-00387,FAC-0082,Vantage Properties N.V.,Corporate,68-7441109,Transportation,Airlines,China,775,790608421.42,71975993.6,Restructuring,High Yield,2021-02-16,2022-04-10
-OBL-00388,FAC-0074,Titan Ventures N.V.,Corporate,23-2722846,Government,Municipal,Brazil,312,609104499.52,391037350.04,Watchlist,Investment Grade,2015-05-25,2017-02-27
-OBL-00389,FAC-0091,United Resources LLC,Non-Profit Organization,15-2014873,Government,Federal Agency,UAE,430,326475884.12,110225328.05,Active,Distressed,2023-01-06,2024-10-02
-OBL-00390,FAC-0081,Premier Analytics Group,Corporate,57-1135590,Retail & Consumer,Luxury Goods,South Korea,830,416671295.64,306970444.07,Watchlist,Investment Grade,2019-02-18,2020-12-09
-OBL-00391,FAC-0084,Apex Technologies GmbH,Government Entity,98-8841710,Banking & Finance,Investment Banking,Mexico,639,704494204.9,653548870.98,Restructuring,Distressed,2019-05-21,2020-01-26
-OBL-00392,FAC-0074,Continental Capital Ltd.,Government Entity,39-8827187,Government,State Authority,Hong Kong,518,318937896.99,31767969.23,Active,High Yield,2015-07-30,2017-06-16
-OBL-00393,FAC-0025,American Financial Inc.,Special Purpose Vehicle,24-3389108,Manufacturing,Industrial Equipment,Netherlands,597,315694882.7,296874461.21,Active,Investment Grade,2021-12-27,2022-07-05
-OBL-00394,FAC-0010,United Ventures AG,Corporate,32-4288125,Government,State Authority,United States,322,383931644.11,103621553.52,Active,Sub-Investment Grade,2018-08-24,2019-11-15
-OBL-00395,FAC-0029,Premier Logistics Ltd.,Corporate,57-3874940,Technology,Software,Netherlands,839,1089085768.49,915660783.77,Restructuring,Distressed,2022-11-16,2023-12-16
-OBL-00396,FAC-0051,Meridian Energy Group,Corporate,86-8206488,Retail & Consumer,E-Commerce,Canada,550,32283926.17,4011437.51,Active,Distressed,2019-07-01,2020-07-11
-OBL-00397,FAC-0029,Atlantic Pharmaceuticals N.V.,Financial Institution,36-2365794,Government,Federal Agency,China,781,278801679.86,65466277.21,Restructuring,Distressed,2023-04-14,2024-07-23
-OBL-00398,FAC-0024,Titan Infrastructure GmbH,Government Entity,73-8948342,Technology,Hardware,United States,574,733864974.99,323674019.33,Watchlist,High Yield,2022-04-14,2023-10-28
-OBL-00399,FAC-0056,Allied Dynamics S.A.,Financial Institution,83-3637534,Government,Municipal,Canada,683,378134453.43,72923407.78,Active,Distressed,2021-04-12,2022-11-18
-OBL-00400,FAC-0083,Titan Analytics Group,Financial Institution,67-8844203,Technology,Hardware,Brazil,742,564773304.23,188632139.76,Active,Sub-Investment Grade,2022-10-19,2024-08-05
-OBL-00401,FAC-0047,Summit Holdings PLC,Non-Profit Organization,74-9603205,Telecommunications,Media,Hong Kong,380,34159682.44,14333541.78,Restructuring,Sub-Investment Grade,2022-02-28,2022-11-12
-OBL-00402,FAC-0012,Apex Systems PLC,Government Entity,97-5604751,Healthcare,Pharmaceuticals,United States,495,550934336.04,285783279.58,Defaulted,Distressed,2022-11-12,2023-11-28
-OBL-00403,FAC-0065,Horizon Innovations Inc.,Financial Institution,93-9600788,Energy,Utilities,Brazil,452,425758572.7,140202613.82,Restructuring,High Yield,2021-11-03,2023-06-21
-OBL-00404,FAC-0033,Nexus Ventures Corp.,Corporate,34-8193952,Healthcare,Medical Devices,Netherlands,727,456652288.61,254653727.52,Active,High Yield,2022-09-10,2024-06-30
-OBL-00405,FAC-0037,Summit Ventures Ltd.,Financial Institution,64-7767404,Telecommunications,Wireless,Australia,850,942812866.05,114955625.37,Active,Sub-Investment Grade,2020-01-06,2021-11-27
-OBL-00406,FAC-0054,Pinnacle Technologies S.A.,Corporate,78-7483284,Government,Federal Agency,Canada,492,330165723.5,298801851.29,Active,Investment Grade,2018-11-03,2020-06-05
-OBL-00407,FAC-0086,Vantage Aerospace Inc.,Corporate,35-2165866,Manufacturing,Industrial Equipment,Japan,695,57029124.71,36563724.93,Active,Investment Grade,2018-08-12,2019-03-12
-OBL-00408,FAC-0026,Stellar Energy LLC,Corporate,26-8019808,Healthcare,Hospitals,Mexico,789,135259322.09,66629431.37,Defaulted,Investment Grade,2018-05-10,2019-10-06
-OBL-00409,FAC-0058,Vantage Consulting PLC,Special Purpose Vehicle,35-9430131,Retail & Consumer,Grocery,South Africa,769,15159212.07,6224230.62,Active,Investment Grade,2022-10-02,2023-09-09
-OBL-00410,FAC-0036,Apex Consulting GmbH,Financial Institution,69-1655733,Banking & Finance,Investment Banking,United States,393,1140551936.03,655368179.1,Active,High Yield,2020-03-22,2022-03-10
-OBL-00411,FAC-0098,Nexus Energy LLC,Government Entity,82-2602797,Manufacturing,Consumer Goods,United States,702,7458666.36,1272442.55,Defaulted,Investment Grade,2023-06-20,2025-03-03
-OBL-00412,FAC-0055,Vector Healthcare AG,Corporate,57-2284021,Healthcare,Medical Devices,India,407,126308041.02,79993925.58,Watchlist,Sub-Investment Grade,2021-08-28,2022-10-04
-OBL-00413,FAC-0098,Nexus Energy Group,Government Entity,61-4261550,Retail & Consumer,Food & Beverage,France,706,3943706.92,167226.61,Active,Investment Grade,2016-11-02,2017-07-14
-OBL-00414,FAC-0092,American Biotech Ltd.,Government Entity,66-3353101,Real Estate,Commercial REIT,France,782,755639614.38,333262209.44,Restructuring,Sub-Investment Grade,2021-07-17,2022-03-23
-OBL-00415,FAC-0025,United Holdings Inc.,Government Entity,44-3575243,Energy,Renewable Energy,Chile,751,189755093.84,53024674.05,Active,Investment Grade,2022-12-13,2024-07-15
-OBL-00416,FAC-0082,Pinnacle Infrastructure PLC,Financial Institution,16-1078278,Healthcare,Pharmaceuticals,Netherlands,349,1402916452.16,1114864152.51,Restructuring,High Yield,2022-05-20,2023-03-01
-OBL-00417,FAC-0045,Apex Technologies Corp.,Corporate,22-3816607,Healthcare,Medical Devices,Australia,471,204837347.28,3121008.57,Active,High Yield,2021-11-14,2022-05-27
-OBL-00418,FAC-0014,Stellar Partners Ltd.,Corporate,23-6982358,Transportation,Airlines,Singapore,631,9378506.02,1688789.07,Active,Investment Grade,2018-01-29,2019-09-05
-OBL-00419,FAC-0067,National Holdings Ltd.,Financial Institution,48-9381494,Retail & Consumer,Luxury Goods,Mexico,404,63863820.83,13353374.69,Defaulted,Distressed,2022-04-03,2023-10-12
-OBL-00420,FAC-0031,Atlantic Ventures LLC,Government Entity,98-6334600,Government,Federal Agency,Japan,793,1097285320.39,1023048591.89,Active,Sub-Investment Grade,2022-10-29,2024-05-28
-OBL-00421,FAC-0077,Global Analytics Corp.,Corporate,40-8189001,Banking & Finance,Insurance,United States,549,238200293.27,159450722.27,Watchlist,Investment Grade,2017-04-12,2018-06-04
-OBL-00422,FAC-0026,Continental Services N.V.,Financial Institution,52-3252626,Banking & Finance,Investment Banking,Hong Kong,584,524562386.02,75582649.95,Active,Investment Grade,2018-09-21,2019-04-27
-OBL-00423,FAC-0050,Continental Technologies AG,Corporate,95-5166421,Transportation,Rail,China,527,57390153.56,46175434.8,Watchlist,High Yield,2020-11-08,2022-04-22
-OBL-00424,FAC-0073,Allied Industries LLC,Corporate,26-2539467,Transportation,Logistics,Netherlands,477,479874363.72,29457585.12,Watchlist,Distressed,2022-06-02,2023-02-08
-OBL-00425,FAC-0076,Continental Healthcare LLC,Special Purpose Vehicle,41-6085186,Healthcare,Medical Devices,Mexico,592,33545235.38,9925693.7,Watchlist,High Yield,2023-03-08,2024-03-24
-OBL-00426,FAC-0017,Vector Logistics S.A.,Special Purpose Vehicle,88-8271756,Healthcare,Hospitals,United States,459,1758483060.39,600702805.1,Restructuring,High Yield,2022-11-04,2023-10-21
-OBL-00427,FAC-0045,Atlantic Biotech LLC,Corporate,58-8778776,Banking & Finance,Insurance,United States,613,712215147.76,623512934.73,Active,Sub-Investment Grade,2023-06-18,2025-06-17
-OBL-00428,FAC-0063,Global Capital AG,Government Entity,57-9245225,Retail & Consumer,Food & Beverage,Brazil,714,299152084.12,133360670.02,Active,High Yield,2017-09-20,2018-09-29
-OBL-00429,FAC-0045,Pacific Energy N.V.,Corporate,34-8319864,Manufacturing,Industrial Equipment,United States,561,605260588.46,338276242.08,Restructuring,Sub-Investment Grade,2022-12-09,2023-07-16
-OBL-00430,FAC-0078,Continental Aerospace Inc.,Non-Profit Organization,56-1474058,Transportation,Rail,India,451,71735229.6,26259864.4,Active,Distressed,2020-09-07,2021-11-13
-OBL-00431,FAC-0032,Global Partners Corp.,Government Entity,59-7671743,Telecommunications,Broadband,Australia,382,812525180.45,734676601.09,Watchlist,Investment Grade,2023-03-09,2024-02-17
-OBL-00432,FAC-0055,Horizon Dynamics S.A.,Non-Profit Organization,21-2833314,Retail & Consumer,Grocery,United States,652,160856701.93,76505776.77,Restructuring,Investment Grade,2022-12-18,2024-07-11
-OBL-00433,FAC-0014,Pacific Holdings S.A.,Special Purpose Vehicle,63-5837546,Real Estate,Residential REIT,United States,741,511638.39,81851.27,Active,Investment Grade,2021-04-09,2021-10-07
-OBL-00434,FAC-0077,Horizon Technologies LLC,Corporate,17-4065690,Manufacturing,Aerospace,Germany,496,230569405.7,110092986.54,Active,High Yield,2018-05-14,2020-02-14
-OBL-00435,FAC-0015,Apex Capital N.V.,Corporate,71-9140210,Telecommunications,Wireless,United Kingdom,403,548557921.89,196845682.57,Active,Investment Grade,2021-11-08,2022-07-11
-OBL-00436,FAC-0088,International Aerospace GmbH,Non-Profit Organization,53-8205036,Real Estate,Commercial REIT,United States,644,50748755.49,38173072.28,Active,Sub-Investment Grade,2020-06-27,2022-06-09
-OBL-00437,FAC-0067,Pacific Capital GmbH,Non-Profit Organization,99-7741225,Manufacturing,Aerospace,India,442,113609137.06,65923815.53,Active,Distressed,2022-09-09,2024-02-09
-OBL-00438,FAC-0053,Stellar Properties Ltd.,Corporate,91-6405343,Technology,Semiconductors,France,317,556131043.88,362528286.11,Defaulted,Sub-Investment Grade,2022-11-17,2024-10-24
-OBL-00439,FAC-0060,Summit Healthcare GmbH,Government Entity,99-2685367,Banking & Finance,Asset Management,United States,694,849653271.77,323001580.46,Active,Distressed,2022-10-09,2023-06-29
-OBL-00440,FAC-0073,United Logistics Corp.,Financial Institution,94-5041658,Healthcare,Medical Devices,Canada,549,383333715.96,31715266.96,Active,Investment Grade,2023-01-22,2024-11-10
-OBL-00441,FAC-0035,Continental Services PLC,Government Entity,70-3065243,Technology,Software,United States,439,53718788.16,47407850.73,Watchlist,High Yield,2022-04-04,2023-07-15
-OBL-00442,FAC-0090,Pinnacle Manufacturing AG,Non-Profit Organization,65-4915256,Technology,Semiconductors,Switzerland,528,665261705.33,379628564.8,Active,Investment Grade,2021-04-04,2022-10-22
-OBL-00443,FAC-0035,Horizon Financial LLC,Non-Profit Organization,50-7378615,Real Estate,Commercial REIT,United States,301,105740052.19,59488344.92,Active,Investment Grade,2021-02-28,2021-12-23
-OBL-00444,FAC-0007,Titan Properties N.V.,Special Purpose Vehicle,38-2788215,Government,Municipal,South Africa,704,254461453.48,102424188.07,Active,Distressed,2020-09-11,2021-07-17
-OBL-00445,FAC-0074,Atlantic Analytics PLC,Corporate,95-1576194,Telecommunications,Media,South Africa,627,871961706.37,693519819.58,Active,Distressed,2020-09-16,2022-06-24
-OBL-00446,FAC-0015,Apex Solutions Ltd.,Non-Profit Organization,38-1881916,Technology,Semiconductors,United States,483,896002753.3,599366215.48,Restructuring,High Yield,2022-06-01,2023-01-27
-OBL-00447,FAC-0041,Pinnacle Energy Corp.,Special Purpose Vehicle,46-5737283,Retail & Consumer,Luxury Goods,United Kingdom,499,1004306119.95,321919922.41,Defaulted,Distressed,2023-02-06,2024-07-26
-OBL-00448,FAC-0032,Premier Logistics LLC,Special Purpose Vehicle,27-8413578,Retail & Consumer,E-Commerce,France,794,1006816103.12,555122653.03,Active,Investment Grade,2022-12-24,2023-08-16
-OBL-00449,FAC-0075,Pinnacle Healthcare LLC,Corporate,22-6965707,Healthcare,Medical Devices,UAE,785,1269845845.87,436972352.51,Active,Investment Grade,2018-05-17,2019-04-13
-OBL-00450,FAC-0100,Continental Energy GmbH,Corporate,98-3893851,Technology,Semiconductors,United States,684,532296897.72,204292513.14,Restructuring,Investment Grade,2017-04-22,2018-02-17
-OBL-00451,FAC-0049,American Partners GmbH,Government Entity,95-9552160,Telecommunications,Cable,India,530,597467651.51,208490461.4,Active,Distressed,2016-08-31,2017-06-26
-OBL-00452,FAC-0038,Pinnacle Aerospace S.A.,Corporate,83-3101118,Government,Municipal,United States,401,1054914672.52,94758318.31,Active,Investment Grade,2022-07-05,2023-07-05
-OBL-00453,FAC-0081,American Pharmaceuticals N.V.,Special Purpose Vehicle,93-3081873,Transportation,Shipping,United States,512,191870356.26,149004542.6,Defaulted,Investment Grade,2023-06-05,2025-04-15
-OBL-00454,FAC-0031,Horizon Technologies LLC,Corporate,81-5307726,Energy,Renewable Energy,Chile,335,829529680.54,247682032.53,Active,Investment Grade,2015-06-16,2016-04-22
-OBL-00455,FAC-0094,Continental Dynamics Inc.,Special Purpose Vehicle,47-9960751,Transportation,Logistics,South Korea,755,374845982.51,347950012.54,Active,Distressed,2023-04-19,2023-10-16
-OBL-00456,FAC-0038,Continental Industries Ltd.,Corporate,48-4610673,Telecommunications,Media,South Korea,437,826857889.88,164832078.28,Watchlist,Distressed,2021-02-14,2021-09-27
-OBL-00457,FAC-0042,International Energy LLC,Financial Institution,68-2396771,Healthcare,Hospitals,Australia,560,41120037.98,16485609.65,Defaulted,High Yield,2022-12-23,2024-03-08
-OBL-00458,FAC-0080,Horizon Properties AG,Special Purpose Vehicle,30-8041170,Energy,Renewable Energy,Brazil,457,1442428749.95,954834155.6,Active,High Yield,2020-07-03,2022-01-15
-OBL-00459,FAC-0037,American Ventures Corp.,Corporate,52-5584424,Retail & Consumer,E-Commerce,United Kingdom,449,462326913.02,233427312.92,Restructuring,Investment Grade,2023-01-14,2024-09-01
-OBL-00460,FAC-0020,United Pharmaceuticals PLC,Special Purpose Vehicle,72-2602904,Real Estate,Commercial REIT,Mexico,841,1883199840.35,397570403.64,Active,Distressed,2021-12-19,2022-10-21
-OBL-00461,FAC-0038,Summit Services AG,Special Purpose Vehicle,86-7755367,Real Estate,Development,United States,788,287993589.36,258959455.27,Watchlist,Investment Grade,2021-12-08,2022-12-08
-OBL-00462,FAC-0095,National Services Group,Government Entity,41-8016965,Real Estate,Commercial REIT,UAE,768,118977433.04,42815294.17,Active,High Yield,2023-01-04,2024-04-01
-OBL-00463,FAC-0076,Premier Manufacturing Corp.,Corporate,62-6246854,Manufacturing,Industrial Equipment,Singapore,392,43717766.8,21621274.29,Defaulted,Investment Grade,2023-02-23,2024-04-12
-OBL-00464,FAC-0047,Global Healthcare AG,Government Entity,27-9047291,Technology,Hardware,Canada,809,407641820.24,32756411.0,Watchlist,Distressed,2022-04-11,2024-02-24
-OBL-00465,FAC-0045,Meridian Services Group,Corporate,94-9860239,Technology,Cloud Services,Chile,343,195938792.96,154757856.55,Watchlist,High Yield,2021-10-24,2023-07-01
-OBL-00466,FAC-0013,Stellar Aerospace S.A.,Corporate,57-2899743,Energy,Renewable Energy,United Kingdom,646,305988306.59,38754294.33,Defaulted,Investment Grade,2021-10-16,2022-06-05
-OBL-00467,FAC-0062,Allied Dynamics AG,Non-Profit Organization,14-8768806,Transportation,Airlines,Singapore,799,630127887.95,158485511.96,Active,Sub-Investment Grade,2018-11-30,2020-07-05
-OBL-00468,FAC-0094,Pinnacle Financial Inc.,Corporate,65-9255164,Banking & Finance,Insurance,Singapore,502,721271862.47,3531845.12,Active,Distressed,2023-05-22,2024-05-26
-OBL-00469,FAC-0099,Continental Aerospace S.A.,Corporate,48-7115223,Transportation,Shipping,United States,738,422641440.31,2774611.18,Active,Distressed,2023-02-18,2024-04-29
-OBL-00470,FAC-0003,Summit Infrastructure Ltd.,Corporate,34-5779824,Real Estate,Commercial REIT,United States,341,123293711.41,41432961.23,Active,High Yield,2021-04-15,2021-10-17
-OBL-00471,FAC-0014,Pacific Healthcare GmbH,Special Purpose Vehicle,73-3137987,Retail & Consumer,Luxury Goods,Canada,632,11040554.78,9947065.64,Restructuring,High Yield,2023-03-20,2024-06-14
-OBL-00472,FAC-0016,Summit Pharmaceuticals Inc.,Non-Profit Organization,97-4967894,Transportation,Rail,United Kingdom,353,1887140838.28,1421162944.16,Defaulted,Sub-Investment Grade,2017-08-21,2018-07-26
-OBL-00473,FAC-0026,Vantage Solutions AG,Corporate,41-5716726,Retail & Consumer,E-Commerce,United States,417,512926829.42,236783839.07,Restructuring,Sub-Investment Grade,2021-03-28,2022-06-04
-OBL-00474,FAC-0009,Allied Consulting LLC,Corporate,25-3219555,Healthcare,Biotech,Netherlands,710,359987164.45,276993867.83,Active,Sub-Investment Grade,2023-05-08,2024-05-07
-OBL-00475,FAC-0023,Stellar Pharmaceuticals PLC,Government Entity,91-4882711,Healthcare,Medical Devices,United States,527,680741317.19,58808329.44,Active,High Yield,2018-08-23,2020-03-14
-OBL-00476,FAC-0026,Stellar Resources Group,Corporate,33-1686005,Telecommunications,Wireless,United States,300,537056041.84,137370226.99,Active,Sub-Investment Grade,2019-07-30,2021-01-19
-OBL-00477,FAC-0028,Vector Financial Group,Corporate,24-2625497,Healthcare,Hospitals,United States,313,1574174674.42,150685690.34,Defaulted,Distressed,2022-12-29,2024-03-11
-OBL-00478,FAC-0017,Vantage Financial Ltd.,Government Entity,45-4523774,Energy,Utilities,India,693,1504649794.35,1061959885.51,Active,Investment Grade,2023-02-20,2025-02-10
-OBL-00479,FAC-0078,Allied Infrastructure GmbH,Corporate,19-6752873,Energy,Oil & Gas,Chile,608,855506660.0,718488118.88,Defaulted,High Yield,2022-11-22,2023-12-02
-OBL-00480,FAC-0007,Summit Logistics Corp.,Financial Institution,18-9100385,Healthcare,Medical Devices,Canada,729,133659793.03,69900181.97,Watchlist,Distressed,2019-06-08,2020-11-24
-OBL-00481,FAC-0073,Allied Services S.A.,Financial Institution,97-9933361,Banking & Finance,Investment Banking,India,825,727127762.8,200086319.43,Active,Investment Grade,2023-04-04,2023-12-02
-OBL-00482,FAC-0095,Horizon Technologies N.V.,Government Entity,11-9603283,Telecommunications,Cable,United States,766,495337753.41,97372686.43,Watchlist,Distressed,2020-12-15,2021-11-23
-OBL-00483,FAC-0002,National Biotech Ltd.,Corporate,15-3485367,Real Estate,Development,France,584,1025099689.65,537709250.79,Active,Sub-Investment Grade,2020-12-29,2022-02-11
-OBL-00484,FAC-0024,American Infrastructure AG,Corporate,27-7850856,Banking & Finance,Investment Banking,Switzerland,601,198541235.46,122343735.08,Active,Investment Grade,2022-07-19,2023-12-13
-OBL-00485,FAC-0042,Horizon Partners S.A.,Government Entity,42-4458774,Banking & Finance,Asset Management,UAE,752,53984493.74,9063914.29,Active,Sub-Investment Grade,2022-03-25,2024-03-24
-OBL-00486,FAC-0015,Atlantic Aerospace Corp.,Financial Institution,33-8707287,Real Estate,Residential REIT,United States,489,811732093.39,562791157.98,Restructuring,Investment Grade,2022-09-26,2024-04-05
-OBL-00487,FAC-0007,Vantage Technologies Corp.,Corporate,19-8153721,Healthcare,Biotech,UAE,551,189213595.46,55752204.03,Active,High Yield,2018-08-05,2020-03-10
-OBL-00488,FAC-0050,National Solutions Ltd.,Non-Profit Organization,20-5490530,Technology,Hardware,Chile,446,145842764.55,53202131.03,Defaulted,Distressed,2018-05-17,2018-11-26
-OBL-00489,FAC-0022,Allied Solutions GmbH,Non-Profit Organization,82-8454556,Banking & Finance,Retail Banking,Chile,467,923267770.89,296803279.24,Active,Sub-Investment Grade,2023-01-05,2023-09-29
-OBL-00490,FAC-0071,Global Industries Corp.,Special Purpose Vehicle,47-2720773,Telecommunications,Broadband,United Kingdom,823,769157653.61,195430505.95,Restructuring,High Yield,2023-04-29,2024-02-29
-OBL-00491,FAC-0035,Continental Properties S.A.,Government Entity,24-9251380,Energy,Oil & Gas,United Kingdom,473,72920100.4,26697062.56,Active,Investment Grade,2022-02-01,2023-05-20
-OBL-00492,FAC-0050,Vantage Solutions LLC,Financial Institution,77-6617751,Technology,Semiconductors,Japan,485,746061690.07,83882268.78,Defaulted,High Yield,2018-02-03,2018-09-15
-OBL-00493,FAC-0038,International Infrastructure Corp.,Non-Profit Organization,10-3493814,Energy,Utilities,Singapore,450,1321333682.39,340294445.95,Active,Investment Grade,2022-03-31,2023-10-09
-OBL-00494,FAC-0025,American Ventures LLC,Corporate,59-6915793,Retail & Consumer,Food & Beverage,United States,626,208780688.61,84781766.84,Active,High Yield,2021-07-07,2022-05-31
-OBL-00495,FAC-0009,Stellar Biotech GmbH,Special Purpose Vehicle,78-9264480,Telecommunications,Cable,Australia,845,407034687.91,252872950.11,Watchlist,Investment Grade,2022-12-27,2024-07-21
-OBL-00496,FAC-0039,Global Financial AG,Financial Institution,27-2848116,Retail & Consumer,E-Commerce,United States,361,768227030.39,171647589.31,Active,Sub-Investment Grade,2022-10-14,2023-11-06
-OBL-00497,FAC-0053,Allied Resources Inc.,Government Entity,27-2966890,Energy,Utilities,United States,446,1002534598.67,525253308.46,Active,Investment Grade,2022-04-09,2023-06-11
-OBL-00498,FAC-0055,Global Solutions Group,Corporate,20-5111186,Retail & Consumer,Luxury Goods,United States,378,154334914.88,10816065.69,Active,Distressed,2023-02-19,2024-01-26
-OBL-00499,FAC-0088,Vector Healthcare Group,Financial Institution,92-1221617,Retail & Consumer,Grocery,Netherlands,593,164910615.21,117202265.81,Active,Investment Grade,2022-04-19,2023-08-18
-OBL-00500,FAC-0079,Meridian Infrastructure PLC,Special Purpose Vehicle,74-6134397,Banking & Finance,Retail Banking,Switzerland,532,331334957.22,124771187.75,Active,Investment Grade,2022-10-11,2024-07-17
+OBL-00001,FAC-0092,Allied Innovations Ltd.,Government Entity,86-2373555,Telecommunications,Broadband,United States,838,511436263.99,266853522.98,Active,Distressed,2020-10-06,2022-10-06
+OBL-00002,FAC-0028,Atlantic Enterprises Group,Non-Profit Organization,76-8412854,Manufacturing,Automotive,United States,419,1300125358.14,1115174403.06,Defaulted,Investment Grade,2019-12-03,2021-12-01
+OBL-00003,FAC-0045,Stellar Logistics N.V.,Corporate,81-8757420,Government,State Authority,Chile,615,300888801.84,15903181.41,Defaulted,Investment Grade,2020-06-19,2022-05-25
+OBL-00004,FAC-0045,Meridian Industries Corp.,Financial Institution,14-5816582,Retail & Consumer,Luxury Goods,Canada,718,385721359.88,16595782.08,Active,Investment Grade,2021-08-28,2022-04-30
+OBL-00005,FAC-0072,Meridian Solutions Group,Corporate,32-7594429,Retail & Consumer,Luxury Goods,United States,841,1332206234.53,1147601012.4,Active,Investment Grade,2021-04-29,2022-01-16
+OBL-00006,FAC-0050,Continental Resources GmbH,Corporate,29-5624635,Banking & Finance,Retail Banking,Hong Kong,493,1309918902.89,677520279.12,Defaulted,Investment Grade,2022-11-12,2024-06-02
+OBL-00007,FAC-0038,Vantage Properties Inc.,Corporate,15-7748892,Banking & Finance,Insurance,Canada,749,296601236.86,28429785.4,Active,Distressed,2017-10-30,2019-07-29
+OBL-00008,FAC-0093,Horizon Analytics Group,Corporate,48-3403511,Healthcare,Pharmaceuticals,Switzerland,833,216324498.08,48122129.03,Active,High Yield,2022-05-13,2023-10-01
+OBL-00009,FAC-0088,Stellar Biotech GmbH,Corporate,54-7394713,Real Estate,Development,Chile,837,1713061936.58,1431654162.61,Active,High Yield,2023-03-16,2024-03-09
+OBL-00010,FAC-0077,Premier Infrastructure LLC,Non-Profit Organization,69-1966769,Retail & Consumer,Grocery,Hong Kong,722,100079075.5,51143595.22,Active,Distressed,2019-09-01,2020-10-15
+OBL-00011,FAC-0004,Summit Holdings AG,Government Entity,34-1864641,Transportation,Shipping,United States,574,302344690.01,94860599.31,Active,Distressed,2018-01-15,2019-10-17
+OBL-00012,FAC-0092,Vector Technologies Group,Corporate,11-4553544,Government,Federal Agency,Canada,494,961843953.27,536905627.23,Defaulted,Investment Grade,2023-01-06,2024-02-12
+OBL-00013,FAC-0003,Nexus Biotech Group,Corporate,43-7033835,Telecommunications,Broadband,Netherlands,825,1756082615.28,921022005.5,Active,High Yield,2019-04-05,2020-10-25
+OBL-00014,FAC-0036,Atlantic Capital PLC,Special Purpose Vehicle,84-8005797,Technology,Cloud Services,Australia,602,613617343.21,241294994.97,Active,Investment Grade,2022-04-05,2023-05-16
+OBL-00015,FAC-0078,International Innovations GmbH,Government Entity,92-9230828,Manufacturing,Aerospace,United States,771,260744485.05,162151146.18,Active,Sub-Investment Grade,2022-01-24,2023-07-03
+OBL-00016,FAC-0004,National Holdings Inc.,Non-Profit Organization,10-7918793,Energy,Renewable Energy,United States,440,1015448510.1,522986458.93,Restructuring,Investment Grade,2017-10-24,2019-10-10
+OBL-00017,FAC-0080,Vector Capital Inc.,Special Purpose Vehicle,80-7901115,Technology,Hardware,Canada,312,1013348580.69,359273272.63,Active,Distressed,2023-01-29,2024-12-03
+OBL-00018,FAC-0072,Pacific Pharmaceuticals LLC,Corporate,34-9832465,Real Estate,Development,Chile,558,1248185574.31,799252297.07,Restructuring,Sub-Investment Grade,2019-02-15,2019-12-01
+OBL-00019,FAC-0066,Premier Properties Corp.,Government Entity,93-1531577,Real Estate,Property Management,Brazil,395,202617482.35,88350919.23,Active,High Yield,2019-08-06,2020-09-20
+OBL-00020,FAC-0054,Horizon Partners AG,Corporate,39-4546989,Retail & Consumer,Food & Beverage,United States,786,346701595.65,27234040.08,Active,Investment Grade,2022-06-04,2023-11-05
+OBL-00021,FAC-0084,Pinnacle Holdings PLC,Corporate,82-5034453,Technology,Semiconductors,Canada,698,493551292.4,147453610.44,Defaulted,Distressed,2022-10-30,2023-09-22
+OBL-00022,FAC-0018,National Partners S.A.,Corporate,19-6714198,Manufacturing,Industrial Equipment,South Africa,706,31132481.62,21417758.58,Restructuring,Sub-Investment Grade,2022-05-13,2023-10-29
+OBL-00023,FAC-0024,United Properties N.V.,Government Entity,58-2437708,Banking & Finance,Asset Management,United States,602,412677523.77,216814926.94,Restructuring,Investment Grade,2020-06-17,2022-03-01
+OBL-00024,FAC-0010,Apex Financial Corp.,Corporate,10-6171869,Technology,Software,Australia,755,359327550.13,267589705.83,Active,Sub-Investment Grade,2018-09-24,2020-04-24
+OBL-00025,FAC-0032,Pacific Capital Corp.,Corporate,80-2561359,Technology,Hardware,Canada,632,700433724.81,370624545.74,Restructuring,High Yield,2022-11-25,2024-07-14
+OBL-00026,FAC-0078,Horizon Pharmaceuticals LLC,Government Entity,58-3843767,Banking & Finance,Asset Management,United States,442,399757687.81,275273804.16,Active,Sub-Investment Grade,2021-05-12,2022-07-14
+OBL-00027,FAC-0053,American Financial PLC,Corporate,90-9318184,Real Estate,Property Management,United Kingdom,500,32538993.03,8530545.35,Active,Investment Grade,2023-03-01,2025-01-04
+OBL-00028,FAC-0044,Nexus Ventures S.A.,Non-Profit Organization,93-3283789,Energy,Utilities,Mexico,607,373049157.42,219794064.47,Active,Distressed,2023-05-02,2024-09-30
+OBL-00029,FAC-0096,Horizon Resources Group,Financial Institution,45-7592357,Healthcare,Biotech,Australia,673,1326801551.23,1221040820.58,Active,Distressed,2019-04-24,2021-03-06
+OBL-00030,FAC-0096,Stellar Properties GmbH,Corporate,91-6080688,Healthcare,Medical Devices,Mexico,547,1297859849.8,258489524.4,Active,Investment Grade,2019-04-24,2019-12-30
+OBL-00031,FAC-0012,Titan Infrastructure S.A.,Special Purpose Vehicle,14-7031903,Retail & Consumer,Food & Beverage,Mexico,849,171565793.93,78109267.66,Watchlist,Investment Grade,2020-11-26,2022-11-23
+OBL-00032,FAC-0062,Stellar Partners Inc.,Corporate,43-4724560,Technology,Hardware,Australia,822,1054699854.29,44383730.4,Defaulted,Distressed,2021-12-31,2023-06-03
+OBL-00033,FAC-0074,Summit Capital GmbH,Corporate,47-7978909,Transportation,Shipping,United States,387,587364073.04,430963775.47,Active,Investment Grade,2023-01-26,2023-12-26
+OBL-00034,FAC-0016,Pacific Logistics GmbH,Corporate,18-6037595,Manufacturing,Consumer Goods,Hong Kong,345,154511644.2,76492393.71,Restructuring,Investment Grade,2022-03-10,2024-01-06
+OBL-00035,FAC-0095,Meridian Enterprises Group,Special Purpose Vehicle,64-8751982,Banking & Finance,Asset Management,Canada,537,842426242.02,592617385.16,Restructuring,High Yield,2022-12-23,2023-12-16
+OBL-00036,FAC-0032,Horizon Healthcare S.A.,Corporate,37-4452490,Energy,Renewable Energy,United States,585,84111617.96,49070851.7,Restructuring,Investment Grade,2022-01-07,2023-10-09
+OBL-00037,FAC-0089,Titan Manufacturing Group,Special Purpose Vehicle,59-7585795,Government,Federal Agency,France,416,35331187.0,15357509.55,Active,Sub-Investment Grade,2022-01-24,2023-12-06
+OBL-00038,FAC-0031,Continental Dynamics Corp.,Corporate,57-3371602,Telecommunications,Broadband,South Korea,823,1178214958.4,752295644.37,Active,High Yield,2019-09-07,2020-07-03
+OBL-00039,FAC-0070,Vector Dynamics LLC,Corporate,50-8566540,Government,Federal Agency,United States,354,100782433.33,60845031.78,Restructuring,Sub-Investment Grade,2022-03-17,2023-03-02
+OBL-00040,FAC-0006,Stellar Properties GmbH,Financial Institution,66-9199017,Banking & Finance,Insurance,Germany,471,758836419.17,694819184.16,Active,Distressed,2021-06-21,2023-05-08
+OBL-00041,FAC-0058,Horizon Services GmbH,Special Purpose Vehicle,75-2899365,Banking & Finance,Investment Banking,Japan,416,280237750.3,143125318.22,Active,Distressed,2017-09-18,2019-06-28
+OBL-00042,FAC-0033,National Logistics PLC,Corporate,21-8366370,Manufacturing,Automotive,United States,420,1425072030.71,138653262.4,Restructuring,Investment Grade,2021-03-22,2022-07-19
+OBL-00043,FAC-0084,Horizon Financial AG,Corporate,86-3824903,Healthcare,Hospitals,United States,631,331889072.38,247458763.97,Defaulted,Sub-Investment Grade,2022-10-29,2023-06-26
+OBL-00044,FAC-0085,Atlantic Infrastructure LLC,Corporate,28-6403886,Real Estate,Development,Canada,553,1817978812.86,1356951195.28,Restructuring,High Yield,2016-05-15,2017-08-21
+OBL-00045,FAC-0044,Pinnacle Pharmaceuticals PLC,Government Entity,57-8628527,Telecommunications,Broadband,India,799,458538227.71,196892709.23,Active,Distressed,2023-02-04,2023-11-06
+OBL-00046,FAC-0040,Stellar Technologies GmbH,Corporate,51-5757902,Banking & Finance,Retail Banking,United States,645,443888348.99,335532553.13,Watchlist,Distressed,2021-12-17,2023-01-24
+OBL-00047,FAC-0057,Global Partners LLC,Financial Institution,68-1011340,Energy,Mining,India,738,1071973721.61,46787128.55,Active,Investment Grade,2022-02-27,2023-12-09
+OBL-00048,FAC-0040,National Energy PLC,Government Entity,99-4928281,Real Estate,Residential REIT,Japan,739,344786373.03,82014270.64,Defaulted,Investment Grade,2021-11-20,2022-11-04
+OBL-00049,FAC-0098,Global Capital Group,Non-Profit Organization,25-8085252,Technology,Software,Netherlands,435,102586936.59,57858572.85,Active,Investment Grade,2022-01-14,2023-10-11
+OBL-00050,FAC-0046,Pinnacle Innovations LLC,Government Entity,96-3396676,Healthcare,Biotech,United States,370,163432044.6,57067790.53,Watchlist,Distressed,2021-02-15,2022-01-01
+OBL-00051,FAC-0052,Vantage Properties GmbH,Non-Profit Organization,37-2454383,Banking & Finance,Investment Banking,United States,402,43282781.65,25825798.6,Active,Investment Grade,2019-01-28,2020-09-20
+OBL-00052,FAC-0019,International Manufacturing Corp.,Corporate,80-5780177,Government,Municipal,United States,327,1786778913.79,533851096.49,Restructuring,Sub-Investment Grade,2022-11-28,2024-02-04
+OBL-00053,FAC-0044,Vector Energy Corp.,Corporate,73-2191383,Healthcare,Medical Devices,United States,840,700328857.38,521472934.71,Active,Sub-Investment Grade,2023-04-27,2024-06-25
+OBL-00054,FAC-0084,Global Consulting Corp.,Corporate,43-4619565,Manufacturing,Aerospace,United States,340,202224917.05,131202504.25,Active,High Yield,2023-03-14,2023-11-23
+OBL-00055,FAC-0040,Vantage Solutions PLC,Corporate,49-2325761,Transportation,Logistics,United States,823,368722039.99,28873303.42,Active,Investment Grade,2022-05-08,2024-05-07
+OBL-00056,FAC-0043,Continental Holdings S.A.,Corporate,68-1923227,Transportation,Logistics,United States,616,395288004.07,164286335.53,Defaulted,Investment Grade,2021-03-23,2021-11-17
+OBL-00057,FAC-0009,Titan Services PLC,Corporate,57-3129542,Technology,Software,UAE,575,4650038.17,2192922.13,Defaulted,Investment Grade,2022-03-06,2024-02-19
+OBL-00058,FAC-0046,Nexus Pharmaceuticals Group,Corporate,73-3799805,Banking & Finance,Asset Management,United States,676,697014487.29,174115730.25,Active,Sub-Investment Grade,2018-08-20,2020-07-08
+OBL-00059,FAC-0017,National Aerospace Group,Financial Institution,29-4002466,Technology,Software,UAE,336,200519338.32,8388929.42,Watchlist,High Yield,2017-03-12,2018-05-16
+OBL-00060,FAC-0042,Pacific Pharmaceuticals Inc.,Corporate,38-9653253,Healthcare,Hospitals,Netherlands,347,381186914.83,115857333.63,Active,Investment Grade,2019-09-14,2021-03-28
+OBL-00061,FAC-0095,Premier Consulting PLC,Government Entity,89-5069884,Telecommunications,Media,Singapore,775,98762778.88,42854045.5,Active,Distressed,2022-02-25,2023-03-17
+OBL-00062,FAC-0065,Global Ventures Inc.,Non-Profit Organization,94-7312844,Telecommunications,Broadband,Germany,614,32432512.98,12633576.37,Active,Investment Grade,2022-03-20,2023-09-05
+OBL-00063,FAC-0008,American Industries Ltd.,Non-Profit Organization,76-7929943,Transportation,Shipping,United States,681,1727886953.65,1596448794.71,Active,Investment Grade,2021-02-10,2022-05-22
+OBL-00064,FAC-0076,Atlantic Resources PLC,Corporate,50-7592651,Government,Federal Agency,UAE,634,1045608234.48,74331202.08,Active,High Yield,2022-11-13,2024-07-30
+OBL-00065,FAC-0065,Pacific Enterprises GmbH,Financial Institution,50-7820148,Real Estate,Residential REIT,Canada,423,163842316.47,119873475.96,Watchlist,Sub-Investment Grade,2021-11-13,2022-10-18
+OBL-00066,FAC-0049,Vantage Industries Ltd.,Non-Profit Organization,51-3488460,Healthcare,Biotech,Hong Kong,393,69107984.96,7872635.04,Defaulted,Investment Grade,2021-06-01,2022-10-05
+OBL-00067,FAC-0035,Nexus Biotech AG,Corporate,22-8751799,Manufacturing,Industrial Equipment,Brazil,404,305631188.0,287642588.8,Restructuring,Investment Grade,2019-12-29,2021-08-14
+OBL-00068,FAC-0060,Horizon Consulting PLC,Non-Profit Organization,19-1365746,Technology,Software,Canada,366,185992263.62,145537038.83,Active,High Yield,2021-07-16,2022-04-08
+OBL-00069,FAC-0029,Pinnacle Aerospace Inc.,Financial Institution,97-8158234,Energy,Oil & Gas,Japan,476,124047717.19,54326099.32,Active,Investment Grade,2018-09-02,2020-05-17
+OBL-00070,FAC-0072,Vector Healthcare AG,Financial Institution,17-2471723,Energy,Utilities,Hong Kong,586,1352746747.81,44528326.21,Active,Investment Grade,2019-11-14,2021-03-10
+OBL-00071,FAC-0045,Summit Aerospace AG,Non-Profit Organization,72-6771934,Retail & Consumer,Grocery,UAE,814,651261687.07,336359630.09,Active,High Yield,2019-11-01,2021-05-25
+OBL-00072,FAC-0020,Vector Pharmaceuticals Group,Non-Profit Organization,84-4905100,Real Estate,Residential REIT,Brazil,463,893783140.14,24881392.03,Active,Investment Grade,2018-09-17,2019-05-14
+OBL-00073,FAC-0013,United Enterprises Ltd.,Special Purpose Vehicle,50-7019382,Healthcare,Hospitals,Canada,328,1089326957.31,1016920923.84,Defaulted,Sub-Investment Grade,2020-09-02,2022-02-27
+OBL-00074,FAC-0011,Meridian Dynamics LLC,Financial Institution,14-2514267,Government,Municipal,Switzerland,357,1448702002.86,1151518169.51,Active,Distressed,2023-03-06,2025-01-18
+OBL-00075,FAC-0100,Apex Infrastructure LLC,Non-Profit Organization,51-1999183,Healthcare,Pharmaceuticals,United States,322,458329965.55,267402548.56,Active,Distressed,2023-03-17,2024-01-24
+OBL-00076,FAC-0068,Apex Dynamics Group,Corporate,30-8329435,Energy,Oil & Gas,Japan,798,208474419.46,186548550.35,Defaulted,Sub-Investment Grade,2023-02-09,2023-11-19
+OBL-00077,FAC-0099,Atlantic Enterprises Inc.,Government Entity,83-7569981,Energy,Utilities,UAE,333,672817079.97,112080593.08,Active,Distressed,2022-10-22,2024-02-15
+OBL-00078,FAC-0048,Apex Enterprises Corp.,Non-Profit Organization,95-6632941,Manufacturing,Aerospace,Mexico,757,101376662.49,71782398.06,Active,Sub-Investment Grade,2019-11-22,2021-05-10
+OBL-00079,FAC-0073,Pinnacle Logistics S.A.,Corporate,62-9272543,Healthcare,Medical Devices,Brazil,687,544111469.1,55843722.3,Active,Distressed,2015-06-06,2016-01-21
+OBL-00080,FAC-0002,Global Ventures PLC,Corporate,19-6734590,Retail & Consumer,E-Commerce,United States,474,10100919.32,707305.97,Active,Investment Grade,2020-03-22,2021-07-16
+OBL-00081,FAC-0061,United Analytics S.A.,Corporate,16-2698824,Technology,Software,South Korea,639,889155940.61,754506489.83,Active,Investment Grade,2017-12-10,2019-08-23
+OBL-00082,FAC-0039,Atlantic Industries Group,Corporate,64-2470159,Retail & Consumer,Luxury Goods,Singapore,601,68876970.14,3247801.98,Restructuring,Distressed,2023-03-02,2025-01-12
+OBL-00083,FAC-0020,Pacific Dynamics S.A.,Financial Institution,72-5446036,Telecommunications,Broadband,United States,393,333819574.95,202388507.82,Defaulted,Distressed,2016-06-24,2018-04-19
+OBL-00084,FAC-0045,Nexus Systems Ltd.,Non-Profit Organization,44-2034137,Retail & Consumer,Grocery,Hong Kong,454,252298743.07,106845113.49,Restructuring,Investment Grade,2021-03-15,2022-12-05
+OBL-00085,FAC-0051,Vector Consulting Ltd.,Financial Institution,48-2324645,Technology,Semiconductors,United States,704,932883649.77,745147632.87,Restructuring,Investment Grade,2022-06-12,2024-06-09
+OBL-00086,FAC-0016,Atlantic Industries S.A.,Corporate,97-8304686,Transportation,Shipping,Mexico,506,37872865.65,35416794.81,Restructuring,Investment Grade,2021-06-03,2022-06-15
+OBL-00087,FAC-0075,Meridian Ventures PLC,Special Purpose Vehicle,68-1207430,Government,State Authority,India,835,1748677643.3,111323188.92,Restructuring,High Yield,2023-01-05,2024-08-13
+OBL-00088,FAC-0010,Horizon Innovations Corp.,Non-Profit Organization,46-9986438,Technology,Cloud Services,Germany,652,524617395.26,290398408.82,Active,Sub-Investment Grade,2018-02-15,2018-11-30
+OBL-00089,FAC-0023,National Energy Group,Government Entity,40-1826965,Retail & Consumer,Food & Beverage,United States,786,177010716.58,67764173.69,Active,Sub-Investment Grade,2022-10-06,2024-05-19
+OBL-00090,FAC-0032,Continental Solutions PLC,Government Entity,66-6383277,Banking & Finance,Asset Management,Singapore,575,469370232.16,219213853.09,Defaulted,High Yield,2023-06-01,2024-03-07
+OBL-00091,FAC-0058,Titan Financial Inc.,Special Purpose Vehicle,30-2100870,Government,Municipal,Canada,618,435853206.71,378216486.49,Defaulted,Distressed,2020-05-24,2022-03-31
+OBL-00092,FAC-0044,Continental Industries GmbH,Corporate,56-4340507,Retail & Consumer,Grocery,Canada,580,227675641.1,180155963.68,Active,High Yield,2023-05-19,2024-01-13
+OBL-00093,FAC-0087,Vector Consulting AG,Corporate,54-3743303,Transportation,Rail,United States,564,255597595.36,118686079.39,Defaulted,Investment Grade,2023-05-14,2024-05-09
+OBL-00094,FAC-0070,Continental Properties Ltd.,Corporate,93-7870390,Real Estate,Commercial REIT,United States,825,89890463.01,48868514.96,Active,Investment Grade,2022-04-28,2023-06-08
+OBL-00095,FAC-0005,International Healthcare S.A.,Non-Profit Organization,54-8700708,Telecommunications,Broadband,Switzerland,558,731636138.34,155532329.79,Active,High Yield,2022-05-24,2023-09-28
+OBL-00096,FAC-0008,Meridian Manufacturing N.V.,Special Purpose Vehicle,46-6007595,Real Estate,Property Management,United States,410,940533175.38,591818913.15,Active,Investment Grade,2023-01-29,2024-08-14
+OBL-00097,FAC-0037,Atlantic Pharmaceuticals Ltd.,Corporate,86-7779646,Manufacturing,Consumer Goods,China,627,117944301.61,73516290.18,Defaulted,Investment Grade,2022-09-09,2023-09-16
+OBL-00098,FAC-0003,Apex Services Ltd.,Government Entity,78-8981512,Banking & Finance,Insurance,Singapore,667,1740748286.49,669089590.91,Watchlist,Sub-Investment Grade,2016-06-24,2017-07-03
+OBL-00099,FAC-0030,Apex Manufacturing Corp.,Corporate,55-4746820,Energy,Renewable Energy,Japan,614,296104279.01,208419791.48,Active,Sub-Investment Grade,2023-05-25,2024-05-26
+OBL-00100,FAC-0037,Vector Technologies AG,Corporate,97-7403346,Manufacturing,Consumer Goods,Hong Kong,842,341855098.38,152812558.4,Active,High Yield,2023-06-28,2024-03-06
+OBL-00101,FAC-0096,Apex Infrastructure LLC,Non-Profit Organization,20-9180249,Banking & Finance,Investment Banking,Germany,640,493504104.99,462823951.37,Defaulted,Investment Grade,2021-03-05,2022-01-25
+OBL-00102,FAC-0006,Vector Innovations Corp.,Corporate,88-8276470,Manufacturing,Automotive,Mexico,739,269986759.55,195236502.02,Active,High Yield,2019-08-01,2020-07-08
+OBL-00103,FAC-0080,Titan Technologies Inc.,Government Entity,10-5174559,Telecommunications,Cable,United States,531,1066840301.27,740521715.66,Defaulted,Sub-Investment Grade,2021-05-21,2022-10-12
+OBL-00104,FAC-0064,Premier Dynamics GmbH,Government Entity,76-9793234,Real Estate,Residential REIT,Mexico,645,617293112.56,179514601.1,Active,Investment Grade,2018-07-16,2019-02-27
+OBL-00105,FAC-0021,Continental Resources LLC,Corporate,12-9466346,Manufacturing,Industrial Equipment,China,473,248555005.14,223868555.84,Active,Sub-Investment Grade,2020-11-13,2021-05-31
+OBL-00106,FAC-0013,Global Industries Corp.,Financial Institution,66-7379599,Banking & Finance,Insurance,China,426,1015129502.28,46855955.22,Watchlist,Sub-Investment Grade,2018-10-06,2019-07-23
+OBL-00107,FAC-0065,Titan Systems N.V.,Special Purpose Vehicle,99-3301222,Telecommunications,Broadband,UAE,728,720570326.38,6369352.17,Restructuring,Investment Grade,2022-09-28,2023-07-08
+OBL-00108,FAC-0004,Titan Technologies Group,Government Entity,62-5955170,Transportation,Airlines,Japan,464,873087846.28,412841430.36,Active,Distressed,2019-05-25,2020-08-16
+OBL-00109,FAC-0047,Horizon Properties GmbH,Corporate,21-9584991,Telecommunications,Broadband,United States,376,480809677.72,5823533.74,Defaulted,Investment Grade,2019-08-20,2020-06-08
+OBL-00110,FAC-0001,Premier Financial Group,Financial Institution,24-2593809,Real Estate,Residential REIT,United States,346,419154543.41,19941774.53,Active,Investment Grade,2018-02-08,2018-09-16
+OBL-00111,FAC-0018,Apex Enterprises Corp.,Financial Institution,61-8659448,Energy,Utilities,Hong Kong,578,30107477.39,7674213.19,Restructuring,High Yield,2020-01-29,2021-08-12
+OBL-00112,FAC-0099,Stellar Consulting GmbH,Non-Profit Organization,82-8351152,Telecommunications,Cable,United Kingdom,485,173135858.44,119479420.9,Watchlist,High Yield,2022-08-07,2023-05-20
+OBL-00113,FAC-0061,National Holdings PLC,Government Entity,50-1207369,Manufacturing,Automotive,Netherlands,837,832092152.24,89275670.77,Restructuring,Distressed,2022-03-17,2023-12-08
+OBL-00114,FAC-0053,Continental Aerospace Group,Government Entity,96-7457158,Government,Federal Agency,South Korea,452,92588692.91,61622513.37,Restructuring,Distressed,2022-11-16,2024-07-31
+OBL-00115,FAC-0072,American Innovations GmbH,Corporate,40-6551494,Government,Federal Agency,Canada,584,790472454.02,352411978.52,Active,Distressed,2022-09-03,2023-08-18
+OBL-00116,FAC-0092,American Aerospace GmbH,Corporate,25-9344540,Healthcare,Biotech,United States,318,121024218.56,51069731.08,Active,High Yield,2021-11-29,2023-08-29
+OBL-00117,FAC-0043,Titan Biotech Ltd.,Government Entity,95-8653898,Retail & Consumer,E-Commerce,United States,649,962203403.34,880428320.44,Active,Investment Grade,2023-06-18,2024-10-21
+OBL-00118,FAC-0060,Pacific Partners Ltd.,Corporate,53-6958243,Healthcare,Biotech,South Korea,598,943374718.41,537679811.23,Watchlist,Distressed,2021-06-10,2023-03-15
+OBL-00119,FAC-0013,Pacific Systems N.V.,Corporate,34-3025778,Manufacturing,Automotive,Canada,702,938481753.53,732716557.35,Active,High Yield,2022-08-28,2024-04-18
+OBL-00120,FAC-0084,Nexus Logistics N.V.,Special Purpose Vehicle,27-9368955,Healthcare,Hospitals,Mexico,304,37306369.95,22442707.99,Watchlist,Investment Grade,2023-06-25,2024-04-26
+OBL-00121,FAC-0030,Pinnacle Properties N.V.,Special Purpose Vehicle,51-9457564,Transportation,Rail,United States,693,427947685.42,70597569.64,Active,Distressed,2016-09-13,2017-06-26
+OBL-00122,FAC-0004,Stellar Analytics AG,Corporate,99-6266549,Healthcare,Hospitals,United States,522,1073186279.12,461688408.41,Active,Investment Grade,2018-08-26,2019-07-13
+OBL-00123,FAC-0056,Meridian Infrastructure Group,Government Entity,24-6909569,Government,Municipal,India,791,205217947.83,131083995.89,Watchlist,Distressed,2019-07-18,2021-06-12
+OBL-00124,FAC-0036,National Technologies PLC,Non-Profit Organization,30-5808610,Retail & Consumer,Luxury Goods,United States,556,848980457.28,20382776.34,Active,Investment Grade,2017-07-31,2018-03-22
+OBL-00125,FAC-0073,Meridian Energy Ltd.,Special Purpose Vehicle,99-5825775,Real Estate,Residential REIT,Brazil,348,1618399747.63,157560935.57,Active,High Yield,2022-12-27,2024-02-09
+OBL-00126,FAC-0086,Summit Innovations N.V.,Special Purpose Vehicle,87-4296204,Retail & Consumer,Luxury Goods,United States,498,1494052968.79,288251914.64,Active,High Yield,2021-06-27,2022-08-11
+OBL-00127,FAC-0033,International Biotech PLC,Corporate,30-5278461,Energy,Oil & Gas,Germany,305,1067622255.21,121053545.9,Active,High Yield,2020-01-24,2021-10-03
+OBL-00128,FAC-0053,Horizon Biotech Group,Corporate,50-9814666,Energy,Oil & Gas,France,525,105036989.4,77199866.14,Active,Distressed,2023-03-02,2025-01-12
+OBL-00129,FAC-0062,Apex Financial PLC,Corporate,89-9900294,Technology,Hardware,United States,786,184375575.75,38744347.38,Watchlist,Investment Grade,2019-11-29,2021-05-01
+OBL-00130,FAC-0028,Apex Energy Corp.,Financial Institution,42-5745083,Technology,Semiconductors,United States,325,1415348767.3,825171036.65,Watchlist,Sub-Investment Grade,2020-05-21,2020-12-27
+OBL-00131,FAC-0013,American Partners LLC,Non-Profit Organization,78-9945709,Transportation,Rail,United States,307,583445272.8,361124493.74,Defaulted,Investment Grade,2020-04-16,2022-03-23
+OBL-00132,FAC-0007,American Services LLC,Corporate,68-6565260,Healthcare,Medical Devices,United States,338,323820486.36,254947507.82,Active,Investment Grade,2023-06-10,2025-02-24
+OBL-00133,FAC-0070,Pinnacle Logistics S.A.,Financial Institution,50-1283383,Banking & Finance,Investment Banking,South Korea,698,45807625.64,35754608.66,Defaulted,Investment Grade,2022-06-12,2024-01-30
+OBL-00134,FAC-0052,Pacific Dynamics PLC,Special Purpose Vehicle,21-5723078,Transportation,Airlines,Chile,748,4117125.93,3317739.31,Active,High Yield,2021-05-22,2023-04-16
+OBL-00135,FAC-0015,Atlantic Dynamics Group,Corporate,80-3371859,Banking & Finance,Insurance,Switzerland,426,246378749.15,174785079.93,Active,Investment Grade,2023-04-12,2024-08-06
+OBL-00136,FAC-0079,Stellar Manufacturing AG,Corporate,30-4086885,Government,Municipal,United States,526,161583255.34,114866588.52,Watchlist,Sub-Investment Grade,2022-05-07,2023-06-07
+OBL-00137,FAC-0060,Premier Properties Corp.,Corporate,22-4312117,Healthcare,Pharmaceuticals,UAE,798,981729882.6,794846379.63,Active,Sub-Investment Grade,2022-07-16,2023-03-27
+OBL-00138,FAC-0052,Nexus Ventures N.V.,Government Entity,49-3556763,Energy,Renewable Energy,Brazil,673,37328147.23,31919771.32,Restructuring,Sub-Investment Grade,2020-12-09,2022-10-17
+OBL-00139,FAC-0067,Summit Solutions Group,Financial Institution,69-8471866,Retail & Consumer,Grocery,Brazil,667,514253990.77,108224453.57,Restructuring,Sub-Investment Grade,2022-08-17,2023-11-23
+OBL-00140,FAC-0024,Meridian Technologies PLC,Government Entity,90-2282825,Telecommunications,Wireless,UAE,377,1028149101.63,822214276.32,Active,Distressed,2023-03-04,2024-01-21
+OBL-00141,FAC-0095,Atlantic Financial S.A.,Corporate,85-5882155,Banking & Finance,Insurance,United Kingdom,437,508891294.36,262738467.31,Active,Distressed,2023-02-10,2024-12-04
+OBL-00142,FAC-0011,Titan Solutions GmbH,Corporate,32-3452813,Transportation,Airlines,United States,795,785040504.91,494217983.1,Active,Investment Grade,2023-05-22,2024-05-05
+OBL-00143,FAC-0075,Summit Energy GmbH,Financial Institution,15-1669489,Healthcare,Biotech,United Kingdom,631,539588414.24,119960074.31,Active,Distressed,2022-07-03,2024-06-12
+OBL-00144,FAC-0068,Titan Systems S.A.,Corporate,76-7808902,Real Estate,Development,Netherlands,661,354731455.07,123103144.71,Restructuring,Sub-Investment Grade,2023-04-16,2023-12-31
+OBL-00145,FAC-0089,Titan Manufacturing PLC,Corporate,29-4135756,Telecommunications,Cable,Chile,461,91202727.85,38113963.41,Active,Distressed,2021-12-22,2022-09-06
+OBL-00146,FAC-0082,Allied Consulting LLC,Government Entity,62-1376582,Technology,Hardware,United States,549,430262980.32,196819849.21,Active,Investment Grade,2021-11-07,2023-09-08
+OBL-00147,FAC-0013,National Enterprises PLC,Corporate,76-7802428,Government,Municipal,Germany,319,1186874255.43,44188897.55,Defaulted,Sub-Investment Grade,2021-09-14,2022-08-10
+OBL-00148,FAC-0015,Vantage Solutions N.V.,Non-Profit Organization,33-9569884,Technology,Hardware,United States,570,896115007.16,145205082.11,Active,Sub-Investment Grade,2023-05-17,2025-01-06
+OBL-00149,FAC-0030,Titan Properties S.A.,Non-Profit Organization,29-2615622,Telecommunications,Wireless,Netherlands,481,245213457.9,25291710.4,Active,Distressed,2017-07-13,2019-06-28
+OBL-00150,FAC-0032,Stellar Pharmaceuticals S.A.,Corporate,15-9888846,Government,Federal Agency,United States,739,779066251.11,96458061.33,Active,High Yield,2023-02-26,2023-08-26
+OBL-00151,FAC-0048,Premier Analytics AG,Financial Institution,42-4171246,Retail & Consumer,Luxury Goods,Mexico,305,97255212.26,44084248.67,Defaulted,Investment Grade,2019-10-31,2020-07-22
+OBL-00152,FAC-0035,Summit Partners LLC,Financial Institution,93-5255251,Government,Municipal,Chile,567,35112489.16,21833606.39,Restructuring,Distressed,2021-08-03,2023-03-24
+OBL-00153,FAC-0058,United Financial AG,Special Purpose Vehicle,71-5257682,Retail & Consumer,Luxury Goods,India,614,394574473.4,76353703.14,Watchlist,Sub-Investment Grade,2022-01-08,2023-11-13
+OBL-00154,FAC-0072,Allied Pharmaceuticals S.A.,Non-Profit Organization,53-1873301,Retail & Consumer,Grocery,Canada,464,702717303.34,466847338.38,Active,Investment Grade,2018-12-05,2019-09-13
+OBL-00155,FAC-0024,Vantage Industries S.A.,Financial Institution,88-9741022,Technology,Hardware,United States,593,185023502.74,46244292.86,Defaulted,Distressed,2020-06-08,2021-02-24
+OBL-00156,FAC-0051,National Analytics AG,Special Purpose Vehicle,99-4886793,Banking & Finance,Investment Banking,United States,473,58544776.84,47306477.83,Defaulted,Investment Grade,2020-12-16,2021-12-30
+OBL-00157,FAC-0071,Pinnacle Energy N.V.,Corporate,76-1257807,Manufacturing,Aerospace,Canada,370,180021541.97,47190851.8,Active,Distressed,2022-09-14,2024-03-08
+OBL-00158,FAC-0069,Pinnacle Consulting Inc.,Corporate,32-7830585,Real Estate,Development,China,818,240732963.61,138673077.22,Active,Distressed,2018-07-01,2020-04-06
+OBL-00159,FAC-0020,Nexus Energy N.V.,Financial Institution,41-6698561,Technology,Semiconductors,Japan,769,1189185035.8,1080819220.03,Defaulted,High Yield,2021-08-05,2022-10-15
+OBL-00160,FAC-0010,Apex Healthcare Group,Special Purpose Vehicle,78-1163128,Government,Federal Agency,United States,569,251097070.3,91283724.39,Active,Sub-Investment Grade,2019-06-22,2020-08-10
+OBL-00161,FAC-0058,Allied Consulting PLC,Corporate,97-4190481,Technology,Cloud Services,Japan,810,541081950.41,91746645.43,Defaulted,Investment Grade,2019-05-08,2020-10-31
+OBL-00162,FAC-0100,Atlantic Innovations Corp.,Corporate,20-9265544,Healthcare,Medical Devices,Australia,306,326840781.87,259247969.35,Restructuring,Distressed,2023-04-17,2024-10-12
+OBL-00163,FAC-0032,Vector Enterprises AG,Corporate,60-4726098,Banking & Finance,Insurance,South Korea,431,523166295.96,446373404.65,Active,Distressed,2023-01-28,2024-05-03
+OBL-00164,FAC-0068,Nexus Partners AG,Financial Institution,50-1141240,Retail & Consumer,Food & Beverage,Chile,312,194739901.7,159176524.99,Defaulted,Investment Grade,2023-05-17,2024-05-09
+OBL-00165,FAC-0044,Continental Systems GmbH,Special Purpose Vehicle,53-7139188,Retail & Consumer,E-Commerce,Singapore,488,665519717.83,164194183.44,Active,High Yield,2022-12-22,2024-03-15
+OBL-00166,FAC-0088,Horizon Properties Ltd.,Non-Profit Organization,22-5528994,Healthcare,Biotech,Singapore,541,1547421557.85,411069527.55,Watchlist,High Yield,2019-02-07,2019-12-18
+OBL-00167,FAC-0036,Stellar Aerospace LLC,Non-Profit Organization,90-9673937,Retail & Consumer,Grocery,South Africa,846,1524636700.26,216606133.73,Defaulted,Sub-Investment Grade,2016-01-22,2017-01-16
+OBL-00168,FAC-0067,National Technologies PLC,Financial Institution,90-2615677,Telecommunications,Media,South Korea,760,1672726387.27,75814381.26,Defaulted,Sub-Investment Grade,2020-09-25,2021-09-07
+OBL-00169,FAC-0037,Stellar Partners Group,Non-Profit Organization,96-4337963,Real Estate,Development,South Korea,478,227342995.69,174943865.2,Restructuring,Sub-Investment Grade,2022-10-26,2023-05-14
+OBL-00170,FAC-0064,Atlantic Enterprises Group,Financial Institution,90-7790959,Manufacturing,Consumer Goods,United States,373,1068083250.18,386664773.01,Active,Investment Grade,2021-01-07,2022-10-23
+OBL-00171,FAC-0091,International Logistics Group,Government Entity,85-9739850,Manufacturing,Aerospace,Singapore,761,1043670992.19,704385879.28,Active,Investment Grade,2021-05-14,2022-12-19
+OBL-00172,FAC-0044,Allied Enterprises S.A.,Corporate,22-2070258,Energy,Oil & Gas,UAE,784,271316483.04,64862182.64,Watchlist,Investment Grade,2023-04-01,2023-12-18
+OBL-00173,FAC-0095,Continental Resources PLC,Financial Institution,90-3120836,Banking & Finance,Insurance,United States,434,253983492.09,37465268.46,Watchlist,Investment Grade,2022-04-09,2023-08-18
+OBL-00174,FAC-0009,Meridian Logistics LLC,Government Entity,79-3970181,Banking & Finance,Retail Banking,China,767,118277659.8,97109398.75,Defaulted,Distressed,2022-07-07,2023-10-08
+OBL-00175,FAC-0060,Summit Healthcare PLC,Corporate,48-1177097,Retail & Consumer,Luxury Goods,Hong Kong,300,672458690.82,514076094.43,Watchlist,Investment Grade,2022-04-27,2023-09-04
+OBL-00176,FAC-0038,Global Innovations S.A.,Non-Profit Organization,47-4879150,Manufacturing,Consumer Goods,United States,307,913154515.27,426749130.6,Watchlist,Sub-Investment Grade,2022-10-21,2024-02-19
+OBL-00177,FAC-0037,Continental Systems Corp.,Financial Institution,90-5019180,Healthcare,Biotech,United States,829,107422306.45,72960272.75,Restructuring,Distressed,2022-12-12,2024-07-01
+OBL-00178,FAC-0097,Pacific Manufacturing GmbH,Special Purpose Vehicle,67-5565653,Real Estate,Development,Hong Kong,803,137610188.41,8950270.56,Active,Sub-Investment Grade,2022-08-26,2023-12-15
+OBL-00179,FAC-0096,Atlantic Infrastructure GmbH,Government Entity,11-4905912,Banking & Finance,Investment Banking,Chile,392,64010143.69,59127192.27,Active,Investment Grade,2019-03-17,2020-06-14
+OBL-00180,FAC-0082,National Ventures Corp.,Non-Profit Organization,28-1940167,Telecommunications,Broadband,Hong Kong,572,194520635.76,147736328.72,Restructuring,High Yield,2020-08-24,2022-06-09
+OBL-00181,FAC-0096,Pacific Innovations Ltd.,Financial Institution,66-5146693,Technology,Cloud Services,Germany,334,1234514267.7,293290336.02,Active,High Yield,2020-04-27,2020-11-05
+OBL-00182,FAC-0091,National Services AG,Special Purpose Vehicle,25-5249882,Technology,Hardware,United States,792,1087390987.36,322415665.65,Defaulted,Sub-Investment Grade,2019-10-14,2020-09-20
+OBL-00183,FAC-0005,Global Enterprises PLC,Special Purpose Vehicle,25-7640561,Healthcare,Hospitals,Canada,548,884255556.43,198221398.03,Active,Investment Grade,2021-06-02,2022-10-27
+OBL-00184,FAC-0054,American Properties N.V.,Corporate,90-2007511,Government,Municipal,United States,361,188959376.71,16062663.32,Active,Investment Grade,2021-08-25,2023-07-17
+OBL-00185,FAC-0054,Nexus Services Ltd.,Corporate,98-7337911,Transportation,Airlines,Netherlands,666,122937748.56,114650751.64,Defaulted,Investment Grade,2023-06-02,2024-11-18
+OBL-00186,FAC-0036,Horizon Enterprises AG,Corporate,51-8858359,Real Estate,Commercial REIT,United States,581,905171574.23,466704085.76,Restructuring,Distressed,2021-06-12,2022-06-21
+OBL-00187,FAC-0008,Nexus Capital AG,Financial Institution,33-1314067,Transportation,Shipping,Chile,672,316338713.57,88856073.82,Restructuring,Distressed,2021-06-14,2022-12-21
+OBL-00188,FAC-0038,Vantage Dynamics Group,Financial Institution,92-6402667,Healthcare,Hospitals,Chile,413,1081190495.29,195020794.97,Active,Distressed,2023-01-12,2023-12-15
+OBL-00189,FAC-0099,Pacific Industries N.V.,Government Entity,59-9219319,Technology,Software,Germany,838,984317052.16,188964342.13,Watchlist,Distressed,2023-01-21,2024-02-01
+OBL-00190,FAC-0097,American Logistics Inc.,Corporate,81-7978536,Real Estate,Commercial REIT,Australia,677,406820758.94,27391348.65,Restructuring,Investment Grade,2022-10-02,2024-08-15
+OBL-00191,FAC-0023,Pacific Partners Ltd.,Special Purpose Vehicle,59-4178618,Government,State Authority,United States,497,769540532.47,56975708.37,Watchlist,Investment Grade,2021-08-20,2023-08-01
+OBL-00192,FAC-0044,Nexus Infrastructure S.A.,Corporate,31-4026551,Government,Municipal,Switzerland,711,807726786.52,318587936.82,Watchlist,Sub-Investment Grade,2022-05-10,2023-11-07
+OBL-00193,FAC-0080,Stellar Services Group,Special Purpose Vehicle,40-4589118,Energy,Mining,Singapore,684,1097922564.03,1039741230.25,Restructuring,Distressed,2022-05-22,2024-01-14
+OBL-00194,FAC-0072,Vantage Capital AG,Corporate,48-1110206,Real Estate,Development,United States,607,1466435787.05,272531.9,Active,Investment Grade,2017-07-02,2018-10-16
+OBL-00195,FAC-0053,National Logistics Group,Corporate,27-5445763,Manufacturing,Automotive,South Korea,675,90592352.13,49113266.23,Watchlist,Investment Grade,2022-12-17,2023-09-19
+OBL-00196,FAC-0019,Apex Aerospace LLC,Financial Institution,98-2599943,Healthcare,Hospitals,Japan,607,1077116317.54,582301672.83,Active,Distressed,2022-12-18,2023-09-03
+OBL-00197,FAC-0076,Continental Services N.V.,Corporate,91-7417066,Retail & Consumer,E-Commerce,Brazil,355,461929218.71,358588545.72,Active,Distressed,2023-05-14,2024-03-12
+OBL-00198,FAC-0039,Nexus Innovations N.V.,Special Purpose Vehicle,74-2511341,Banking & Finance,Asset Management,France,527,138189415.06,28986240.81,Active,Sub-Investment Grade,2020-03-30,2021-11-02
+OBL-00199,FAC-0066,International Holdings S.A.,Special Purpose Vehicle,65-3187332,Retail & Consumer,Grocery,France,438,22255598.54,12081864.75,Active,Distressed,2018-07-04,2020-02-12
+OBL-00200,FAC-0030,Continental Holdings PLC,Non-Profit Organization,65-6425946,Healthcare,Biotech,United States,391,350017895.01,331545640.61,Active,High Yield,2021-02-21,2022-04-29
+OBL-00201,FAC-0022,United Financial N.V.,Non-Profit Organization,66-3446428,Retail & Consumer,Luxury Goods,Australia,751,353430588.33,199399632.67,Active,Investment Grade,2018-08-28,2020-01-02
+OBL-00202,FAC-0067,Vantage Solutions PLC,Corporate,53-2866934,Healthcare,Hospitals,South Africa,612,1426748187.8,116313816.37,Active,High Yield,2020-06-26,2021-08-28
+OBL-00203,FAC-0049,Meridian Aerospace N.V.,Government Entity,28-1308508,Banking & Finance,Asset Management,UAE,685,134018968.13,25947584.67,Watchlist,Distressed,2022-06-10,2023-08-28
+OBL-00204,FAC-0017,Nexus Manufacturing Inc.,Corporate,59-5551832,Banking & Finance,Asset Management,United Kingdom,668,116175283.76,87099987.43,Restructuring,Investment Grade,2020-02-06,2020-09-27
+OBL-00205,FAC-0063,Vector Analytics AG,Corporate,33-4336572,Banking & Finance,Asset Management,United States,812,1468895751.18,709643096.53,Active,Distressed,2017-07-05,2018-11-20
+OBL-00206,FAC-0042,Global Financial Group,Corporate,90-6072192,Banking & Finance,Retail Banking,Switzerland,541,133838522.11,62293293.57,Watchlist,Sub-Investment Grade,2023-06-10,2024-05-15
+OBL-00207,FAC-0009,Apex Energy LLC,Corporate,58-9736195,Banking & Finance,Asset Management,United States,532,121906052.27,109917883.92,Active,Investment Grade,2021-11-01,2022-10-02
+OBL-00208,FAC-0062,Atlantic Consulting AG,Government Entity,35-3317095,Government,Federal Agency,United States,616,1466668785.28,458804064.88,Defaulted,Distressed,2018-12-30,2020-01-25
+OBL-00209,FAC-0084,Meridian Biotech Corp.,Corporate,50-3441467,Energy,Mining,UAE,330,495756113.95,431930743.95,Restructuring,Sub-Investment Grade,2022-12-25,2023-08-31
+OBL-00210,FAC-0025,Allied Partners LLC,Corporate,13-5477211,Retail & Consumer,Food & Beverage,Hong Kong,536,317961311.66,248204920.98,Watchlist,Investment Grade,2022-01-05,2022-12-06
+OBL-00211,FAC-0040,Summit Enterprises S.A.,Financial Institution,70-3307080,Healthcare,Pharmaceuticals,Japan,467,361793480.61,163809997.25,Active,Investment Grade,2022-04-03,2024-01-23
+OBL-00212,FAC-0100,Allied Holdings LLC,Financial Institution,88-9219877,Banking & Finance,Insurance,Brazil,632,1251504057.16,264601124.74,Restructuring,High Yield,2022-10-30,2023-11-21
+OBL-00213,FAC-0016,Vantage Services N.V.,Special Purpose Vehicle,78-9811906,Healthcare,Biotech,United States,339,120870183.99,94654902.29,Watchlist,Investment Grade,2021-12-27,2023-08-02
+OBL-00214,FAC-0045,Titan Innovations Inc.,Corporate,47-8374490,Telecommunications,Cable,Canada,707,347651606.0,130658124.47,Active,Sub-Investment Grade,2019-12-12,2021-07-10
+OBL-00215,FAC-0068,Nexus Manufacturing GmbH,Corporate,74-2898704,Telecommunications,Broadband,United States,484,333561376.98,17284928.23,Restructuring,Distressed,2023-03-12,2024-01-31
+OBL-00216,FAC-0056,Nexus Holdings PLC,Corporate,98-3751363,Transportation,Shipping,United States,426,193139130.62,4570928.62,Active,Investment Grade,2022-08-21,2023-09-11
+OBL-00217,FAC-0044,Pinnacle Biotech S.A.,Corporate,31-6623607,Telecommunications,Media,Chile,453,764032264.85,527587309.91,Active,Investment Grade,2022-12-03,2023-11-11
+OBL-00218,FAC-0006,United Partners LLC,Corporate,10-5246497,Energy,Oil & Gas,United States,312,302466551.2,220860743.35,Active,High Yield,2021-02-19,2022-06-09
+OBL-00219,FAC-0091,Nexus Holdings N.V.,Special Purpose Vehicle,10-5105605,Telecommunications,Wireless,United States,584,372952474.45,233653640.04,Watchlist,Distressed,2020-07-08,2022-02-27
+OBL-00220,FAC-0092,Horizon Analytics PLC,Corporate,21-1822609,Healthcare,Pharmaceuticals,Germany,411,93491945.74,30999016.14,Active,Investment Grade,2017-02-11,2017-09-12
+OBL-00221,FAC-0052,Premier Ventures Group,Financial Institution,18-8169304,Energy,Utilities,Netherlands,366,44839350.58,15343093.79,Active,High Yield,2017-10-11,2018-07-13
+OBL-00222,FAC-0059,Vantage Industries Corp.,Special Purpose Vehicle,90-9874251,Energy,Oil & Gas,Singapore,389,128611597.73,64101807.85,Active,Distressed,2022-10-23,2023-11-21
+OBL-00223,FAC-0069,Vantage Consulting GmbH,Special Purpose Vehicle,90-9350710,Real Estate,Property Management,Singapore,804,439027373.88,415000774.94,Restructuring,Investment Grade,2020-04-14,2021-02-20
+OBL-00224,FAC-0015,Allied Analytics S.A.,Financial Institution,15-6600104,Government,Federal Agency,Australia,658,27318630.56,622522.14,Watchlist,Investment Grade,2022-10-19,2023-08-15
+OBL-00225,FAC-0004,Global Partners Group,Corporate,60-1488508,Banking & Finance,Investment Banking,Singapore,479,878943728.95,256989014.5,Active,Sub-Investment Grade,2022-11-02,2024-03-27
+OBL-00226,FAC-0029,Apex Logistics S.A.,Government Entity,17-9742158,Manufacturing,Industrial Equipment,United States,606,1218548878.34,557389538.14,Watchlist,Sub-Investment Grade,2021-12-13,2023-12-12
+OBL-00227,FAC-0079,Atlantic Systems Inc.,Corporate,58-9963616,Transportation,Airlines,Switzerland,469,347854090.62,264215554.53,Watchlist,Distressed,2022-05-27,2023-01-29
+OBL-00228,FAC-0068,Stellar Holdings GmbH,Corporate,57-8581730,Retail & Consumer,Grocery,Brazil,609,381671635.46,114033724.75,Active,Distressed,2022-11-08,2024-02-09
+OBL-00229,FAC-0032,Titan Capital GmbH,Special Purpose Vehicle,29-4191222,Real Estate,Residential REIT,Brazil,648,1243398019.36,918747880.61,Active,Distressed,2021-09-21,2023-06-17
+OBL-00230,FAC-0067,Allied Services Inc.,Financial Institution,59-9763492,Real Estate,Development,South Africa,418,1697883231.32,1326100443.3,Active,Sub-Investment Grade,2023-01-28,2023-12-09
+OBL-00231,FAC-0007,Global Consulting PLC,Government Entity,36-6383479,Banking & Finance,Retail Banking,Hong Kong,505,1281199427.7,125490521.79,Active,Sub-Investment Grade,2023-04-14,2024-08-25
+OBL-00232,FAC-0023,Vantage Biotech AG,Corporate,36-6877363,Real Estate,Development,United States,626,266888655.7,39932204.68,Active,Investment Grade,2021-05-08,2021-11-19
+OBL-00233,FAC-0013,National Solutions Inc.,Financial Institution,96-1846511,Real Estate,Residential REIT,United Kingdom,408,610515884.14,517492158.55,Active,Investment Grade,2021-07-11,2023-04-06
+OBL-00234,FAC-0071,Vantage Financial PLC,Corporate,35-9950391,Technology,Cloud Services,United States,380,1168817548.08,989651960.49,Restructuring,High Yield,2023-05-07,2025-02-01
+OBL-00235,FAC-0097,Vector Resources Ltd.,Corporate,88-5329406,Government,Federal Agency,Mexico,672,79164552.32,23343417.81,Active,Investment Grade,2023-05-13,2025-02-27
+OBL-00236,FAC-0063,Nexus Enterprises PLC,Non-Profit Organization,54-3137316,Manufacturing,Consumer Goods,United States,820,81675036.76,36881803.92,Active,High Yield,2020-05-02,2022-03-03
+OBL-00237,FAC-0004,Vantage Resources AG,Corporate,71-7439371,Technology,Semiconductors,Brazil,367,601579330.97,229066761.41,Active,Investment Grade,2021-10-16,2022-12-14
+OBL-00238,FAC-0004,Pacific Consulting N.V.,Financial Institution,51-2638360,Government,State Authority,United States,755,614271962.31,137809828.18,Active,Sub-Investment Grade,2018-01-11,2019-11-20
+OBL-00239,FAC-0018,American Technologies LLC,Special Purpose Vehicle,91-1003092,Retail & Consumer,E-Commerce,Chile,450,24466657.98,8807151.86,Defaulted,Investment Grade,2022-04-30,2022-12-28
+OBL-00240,FAC-0005,Horizon Properties PLC,Financial Institution,54-2497994,Telecommunications,Media,United States,308,195905055.62,126836955.04,Watchlist,Distressed,2020-10-04,2022-02-02
+OBL-00241,FAC-0019,Meridian Financial Corp.,Non-Profit Organization,46-1523193,Retail & Consumer,Grocery,Japan,540,713461267.57,372027871.05,Active,Distressed,2022-11-06,2023-05-05
+OBL-00242,FAC-0092,Vector Solutions Ltd.,Special Purpose Vehicle,59-7044627,Retail & Consumer,Luxury Goods,United States,727,471724242.84,244288460.14,Active,Sub-Investment Grade,2022-11-30,2023-11-22
+OBL-00243,FAC-0080,Atlantic Holdings LLC,Government Entity,63-8650891,Energy,Renewable Energy,United States,735,1285399146.43,175837580.06,Watchlist,Investment Grade,2022-09-17,2024-06-05
+OBL-00244,FAC-0095,Horizon Aerospace Ltd.,Government Entity,74-5517272,Telecommunications,Cable,United States,720,335844574.67,59277065.15,Watchlist,Distressed,2023-06-23,2023-12-27
+OBL-00245,FAC-0078,American Solutions AG,Non-Profit Organization,45-8800337,Manufacturing,Automotive,Chile,829,252780550.72,88511026.12,Active,Distressed,2021-06-24,2023-04-28
+OBL-00246,FAC-0074,Vantage Industries Group,Special Purpose Vehicle,11-8866313,Government,Federal Agency,Netherlands,764,924933446.81,583216870.15,Watchlist,High Yield,2020-09-13,2022-01-25
+OBL-00247,FAC-0071,United Industries N.V.,Government Entity,48-5369510,Government,Municipal,Hong Kong,362,605848431.48,562755940.43,Defaulted,High Yield,2022-05-29,2023-09-17
+OBL-00248,FAC-0051,American Solutions AG,Corporate,45-5228713,Government,Federal Agency,Brazil,435,1344040122.16,797151749.1,Watchlist,Sub-Investment Grade,2020-12-19,2022-10-26
+OBL-00249,FAC-0007,Nexus Financial LLC,Corporate,99-4962709,Real Estate,Development,United States,796,881551555.83,762211438.36,Active,Distressed,2023-03-31,2024-02-28
+OBL-00250,FAC-0057,Pinnacle Resources GmbH,Government Entity,91-3806547,Banking & Finance,Asset Management,Canada,515,845155866.71,659760429.99,Watchlist,Sub-Investment Grade,2020-09-12,2022-05-07
+OBL-00251,FAC-0096,Meridian Resources S.A.,Government Entity,59-8962291,Banking & Finance,Asset Management,United States,568,258926446.3,98083296.02,Active,Distressed,2019-06-04,2021-04-01
+OBL-00252,FAC-0047,Pacific Biotech Group,Non-Profit Organization,65-5573311,Retail & Consumer,E-Commerce,China,643,876913336.94,565230920.29,Active,Sub-Investment Grade,2022-02-08,2022-09-18
+OBL-00253,FAC-0044,Titan Ventures LLC,Corporate,80-1177469,Technology,Semiconductors,United States,308,832700392.85,592579881.68,Restructuring,Investment Grade,2023-03-27,2024-04-09
+OBL-00254,FAC-0067,International Technologies Inc.,Corporate,89-2542518,Banking & Finance,Insurance,Chile,358,245094826.61,103833220.66,Watchlist,Investment Grade,2021-05-30,2022-09-12
+OBL-00255,FAC-0050,Pacific Infrastructure LLC,Corporate,47-8834214,Government,Municipal,United States,377,209895905.09,120575016.5,Defaulted,High Yield,2021-12-27,2022-12-31
+OBL-00256,FAC-0099,Pinnacle Energy Group,Corporate,43-5440339,Real Estate,Property Management,Singapore,482,205380806.43,14437697.07,Active,Investment Grade,2023-06-19,2024-02-17
+OBL-00257,FAC-0030,Allied Analytics Corp.,Financial Institution,43-2732870,Telecommunications,Broadband,United States,335,400310197.46,41235531.19,Active,Investment Grade,2021-04-29,2023-01-10
+OBL-00258,FAC-0088,National Properties S.A.,Corporate,29-6533643,Government,Municipal,China,700,829173005.65,706195681.65,Watchlist,Investment Grade,2018-12-05,2019-06-03
+OBL-00259,FAC-0084,Global Energy GmbH,Corporate,82-9980912,Transportation,Rail,United States,667,222134514.96,153579149.95,Active,Sub-Investment Grade,2022-08-20,2023-10-05
+OBL-00260,FAC-0064,Premier Manufacturing Ltd.,Corporate,80-1659867,Retail & Consumer,E-Commerce,Brazil,693,653806931.98,596846779.03,Defaulted,Investment Grade,2018-09-16,2020-06-27
+OBL-00261,FAC-0009,Atlantic Industries Ltd.,Corporate,85-5001116,Real Estate,Property Management,Brazil,800,64379208.67,54139917.44,Active,Investment Grade,2022-06-07,2023-06-16
+OBL-00262,FAC-0022,Apex Services Inc.,Financial Institution,25-4551370,Transportation,Logistics,United States,835,1012413559.64,15790990.55,Active,Distressed,2020-06-03,2021-01-26
+OBL-00263,FAC-0077,Vantage Industries Ltd.,Government Entity,93-3190059,Energy,Renewable Energy,United States,314,363546476.49,168849152.88,Active,Investment Grade,2017-03-06,2018-12-28
+OBL-00264,FAC-0064,Vector Analytics N.V.,Corporate,18-4399754,Real Estate,Commercial REIT,United States,736,1004740574.52,61047770.61,Active,High Yield,2018-12-31,2019-10-23
+OBL-00265,FAC-0016,Apex Holdings Corp.,Corporate,28-7965133,Manufacturing,Automotive,France,472,164461969.9,123913309.82,Defaulted,Sub-Investment Grade,2020-06-28,2021-06-20
+OBL-00266,FAC-0065,United Capital GmbH,Corporate,10-1121198,Transportation,Shipping,United States,483,963605197.78,37256782.84,Active,Distressed,2021-11-04,2023-05-23
+OBL-00267,FAC-0071,Stellar Resources LLC,Special Purpose Vehicle,98-1631179,Real Estate,Property Management,United States,484,370979672.1,225494213.28,Defaulted,High Yield,2023-01-18,2024-10-20
+OBL-00268,FAC-0020,Titan Partners N.V.,Corporate,79-9515120,Government,Federal Agency,Singapore,524,637842730.13,337944950.05,Active,Investment Grade,2017-09-18,2018-07-15
+OBL-00269,FAC-0097,United Enterprises Inc.,Corporate,92-7110145,Real Estate,Commercial REIT,United Kingdom,591,529627658.0,344777842.57,Active,High Yield,2023-02-15,2025-01-04
+OBL-00270,FAC-0021,United Capital GmbH,Special Purpose Vehicle,24-2188825,Real Estate,Development,United States,540,151016192.18,7525703.25,Defaulted,High Yield,2022-05-16,2023-05-11
+OBL-00271,FAC-0071,Pacific Ventures Ltd.,Corporate,40-7922203,Government,Municipal,Hong Kong,504,359122433.14,230919286.49,Active,Investment Grade,2022-06-30,2023-08-19
+OBL-00272,FAC-0039,United Energy Group,Corporate,68-4257379,Technology,Cloud Services,United States,667,239752327.05,33012506.88,Active,Investment Grade,2023-05-19,2025-02-22
+OBL-00273,FAC-0014,Stellar Enterprises Group,Corporate,47-3630468,Manufacturing,Aerospace,Chile,474,56340769.35,7306069.52,Watchlist,Distressed,2022-09-09,2024-06-19
+OBL-00274,FAC-0095,International Capital S.A.,Government Entity,41-5157921,Healthcare,Pharmaceuticals,United States,635,782721193.2,160943502.82,Active,Distressed,2022-09-27,2024-07-11
+OBL-00275,FAC-0082,National Healthcare AG,Financial Institution,71-2644153,Healthcare,Medical Devices,Mexico,763,580200046.41,22079945.49,Active,Investment Grade,2021-10-04,2023-08-31
+OBL-00276,FAC-0078,Global Aerospace PLC,Corporate,68-1409590,Technology,Software,United States,765,78655620.31,22102300.63,Active,Investment Grade,2021-11-09,2022-08-08
+OBL-00277,FAC-0026,Pinnacle Infrastructure Group,Special Purpose Vehicle,14-5975954,Retail & Consumer,Grocery,India,736,319308878.22,192138429.85,Restructuring,Sub-Investment Grade,2023-06-21,2024-02-28
+OBL-00278,FAC-0047,Titan Properties Group,Corporate,24-7424918,Government,Municipal,South Africa,674,1312807868.01,773811559.86,Active,Distressed,2021-01-06,2021-08-30
+OBL-00279,FAC-0014,Apex Resources AG,Corporate,93-9027788,Banking & Finance,Asset Management,Australia,514,445092736.04,298047438.27,Restructuring,Investment Grade,2019-10-07,2020-08-23
+OBL-00280,FAC-0092,Summit Logistics GmbH,Special Purpose Vehicle,77-3058722,Manufacturing,Consumer Goods,South Korea,781,817706219.83,215292290.23,Defaulted,Distressed,2016-03-12,2017-09-24
+OBL-00281,FAC-0092,Nexus Holdings Corp.,Financial Institution,32-5838090,Transportation,Logistics,United States,378,956345122.29,858890739.05,Active,Investment Grade,2016-03-21,2017-03-28
+OBL-00282,FAC-0061,Stellar Properties AG,Corporate,70-6816664,Real Estate,Commercial REIT,Netherlands,730,154923799.67,30061933.17,Active,Investment Grade,2017-11-06,2019-03-01
+OBL-00283,FAC-0043,Stellar Consulting Group,Government Entity,92-6474513,Real Estate,Residential REIT,United States,797,1056384960.18,233156478.51,Watchlist,Distressed,2022-10-20,2024-03-26
+OBL-00284,FAC-0016,International Resources GmbH,Corporate,46-1793880,Transportation,Rail,United States,451,113109738.25,96524211.51,Active,Sub-Investment Grade,2021-12-14,2022-12-04
+OBL-00285,FAC-0076,United Resources Corp.,Corporate,50-3121873,Telecommunications,Broadband,UAE,751,693636807.71,120114647.82,Active,Sub-Investment Grade,2023-01-10,2023-12-13
+OBL-00286,FAC-0009,Meridian Dynamics Corp.,Corporate,61-9378825,Energy,Renewable Energy,Brazil,448,126165679.93,17732208.32,Active,Sub-Investment Grade,2022-06-18,2023-05-30
+OBL-00287,FAC-0047,Horizon Services GmbH,Corporate,98-2884343,Energy,Oil & Gas,India,790,1351225460.5,608342159.86,Active,Investment Grade,2020-10-04,2021-08-30
+OBL-00288,FAC-0058,American Ventures Inc.,Special Purpose Vehicle,92-4274069,Transportation,Airlines,Japan,839,398468759.65,318310022.73,Active,Sub-Investment Grade,2020-10-30,2022-04-28
+OBL-00289,FAC-0041,Pinnacle Technologies GmbH,Corporate,87-9582482,Healthcare,Pharmaceuticals,Chile,357,1524070506.34,980297723.78,Defaulted,Sub-Investment Grade,2019-10-13,2021-09-16
+OBL-00290,FAC-0019,Premier Logistics AG,Corporate,37-8452780,Retail & Consumer,Grocery,United States,725,743978526.26,8616202.46,Restructuring,High Yield,2023-01-20,2024-07-12
+OBL-00291,FAC-0008,Allied Dynamics GmbH,Non-Profit Organization,77-6627359,Real Estate,Residential REIT,United States,367,289272834.29,161362480.27,Watchlist,High Yield,2020-12-15,2021-11-07
+OBL-00292,FAC-0100,Allied Enterprises S.A.,Corporate,80-9230660,Technology,Software,United States,343,564494531.74,298066182.34,Restructuring,Sub-Investment Grade,2022-12-09,2023-10-25
+OBL-00293,FAC-0037,Premier Manufacturing GmbH,Corporate,93-5826621,Government,State Authority,United States,727,97529131.01,73308607.15,Active,High Yield,2022-04-14,2023-07-06
+OBL-00294,FAC-0062,Horizon Healthcare PLC,Government Entity,97-8986637,Healthcare,Pharmaceuticals,Brazil,422,813307082.52,749945629.92,Active,Distressed,2021-07-29,2023-06-01
+OBL-00295,FAC-0027,Summit Enterprises Inc.,Corporate,56-8038277,Government,Federal Agency,Australia,664,43807028.32,6081741.34,Active,Sub-Investment Grade,2021-08-07,2022-06-21
+OBL-00296,FAC-0039,Meridian Ventures Group,Non-Profit Organization,97-6051155,Real Estate,Commercial REIT,South Africa,577,171066508.22,124272104.87,Defaulted,Sub-Investment Grade,2023-04-27,2024-04-12
+OBL-00297,FAC-0036,Apex Enterprises Corp.,Corporate,29-9445363,Technology,Semiconductors,United Kingdom,526,251720331.93,67296643.37,Restructuring,Investment Grade,2021-05-22,2023-01-13
+OBL-00298,FAC-0020,Vector Financial PLC,Government Entity,56-3332267,Transportation,Airlines,United States,752,1351490568.05,149660508.79,Watchlist,Distressed,2017-01-12,2017-07-28
+OBL-00299,FAC-0059,Continental Dynamics LLC,Corporate,26-2318772,Manufacturing,Aerospace,Japan,735,179202224.59,20190185.32,Defaulted,Investment Grade,2021-03-21,2022-02-09
+OBL-00300,FAC-0033,Vector Partners PLC,Corporate,18-6060776,Technology,Software,United States,310,95655317.2,9797640.57,Restructuring,Investment Grade,2022-09-18,2023-05-16
+OBL-00301,FAC-0059,Horizon Financial Group,Corporate,74-5057108,Technology,Hardware,Germany,817,162015135.09,4503398.67,Watchlist,Investment Grade,2021-04-08,2022-07-16
+OBL-00302,FAC-0069,Pacific Technologies AG,Non-Profit Organization,70-7148229,Technology,Software,UAE,489,173041989.37,46334406.92,Active,Investment Grade,2022-05-05,2022-11-05
+OBL-00303,FAC-0009,Pacific Logistics Corp.,Special Purpose Vehicle,27-9318412,Energy,Utilities,United States,669,30158553.86,6519570.68,Defaulted,Sub-Investment Grade,2021-07-09,2022-11-22
+OBL-00304,FAC-0056,Nexus Resources AG,Financial Institution,47-8180005,Transportation,Airlines,Brazil,493,287330230.54,105031284.67,Restructuring,Investment Grade,2022-09-03,2024-01-15
+OBL-00305,FAC-0005,Nexus Pharmaceuticals Corp.,Corporate,28-7623837,Telecommunications,Media,United Kingdom,710,906783651.68,423527772.13,Defaulted,Distressed,2019-07-29,2021-03-05
+OBL-00306,FAC-0054,Pacific Resources S.A.,Government Entity,73-5672762,Technology,Hardware,Brazil,579,476324452.58,153233606.89,Restructuring,High Yield,2022-11-16,2024-07-01
+OBL-00307,FAC-0029,Pacific Systems GmbH,Financial Institution,39-3258353,Manufacturing,Industrial Equipment,United States,330,974877120.16,136488055.59,Active,Investment Grade,2021-11-19,2022-09-05
+OBL-00308,FAC-0097,Vantage Analytics Corp.,Non-Profit Organization,19-9723295,Technology,Cloud Services,Canada,804,262976169.9,169683833.63,Restructuring,High Yield,2022-09-04,2024-01-07
+OBL-00309,FAC-0051,Stellar Partners S.A.,Financial Institution,50-7313879,Healthcare,Hospitals,United States,753,854278646.86,440223633.75,Active,Investment Grade,2017-12-13,2018-07-13
+OBL-00310,FAC-0065,Vector Innovations Corp.,Special Purpose Vehicle,96-9230125,Banking & Finance,Investment Banking,India,781,192236822.82,78653131.26,Active,Distressed,2022-06-09,2024-01-08
+OBL-00311,FAC-0041,Premier Ventures Inc.,Corporate,85-1756962,Energy,Oil & Gas,United States,431,906216165.92,835827837.49,Restructuring,Sub-Investment Grade,2022-10-02,2024-03-26
+OBL-00312,FAC-0004,Summit Industries Ltd.,Corporate,40-6236161,Manufacturing,Automotive,Hong Kong,386,132504772.95,43446443.57,Defaulted,Investment Grade,2021-02-28,2022-10-22
+OBL-00313,FAC-0025,Horizon Pharmaceuticals S.A.,Corporate,12-8880256,Real Estate,Commercial REIT,Australia,322,18697556.27,5792708.53,Active,High Yield,2023-01-23,2024-09-26
+OBL-00314,FAC-0047,Apex Aerospace AG,Non-Profit Organization,95-6696526,Government,State Authority,South Korea,470,228009795.13,105783020.93,Watchlist,Sub-Investment Grade,2023-01-03,2024-01-28
+OBL-00315,FAC-0091,Allied Dynamics PLC,Corporate,48-7744899,Manufacturing,Industrial Equipment,Netherlands,531,1016652592.71,940812241.64,Watchlist,Investment Grade,2018-05-25,2020-05-22
+OBL-00316,FAC-0061,Allied Financial Corp.,Government Entity,48-9466446,Government,Federal Agency,Singapore,607,81720043.69,62199281.67,Active,Distressed,2022-12-04,2024-08-12
+OBL-00317,FAC-0002,Global Manufacturing AG,Non-Profit Organization,33-9375247,Manufacturing,Aerospace,United States,518,14854168.41,7272612.3,Defaulted,High Yield,2023-02-08,2024-02-07
+OBL-00318,FAC-0034,Premier Healthcare S.A.,Corporate,18-4415137,Real Estate,Property Management,Chile,722,136780867.56,60096363.56,Active,Sub-Investment Grade,2021-11-21,2022-10-21
+OBL-00319,FAC-0100,Premier Logistics GmbH,Special Purpose Vehicle,65-8080306,Energy,Utilities,Netherlands,337,338737020.33,48257876.75,Active,Investment Grade,2021-01-09,2022-03-16
+OBL-00320,FAC-0065,National Services GmbH,Non-Profit Organization,12-1928237,Real Estate,Residential REIT,Brazil,385,825842652.32,217926160.63,Active,Distressed,2023-02-08,2024-02-03
+OBL-00321,FAC-0047,Continental Partners N.V.,Government Entity,74-3024047,Real Estate,Commercial REIT,United States,834,1288793641.29,1084433995.56,Defaulted,Distressed,2021-05-11,2022-03-30
+OBL-00322,FAC-0012,Horizon Services S.A.,Non-Profit Organization,40-8094564,Transportation,Logistics,United States,523,44517478.99,5171283.55,Active,Investment Grade,2019-12-04,2021-05-04
+OBL-00323,FAC-0039,Meridian Financial Corp.,Corporate,79-8109870,Energy,Renewable Energy,Hong Kong,786,113582679.5,93109962.28,Defaulted,Investment Grade,2020-04-10,2022-02-21
+OBL-00324,FAC-0041,National Infrastructure Ltd.,Corporate,80-7454030,Real Estate,Residential REIT,Hong Kong,616,1291077519.22,1007424041.39,Defaulted,Sub-Investment Grade,2019-05-31,2020-01-01
+OBL-00325,FAC-0075,American Innovations Ltd.,Corporate,36-3688166,Technology,Hardware,United States,749,62345434.76,56903337.25,Defaulted,Sub-Investment Grade,2022-08-22,2023-12-23
+OBL-00326,FAC-0097,Stellar Ventures S.A.,Non-Profit Organization,22-3690114,Retail & Consumer,E-Commerce,China,567,68106072.57,50431446.69,Watchlist,Investment Grade,2023-02-24,2024-12-17
+OBL-00327,FAC-0061,Atlantic Capital S.A.,Corporate,90-6126237,Manufacturing,Industrial Equipment,Hong Kong,621,634027304.32,458957575.63,Watchlist,Investment Grade,2019-08-28,2021-05-23
+OBL-00328,FAC-0013,Vantage Properties S.A.,Non-Profit Organization,50-8574743,Technology,Hardware,Switzerland,789,1339084529.81,976496583.47,Restructuring,Investment Grade,2022-02-18,2022-12-28
+OBL-00329,FAC-0011,Pinnacle Energy N.V.,Corporate,12-1385374,Real Estate,Residential REIT,China,534,457271253.54,36663553.3,Active,High Yield,2020-09-10,2021-09-11
+OBL-00330,FAC-0098,American Financial LLC,Special Purpose Vehicle,25-1236808,Healthcare,Hospitals,United Kingdom,838,422586253.07,172186233.9,Active,High Yield,2019-02-17,2020-01-15
+OBL-00331,FAC-0064,Vector Energy LLC,Financial Institution,36-4616607,Telecommunications,Wireless,UAE,589,266983494.25,239951338.14,Defaulted,Investment Grade,2020-10-16,2022-02-02
+OBL-00332,FAC-0076,Continental Financial N.V.,Government Entity,92-8686718,Retail & Consumer,Grocery,United States,387,67284308.47,62394203.0,Active,High Yield,2023-02-10,2024-11-12
+OBL-00333,FAC-0078,American Partners AG,Corporate,16-6584506,Energy,Utilities,United States,540,367057664.01,247041006.19,Active,Sub-Investment Grade,2022-05-09,2023-07-25
+OBL-00334,FAC-0082,Summit Solutions AG,Corporate,84-4009366,Government,Municipal,United States,566,161110181.86,94841533.58,Active,Distressed,2019-11-16,2021-06-22
+OBL-00335,FAC-0029,International Partners Group,Corporate,26-9375364,Telecommunications,Media,United States,587,209275589.15,141207196.14,Defaulted,Sub-Investment Grade,2021-08-22,2022-07-13
+OBL-00336,FAC-0051,United Ventures GmbH,Non-Profit Organization,29-8381800,Retail & Consumer,Luxury Goods,South Korea,354,1377367302.71,1212608054.19,Active,Investment Grade,2021-04-06,2022-12-23
+OBL-00337,FAC-0072,Pacific Aerospace Inc.,Financial Institution,55-9140297,Banking & Finance,Investment Banking,United Kingdom,768,737913969.05,114655012.97,Active,Investment Grade,2022-05-09,2024-01-25
+OBL-00338,FAC-0008,Titan Systems N.V.,Government Entity,84-4563416,Energy,Oil & Gas,Japan,304,401624583.23,108402742.64,Watchlist,Distressed,2023-01-20,2024-01-07
+OBL-00339,FAC-0003,Premier Properties Corp.,Financial Institution,57-2779557,Energy,Mining,Canada,631,1481922226.8,952969486.74,Active,Investment Grade,2019-10-09,2020-05-02
+OBL-00340,FAC-0026,National Manufacturing N.V.,Financial Institution,51-3169632,Technology,Cloud Services,United States,516,426233112.52,109052813.49,Restructuring,Investment Grade,2019-12-26,2021-05-26
+OBL-00341,FAC-0050,International Enterprises Ltd.,Non-Profit Organization,61-2496331,Real Estate,Development,United States,321,1073199922.58,614060259.4,Restructuring,Investment Grade,2020-05-26,2022-01-04
+OBL-00342,FAC-0073,Premier Aerospace S.A.,Government Entity,49-3202624,Energy,Mining,United States,667,1296792232.91,1175815564.89,Defaulted,Investment Grade,2017-02-21,2017-12-21
+OBL-00343,FAC-0077,American Innovations S.A.,Non-Profit Organization,57-4126532,Manufacturing,Aerospace,United States,744,435172998.16,196967002.53,Defaulted,High Yield,2023-04-12,2024-12-15
+OBL-00344,FAC-0006,Vector Pharmaceuticals AG,Corporate,47-8855414,Technology,Software,Hong Kong,747,633597266.96,389808101.33,Active,High Yield,2022-08-21,2023-07-25
+OBL-00345,FAC-0036,Premier Consulting Inc.,Special Purpose Vehicle,19-1756566,Real Estate,Residential REIT,UAE,825,1437560045.47,1149273272.82,Active,Distressed,2021-10-25,2023-07-04
+OBL-00346,FAC-0100,International Consulting Corp.,Non-Profit Organization,74-1272943,Retail & Consumer,Food & Beverage,Mexico,416,880424761.81,475477178.31,Defaulted,High Yield,2021-08-28,2023-02-22
+OBL-00347,FAC-0080,Horizon Services GmbH,Non-Profit Organization,95-8548873,Energy,Renewable Energy,United States,571,207736329.33,173027240.66,Active,Investment Grade,2022-03-07,2023-07-21
+OBL-00348,FAC-0021,Global Capital S.A.,Corporate,11-3881241,Healthcare,Medical Devices,Chile,788,330867864.06,211668852.92,Active,High Yield,2021-03-17,2023-03-14
+OBL-00349,FAC-0024,Premier Holdings LLC,Corporate,11-4201127,Government,Municipal,United States,414,1047454005.54,969131467.69,Restructuring,Investment Grade,2020-05-18,2021-12-23
+OBL-00350,FAC-0055,American Dynamics GmbH,Corporate,70-8077958,Healthcare,Pharmaceuticals,Netherlands,322,159796376.26,98634766.23,Active,Investment Grade,2023-05-08,2024-05-17
+OBL-00351,FAC-0005,Premier Consulting S.A.,Corporate,52-1132108,Energy,Mining,United States,405,40072667.15,17112650.39,Defaulted,High Yield,2020-05-05,2021-05-26
+OBL-00352,FAC-0002,Continental Infrastructure Inc.,Special Purpose Vehicle,12-8080061,Retail & Consumer,Food & Beverage,Japan,623,27526440.06,12711597.51,Watchlist,Investment Grade,2023-05-08,2025-03-17
+OBL-00353,FAC-0032,Stellar Capital LLC,Corporate,34-8872548,Real Estate,Property Management,United States,652,798314066.71,712109121.89,Active,Investment Grade,2022-06-09,2024-03-09
+OBL-00354,FAC-0033,Premier Services S.A.,Financial Institution,96-7044085,Transportation,Shipping,South Korea,783,1233752970.74,838260136.82,Restructuring,Investment Grade,2022-06-18,2023-04-28
+OBL-00355,FAC-0060,Allied Enterprises N.V.,Financial Institution,22-7979059,Government,Federal Agency,India,805,921770149.1,584129089.27,Active,Investment Grade,2018-10-24,2019-10-16
+OBL-00356,FAC-0062,Titan Industries Corp.,Corporate,65-2912087,Healthcare,Pharmaceuticals,Brazil,532,1421464508.3,482148936.19,Active,Distressed,2019-04-19,2020-04-11
+OBL-00357,FAC-0008,Atlantic Infrastructure AG,Special Purpose Vehicle,95-2747213,Healthcare,Biotech,Singapore,351,1419195087.84,1037297078.68,Active,High Yield,2022-11-15,2024-02-11
+OBL-00358,FAC-0075,Summit Enterprises PLC,Government Entity,66-9487536,Technology,Software,Chile,810,125800194.24,12597698.07,Defaulted,Investment Grade,2022-04-03,2023-04-28
+OBL-00359,FAC-0074,Global Resources GmbH,Corporate,46-9472875,Energy,Utilities,China,475,230299725.8,185659656.09,Active,Sub-Investment Grade,2022-09-23,2024-05-20
+OBL-00360,FAC-0088,Stellar Resources LLC,Non-Profit Organization,64-7935859,Manufacturing,Industrial Equipment,India,719,1214483420.48,174922841.08,Active,Distressed,2022-04-27,2024-04-18
+OBL-00361,FAC-0018,American Ventures Group,Financial Institution,31-8282524,Manufacturing,Automotive,United States,362,24430079.53,16655071.11,Active,Investment Grade,2022-06-16,2023-02-22
+OBL-00362,FAC-0016,Apex Financial Inc.,Non-Profit Organization,45-9854875,Energy,Oil & Gas,Hong Kong,450,81584212.99,52770881.9,Defaulted,High Yield,2023-05-04,2024-09-06
+OBL-00363,FAC-0039,Premier Holdings Inc.,Special Purpose Vehicle,52-7543005,Telecommunications,Broadband,United States,429,239015913.52,177465715.84,Watchlist,Distressed,2022-03-25,2023-04-11
+OBL-00364,FAC-0055,Global Biotech N.V.,Corporate,40-6099302,Real Estate,Residential REIT,Chile,732,136846529.92,67775853.86,Watchlist,Investment Grade,2022-12-17,2023-07-08
+OBL-00365,FAC-0019,Nexus Dynamics N.V.,Government Entity,10-8602547,Banking & Finance,Asset Management,India,647,963306620.37,113306405.44,Active,Distressed,2023-05-05,2024-03-07
+OBL-00366,FAC-0053,Titan Services Ltd.,Corporate,51-9664623,Government,Municipal,France,497,54810155.57,34726413.12,Restructuring,Sub-Investment Grade,2022-12-09,2024-06-27
+OBL-00367,FAC-0071,Stellar Solutions GmbH,Corporate,67-2309842,Telecommunications,Wireless,UAE,678,722323245.1,282753654.42,Defaulted,Distressed,2021-11-03,2022-07-04
+OBL-00368,FAC-0031,Stellar Enterprises LLC,Special Purpose Vehicle,26-9132997,Retail & Consumer,Food & Beverage,South Korea,768,1003454060.0,403640484.63,Active,Distressed,2020-05-24,2022-04-05
+OBL-00369,FAC-0043,Pacific Analytics S.A.,Corporate,25-7200623,Transportation,Airlines,Netherlands,596,587376969.69,416551001.22,Active,Distressed,2023-01-08,2024-07-19
+OBL-00370,FAC-0068,Atlantic Solutions N.V.,Financial Institution,16-6119801,Energy,Oil & Gas,Singapore,590,530889160.5,152947616.19,Active,Investment Grade,2023-03-04,2023-09-28
+OBL-00371,FAC-0006,Horizon Dynamics N.V.,Financial Institution,53-7330138,Telecommunications,Wireless,Chile,786,337780230.53,279312232.17,Restructuring,Distressed,2020-12-23,2022-10-26
+OBL-00372,FAC-0069,Vantage Properties N.V.,Financial Institution,59-4906109,Energy,Renewable Energy,United States,704,552028094.6,78130447.01,Active,Distressed,2019-12-19,2020-09-15
+OBL-00373,FAC-0096,Meridian Manufacturing Corp.,Government Entity,81-2428614,Banking & Finance,Insurance,India,497,152978949.44,24068796.53,Watchlist,Distressed,2016-04-27,2017-09-05
+OBL-00374,FAC-0095,United Capital PLC,Non-Profit Organization,36-5115227,Government,Federal Agency,South Africa,754,442102653.73,376680774.41,Active,Distressed,2020-10-04,2022-09-28
+OBL-00375,FAC-0077,United Healthcare Inc.,Non-Profit Organization,77-6324793,Government,State Authority,United States,691,247004088.29,219131244.01,Active,Investment Grade,2020-10-10,2022-06-29
+OBL-00376,FAC-0066,Premier Healthcare LLC,Corporate,88-6457472,Technology,Software,France,485,34904886.55,8474096.63,Active,Investment Grade,2018-09-25,2019-08-28
+OBL-00377,FAC-0044,Pacific Industries Ltd.,Corporate,86-4967662,Real Estate,Property Management,Brazil,804,175237410.1,148664491.59,Watchlist,Distressed,2022-07-27,2024-02-11
+OBL-00378,FAC-0014,Global Healthcare Ltd.,Corporate,44-2703045,Retail & Consumer,E-Commerce,Japan,552,227216925.74,119394548.98,Restructuring,Distressed,2018-03-16,2020-01-20
+OBL-00379,FAC-0097,Summit Biotech LLC,Non-Profit Organization,41-8109386,Energy,Utilities,United States,762,70562602.8,42620450.31,Active,Investment Grade,2022-09-30,2023-08-21
+OBL-00380,FAC-0062,Pinnacle Financial Ltd.,Special Purpose Vehicle,75-5719620,Telecommunications,Media,United Kingdom,346,134559444.58,117836420.61,Active,Distressed,2020-08-01,2021-10-11
+OBL-00381,FAC-0052,Stellar Technologies N.V.,Special Purpose Vehicle,50-6748465,Government,Federal Agency,Japan,567,24355523.28,2845409.92,Restructuring,High Yield,2018-12-11,2020-03-21
+OBL-00382,FAC-0033,Atlantic Manufacturing Inc.,Special Purpose Vehicle,70-1071793,Real Estate,Residential REIT,Singapore,309,331582601.0,302086022.63,Defaulted,Investment Grade,2021-09-04,2022-03-19
+OBL-00383,FAC-0016,Nexus Properties Corp.,Corporate,58-7005668,Retail & Consumer,Food & Beverage,United States,696,155090694.88,95635500.22,Active,Investment Grade,2020-09-01,2021-03-31
+OBL-00384,FAC-0017,Summit Technologies Corp.,Non-Profit Organization,88-6086491,Technology,Cloud Services,Australia,526,176415253.43,37125659.75,Active,High Yield,2017-04-12,2018-07-23
+OBL-00385,FAC-0052,Allied Manufacturing S.A.,Corporate,45-9394071,Manufacturing,Automotive,Hong Kong,805,53817497.27,36144886.32,Active,Distressed,2019-09-21,2020-03-26
+OBL-00386,FAC-0061,Titan Services PLC,Corporate,96-1387847,Healthcare,Medical Devices,Chile,845,135352256.54,8364343.82,Watchlist,Sub-Investment Grade,2020-07-04,2021-08-21
+OBL-00387,FAC-0076,Stellar Healthcare PLC,Corporate,97-9695551,Transportation,Rail,Mexico,777,824274911.8,738484801.49,Active,Sub-Investment Grade,2022-11-08,2024-04-01
+OBL-00388,FAC-0009,Global Energy Ltd.,Corporate,20-1425670,Transportation,Airlines,United Kingdom,531,38160821.67,15228418.02,Defaulted,High Yield,2022-06-18,2023-11-03
+OBL-00389,FAC-0023,Global Aerospace S.A.,Non-Profit Organization,13-6608665,Technology,Hardware,Germany,556,317502958.36,18955535.71,Active,Investment Grade,2022-10-13,2023-07-19
+OBL-00390,FAC-0067,Vantage Analytics GmbH,Non-Profit Organization,22-8490291,Telecommunications,Broadband,China,427,151493254.5,48009580.68,Active,Investment Grade,2021-07-04,2022-03-15
+OBL-00391,FAC-0024,National Dynamics N.V.,Government Entity,65-2103777,Banking & Finance,Insurance,China,404,1169192842.4,869311162.57,Defaulted,Investment Grade,2018-09-14,2020-06-07
+OBL-00392,FAC-0032,Vantage Properties N.V.,Corporate,68-7441109,Transportation,Airlines,China,775,624466266.08,56850621.31,Restructuring,High Yield,2022-08-13,2023-10-05
+OBL-00393,FAC-0024,Titan Ventures N.V.,Corporate,23-2722846,Government,Municipal,Brazil,312,1100176374.73,706299254.87,Watchlist,Investment Grade,2018-07-03,2020-04-07
+OBL-00394,FAC-0042,United Resources LLC,Non-Profit Organization,15-2014873,Government,Federal Agency,UAE,430,216420813.23,73068352.97,Active,Distressed,2021-12-18,2023-09-14
+OBL-00395,FAC-0015,Premier Analytics Group,Corporate,57-1135590,Retail & Consumer,Luxury Goods,South Korea,830,914098165.24,673435205.75,Watchlist,Investment Grade,2021-06-16,2023-04-07
+OBL-00396,FAC-0022,American Ventures Ltd.,Government Entity,70-8841710,Banking & Finance,Investment Banking,Mexico,639,376978119.01,349717034.36,Restructuring,Distressed,2022-02-10,2023-03-03
+OBL-00397,FAC-0037,Continental Capital Ltd.,Government Entity,39-8827187,Government,State Authority,Hong Kong,518,138113627.27,13756877.13,Active,High Yield,2021-12-21,2023-11-08
+OBL-00398,FAC-0011,American Financial Inc.,Special Purpose Vehicle,24-3389108,Manufacturing,Industrial Equipment,Netherlands,597,312175178.14,293564586.86,Active,Investment Grade,2020-09-01,2021-03-10
+OBL-00399,FAC-0061,United Ventures AG,Corporate,32-4288125,Government,State Authority,United States,322,197691925.39,53356228.23,Active,Sub-Investment Grade,2020-01-19,2021-04-11
+OBL-00400,FAC-0037,Premier Logistics Ltd.,Corporate,57-3874940,Technology,Software,Netherlands,839,265307162.57,223059901.66,Restructuring,Distressed,2022-10-20,2023-11-19
+OBL-00401,FAC-0017,Meridian Energy Group,Corporate,86-8206488,Retail & Consumer,E-Commerce,Canada,550,340797372.29,42345759.12,Active,Distressed,2019-03-08,2020-03-18
+OBL-00402,FAC-0034,Atlantic Pharmaceuticals N.V.,Financial Institution,36-2365794,Government,Federal Agency,China,781,105300338.17,24725895.24,Restructuring,Distressed,2022-12-24,2024-04-03
+OBL-00403,FAC-0088,Titan Infrastructure GmbH,Government Entity,73-8948342,Technology,Hardware,United States,574,921855984.4,406588189.77,Watchlist,High Yield,2019-11-25,2021-06-09
+OBL-00404,FAC-0009,Allied Dynamics S.A.,Financial Institution,83-3637534,Government,Municipal,Canada,683,30818792.77,5943418.73,Active,Distressed,2021-11-11,2023-06-19
+OBL-00405,FAC-0079,Titan Analytics Group,Financial Institution,67-8844203,Technology,Hardware,Brazil,742,229973890.94,76810406.61,Active,Sub-Investment Grade,2020-08-25,2022-06-12
+OBL-00406,FAC-0077,Summit Holdings PLC,Non-Profit Organization,74-9603205,Telecommunications,Media,Hong Kong,380,24054526.03,10093377.02,Restructuring,Sub-Investment Grade,2019-12-10,2020-08-23
+OBL-00407,FAC-0087,Apex Systems PLC,Government Entity,97-5604751,Healthcare,Pharmaceuticals,United States,495,368599266.96,191201565.18,Defaulted,Distressed,2023-03-17,2024-04-01
+OBL-00408,FAC-0045,Horizon Innovations Inc.,Financial Institution,93-9600788,Energy,Utilities,Brazil,452,196379803.55,64668014.98,Restructuring,High Yield,2021-12-28,2023-08-15
+OBL-00409,FAC-0055,Apex Holdings Group,Non-Profit Organization,34-8193952,Healthcare,Medical Devices,Netherlands,727,61467684.1,34277666.55,Active,High Yield,2023-05-24,2025-03-06
+OBL-00410,FAC-0048,Summit Ventures Ltd.,Financial Institution,64-7767404,Telecommunications,Wireless,Australia,850,367715089.12,44834897.3,Active,Sub-Investment Grade,2017-05-01,2019-03-23
+OBL-00411,FAC-0051,Pinnacle Technologies S.A.,Corporate,78-7483284,Government,Federal Agency,Canada,492,288818609.31,261382478.58,Active,Investment Grade,2021-06-15,2023-01-16
+OBL-00412,FAC-0094,Vantage Aerospace Inc.,Corporate,35-2165866,Manufacturing,Industrial Equipment,Japan,695,125220320.78,80283914.36,Active,Investment Grade,2021-08-30,2022-03-30
+OBL-00413,FAC-0027,Stellar Energy LLC,Corporate,26-8019808,Healthcare,Hospitals,Mexico,789,5993968.52,2952659.44,Defaulted,Investment Grade,2018-05-10,2019-10-06
+OBL-00414,FAC-0045,United Analytics N.V.,Corporate,85-4405319,Retail & Consumer,Grocery,South Africa,814,147734029.18,60658209.96,Defaulted,High Yield,2023-06-15,2025-04-11
+OBL-00415,FAC-0075,Apex Consulting GmbH,Financial Institution,69-1655733,Real Estate,Residential REIT,Canada,393,877064923.72,687051871.77,Active,High Yield,2022-08-13,2024-07-31
+OBL-00416,FAC-0046,Pinnacle Properties LLC,Government Entity,82-2602797,Manufacturing,Consumer Goods,United States,702,559003848.06,95365611.7,Defaulted,Investment Grade,2022-08-13,2024-05-22
+OBL-00417,FAC-0045,Vector Healthcare AG,Corporate,57-2284021,Healthcare,Medical Devices,India,407,359808466.66,227875370.99,Watchlist,Sub-Investment Grade,2020-02-06,2021-03-14
+OBL-00418,FAC-0082,Nexus Energy Group,Government Entity,61-4261550,Retail & Consumer,Food & Beverage,France,706,134411269.05,5699495.74,Active,Investment Grade,2016-10-12,2017-06-23
+OBL-00419,FAC-0033,American Biotech Ltd.,Government Entity,66-3353101,Real Estate,Commercial REIT,France,782,976702203.17,430758165.67,Restructuring,Sub-Investment Grade,2022-06-03,2023-02-07
+OBL-00420,FAC-0012,United Holdings Inc.,Government Entity,44-3575243,Energy,Renewable Energy,Chile,751,21296066.81,5950917.99,Active,Investment Grade,2022-05-28,2023-12-29
+OBL-00421,FAC-0041,Pinnacle Infrastructure PLC,Financial Institution,16-1078278,Healthcare,Pharmaceuticals,Netherlands,349,1258110800.35,999790564.18,Restructuring,High Yield,2022-03-23,2023-01-02
+OBL-00422,FAC-0065,Apex Technologies Corp.,Corporate,22-3816607,Healthcare,Medical Devices,Australia,471,228541252.2,3482173.62,Active,High Yield,2021-08-22,2022-03-04
+OBL-00423,FAC-0043,Stellar Partners Ltd.,Corporate,23-6982358,Transportation,Airlines,Singapore,631,691785476.79,124569920.91,Active,Investment Grade,2021-01-18,2022-08-25
+OBL-00424,FAC-0008,Vantage Financial Inc.,Corporate,37-7897060,Retail & Consumer,Luxury Goods,Mexico,608,417443100.14,87283755.57,Restructuring,Distressed,2022-07-23,2023-10-31
+OBL-00425,FAC-0012,Atlantic Ventures LLC,Government Entity,98-6334600,Telecommunications,Wireless,France,793,166220360.08,94724626.22,Active,Sub-Investment Grade,2023-06-27,2025-01-24
+OBL-00426,FAC-0099,Global Analytics Corp.,Corporate,40-8189001,Banking & Finance,Insurance,United States,549,579183911.23,387704363.02,Watchlist,Investment Grade,2022-05-24,2023-07-16
+OBL-00427,FAC-0054,Continental Services N.V.,Financial Institution,52-3252626,Banking & Finance,Investment Banking,Hong Kong,584,153368160.65,22098366.77,Active,Investment Grade,2021-10-12,2022-05-18
+OBL-00428,FAC-0083,Continental Technologies AG,Corporate,95-5166421,Transportation,Rail,China,527,28461005.9,22899386.75,Watchlist,High Yield,2019-07-23,2021-01-03
+OBL-00429,FAC-0085,Allied Industries LLC,Corporate,26-2539467,Transportation,Logistics,Netherlands,477,1205514376.59,74001749.31,Watchlist,Distressed,2021-03-21,2021-11-27
+OBL-00430,FAC-0011,Continental Healthcare LLC,Special Purpose Vehicle,41-6085186,Healthcare,Medical Devices,Mexico,592,1116456603.31,330348144.87,Watchlist,High Yield,2022-09-05,2023-09-22
+OBL-00431,FAC-0079,Vector Logistics S.A.,Special Purpose Vehicle,88-8271756,Healthcare,Hospitals,United States,459,477734166.99,163195347.55,Restructuring,High Yield,2022-07-15,2023-07-01
+OBL-00432,FAC-0096,Atlantic Biotech LLC,Corporate,58-8778776,Banking & Finance,Insurance,United States,613,1051159869.32,920244082.21,Active,Sub-Investment Grade,2022-09-19,2024-09-18
+OBL-00433,FAC-0064,Global Capital AG,Government Entity,57-9245225,Retail & Consumer,Food & Beverage,Brazil,714,189393784.98,84430907.9,Active,High Yield,2019-07-17,2020-07-25
+OBL-00434,FAC-0019,Pacific Energy N.V.,Corporate,34-8319864,Manufacturing,Industrial Equipment,United States,561,1204610725.85,673249171.16,Restructuring,Sub-Investment Grade,2023-02-05,2023-09-12
+OBL-00435,FAC-0029,Continental Aerospace Inc.,Non-Profit Organization,56-1474058,Transportation,Rail,India,451,151291168.91,55382628.63,Active,Distressed,2021-07-16,2022-09-21
+OBL-00436,FAC-0095,Pacific Innovations Corp.,Government Entity,59-7671743,Telecommunications,Broadband,Australia,382,553460950.45,500433487.72,Watchlist,Investment Grade,2020-12-27,2021-07-07
+OBL-00437,FAC-0065,Horizon Dynamics S.A.,Non-Profit Organization,21-2833314,Retail & Consumer,Grocery,United States,652,726745851.88,345650851.03,Restructuring,Investment Grade,2023-01-21,2024-08-14
+OBL-00438,FAC-0014,Pacific Holdings S.A.,Special Purpose Vehicle,63-5837546,Real Estate,Residential REIT,United States,741,21178356.12,3388087.09,Active,Investment Grade,2022-12-26,2023-06-25
+OBL-00439,FAC-0044,Horizon Technologies LLC,Corporate,17-4065690,Manufacturing,Aerospace,Germany,496,533851214.24,254904914.06,Active,High Yield,2022-05-12,2024-02-12
+OBL-00440,FAC-0094,Apex Capital N.V.,Corporate,71-9140210,Telecommunications,Wireless,United Kingdom,403,202553071.62,72684571.76,Active,Investment Grade,2022-03-21,2022-11-21
+OBL-00441,FAC-0068,International Aerospace GmbH,Non-Profit Organization,53-8205036,Real Estate,Commercial REIT,United States,644,123607014.07,92976851.09,Active,Sub-Investment Grade,2023-02-04,2025-01-16
+OBL-00442,FAC-0094,Pacific Capital GmbH,Non-Profit Organization,99-7741225,Manufacturing,Aerospace,India,442,269492668.3,156378134.82,Active,Distressed,2022-08-31,2024-01-31
+OBL-00443,FAC-0037,Stellar Properties Ltd.,Corporate,91-6405343,Technology,Semiconductors,France,317,186183611.04,121368562.6,Defaulted,Sub-Investment Grade,2023-03-09,2025-02-13
+OBL-00444,FAC-0019,Summit Healthcare GmbH,Government Entity,99-2685367,Banking & Finance,Asset Management,United States,694,1142661477.62,434390680.84,Active,Distressed,2023-03-29,2023-12-17
+OBL-00445,FAC-0034,United Logistics Corp.,Financial Institution,94-5041658,Healthcare,Medical Devices,Canada,549,316470558.26,26183317.1,Active,Investment Grade,2023-02-07,2024-11-26
+OBL-00446,FAC-0066,International Resources PLC,Government Entity,70-3065243,Technology,Software,United States,439,38237693.42,33745490.62,Watchlist,High Yield,2023-04-17,2024-11-09
+OBL-00447,FAC-0076,Pinnacle Manufacturing AG,Non-Profit Organization,65-4915256,Technology,Semiconductors,Switzerland,528,979299092.99,558832571.01,Active,Investment Grade,2023-04-06,2024-10-23
+OBL-00448,FAC-0031,Horizon Financial LLC,Non-Profit Organization,50-7378615,Real Estate,Commercial REIT,United States,301,700028248.18,393829216.27,Active,Investment Grade,2018-12-25,2019-10-19
+OBL-00449,FAC-0022,Atlantic Pharmaceuticals N.V.,Special Purpose Vehicle,38-2788215,Government,Municipal,South Africa,704,422209952.9,169945235.43,Active,Distressed,2022-11-05,2024-05-11
+OBL-00450,FAC-0026,Atlantic Analytics PLC,Corporate,95-1576194,Telecommunications,Media,South Africa,627,631225329.33,502048740.57,Active,Distressed,2022-10-03,2024-07-10
+OBL-00451,FAC-0078,Apex Solutions Ltd.,Non-Profit Organization,38-1881916,Technology,Semiconductors,United States,483,258620571.97,172999952.17,Restructuring,High Yield,2020-05-03,2020-12-29
+OBL-00452,FAC-0016,Pinnacle Energy Corp.,Special Purpose Vehicle,46-5737283,Retail & Consumer,Luxury Goods,United Kingdom,499,109426090.49,35075399.68,Defaulted,Distressed,2022-11-21,2024-05-10
+OBL-00453,FAC-0042,Nexus Manufacturing LLC,Special Purpose Vehicle,27-8413578,Retail & Consumer,E-Commerce,France,794,314954315.33,173654627.26,Active,Investment Grade,2019-07-27,2020-11-29
+OBL-00454,FAC-0078,Atlantic Energy S.A.,Government Entity,31-1945085,Healthcare,Medical Devices,UAE,398,336212954.47,115695748.53,Active,High Yield,2023-01-10,2023-10-21
+OBL-00455,FAC-0065,Continental Industries Corp.,Corporate,60-9197782,Energy,Oil & Gas,Chile,609,684467693.84,385850024.86,Defaulted,Distressed,2021-12-24,2023-08-09
+OBL-00456,FAC-0038,Summit Capital Corp.,Corporate,20-3047685,Energy,Mining,Mexico,800,1139872704.24,704208101.43,Defaulted,Distressed,2020-07-16,2022-04-12
+OBL-00457,FAC-0024,Pinnacle Aerospace S.A.,Corporate,83-3101118,Healthcare,Pharmaceuticals,United States,401,1169781801.55,105076324.36,Active,Investment Grade,2021-09-06,2022-09-06
+OBL-00458,FAC-0041,American Pharmaceuticals N.V.,Special Purpose Vehicle,93-3081873,Transportation,Shipping,United States,512,730497053.86,567296488.66,Defaulted,Investment Grade,2022-04-07,2024-02-16
+OBL-00459,FAC-0005,Horizon Technologies LLC,Corporate,81-5307726,Energy,Renewable Energy,Chile,335,418595517.08,124984784.64,Active,Investment Grade,2019-03-16,2020-01-21
+OBL-00460,FAC-0034,Continental Dynamics Inc.,Special Purpose Vehicle,47-9960751,Transportation,Logistics,South Korea,755,119224663.06,110670048.34,Active,Distressed,2023-01-22,2023-07-21
+OBL-00461,FAC-0091,Continental Industries Ltd.,Corporate,48-4610673,Telecommunications,Media,South Korea,437,867119794.59,172858189.55,Watchlist,Distressed,2018-07-12,2019-02-22
+OBL-00462,FAC-0100,International Energy LLC,Financial Institution,68-2396771,Healthcare,Hospitals,Australia,560,967953629.41,388066414.28,Defaulted,High Yield,2022-06-28,2023-09-12
+OBL-00463,FAC-0092,Horizon Properties AG,Special Purpose Vehicle,30-8041170,Energy,Renewable Energy,Brazil,457,1182768690.28,782948858.78,Active,High Yield,2017-08-24,2019-03-08
+OBL-00464,FAC-0036,American Ventures Corp.,Corporate,52-5584424,Retail & Consumer,E-Commerce,United Kingdom,449,457901254.01,231192812.48,Restructuring,Investment Grade,2022-02-06,2023-09-25
+OBL-00465,FAC-0001,United Pharmaceuticals PLC,Special Purpose Vehicle,72-2602904,Real Estate,Commercial REIT,Mexico,841,1453942696.73,306948085.08,Active,Distressed,2017-04-29,2018-03-01
+OBL-00466,FAC-0010,Summit Services AG,Special Purpose Vehicle,86-7755367,Real Estate,Development,United States,788,173966079.78,156427652.98,Watchlist,Investment Grade,2021-05-15,2022-05-15
+OBL-00467,FAC-0008,National Services Group,Government Entity,41-8016965,Real Estate,Commercial REIT,UAE,768,266161421.46,95781017.17,Active,High Yield,2022-10-11,2024-01-07
+OBL-00468,FAC-0034,Premier Manufacturing Corp.,Corporate,62-6246854,Manufacturing,Industrial Equipment,Singapore,392,591309596.96,292440989.61,Defaulted,Investment Grade,2023-03-25,2024-05-12
+OBL-00469,FAC-0045,Global Healthcare AG,Government Entity,27-9047291,Technology,Hardware,Canada,809,383808843.65,30841291.55,Watchlist,Distressed,2021-04-30,2023-03-15
+OBL-00470,FAC-0041,Meridian Services Group,Corporate,94-9860239,Technology,Cloud Services,Chile,343,375883228.68,296882929.13,Watchlist,High Yield,2019-05-02,2021-01-06
+OBL-00471,FAC-0038,Stellar Aerospace S.A.,Corporate,57-2899743,Energy,Renewable Energy,United Kingdom,646,502639354.07,63660712.02,Defaulted,Investment Grade,2021-06-01,2022-01-19
+OBL-00472,FAC-0067,Allied Dynamics AG,Non-Profit Organization,14-8768806,Transportation,Airlines,Singapore,799,962543183.63,242092362.77,Active,Sub-Investment Grade,2020-03-11,2021-10-15
+OBL-00473,FAC-0019,Pinnacle Financial Inc.,Corporate,65-9255164,Banking & Finance,Insurance,Singapore,502,685761933.34,3357963.99,Active,Distressed,2023-06-08,2024-06-12
+OBL-00474,FAC-0048,Vector Energy Group,Corporate,56-8186377,Transportation,Shipping,United States,486,572316822.64,3757219.49,Watchlist,Sub-Investment Grade,2020-01-11,2021-02-25
+OBL-00475,FAC-0086,Allied Partners Ltd.,Corporate,15-3242783,Technology,Cloud Services,United States,704,321441936.58,228139085.81,Active,Sub-Investment Grade,2016-08-01,2018-01-30
+OBL-00476,FAC-0098,Vector Biotech GmbH,Non-Profit Organization,97-3137987,Banking & Finance,Investment Banking,Netherlands,632,975895408.23,911273827.23,Restructuring,High Yield,2017-07-18,2019-03-21
+OBL-00477,FAC-0079,Summit Pharmaceuticals Inc.,Non-Profit Organization,97-4967894,Transportation,Rail,United Kingdom,353,480994574.1,362226099.5,Defaulted,Sub-Investment Grade,2021-02-15,2022-01-20
+OBL-00478,FAC-0070,Vantage Solutions AG,Corporate,41-5716726,Retail & Consumer,E-Commerce,United States,417,150227571.72,69349971.82,Restructuring,Sub-Investment Grade,2022-12-04,2024-02-10
+OBL-00479,FAC-0089,Vantage Enterprises Ltd.,Non-Profit Organization,85-3495209,Healthcare,Biotech,Netherlands,534,73561211.69,56602030.74,Active,Investment Grade,2023-04-18,2025-03-12
+OBL-00480,FAC-0014,National Energy S.A.,Special Purpose Vehicle,49-4882711,Retail & Consumer,E-Commerce,Australia,527,630660318.67,255409752.78,Active,High Yield,2019-09-16,2020-06-15
+OBL-00481,FAC-0056,Stellar Resources Group,Corporate,33-1686005,Telecommunications,Wireless,United States,300,182532890.59,46688953.59,Active,Sub-Investment Grade,2020-09-11,2022-03-04
+OBL-00482,FAC-0021,Vector Financial Group,Corporate,24-2625497,Healthcare,Hospitals,United States,313,1084617818.92,103823538.42,Defaulted,Distressed,2018-06-02,2019-08-14
+OBL-00483,FAC-0099,Vantage Financial Ltd.,Government Entity,45-4523774,Energy,Utilities,India,693,914847602.92,645686098.72,Active,Investment Grade,2023-03-15,2025-03-05
+OBL-00484,FAC-0072,Nexus Partners Corp.,Special Purpose Vehicle,89-6752873,Energy,Oil & Gas,Chile,608,1479092889.27,1242200344.37,Defaulted,High Yield,2019-04-02,2020-04-13
+OBL-00485,FAC-0080,Summit Logistics Corp.,Financial Institution,18-9100385,Healthcare,Medical Devices,Canada,729,414489718.92,216766060.47,Watchlist,Distressed,2022-01-20,2023-07-09
+OBL-00486,FAC-0060,Pinnacle Aerospace AG,Non-Profit Organization,75-2258048,Banking & Finance,Investment Banking,India,469,1181366930.08,325080918.42,Active,Distressed,2018-01-18,2019-01-27
+OBL-00487,FAC-0063,Horizon Infrastructure Inc.,Non-Profit Organization,75-8641031,Retail & Consumer,Food & Beverage,United States,815,339768394.39,1162184.28,Defaulted,Distressed,2022-10-22,2023-11-29
+OBL-00488,FAC-0035,National Biotech Ltd.,Corporate,15-3485367,Real Estate,Development,France,584,784798068.59,411660627.49,Active,Sub-Investment Grade,2020-10-11,2021-11-24
+OBL-00489,FAC-0010,American Infrastructure AG,Corporate,27-7850856,Banking & Finance,Investment Banking,Switzerland,601,125633103.7,77416780.05,Active,Investment Grade,2021-02-20,2022-07-17
+OBL-00490,FAC-0065,Horizon Partners S.A.,Government Entity,42-4458774,Banking & Finance,Asset Management,UAE,752,1003668044.14,168514336.22,Active,Sub-Investment Grade,2021-08-10,2023-08-10
+OBL-00491,FAC-0089,Atlantic Aerospace Corp.,Financial Institution,33-8707287,Real Estate,Residential REIT,United States,489,47395856.58,32860557.35,Restructuring,Investment Grade,2022-07-19,2024-01-27
+OBL-00492,FAC-0090,Vantage Technologies Corp.,Corporate,19-8153721,Healthcare,Biotech,UAE,551,464745899.31,136938406.25,Active,High Yield,2018-08-12,2020-03-17
+OBL-00493,FAC-0089,National Solutions Ltd.,Non-Profit Organization,20-5490530,Technology,Hardware,Chile,446,12597208.2,4595348.44,Defaulted,Distressed,2021-08-21,2022-03-02
+OBL-00494,FAC-0063,Atlantic Aerospace N.V.,Financial Institution,30-6157064,Banking & Finance,Retail Banking,Chile,639,1112916987.68,357769892.85,Active,Investment Grade,2017-05-07,2018-05-29
+OBL-00495,FAC-0028,Meridian Dynamics Corp.,Special Purpose Vehicle,63-3379596,Healthcare,Pharmaceuticals,India,301,866208344.3,17451941.06,Active,Investment Grade,2018-02-25,2018-12-07
+OBL-00496,FAC-0064,Vector Enterprises Corp.,Corporate,23-5728058,Healthcare,Biotech,United States,665,442218812.39,120506349.66,Active,Distressed,2022-02-13,2022-12-05
+OBL-00497,FAC-0058,Titan Ventures N.V.,Corporate,96-8134419,Manufacturing,Automotive,Japan,453,859127885.91,493380875.47,Defaulted,Sub-Investment Grade,2017-10-29,2019-07-09
+OBL-00498,FAC-0081,American Capital LLC,Non-Profit Organization,93-3459356,Government,State Authority,Japan,627,368577672.4,174812056.61,Active,High Yield,2020-03-23,2021-06-17
+OBL-00499,FAC-0030,American Ventures LLC,Corporate,59-6915793,Telecommunications,Cable,United States,626,359964311.0,328145643.23,Active,High Yield,2018-05-21,2019-04-14
+OBL-00500,FAC-0037,Stellar Biotech GmbH,Special Purpose Vehicle,78-9264480,Telecommunications,Cable,Australia,845,322723265.68,200493930.09,Watchlist,Investment Grade,2022-07-17,2024-02-09

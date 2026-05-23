@@ -5,6 +5,13 @@
  *  - GridManager class: custom HTML table grid (no external dependencies).
  *  - ColumnHelper:      builds typed column definitions.
  *  - CellRenderer:      provides common cell rendering functions.
+ *
+ * FR Y-14Q enhancements over baseline:
+ *  - Multi-column sorting with priority ordering (Ctrl+click to add).
+ *  - Date column filters (agDateColumnFilter).
+ *  - Categorical filters (col.values array → checkbox list).
+ *  - Reliable resize→sort isolation: pixel-distance guard on th click.
+ *  - getFilterSortState() for async export job specs.
  */
 
 // ── Cell renderers ─────────────────────────────────────────────────────────────
@@ -118,7 +125,7 @@ class GridManager {
    *
    * @param {string}   containerId - DOM element ID to mount into.
    * @param {Object[]} columnDefs  - Column definitions (same shape as before).
-   * @param {Object}   [options]   - paginationPageSize, paginationPageSizeSelector, rowHeight.
+   * @param {Object}   [options]   - paginationPageSize, paginationPageSizeSelector.
    */
   constructor(containerId, columnDefs, options = {}) {
     this._containerId = containerId;
@@ -128,8 +135,9 @@ class GridManager {
     // Dataset state
     this._allData      = [];
     this._filteredData = [];
-    this._sortCol      = null;
-    this._sortDir      = null;   // 'asc' | 'desc' | null
+
+    // Multi-column sort state: [{field, dir}] in priority order (index 0 = primary).
+    this._sortState = [];
 
     // Pagination state
     this._page     = 0;
@@ -147,13 +155,18 @@ class GridManager {
     this._colPanel     = null;   // open column-picker dropdown
     this._filterPopup  = null;   // open column-filter popup
 
-    // DOM ref for <colgroup> (set in _buildTable, rebuilt in _buildHeaders)
+    // DOM ref for <colgroup>
     this._colgroup = null;
 
     // Column resize / reorder state
     this._colWidthOverrides = new Map();  // field → user-dragged px width
-    this._dragSrcField      = null;       // field currently being column-dragged
+    this._dragSrcField      = null;       // field being column-dragged
     this._didDrag           = false;      // suppresses sort click after a drop
+
+    // Resize tracking — per-header mousedown position for click-vs-drag detection.
+    // A sort click is only fired when mouse has moved ≤ 4px since mousedown on th.
+    this._thDownX = 0;
+    this._thDownY = 0;
 
     // DOM refs (set in _buildTable)
     this._container = null;
@@ -189,12 +202,15 @@ class GridManager {
 
   setQuickFilter(text) {
     this._quickFilter = text || '';
+    this._page = 0;
     this._render();
   }
 
   clearFilters() {
     this._quickFilter = '';
     this._colFilters.clear();
+    this._sortState   = [];
+    this._page        = 0;
     this._render();
   }
 
@@ -210,6 +226,18 @@ class GridManager {
     const a    = Object.assign(document.createElement('a'), { href: url, download: filename });
     a.click();
     URL.revokeObjectURL(url);
+  }
+
+  /**
+   * Return current filter and sort state for async export job specs.
+   * The returned object is JSON-serialisable and can be POSTed directly.
+   */
+  getFilterSortState() {
+    return {
+      quick_filter: this._quickFilter,
+      col_filters:  Object.fromEntries(this._colFilters),
+      sort_state:   this._sortState.map(s => ({ field: s.field, dir: s.dir })),
+    };
   }
 
   /** Compatibility shim — callers use getApi().sizeColumnsToFit() */
@@ -237,7 +265,7 @@ class GridManager {
     const list = document.createElement('div');
     list.className = 'col-picker-list';
 
-    // ── Select All / Deselect All row ──────────────────────────────────────────
+    // ── Select All row ─────────────────────────────────────────────────────────
     const allItem = document.createElement('label');
     allItem.className = 'col-picker-item col-picker-select-all';
 
@@ -267,12 +295,10 @@ class GridManager {
     allItem.appendChild(document.createTextNode(' Select All'));
     list.appendChild(allItem);
 
-    // divider
     const divider = document.createElement('div');
     divider.style.cssText = 'height:1px;background:#f0f0f0;margin:2px 0';
     list.appendChild(divider);
 
-    // ── Individual column rows ─────────────────────────────────────────────────
     this._columnDefs.forEach(col => {
       const label = col.headerName || col.field;
       if (!label) return;
@@ -380,31 +406,61 @@ class GridManager {
           case 'gte':        return parseFloat(cell) >= parseFloat(val);
           case 'lt':         return parseFloat(cell) <  parseFloat(val);
           case 'lte':        return parseFloat(cell) <= parseFloat(val);
-          default:           return true;
+          // Date ops
+          case 'dateEq': {
+            const d = new Date(cell); const ref = new Date(val);
+            return !isNaN(d) && !isNaN(ref) && d.toDateString() === ref.toDateString();
+          }
+          case 'dateBefore': {
+            const d = new Date(cell); const ref = new Date(val);
+            return !isNaN(d) && !isNaN(ref) && d < ref;
+          }
+          case 'dateAfter': {
+            const d = new Date(cell); const ref = new Date(val);
+            return !isNaN(d) && !isNaN(ref) && d > ref;
+          }
+          // Categorical — val is comma-separated accepted values
+          case 'inList': {
+            const accepted = new Set(val.split(',').map(v => v.trim().toLowerCase()));
+            return accepted.has(s);
+          }
+          default: return true;
         }
       });
     });
 
-    this._filteredData = rows;
-    this._page = 0;
+    // Always copy so _applySort cannot mutate _allData in-place.
+    // Do NOT reset _page here — page resets are the caller's responsibility
+    // so that pagination button clicks (_page already set) are not overwritten.
+    this._filteredData = [...rows];
   }
 
+  // Multi-column sort: primary key first, then secondary, tertiary, etc.
   _applySort() {
-    if (!this._sortCol || !this._sortDir) return;
-    const col       = this._columnDefs.find(c => c.field === this._sortCol);
-    const isNumeric = col && (col.filter === 'agNumberColumnFilter' || col.type === 'numericColumn');
+    if (this._sortState.length === 0) return;
 
     this._filteredData.sort((a, b) => {
-      let av = a[this._sortCol], bv = b[this._sortCol];
-      if (isNumeric) {
-        av = parseFloat(av) || 0;
-        bv = parseFloat(bv) || 0;
-      } else {
-        av = String(av ?? '').toLowerCase();
-        bv = String(bv ?? '').toLowerCase();
+      for (const { field, dir } of this._sortState) {
+        const col       = this._columnDefs.find(c => c.field === field);
+        const isNumeric = col && (col.filter === 'agNumberColumnFilter' || col.type === 'numericColumn');
+        const isDate    = col && col.filter === 'agDateColumnFilter';
+
+        let av = a[field], bv = b[field];
+        if (isNumeric) {
+          av = parseFloat(av) || 0;
+          bv = parseFloat(bv) || 0;
+        } else if (isDate) {
+          av = av ? new Date(av).getTime() : 0;
+          bv = bv ? new Date(bv).getTime() : 0;
+        } else {
+          av = String(av ?? '').toLowerCase();
+          bv = String(bv ?? '').toLowerCase();
+        }
+
+        if (av < bv) return dir === 'asc' ? -1 :  1;
+        if (av > bv) return dir === 'asc' ?  1 : -1;
+        // equal on this key → fall through to next sort key
       }
-      if (av < bv) return this._sortDir === 'asc' ? -1 :  1;
-      if (av > bv) return this._sortDir === 'asc' ?  1 : -1;
       return 0;
     });
   }
@@ -412,8 +468,8 @@ class GridManager {
   // ── Header building ──────────────────────────────────────────────────────────
 
   _buildHeaders() {
-    this._thead.innerHTML   = '';
-    this._colgroup.innerHTML = '';   // one <col> per visible column
+    this._thead.innerHTML    = '';
+    this._colgroup.innerHTML = '';
     this._visibleCols().forEach(col => {
       const c = document.createElement('col');
       c.dataset.field = col.field;
@@ -421,22 +477,18 @@ class GridManager {
     });
 
     const tr = document.createElement('tr');
-
-    // Compute sticky offsets
     const leftOffsets  = this._stickyOffsets('left');
     const rightOffsets = this._stickyOffsets('right');
 
     this._visibleCols().forEach(col => {
       const th = document.createElement('th');
-      th.className  = 'wf-th';
+      th.className     = 'wf-th';
       th.dataset.field = col.field;
 
-      // Alignment
       const isRight = col._alignRight || col.type === 'numericColumn' ||
                       col.filter === 'agNumberColumnFilter';
       if (isRight) th.classList.add('wf-th-right');
 
-      // Pinning
       if (col.pinned === 'left') {
         th.classList.add('wf-th-pinned-left');
         th.style.position = 'sticky';
@@ -449,8 +501,10 @@ class GridManager {
         th.style.zIndex   = '3';
       }
 
-      // Sort state
-      if (this._sortCol === col.field) th.classList.add('wf-th-sorted');
+      // Sort state for this column
+      const sortIdx   = this._sortState.findIndex(s => s.field === col.field);
+      const sortEntry = sortIdx !== -1 ? this._sortState[sortIdx] : null;
+      if (sortEntry) th.classList.add('wf-th-sorted');
 
       // Inner layout: label | sort icon | filter btn
       const inner = document.createElement('div');
@@ -461,15 +515,19 @@ class GridManager {
       label.textContent = col.headerName || col.field;
       inner.appendChild(label);
 
-      // Sort icon
+      // Sort icon — shows arrow + priority number when multi-sorting
       const sortIcon = document.createElement('span');
       sortIcon.className = 'wf-sort-icon';
-      if (this._sortCol === col.field) {
-        sortIcon.textContent = this._sortDir === 'asc' ? '↑' : '↓';
+      if (sortEntry) {
+        const arrow    = sortEntry.dir === 'asc' ? '↑' : '↓';
+        const showPrio = this._sortState.length > 1;
+        sortIcon.innerHTML = showPrio
+          ? `${arrow}<sup class="wf-sort-priority">${sortIdx + 1}</sup>`
+          : arrow;
       }
       inner.appendChild(sortIcon);
 
-      // Filter button (only for filterable columns)
+      // Filter button
       if (col.filter && col.filter !== false) {
         const filterBtn = document.createElement('button');
         filterBtn.className = 'wf-filter-btn';
@@ -486,7 +544,7 @@ class GridManager {
 
       th.appendChild(inner);
 
-      // ── Resize handle (skip for right-pinned — no room to drag) ──────────────
+      // ── Resize handle ──────────────────────────────────────────────────────
       if (col.pinned !== 'right') {
         const handle = document.createElement('div');
         handle.className = 'wf-resize-handle';
@@ -494,21 +552,23 @@ class GridManager {
         handle.addEventListener('mousedown', (e) => {
           e.stopPropagation();
           e.preventDefault();
+
           const startX      = e.clientX;
-          const startW      = th.offsetWidth;       // actual rendered px width
+          const startW      = th.offsetWidth;
           const startTableW = this._table.offsetWidth;
           const minW        = col.minWidth ?? 50;
-          // The <col> element for this column — updating it is the only DOM
-          // change needed; table-layout:fixed propagates it to every cell.
-          const colEl = this._colgroup.querySelector(`col[data-field="${col.field}"]`);
+          const colEl       = this._colgroup.querySelector(`col[data-field="${col.field}"]`);
 
           document.body.style.cursor     = 'col-resize';
           document.body.style.userSelect = 'none';
 
+          // Disable sort click for this th for the duration of the drag.
+          // _thDownX is intentionally set far away so the pixel guard fails.
+          this._thDownX = -9999;
+
           const onMove = (ev) => {
             const newW = Math.max(minW, startW + (ev.clientX - startX));
             if (colEl) colEl.style.width = newW + 'px';
-            // Grow/shrink table by the same delta so other columns stay fixed.
             this._table.style.width = (startTableW + newW - startW) + 'px';
           };
 
@@ -518,7 +578,6 @@ class GridManager {
             document.body.style.cursor     = '';
             document.body.style.userSelect = '';
             this._colWidthOverrides.set(col.field, Math.max(minW, startW + (ev.clientX - startX)));
-            // Reflow flex columns to fill any gap left by the resize.
             this._recalcWidths();
           };
 
@@ -531,15 +590,18 @@ class GridManager {
       // ── Column drag-to-reorder ─────────────────────────────────────────────
       th.setAttribute('draggable', 'true');
       th.addEventListener('dragstart', (e) => {
+        // Modifier-key click = additive sort intent — cancel drag so _didDrag stays false.
+        if (e.ctrlKey || e.metaKey || e.shiftKey) { e.preventDefault(); return; }
         this._dragSrcField = col.field;
         e.dataTransfer.effectAllowed = 'move';
         e.dataTransfer.setData('text/plain', col.field);
         th.classList.add('wf-th-dragging');
       });
       th.addEventListener('dragend', () => {
-        this._dragSrcField  = null;
-        this._didDrag       = true;
-        setTimeout(() => { this._didDrag = false; }, 0);
+        this._dragSrcField = null;
+        // _didDrag intentionally not set here — Chrome does not fire `click` after a
+        // real drag (mouse moved), so the pixel-distance guard in the click handler
+        // is sufficient. Setting _didDrag here would suppress Ctrl+click sort.
         document.querySelectorAll('.wf-th-dragging, .wf-th-drag-over')
           .forEach(el => el.classList.remove('wf-th-dragging', 'wf-th-drag-over'));
       });
@@ -559,10 +621,22 @@ class GridManager {
         this._dragSrcField = null;
       });
 
-      // Sort click on th (not on filter button or resize handle)
+      // ── Sort click ─────────────────────────────────────────────────────────
+      // Track mousedown position so we can distinguish click from drag.
       if (col.sortable !== false) {
-        th.style.cursor = 'grab';
-        th.addEventListener('click', () => this._onSortClick(col.field));
+        th.style.cursor = 'pointer';
+        th.addEventListener('mousedown', (e) => {
+          this._thDownX = e.clientX;
+          this._thDownY = e.clientY;
+          this._didDrag = false;   // reset before every new click interaction
+        });
+        th.addEventListener('click', (e) => {
+          // Suppress sort if mouse moved > 4px since mousedown (resize / column-drag).
+          const dx = Math.abs(e.clientX - this._thDownX);
+          const dy = Math.abs(e.clientY - this._thDownY);
+          if (dx > 4 || dy > 4) return;
+          this._onSortClick(col.field, e.ctrlKey || e.metaKey || e.shiftKey);
+        });
       }
 
       tr.appendChild(th);
@@ -571,16 +645,54 @@ class GridManager {
     this._thead.appendChild(tr);
   }
 
-  _onSortClick(field) {
-    if (this._didDrag) return;   // drag just finished; don't sort
-    if (this._sortCol === field) {
-      if (this._sortDir === null)       this._sortDir = 'asc';
-      else if (this._sortDir === 'asc') this._sortDir = 'desc';
-      else { this._sortCol = null; this._sortDir = null; }
+  /**
+   * Handle a sort click on *field*.
+   *
+   * @param {string}  field    - Column field name.
+   * @param {boolean} additive - Ctrl/Meta held → add to sort stack without
+   *                             clearing existing sort columns.
+   *
+   * Cycle without additive (single-column):
+   *   none → asc → desc → none
+   *
+   * Cycle with additive (multi-column, APPEND model):
+   *   New column → appended at the end (becomes lowest-priority key)
+   *   Existing column → cycles asc → desc → (removed from stack)
+   *
+   * Priority order = click order: first Ctrl+click = primary,
+   * second = secondary, third = tertiary, etc.
+   */
+  _onSortClick(field, additive = false) {
+    const existingIdx = this._sortState.findIndex(s => s.field === field);
+
+    if (additive) {
+      if (existingIdx !== -1) {
+        // Column already in stack — cycle it in place
+        const cur = this._sortState[existingIdx];
+        if (cur.dir === 'asc') {
+          this._sortState[existingIdx] = { field, dir: 'desc' };
+        } else {
+          this._sortState.splice(existingIdx, 1);
+        }
+      } else {
+        // New column — append as next priority key
+        this._sortState.push({ field, dir: 'asc' });
+      }
     } else {
-      this._sortCol = field;
-      this._sortDir = 'asc';
+      // Replace entire sort state with single-column cycle
+      if (existingIdx !== -1 && this._sortState.length === 1) {
+        const cur = this._sortState[0];
+        if (cur.dir === 'asc') {
+          this._sortState = [{ field, dir: 'desc' }];
+        } else {
+          this._sortState = [];
+        }
+      } else {
+        this._sortState = [{ field, dir: 'asc' }];
+      }
     }
+
+    this._page = 0;
     this._render();
   }
 
@@ -612,17 +724,14 @@ class GridManager {
         const td = document.createElement('td');
         td.className = 'wf-td';
 
-        // Extra cellClass
         if (col.cellClass) {
           String(col.cellClass).split(/\s+/).forEach(c => c && td.classList.add(c));
         }
 
-        // Alignment
         const isRight = col._alignRight || col.type === 'numericColumn' ||
                         col.filter === 'agNumberColumnFilter';
         if (isRight) td.classList.add('wf-td-right');
 
-        // Pinning
         if (col.pinned === 'left') {
           td.classList.add('wf-td-pinned-left');
           td.style.position = 'sticky';
@@ -635,12 +744,10 @@ class GridManager {
           td.style.zIndex   = '2';
         }
 
-        // Tooltip
         if (col.tooltipField && row[col.tooltipField]) {
           td.title = String(row[col.tooltipField]);
         }
 
-        // Wrap text
         if (col.wrapText) {
           td.style.whiteSpace    = 'normal';
           td.style.height        = 'auto';
@@ -649,7 +756,6 @@ class GridManager {
           td.style.paddingBottom = '8px';
         }
 
-        // Cell content
         const params = { value: row[col.field], data: row, colDef: col };
         if (typeof col.cellRenderer === 'function') {
           const result = col.cellRenderer(params);
@@ -671,22 +777,25 @@ class GridManager {
   _buildPagination() {
     this._pagBar.innerHTML = '';
 
-    const total     = this._filteredData.length;
+    const total      = this._filteredData.length;
     const totalPages = Math.max(1, Math.ceil(total / this._pageSize));
-    const start     = total === 0 ? 0 : this._page * this._pageSize + 1;
-    const end       = Math.min(total, (this._page + 1) * this._pageSize);
+    const start      = total === 0 ? 0 : this._page * this._pageSize + 1;
+    const end        = Math.min(total, (this._page + 1) * this._pageSize);
 
-    // Left: row count info
+    // Active sort hint
+    const sortHint = this._sortState.length > 0
+      ? this._sortState.map(s => `${s.field} ${s.dir === 'asc' ? '↑' : '↓'}`).join(', ')
+      : '';
+
     const info = document.createElement('span');
-    info.className   = 'wf-pag-info';
-    info.textContent = `Rows ${start}–${end} of ${total.toLocaleString()}`;
+    info.className = 'wf-pag-info';
+    info.innerHTML = `Rows ${start}–${end} of <strong>${total.toLocaleString()}</strong>` +
+      (sortHint ? `<span class="wf-sort-hint"> · Sorted: ${sortHint}</span>` : '');
     this._pagBar.appendChild(info);
 
-    // Right: controls
     const controls = document.createElement('div');
     controls.className = 'wf-pag-controls';
 
-    // Page size selector
     const sizeLabel = document.createElement('label');
     sizeLabel.textContent = 'Rows per page:';
     sizeLabel.style.marginRight = '4px';
@@ -696,9 +805,9 @@ class GridManager {
     sizeSelect.className = 'wf-pag-size';
     this._pageSizeOptions.forEach(n => {
       const opt = document.createElement('option');
-      opt.value       = n;
+      opt.value    = n;
       opt.textContent = n;
-      opt.selected    = n === this._pageSize;
+      opt.selected = n === this._pageSize;
       sizeSelect.appendChild(opt);
     });
     sizeSelect.addEventListener('change', () => {
@@ -708,18 +817,17 @@ class GridManager {
     });
     controls.appendChild(sizeSelect);
 
-    // Nav buttons
     const mkBtn = (label, action, disabled) => {
       const btn = document.createElement('button');
-      btn.className       = 'wf-pag-btn';
-      btn.textContent     = label;
-      btn.disabled        = disabled;
+      btn.className   = 'wf-pag-btn';
+      btn.textContent = label;
+      btn.disabled    = disabled;
       btn.addEventListener('click', () => { this._page = action(); this._render(); });
       return btn;
     };
 
-    controls.appendChild(mkBtn('«', () => 0,                this._page === 0));
-    controls.appendChild(mkBtn('‹', () => this._page - 1,   this._page === 0));
+    controls.appendChild(mkBtn('«', () => 0,              this._page === 0));
+    controls.appendChild(mkBtn('‹', () => this._page - 1, this._page === 0));
 
     const pageLabel = document.createElement('span');
     pageLabel.className   = 'wf-pag-page';
@@ -727,7 +835,7 @@ class GridManager {
     controls.appendChild(pageLabel);
 
     controls.appendChild(mkBtn('›', () => this._page + 1,       this._page >= totalPages - 1));
-    controls.appendChild(mkBtn('»', () => totalPages - 1,       this._page >= totalPages - 1));
+    controls.appendChild(mkBtn('»', () => totalPages - 1,        this._page >= totalPages - 1));
 
     this._pagBar.appendChild(controls);
   }
@@ -739,23 +847,21 @@ class GridManager {
     if (!containerWidth) return;
 
     const cols     = this._visibleCols();
-    let   fixedSum = 0;
-    let   flexSum  = 0;
+    let   fixedSum = 0, flexSum = 0;
 
     cols.forEach(col => {
       if (this._colWidthOverrides.has(col.field)) {
         fixedSum += this._colWidthOverrides.get(col.field);
       } else if (col.flex) {
-        flexSum  += col.flex;
+        flexSum += col.flex;
       } else {
         fixedSum += col.width ?? col.minWidth ?? 80;
       }
     });
 
     const flexPool = Math.max(0, containerWidth - fixedSum);
+    const widths   = {};
 
-    // Build width map
-    const widths = {};
     cols.forEach(col => {
       if (this._colWidthOverrides.has(col.field)) {
         widths[col.field] = this._colWidthOverrides.get(col.field);
@@ -769,13 +875,10 @@ class GridManager {
       }
     });
 
-    // Ensure totalColWidth == containerWidth so the table always fills the container.
-    // This prevents table-layout:fixed from redistributing surplus AND prevents the
-    // right-pinned sticky column from floating away from the content columns.
-    let totalColWidth = cols.reduce((sum, col) => sum + widths[col.field], 0);
+    // Close floor-rounding gap so table exactly fills the container.
+    let totalColWidth = cols.reduce((s, c) => s + widths[c.field], 0);
     const gap = containerWidth - totalColWidth;
     if (gap > 0) {
-      // Tier 1: last non-overridden flex column (natural expansion target)
       let expandIdx = -1;
       for (let i = cols.length - 1; i >= 0; i--) {
         const c = cols[i];
@@ -783,7 +886,6 @@ class GridManager {
           expandIdx = i; break;
         }
       }
-      // Tier 2: last non-right-pinned column of any kind (when all flex cols overridden)
       if (expandIdx === -1) {
         for (let i = cols.length - 1; i >= 0; i--) {
           if (cols[i].pinned !== 'right') { expandIdx = i; break; }
@@ -794,12 +896,9 @@ class GridManager {
         totalColWidth = containerWidth;
       }
     }
-    // totalColWidth > containerWidth when fixed cols overflow → horizontal scroll
+
     this._table.style.width = totalColWidth + 'px';
 
-    // Apply widths to <col> elements only.  With table-layout:fixed, <col> widths
-    // are the canonical source of truth — the browser applies them to every cell in
-    // the column automatically, with zero redistribution across other columns.
     this._colgroup.querySelectorAll('col').forEach((colEl, i) => {
       const col = cols[i];
       if (col) colEl.style.width = widths[col.field] + 'px';
@@ -809,11 +908,9 @@ class GridManager {
   // ── Column filter popup ──────────────────────────────────────────────────────
 
   _openFilterPopup(col, anchorEl) {
-    // Close existing popup
     if (this._filterPopup) {
       this._filterPopup.remove();
       this._filterPopup = null;
-      // If clicking the same column's button, just close
       if (this._filterPopupField === col.field) {
         this._filterPopupField = null;
         return;
@@ -821,48 +918,122 @@ class GridManager {
     }
     this._filterPopupField = col.field;
 
-    const isNumeric = col.filter === 'agNumberColumnFilter';
-    const current   = this._colFilters.get(col.field) || {};
+    const isNumeric      = col.filter === 'agNumberColumnFilter';
+    const isDate         = col.filter === 'agDateColumnFilter';
+    const isCategorical  = Array.isArray(col.values) && col.values.length > 0;
+    const current        = this._colFilters.get(col.field) || {};
 
     const popup = document.createElement('div');
     popup.className = 'wf-col-filter-popup';
 
-    // Header
     const hdr = document.createElement('div');
     hdr.className   = 'wf-cfp-header';
     hdr.textContent = 'Filter: ' + (col.headerName || col.field);
     popup.appendChild(hdr);
 
-    // Body
     const body = document.createElement('div');
     body.className = 'wf-cfp-body';
 
-    const opSel = document.createElement('select');
-    opSel.className = 'wf-cfp-op';
+    let applyFn;  // set per filter type
 
-    const textOps   = [['contains','Contains'],['equals','Equals'],['startsWith','Starts with']];
-    const numericOps= [['numEq','Equals'],['gt','Greater than'],['gte','Greater than or equal'],
-                       ['lt','Less than'],['lte','Less than or equal']];
-    (isNumeric ? numericOps : textOps).forEach(([val, lbl]) => {
-      const opt = document.createElement('option');
-      opt.value       = val;
-      opt.textContent = lbl;
-      opt.selected    = val === (current.op || (isNumeric ? 'numEq' : 'contains'));
-      opSel.appendChild(opt);
-    });
+    if (isCategorical) {
+      // ── Categorical filter — checkbox list ──────────────────────────────────
+      const selected = new Set(
+        current.op === 'inList' ? String(current.val || '').split(',').map(v => v.trim()) : []
+      );
 
-    const valInput = document.createElement('input');
-    valInput.className   = 'wf-cfp-val';
-    valInput.type        = isNumeric ? 'number' : 'text';
-    valInput.placeholder = 'Value…';
-    valInput.value       = current.val ?? '';
-    valInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
+      const listWrap = document.createElement('div');
+      listWrap.style.cssText = 'max-height:160px;overflow-y:auto;display:flex;flex-direction:column;gap:4px';
 
-    body.appendChild(opSel);
-    body.appendChild(valInput);
+      col.values.forEach(v => {
+        const lbl = document.createElement('label');
+        lbl.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer';
+        const cb = document.createElement('input');
+        cb.type    = 'checkbox';
+        cb.value   = v;
+        cb.checked = selected.has(String(v));
+        cb.style.accentColor = '#D71E28';
+        lbl.appendChild(cb);
+        lbl.appendChild(document.createTextNode(v));
+        listWrap.appendChild(lbl);
+      });
+
+      body.appendChild(listWrap);
+      applyFn = () => {
+        const checked = [...listWrap.querySelectorAll('input:checked')].map(c => c.value);
+        if (checked.length > 0 && checked.length < col.values.length) {
+          this._colFilters.set(col.field, { op: 'inList', val: checked.join(',') });
+        } else {
+          this._colFilters.delete(col.field);
+        }
+      };
+
+    } else if (isDate) {
+      // ── Date filter ─────────────────────────────────────────────────────────
+      const dateOps = [['dateEq','On date'],['dateBefore','Before'],['dateAfter','After']];
+
+      const opSel = document.createElement('select');
+      opSel.className = 'wf-cfp-op';
+      dateOps.forEach(([val, lbl]) => {
+        const opt = document.createElement('option');
+        opt.value       = val;
+        opt.textContent = lbl;
+        opt.selected    = val === (current.op || 'dateEq');
+        opSel.appendChild(opt);
+      });
+
+      const dateInput = document.createElement('input');
+      dateInput.className = 'wf-cfp-val';
+      dateInput.type      = 'date';
+      dateInput.value     = current.val ?? '';
+      dateInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
+
+      body.appendChild(opSel);
+      body.appendChild(dateInput);
+
+      applyFn = () => {
+        const val = dateInput.value;
+        if (val) this._colFilters.set(col.field, { op: opSel.value, val });
+        else     this._colFilters.delete(col.field);
+      };
+
+    } else {
+      // ── Text / numeric filter ────────────────────────────────────────────────
+      const textOps    = [['contains','Contains'],['equals','Equals'],['startsWith','Starts with']];
+      const numericOps = [['numEq','Equals'],['gt','Greater than'],['gte','≥'],
+                          ['lt','Less than'],['lte','≤']];
+
+      const opSel = document.createElement('select');
+      opSel.className = 'wf-cfp-op';
+      (isNumeric ? numericOps : textOps).forEach(([val, lbl]) => {
+        const opt = document.createElement('option');
+        opt.value       = val;
+        opt.textContent = lbl;
+        opt.selected    = val === (current.op || (isNumeric ? 'numEq' : 'contains'));
+        opSel.appendChild(opt);
+      });
+
+      const valInput = document.createElement('input');
+      valInput.className   = 'wf-cfp-val';
+      valInput.type        = isNumeric ? 'number' : 'text';
+      valInput.placeholder = 'Value…';
+      valInput.value       = current.val ?? '';
+      valInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
+
+      body.appendChild(opSel);
+      body.appendChild(valInput);
+
+      applyFn = () => {
+        const val = valInput.value.trim();
+        if (val !== '') this._colFilters.set(col.field, { op: opSel.value, val });
+        else            this._colFilters.delete(col.field);
+      };
+
+      setTimeout(() => valInput.focus(), 0);
+    }
+
     popup.appendChild(body);
 
-    // Footer
     const footer = document.createElement('div');
     footer.className = 'wf-cfp-footer';
 
@@ -873,6 +1044,7 @@ class GridManager {
       this._colFilters.delete(col.field);
       popup.remove();
       this._filterPopup = null;
+      this._page = 0;
       this._render();
     });
 
@@ -880,14 +1052,10 @@ class GridManager {
     applyBtn.className   = 'wf-cfp-apply';
     applyBtn.textContent = 'Apply';
     applyBtn.addEventListener('click', () => {
-      const val = valInput.value.trim();
-      if (val !== '') {
-        this._colFilters.set(col.field, { op: opSel.value, val });
-      } else {
-        this._colFilters.delete(col.field);
-      }
+      applyFn();
       popup.remove();
       this._filterPopup = null;
+      this._page = 0;
       this._render();
     });
 
@@ -898,15 +1066,10 @@ class GridManager {
     document.body.appendChild(popup);
     this._filterPopup = popup;
 
-    // Position below the filter button
     const rect = anchorEl.getBoundingClientRect();
     popup.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
     popup.style.left = (rect.left   + window.scrollX - 180) + 'px';
 
-    // Focus the value input
-    setTimeout(() => valInput.focus(), 0);
-
-    // Outside-click closes
     const onOutside = (e) => {
       if (!popup.contains(e.target) && e.target !== anchorEl) {
         popup.remove();
@@ -924,7 +1087,6 @@ class GridManager {
     return this._columnDefs.filter(c => !this._hiddenCols.has(c.field));
   }
 
-  /** Compute sticky pixel offsets for left- or right-pinned columns. */
   _stickyOffsets(side) {
     const result   = {};
     const cols     = this._visibleCols();
@@ -934,23 +1096,16 @@ class GridManager {
 
     if (side === 'left') {
       cols.forEach(col => {
-        if (col.pinned === 'left') {
-          result[col.field] = offset;
-          offset += colWidth(col);
-        }
+        if (col.pinned === 'left') { result[col.field] = offset; offset += colWidth(col); }
       });
     } else {
       [...cols].reverse().forEach(col => {
-        if (col.pinned === 'right') {
-          result[col.field] = offset;
-          offset += colWidth(col);
-        }
+        if (col.pinned === 'right') { result[col.field] = offset; offset += colWidth(col); }
       });
     }
     return result;
   }
 
-  /** Move a column from srcField's position to tgtField's position. */
   _moveColumn(srcField, tgtField) {
     const srcIdx = this._columnDefs.findIndex(c => c.field === srcField);
     const tgtIdx = this._columnDefs.findIndex(c => c.field === tgtField);

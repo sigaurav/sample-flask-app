@@ -1,48 +1,38 @@
 /**
- * app.js — Application bootstrap and main facility grid.
+ * app.js — FR Y-14Q Schedule H1 dashboard bootstrap.
  *
- * Initialises the facility AG Grid on the dashboard page,
- * wires toolbar controls (search, filters, export, show/hide columns),
+ * Initialises the credit exposure grid, wires toolbar controls
+ * (search, column visibility, multi-sort clear, async export dropdown),
  * and populates the KPI strip.
  *
  * Depends on: api-utils.js, grid-config.js, modal-manager.js, drill-down.js
  */
 const WFApp = (function () {
 
-  /** @type {GridManager|null} The main facility grid manager. */
-  let _facilityGrid = null;
-
-  /** @type {Object[]|null} Raw facility data from API (all pages). */
+  let _facilityGrid  = null;
   let _allFacilities = null;
 
-  // ── Facility column definitions ────────────────────────────────────────────
-  //
-  // Strategy: pinned / chip / date columns keep a fixed `width`.
-  //           Name / text / money columns use `flex` so AG Grid distributes
-  //           the remaining space proportionally — no horizontal scroll.
+  // ── Column definitions ─────────────────────────────────────────────────────
 
   function _buildFacilityColumns() {
     return [
-      // ── Pinned left (fixed widths) ───────────────────────────────────────
       ColumnHelper.text('facility_id', 'Facility ID', {
         width: 115, pinned: 'left',
       }),
 
-      // ── Flex columns — share available space ─────────────────────────────
       ColumnHelper.text('facility_name', 'Facility Name', {
         flex: 2, minWidth: 160, tooltipField: 'facility_name',
       }),
-      ColumnHelper.text('facility_type', 'Type', {
+      ColumnHelper.text('facility_type', 'Facility Type', {
         flex: 1.5, minWidth: 130,
       }),
       ColumnHelper.money('credit_limit', 'Credit Limit', {
-        flex: 1, minWidth: 115,
+        flex: 1, minWidth: 120,
       }),
-      ColumnHelper.money('outstanding_balance', 'Outstanding', {
+      ColumnHelper.money('outstanding_balance', 'Outstanding Balance', {
         flex: 1, minWidth: 115,
       }),
 
-      // ── Fixed-size columns ────────────────────────────────────────────────
       {
         headerName:   'Utilisation',
         field:        'utilization_pct',
@@ -51,39 +41,43 @@ const WFApp = (function () {
         sortable:     true,
         cellRenderer: CellRenderer.utilisation,
       },
+      /* Status column — hidden per product decision; restore by removing this comment block
       {
         headerName:   'Status',
         field:        'status',
         width:        118,
         filter:       'agTextColumnFilter',
         cellRenderer: CellRenderer.status,
+        values:       ['Active', 'Inactive', 'Under Review', 'Closed', 'Watch List'],
       },
+      */
       {
-        headerName:   'Risk',
+        headerName:   'Risk Rating',
         field:        'risk_rating',
-        width:        95,
+        width:        105,
         filter:       'agTextColumnFilter',
         cellRenderer: CellRenderer.riskRating,
+        values:       ['AAA','AA','A','BBB','BB','B','CCC','CC','C','D'],
       },
       ColumnHelper.text('relationship_manager', 'Rel. Manager', {
         flex: 1, minWidth: 130,
       }),
       ColumnHelper.text('region', 'Region', { width: 95 }),
 
-      // ── Hidden columns (toggle via Columns panel) ─────────────────────────
-      ColumnHelper.money('available_credit', 'Available',     { flex: 1, minWidth: 110, hide: true }),
-      ColumnHelper.text('currency',           'Currency',     { width: 85,  hide: true }),
-      ColumnHelper.number('risk_score',       'Risk Score',   { width: 95,  hide: true }),
-      ColumnHelper.text('country',            'Country',      { width: 110, hide: true }),
-      ColumnHelper.date('created_date',       'Created',      { width: 105, hide: true }),
-      ColumnHelper.date('maturity_date',      'Maturity',     { width: 105, hide: true }),
-      ColumnHelper.number('interest_rate',    'Rate (%)',     { width: 85,  hide: true }),
+      // Hidden columns — toggleable via Columns panel
+      ColumnHelper.money('available_credit', 'Available',   { flex: 1, minWidth: 110, hide: true }),
+      ColumnHelper.text('currency',          'Currency',    { width: 85,  hide: true }),
+      ColumnHelper.number('risk_score',      'Risk Score',  { width: 95,  hide: true }),
+      ColumnHelper.text('country',           'Country',     { width: 110, hide: true }),
+      ColumnHelper.date('created_date',      'Created',     { width: 105, hide: true }),
+      ColumnHelper.date('maturity_date',     'Maturity',    { width: 105, hide: true }),
+      ColumnHelper.number('interest_rate',   'Rate (%)',    { width: 85,  hide: true }),
 
-      // ── Pinned right — drill-down trigger ────────────────────────────────
+      // Pinned right — drill-down to counterparties
       {
-        headerName: 'Obligors',
+        headerName: 'Counterparties',
         field:      'obligor_count',
-        width:      98,
+        width:      118,
         pinned:     'right',
         sortable:   true,
         filter:     'agNumberColumnFilter',
@@ -100,12 +94,9 @@ const WFApp = (function () {
   function _updateKpi(facilities) {
     const total  = facilities.length;
     const active = facilities.filter(f => f.status === 'Active').length;
-
-    const elTotal  = document.getElementById('kpiTotal');
-    const elActive = document.getElementById('kpiActive');
-
-    if (elTotal)  elTotal.textContent  = total.toLocaleString();
-    if (elActive) elActive.textContent = active.toLocaleString();
+    const el = (id) => document.getElementById(id);
+    if (el('kpiTotal'))  el('kpiTotal').textContent  = total.toLocaleString();
+    if (el('kpiActive')) el('kpiActive').textContent = active.toLocaleString();
   }
 
   // ── Data loading ───────────────────────────────────────────────────────────
@@ -119,32 +110,73 @@ const WFApp = (function () {
       _facilityGrid.setData(_allFacilities);
       _updateKpi(_allFacilities);
 
-      // Resize flex columns after data arrives so the grid has a known width
       setTimeout(() => _facilityGrid.getApi().sizeColumnsToFit(), 50);
 
     } catch (err) {
-      Toast.error('Failed to load facilities', err.message || 'Please ensure the server is running and data has been generated.');
+      Toast.error('Failed to load exposures', err.message ||
+        'Ensure the server is running and data has been generated.');
       console.error('Facility load error:', err);
     }
   }
 
-  // ── Toolbar wiring ────────────────────────────────────────────────────────
+  // ── Async export ───────────────────────────────────────────────────────────
+
+  async function _triggerAsyncExport(exportType, fileFormat) {
+    const state = _facilityGrid.getFilterSortState();
+
+    const spec = {
+      entity_type:   'facilities',
+      export_type:   exportType,
+      schedule_type: 'H1',
+      source_type:   'csv',
+      file_format:   fileFormat,
+      filters:       exportType === 'partial'
+        ? { col_filters: state.col_filters, quick_filter: state.quick_filter }
+        : {},
+      sorts: exportType === 'partial' ? state.sort_state : [],
+    };
+
+    try {
+      const job = await ApiUtils.createExportJob(spec);
+      const typeLabel = exportType === 'partial' ? 'Partial' : 'Full';
+      Toast.info(
+        `${typeLabel} export queued`,
+        `Job ${job.job_id.slice(0, 8)}… — preparing ${fileFormat.toUpperCase()} file.`
+      );
+
+      await ApiUtils.pollUntilComplete(job.job_id, (status, data) => {
+        if (status === 'COMPLETED') {
+          ApiUtils.downloadExport(job.job_id);
+          const rows = data?.row_count ? ` (${data.row_count.toLocaleString()} rows)` : '';
+          Toast.success('Export ready', `${typeLabel} export downloaded${rows}.`);
+        } else if (status === 'FAILED') {
+          Toast.error('Export failed', 'The export job encountered an error. Check the server log.');
+        } else if (status === 'TIMEOUT') {
+          Toast.warning('Export delayed', 'Job still processing — check back via /api/exports.');
+        }
+      });
+
+    } catch (err) {
+      Toast.error('Export error', err.message || 'Failed to start export.');
+      console.error('Export error:', err);
+    }
+  }
+
+  // ── Toolbar wiring ─────────────────────────────────────────────────────────
 
   function _wireToolbar() {
 
-    // Grid search box
+    // Grid search
     const gridSearch = document.getElementById('gridSearch');
     if (gridSearch) {
       let _debounce;
       gridSearch.addEventListener('input', () => {
         clearTimeout(_debounce);
-        _debounce = setTimeout(() => {
-          _facilityGrid.setQuickFilter(gridSearch.value);
-        }, 200);
+        _debounce = setTimeout(() => _facilityGrid.setQuickFilter(gridSearch.value), 200);
       });
     }
 
-    // Global header search (mirrors grid search)
+    // Global header search mirrors grid search
     const globalSearch = document.getElementById('globalSearch');
     if (globalSearch) {
       globalSearch.addEventListener('input', () => {
@@ -153,51 +185,64 @@ const WFApp = (function () {
       });
     }
 
-    // Show/hide columns panel
+    // Columns panel
     const btnShowHide = document.getElementById('btnShowHideColumns');
     if (btnShowHide) {
-      btnShowHide.addEventListener('click', () => {
-        _facilityGrid.toggleColumnsPanel(btnShowHide);
-      });
+      btnShowHide.addEventListener('click', () => _facilityGrid.toggleColumnsPanel(btnShowHide));
     }
 
-    // Clear filters
+    // Clear filters + sort
     const btnClearFilters = document.getElementById('btnClearFilters');
     if (btnClearFilters) {
       btnClearFilters.addEventListener('click', () => {
         _facilityGrid.clearFilters();
         if (gridSearch) gridSearch.value = '';
-        _facilityGrid.setQuickFilter('');
-        Toast.info('Filters cleared', 'All column filters have been removed.');
+        Toast.info('Filters cleared', 'All filters and sort order have been reset.');
       });
     }
 
-    // Export buttons
-    document.querySelectorAll('.btn-export[data-format]').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const fmt = btn.dataset.format;
-        if (fmt === 'csv') {
-          _facilityGrid.exportCsv('facilities.csv');
-          Toast.success('CSV exported', 'Downloading current view as CSV.');
-        } else {
-          ApiUtils.downloadFile(`/api/export/facilities?format=${fmt}`);
-          Toast.success('Export started', `Downloading full facilities dataset as ${fmt.toUpperCase()}.`);
+    // ── Export dropdown ───────────────────────────────────────────────────────
+    const btnExport  = document.getElementById('btnExport');
+    const exportMenu = document.getElementById('exportMenu');
+
+    if (btnExport && exportMenu) {
+      btnExport.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const isOpen = exportMenu.getAttribute('aria-hidden') !== 'true';
+        exportMenu.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
+      });
+
+      document.addEventListener('click', (e) => {
+        if (!exportMenu.contains(e.target) && e.target !== btnExport) {
+          exportMenu.setAttribute('aria-hidden', 'true');
         }
       });
-    });
 
-    // Sidebar toggle — collapse/expand sidebar and re-fit grid columns
+      const _getFormat = () => {
+        const r = document.querySelector('input[name="exportFmt"]:checked');
+        return r ? r.value : 'csv';
+      };
+
+      document.getElementById('btnPartialExport')?.addEventListener('click', () => {
+        exportMenu.setAttribute('aria-hidden', 'true');
+        _triggerAsyncExport('partial', _getFormat());
+      });
+
+      document.getElementById('btnFullExport')?.addEventListener('click', () => {
+        exportMenu.setAttribute('aria-hidden', 'true');
+        _triggerAsyncExport('full', _getFormat());
+      });
+    }
+
+    // Sidebar toggle
     const sidebarToggle = document.getElementById('sidebarToggle');
     const sidebar        = document.getElementById('sidebar');
     if (sidebarToggle && sidebar) {
       sidebarToggle.addEventListener('click', () => {
         sidebar.classList.toggle('open');
         sidebar.classList.toggle('collapsed');
-        const main = document.getElementById('mainContent');
-        if (main) main.classList.toggle('sidebar-collapsed');
-
-        // Re-fit flex columns once CSS transition (150 ms) completes
-        setTimeout(() => _facilityGrid && _facilityGrid.getApi().sizeColumnsToFit(), 200);
+        document.getElementById('mainContent')?.classList.toggle('sidebar-collapsed');
+        setTimeout(() => _facilityGrid?.getApi().sizeColumnsToFit(), 200);
       });
     }
   }
@@ -208,16 +253,17 @@ const WFApp = (function () {
     _facilityGrid = new GridManager(
       'facilityGrid',
       _buildFacilityColumns(),
-      {
-        paginationPageSize:         25,
-        paginationPageSizeSelector: [10, 25, 50, 100],
-      }
+      { paginationPageSize: 25, paginationPageSizeSelector: [10, 25, 50, 100] }
     ).init();
 
     _wireToolbar();
     await _loadFacilities();
 
-    Toast.success('Dashboard ready', `${(_allFacilities || []).length} facilities loaded.`, undefined, 3000);
+    Toast.success(
+      'H1 Schedule loaded',
+      `${(_allFacilities || []).length} credit exposures ready.`,
+      undefined, 3000
+    );
   }
 
   return { init };

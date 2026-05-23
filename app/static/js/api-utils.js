@@ -1,16 +1,15 @@
 /**
- * api-utils.js — HTTP fetch utility and loading/error helpers.
+ * api-utils.js — HTTP fetch utility, loading overlay, and async export helpers.
  *
- * Provides a thin wrapper around the browser Fetch API that:
- *  - Manages the global loading overlay
- *  - Throws enriched errors for non-2xx responses
- *  - Handles JSON parsing consistently
+ * FR Y-14Q additions:
+ *  - createExportJob(spec)             POST /api/exports → {job_id, status}
+ *  - pollUntilComplete(jobId, cb)      Polls status until COMPLETED/FAILED
+ *  - downloadExport(jobId)             GET /api/exports/<id>/download
  *
  * Exported as the global `ApiUtils` object (IIFE module pattern).
  */
 const ApiUtils = (function () {
 
-  /** Milliseconds before the loading overlay is shown (prevents flash on fast calls). */
   const LOADING_DEBOUNCE_MS = 200;
 
   let _pendingRequests = 0;
@@ -36,16 +35,8 @@ const ApiUtils = (function () {
     if (el) el.classList.remove('active');
   }
 
-  // ── Core fetch wrapper ─────────────────────────────────────────────────────
+  // ── Core GET wrapper ──────────────────────────────────────────────────────
 
-  /**
-   * Perform an HTTP GET and return the parsed JSON response body.
-   *
-   * @param {string}  url            - Absolute or relative URL.
-   * @param {boolean} [showLoader]   - Whether to display the loading overlay (default: true).
-   * @returns {Promise<any>}         - Resolves with response.data on success.
-   * @throws {Error}                 - With .status and .serverMessage on failure.
-   */
   async function get(url, showLoader = true) {
     if (showLoader) _showLoading();
     try {
@@ -57,13 +48,13 @@ const ApiUtils = (function () {
       const json = await resp.json();
 
       if (!resp.ok || json.success === false) {
-        const err       = new Error(json.error || `HTTP ${resp.status}`);
-        err.status      = resp.status;
+        const err         = new Error(json.error || `HTTP ${resp.status}`);
+        err.status        = resp.status;
         err.serverMessage = json.error || '';
         throw err;
       }
 
-      return json;                     // caller gets { success, data, meta }
+      return json;
     } finally {
       if (showLoader) _hideLoading();
     }
@@ -71,13 +62,6 @@ const ApiUtils = (function () {
 
   // ── URL builder ────────────────────────────────────────────────────────────
 
-  /**
-   * Build a query string from a params object, omitting falsy values.
-   *
-   * @param {string}  base   - Base URL path.
-   * @param {Object}  params - Key/value pairs to append.
-   * @returns {string}
-   */
   function buildUrl(base, params = {}) {
     const qs = Object.entries(params)
       .filter(([, v]) => v !== null && v !== undefined && v !== '')
@@ -86,16 +70,8 @@ const ApiUtils = (function () {
     return qs ? `${base}?${qs}` : base;
   }
 
-  // ── Export trigger ─────────────────────────────────────────────────────────
+  // ── Legacy sync download (drill-down modal exports) ────────────────────────
 
-  /**
-   * Trigger a file download by navigating to an export URL.
-   *
-   * Creates a hidden <a> element, clicks it, then removes it — this
-   * causes the browser to download the file without leaving the page.
-   *
-   * @param {string} url - Export endpoint URL (already includes ?format=…).
-   */
   function downloadFile(url) {
     _showLoading();
     const a = document.createElement('a');
@@ -104,13 +80,94 @@ const ApiUtils = (function () {
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
-
-    // Hide loader after a short delay (the download starts asynchronously)
     setTimeout(_hideLoading, 1200);
+  }
+
+  // ── Async export API ───────────────────────────────────────────────────────
+
+  /**
+   * Create an async export job on the backend.
+   *
+   * @param {Object} spec - Export job specification:
+   *   {
+   *     entity_type:   'facilities' | 'obligors' | 'transactions' | 'comments',
+   *     export_type:   'partial' | 'full',
+   *     schedule_type: 'H1' | 'H2' | 'all',
+   *     source_type:   'csv' | 'excel' | 'dremio' | 'sqlserver',
+   *     file_format:   'csv' | 'excel' | 'parquet',
+   *     entity_id:     string | null,   // optional scope
+   *     filters:       { col_filters: {}, quick_filter: '' },
+   *     sorts:         [{field, dir}],
+   *   }
+   * @returns {Promise<{job_id: string, status: string}>}
+   */
+  async function createExportJob(spec) {
+    const resp = await fetch('/api/exports', {
+      method:  'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body:    JSON.stringify(spec),
+    });
+    const json = await resp.json();
+    if (!resp.ok || json.success === false) {
+      throw new Error(json.error || `Export job creation failed (HTTP ${resp.status})`);
+    }
+    return json.data;   // { job_id, status }
+  }
+
+  /**
+   * Poll export job status until the job completes or times out.
+   *
+   * @param {string}   jobId        - Job ID returned by createExportJob.
+   * @param {Function} onUpdate     - Called on each status change: (status, jobData) => void.
+   *                                  Also called on COMPLETED / FAILED / TIMEOUT.
+   * @param {Object}   [opts]
+   * @param {number}   opts.maxAttempts  - Max polling iterations (default: 30).
+   * @param {number}   opts.intervalMs   - Polling interval in ms (default: 2000).
+   */
+  async function pollUntilComplete(jobId, onUpdate, opts = {}) {
+    const maxAttempts = opts.maxAttempts ?? 30;
+    const intervalMs  = opts.intervalMs  ?? 2000;
+
+    for (let i = 0; i < maxAttempts; i++) {
+      await _sleep(intervalMs);
+      try {
+        const resp = await fetch(`/api/exports/${jobId}/status`, {
+          headers: { 'Accept': 'application/json' },
+        });
+        const json = await resp.json();
+        const jobData = json.data || {};
+        const status  = jobData.status || 'UNKNOWN';
+
+        onUpdate(status, jobData);
+
+        if (status === 'COMPLETED' || status === 'FAILED') return;
+
+      } catch (err) {
+        console.warn('Export poll error:', err);
+      }
+    }
+
+    // Timed out
+    onUpdate('TIMEOUT', null);
+  }
+
+  /**
+   * Trigger download of a completed export file.
+   *
+   * @param {string} jobId - Job ID whose file should be downloaded.
+   */
+  function downloadExport(jobId) {
+    downloadFile(`/api/exports/${jobId}/download`);
+  }
+
+  // ── Private helpers ────────────────────────────────────────────────────────
+
+  function _sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
   }
 
   // ── Public surface ─────────────────────────────────────────────────────────
 
-  return { get, buildUrl, downloadFile };
+  return { get, buildUrl, downloadFile, createExportJob, pollUntilComplete, downloadExport };
 
 }());
