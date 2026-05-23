@@ -8,7 +8,7 @@ A professional enterprise-grade web application for credit facility portfolio ma
 
 | Feature | Detail |
 |---------|--------|
-| **Dashboard** | Wells Fargo-inspired banking UI — deep red, gold accents |
+| **Dashboard** | WF-inspired banking UI — deep red, gold accents |
 | **Main Grid** | 100 facilities with sorting, filtering, pagination, column management |
 | **Drill-Down L2** | Click Obligors count → modal with 500 obligors |
 | **Drill-Down L3** | Click Transactions count → nested modal with 5 000 transactions |
@@ -239,4 +239,4 @@ Adding a new drill-down level requires:
 | Export | pandas + openpyxl (Excel), pyarrow (Parquet) |
 | Frontend | Vanilla JavaScript (ES2020), HTML5, CSS3 |
 | Grid | AG Grid Community 31.3.2 (CDN) |
-| Styling | Custom CSS — Wells Fargo design system |
+| Styling | Custom CSS — WF design system |
