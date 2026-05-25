@@ -9,3 +9,5 @@ instance/
 dist/
 build/
 .claude/
+generate*.py
+exports/

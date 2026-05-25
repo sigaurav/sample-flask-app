@@ -31,7 +31,7 @@ const DrillDown = (function () {
   }
 
   function _mountObligorModal(panel, facilityId, facilityName) {
-    const safeId = facilityId.replace(/[^a-z0-9]/gi, '-');
+    const safeId = _safeId(facilityId);
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml('obligors', facilityId);
 
@@ -104,7 +104,7 @@ const DrillDown = (function () {
   }
 
   function _mountTransactionModal(panel, obligorId, obligorName, facilityId) {
-    const safeId = obligorId.replace(/[^a-z0-9]/gi, '-');
+    const safeId = _safeId(obligorId);
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml('transactions', obligorId);
 
@@ -177,7 +177,7 @@ const DrillDown = (function () {
   }
 
   function _mountCommentModal(panel, transactionId) {
-    const safeId = transactionId.replace(/[^a-z0-9]/gi, '-');
+    const safeId = _safeId(transactionId);
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml('comments', transactionId);
 
@@ -231,6 +231,10 @@ const DrillDown = (function () {
     ];
   }
 
+  function _safeId(id) {
+    return id.replace(/[^a-z0-9]/gi, '-');
+  }
+
   // ── Shared helpers ────────────────────────────────────────────────────────
 
   /**
@@ -242,7 +246,7 @@ const DrillDown = (function () {
    * @returns {string}           HTML string.
    */
   function _buildModalBodyHtml(entityType, entityId) {
-    const safeId = entityId.replace(/[^a-z0-9]/gi, '-');
+    const safeId = _safeId(entityId);
     return `
       <div class="modal-toolbar">
         <div class="modal-toolbar-left">
@@ -319,9 +323,6 @@ const DrillDown = (function () {
 
       mgr.setData(resp.data || []);
 
-      // Refit after data arrives (container is definitely laid out by now)
-      setTimeout(() => mgr.getApi().sizeColumnsToFit(), 50);
-
       const totalLabel = bodyEl.querySelector(`#${countLabelId}`);
       if (totalLabel && resp.meta) {
         totalLabel.innerHTML = `Showing <strong>${resp.data.length}</strong> of <strong>${resp.meta.total}</strong> records`;
@@ -364,6 +365,7 @@ const DrillDown = (function () {
       menu.setAttribute('aria-hidden', open ? 'true' : 'false');
     });
     document.addEventListener('click', (e) => {
+      if (!document.body.contains(menu)) return;
       if (!menu.contains(e.target) && e.target !== trigger)
         menu.setAttribute('aria-hidden', 'true');
     });

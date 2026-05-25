@@ -439,12 +439,18 @@ class GridManager {
   _applySort() {
     if (this._sortState.length === 0) return;
 
-    this._filteredData.sort((a, b) => {
-      for (const { field, dir } of this._sortState) {
-        const col       = this._columnDefs.find(c => c.field === field);
-        const isNumeric = col && (col.filter === 'agNumberColumnFilter' || col.type === 'numericColumn');
-        const isDate    = col && col.filter === 'agDateColumnFilter';
+    // Pre-compute column type metadata once per sort key, not inside the comparator.
+    const keyInfo = this._sortState.map(({ field, dir }) => {
+      const col = this._columnDefs.find(c => c.field === field);
+      return {
+        field, dir,
+        isNumeric: col && (col.filter === 'agNumberColumnFilter' || col.type === 'numericColumn'),
+        isDate:    col && col.filter === 'agDateColumnFilter',
+      };
+    });
 
+    this._filteredData.sort((a, b) => {
+      for (const { field, dir, isNumeric, isDate } of keyInfo) {
         let av = a[field], bv = b[field];
         if (isNumeric) {
           av = parseFloat(av) || 0;
@@ -459,10 +465,13 @@ class GridManager {
 
         if (av < bv) return dir === 'asc' ? -1 :  1;
         if (av > bv) return dir === 'asc' ?  1 : -1;
-        // equal on this key → fall through to next sort key
       }
       return 0;
     });
+  }
+
+  _isAlignedRight(col) {
+    return col._alignRight || col.type === 'numericColumn' || col.filter === 'agNumberColumnFilter';
   }
 
   // ── Header building ──────────────────────────────────────────────────────────
@@ -470,7 +479,8 @@ class GridManager {
   _buildHeaders() {
     this._thead.innerHTML    = '';
     this._colgroup.innerHTML = '';
-    this._visibleCols().forEach(col => {
+    const cols = this._visibleCols();
+    cols.forEach(col => {
       const c = document.createElement('col');
       c.dataset.field = col.field;
       this._colgroup.appendChild(c);
@@ -480,14 +490,12 @@ class GridManager {
     const leftOffsets  = this._stickyOffsets('left');
     const rightOffsets = this._stickyOffsets('right');
 
-    this._visibleCols().forEach(col => {
+    cols.forEach(col => {
       const th = document.createElement('th');
       th.className     = 'wf-th';
       th.dataset.field = col.field;
 
-      const isRight = col._alignRight || col.type === 'numericColumn' ||
-                      col.filter === 'agNumberColumnFilter';
-      if (isRight) th.classList.add('wf-th-right');
+      if (this._isAlignedRight(col)) th.classList.add('wf-th-right');
 
       if (col.pinned === 'left') {
         th.classList.add('wf-th-pinned-left');
@@ -713,6 +721,7 @@ class GridManager {
       return;
     }
 
+    const cols         = this._visibleCols();
     const leftOffsets  = this._stickyOffsets('left');
     const rightOffsets = this._stickyOffsets('right');
 
@@ -720,7 +729,7 @@ class GridManager {
       const tr = document.createElement('tr');
       tr.className = 'wf-tr';
 
-      this._visibleCols().forEach(col => {
+      cols.forEach(col => {
         const td = document.createElement('td');
         td.className = 'wf-td';
 
@@ -728,9 +737,7 @@ class GridManager {
           String(col.cellClass).split(/\s+/).forEach(c => c && td.classList.add(c));
         }
 
-        const isRight = col._alignRight || col.type === 'numericColumn' ||
-                        col.filter === 'agNumberColumnFilter';
-        if (isRight) td.classList.add('wf-td-right');
+        if (this._isAlignedRight(col)) td.classList.add('wf-td-right');
 
         if (col.pinned === 'left') {
           td.classList.add('wf-td-pinned-left');
