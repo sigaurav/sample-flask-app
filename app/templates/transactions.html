@@ -11,7 +11,7 @@
 
 {# ── Page header ──────────────────────────────────────────────────────────── #}
 <div class="page-header">
-  <div class="page-header-left">
+  <div>
     <h1 class="page-title">
       <span class="schedule-badge">H1</span>
       Exposure Event Ledger
@@ -21,8 +21,8 @@
       comment drill-down, multi-column sort, and authoritative async export workflows.
     </p>
   </div>
-  <div class="page-header-right">
-    <div class="kpi-strip" id="kpiStrip">
+  <div>
+    <div class="kpi-strip">
       <div class="kpi-card">
         <span class="kpi-value" id="kpiTotal">–</span>
         <span class="kpi-label">Total Events</span>
@@ -69,7 +69,7 @@
     </div>
 
     {# ── Export dropdown ───────────────────────────────────────────────────── #}
-    <div class="export-dropdown" id="exportDropdownContainer">
+    <div class="export-dropdown">
       <button class="btn btn-primary export-trigger" id="btnExport" title="Export options">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>

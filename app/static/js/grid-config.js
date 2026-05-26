@@ -8,7 +8,7 @@
  *
  * FR Y-14Q enhancements over baseline:
  *  - Multi-column sorting with priority ordering (Ctrl+click to add).
- *  - Date column filters (agDateColumnFilter).
+ *  - Date column filters (wfDateFilter).
  *  - Categorical filters (col.values array → checkbox list).
  *  - Reliable resize→sort isolation: pixel-distance guard on th click.
  *  - getFilterSortState() for async export job specs.
@@ -87,15 +87,15 @@ const ColumnHelper = (function () {
   const _base = { sortable: true, filter: true, resizable: true, minWidth: 80 };
 
   function text(field, header, extra = {}) {
-    return { ..._base, field, headerName: header, filter: 'agTextColumnFilter', ...extra };
+    return { ..._base, field, headerName: header, filter: 'wfTextFilter', ...extra };
   }
 
   function number(field, header, extra = {}) {
-    return { ..._base, field, headerName: header, filter: 'agNumberColumnFilter', type: 'numericColumn', ...extra };
+    return { ..._base, field, headerName: header, filter: 'wfNumberFilter', ...extra };
   }
 
   function date(field, header, extra = {}) {
-    return { ..._base, field, headerName: header, filter: 'agDateColumnFilter', ...extra };
+    return { ..._base, field, headerName: header, filter: 'wfDateFilter', ...extra };
   }
 
   function money(field, header, extra = {}) {
@@ -212,20 +212,6 @@ class GridManager {
     this._sortState   = [];
     this._page        = 0;
     this._render();
-  }
-
-  exportCsv(filename = 'export.csv') {
-    const cols   = this._visibleCols();
-    const escape = v => '"' + String(v ?? '').replace(/"/g, '""') + '"';
-    const header = cols.map(c => escape(c.headerName || c.field)).join(',');
-    const body   = this._filteredData
-      .map(row => cols.map(c => escape(row[c.field])).join(','))
-      .join('\n');
-    const blob = new Blob([header + '\n' + body], { type: 'text/csv;charset=utf-8;' });
-    const url  = URL.createObjectURL(blob);
-    const a    = Object.assign(document.createElement('a'), { href: url, download: filename });
-    a.click();
-    URL.revokeObjectURL(url);
   }
 
   /**
@@ -444,8 +430,8 @@ class GridManager {
       const col = this._columnDefs.find(c => c.field === field);
       return {
         field, dir,
-        isNumeric: col && (col.filter === 'agNumberColumnFilter' || col.type === 'numericColumn'),
-        isDate:    col && col.filter === 'agDateColumnFilter',
+        isNumeric: col && col.filter === 'wfNumberFilter',
+        isDate:    col && col.filter === 'wfDateFilter',
       };
     });
 
@@ -471,7 +457,7 @@ class GridManager {
   }
 
   _isAlignedRight(col) {
-    return col._alignRight || col.type === 'numericColumn' || col.filter === 'agNumberColumnFilter';
+    return col._alignRight || col.filter === 'wfNumberFilter';
   }
 
   // ── Header building ──────────────────────────────────────────────────────────
@@ -925,8 +911,8 @@ class GridManager {
     }
     this._filterPopupField = col.field;
 
-    const isNumeric      = col.filter === 'agNumberColumnFilter';
-    const isDate         = col.filter === 'agDateColumnFilter';
+    const isNumeric      = col.filter === 'wfNumberFilter';
+    const isDate         = col.filter === 'wfDateFilter';
     const isCategorical  = Array.isArray(col.values) && col.values.length > 0;
     const current        = this._colFilters.get(col.field) || {};
 

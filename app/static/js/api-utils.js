@@ -168,6 +168,6 @@ const ApiUtils = (function () {
 
   // ── Public surface ─────────────────────────────────────────────────────────
 
-  return { get, buildUrl, downloadFile, createExportJob, pollUntilComplete, downloadExport };
+  return { get, buildUrl, createExportJob, pollUntilComplete, downloadExport };
 
 }());

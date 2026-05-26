@@ -76,7 +76,7 @@ const DrillDown = (function () {
         field:      'transaction_count',
         width:      120,
         sortable:   true,
-        filter:     'agNumberColumnFilter',
+        filter:     'wfNumberFilter',
         cellClass:  'drill-down-cell',
         cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
           openTransactions(p.data.obligor_id, p.data.obligor_name, facilityId, facilityName);
@@ -144,7 +144,7 @@ const DrillDown = (function () {
         field:      'comment_count',
         width:      110,
         sortable:   true,
-        filter:     'agNumberColumnFilter',
+        filter:     'wfNumberFilter',
         cellClass:  'drill-down-cell',
         cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
           openComments(
@@ -206,9 +206,8 @@ const DrillDown = (function () {
         field:        'comment_text',
         width:         280,
         wrapText:      true,
-        autoHeight:    true,
         cellClass:     'comment-text-cell',
-        filter:        'agTextColumnFilter',
+        filter:        'wfTextFilter',
       },
       ColumnHelper.text('author',       'Author',      { width: 140 }),
       ColumnHelper.text('department',   'Department',  { width: 140, hide: true }),
@@ -218,7 +217,7 @@ const DrillDown = (function () {
         headerName:   'Priority',
         field:        'priority',
         width:         110,
-        filter:        'agTextColumnFilter',
+        filter:        'wfTextFilter',
         cellRenderer: (params) => {
           const val = (params.value || '').toLowerCase();
           const el  = document.createElement('span');

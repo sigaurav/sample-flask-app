@@ -36,7 +36,7 @@ const ObligorsApp = (function () {
         headerName:   'Status',
         field:        'status',
         width:        118,
-        filter:       'agTextColumnFilter',
+        filter:       'wfTextFilter',
         cellRenderer: CellRenderer.status,
         values:       ['Active', 'Inactive', 'Under Review', 'Closed', 'Watch List'],
       },
@@ -51,7 +51,7 @@ const ObligorsApp = (function () {
         width:        110,
         pinned:       'right',
         sortable:     true,
-        filter:       'agNumberColumnFilter',
+        filter:       'wfNumberFilter',
         cellClass:    'drill-down-cell',
         cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
           DrillDown.openTransactions(

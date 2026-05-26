@@ -30,7 +30,7 @@ const TransactionsApp = (function () {
         headerName:   'Status',
         field:        'status',
         width:        118,
-        filter:       'agTextColumnFilter',
+        filter:       'wfTextFilter',
         cellRenderer: CellRenderer.status,
         values:       ['Pending', 'Active', 'Completed', 'Cancelled', 'Failed'],
       },
@@ -48,7 +48,7 @@ const TransactionsApp = (function () {
         width:        100,
         pinned:       'right',
         sortable:     true,
-        filter:       'agNumberColumnFilter',
+        filter:       'wfNumberFilter',
         cellClass:    'drill-down-cell',
         cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
           DrillDown.openComments(
