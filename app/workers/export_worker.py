@@ -33,9 +33,8 @@ if TYPE_CHECKING:
 
 log = logging.getLogger(__name__)
 
-# Phase 1: shared process-level executor.
-# max_workers is overridden by EXPORT_WORKER_THREADS in config if set.
-_executor = ThreadPoolExecutor(max_workers=4, thread_name_prefix="wf-export")
+_MAX_WORKERS = int(os.environ.get("EXPORT_WORKER_THREADS", 4))
+_executor = ThreadPoolExecutor(max_workers=_MAX_WORKERS, thread_name_prefix="wf-export")
 
 
 # ── Public interface ──────────────────────────────────────────────────────────

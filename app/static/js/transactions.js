@@ -62,15 +62,6 @@ const TransactionsApp = (function () {
     ];
   }
 
-  // ── KPI strip ──────────────────────────────────────────────────────────────
-
-  function _updateKpi(records) {
-    const el = (id) => document.getElementById(id);
-    if (el('kpiTotal'))  el('kpiTotal').textContent  = records.length.toLocaleString();
-    if (el('kpiActive')) el('kpiActive').textContent =
-      records.filter(r => r.status === 'Completed').length.toLocaleString();
-  }
-
   // ── Data loading ───────────────────────────────────────────────────────────
 
   async function _loadTransactions(search = '') {
@@ -79,7 +70,7 @@ const TransactionsApp = (function () {
       const resp = await ApiUtils.get(url);
       _allRecords = resp.data || [];
       _grid.setData(_allRecords);
-      _updateKpi(_allRecords);
+      ApiUtils.updateKpi(_allRecords, r => r.status === 'Completed');
       setTimeout(() => _grid.getApi().sizeColumnsToFit(), 50);
     } catch (err) {
       Toast.error('Failed to load exposure events', err.message || 'Ensure the server is running.');
@@ -87,102 +78,11 @@ const TransactionsApp = (function () {
     }
   }
 
-  // ── Async export ───────────────────────────────────────────────────────────
-
-  async function _triggerAsyncExport(exportType, fileFormat) {
-    const state = _grid.getFilterSortState();
-    const spec  = {
-      entity_type:   'transactions',
-      export_type:   exportType,
-      schedule_type: 'H1',
-      source_type:   'csv',
-      file_format:   fileFormat,
-      filters:       exportType === 'partial'
-        ? { col_filters: state.col_filters, quick_filter: state.quick_filter }
-        : {},
-      sorts: exportType === 'partial' ? state.sort_state : [],
-    };
-    try {
-      const job   = await ApiUtils.createExportJob(spec);
-      const label = exportType === 'partial' ? 'Partial' : 'Full';
-      Toast.info(`${label} export queued`, `Preparing ${fileFormat.toUpperCase()} file…`);
-      await ApiUtils.pollUntilComplete(job.job_id, (status, data) => {
-        if (status === 'COMPLETED') {
-          ApiUtils.downloadExport(job.job_id);
-          Toast.success('Export ready', `${label} exposure event export downloaded.`);
-        } else if (status === 'FAILED') {
-          Toast.error('Export failed', 'Check the server log for details.');
-        } else if (status === 'TIMEOUT') {
-          Toast.warning('Export delayed', 'Job still processing — retry later.');
-        }
-      });
-    } catch (err) {
-      Toast.error('Export error', err.message || 'Failed to start export.');
-    }
-  }
-
   // ── Toolbar wiring ─────────────────────────────────────────────────────────
 
   function _wireToolbar() {
-    const gridSearch = document.getElementById('gridSearch');
-    if (gridSearch) {
-      let _t;
-      gridSearch.addEventListener('input', () => {
-        clearTimeout(_t);
-        _t = setTimeout(() => _grid.setQuickFilter(gridSearch.value), 200);
-      });
-    }
-
-    const globalSearch = document.getElementById('globalSearch');
-    if (globalSearch) {
-      globalSearch.addEventListener('input', () => {
-        if (gridSearch) gridSearch.value = globalSearch.value;
-        _loadTransactions(globalSearch.value.trim());
-      });
-    }
-
-    document.getElementById('btnShowHideColumns')?.addEventListener('click', (e) => {
-      _grid.toggleColumnsPanel(e.currentTarget);
-    });
-
-    document.getElementById('btnClearFilters')?.addEventListener('click', () => {
-      _grid.clearFilters();
-      if (gridSearch) gridSearch.value = '';
-      Toast.info('Filters cleared', 'All filters and sort order reset.');
-    });
-
-    // Export dropdown
-    const btnExport  = document.getElementById('btnExport');
-    const exportMenu = document.getElementById('exportMenu');
-    if (btnExport && exportMenu) {
-      btnExport.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const open = exportMenu.getAttribute('aria-hidden') !== 'true';
-        exportMenu.setAttribute('aria-hidden', open ? 'true' : 'false');
-      });
-      document.addEventListener('click', (e) => {
-        if (!exportMenu.contains(e.target) && e.target !== btnExport)
-          exportMenu.setAttribute('aria-hidden', 'true');
-      });
-      const _fmt = () => (document.querySelector('input[name="exportFmt"]:checked') || {}).value || 'csv';
-      document.getElementById('btnPartialExport')?.addEventListener('click', () => {
-        exportMenu.setAttribute('aria-hidden', 'true');
-        _triggerAsyncExport('partial', _fmt());
-      });
-      document.getElementById('btnFullExport')?.addEventListener('click', () => {
-        exportMenu.setAttribute('aria-hidden', 'true');
-        _triggerAsyncExport('full', _fmt());
-      });
-    }
-
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    if (sidebarToggle) {
-      sidebarToggle.addEventListener('click', () => {
-        document.getElementById('sidebar')?.classList.toggle('collapsed');
-        document.getElementById('mainContent')?.classList.toggle('sidebar-collapsed');
-        setTimeout(() => _grid?.getApi().sizeColumnsToFit(), 200);
-      });
-    }
+    ApiUtils.wireGridToolbar(_grid, _loadTransactions);
+    ApiUtils.wireExportDropdown(_grid, 'transactions', 'Exposure Events');
   }
 
   // ── Public init ────────────────────────────────────────────────────────────

@@ -3,7 +3,7 @@
 from app.services.facility_service    import FacilityService
 from app.services.obligor_service     import ObligorService
 from app.services.transaction_service import TransactionService
-from app.services.export_service      import ExportService
+from app.services.export_service      import ExportService  # async export lifecycle
 
 __all__ = [
     "FacilityService",

@@ -73,13 +73,14 @@ const WFApp = (function () {
       ColumnHelper.date('maturity_date',     'Maturity',    { width: 105, hide: true }),
       ColumnHelper.number('interest_rate',   'Rate (%)',    { width: 85,  hide: true }),
 
-      // Pinned right — drill-down to counterparties
-      {
-        headerName: 'Counterparties',
+      // Pinned right — drill-down to obligors
+      { // Updated naming Conventions
+        headerName: 'Obligors',
         field:      'obligor_count',
         width:      118,
         pinned:     'right',
         sortable:   true,
+        resizable:  true,
         filter:     'wfNumberFilter',
         cellClass:  'drill-down-cell',
         cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
@@ -87,16 +88,6 @@ const WFApp = (function () {
         }),
       },
     ];
-  }
-
-  // ── KPI strip ──────────────────────────────────────────────────────────────
-
-  function _updateKpi(facilities) {
-    const total  = facilities.length;
-    const active = facilities.filter(f => f.status === 'Active').length;
-    const el = (id) => document.getElementById(id);
-    if (el('kpiTotal'))  el('kpiTotal').textContent  = total.toLocaleString();
-    if (el('kpiActive')) el('kpiActive').textContent = active.toLocaleString();
   }
 
   // ── Data loading ───────────────────────────────────────────────────────────
@@ -108,7 +99,7 @@ const WFApp = (function () {
 
       _allFacilities = resp.data || [];
       _facilityGrid.setData(_allFacilities);
-      _updateKpi(_allFacilities);
+      ApiUtils.updateKpi(_allFacilities, f => f.status === 'Active');
 
       setTimeout(() => _facilityGrid.getApi().sizeColumnsToFit(), 50);
 
@@ -119,132 +110,11 @@ const WFApp = (function () {
     }
   }
 
-  // ── Async export ───────────────────────────────────────────────────────────
-
-  async function _triggerAsyncExport(exportType, fileFormat) {
-    const state = _facilityGrid.getFilterSortState();
-
-    const spec = {
-      entity_type:   'facilities',
-      export_type:   exportType,
-      schedule_type: 'H1',
-      source_type:   'csv',
-      file_format:   fileFormat,
-      filters:       exportType === 'partial'
-        ? { col_filters: state.col_filters, quick_filter: state.quick_filter }
-        : {},
-      sorts: exportType === 'partial' ? state.sort_state : [],
-    };
-
-    try {
-      const job = await ApiUtils.createExportJob(spec);
-      const typeLabel = exportType === 'partial' ? 'Partial' : 'Full';
-      Toast.info(
-        `${typeLabel} export queued`,
-        `Job ${job.job_id.slice(0, 8)}… — preparing ${fileFormat.toUpperCase()} file.`
-      );
-
-      await ApiUtils.pollUntilComplete(job.job_id, (status, data) => {
-        if (status === 'COMPLETED') {
-          ApiUtils.downloadExport(job.job_id);
-          const rows = data?.row_count ? ` (${data.row_count.toLocaleString()} rows)` : '';
-          Toast.success('Export ready', `${typeLabel} export downloaded${rows}.`);
-        } else if (status === 'FAILED') {
-          Toast.error('Export failed', 'The export job encountered an error. Check the server log.');
-        } else if (status === 'TIMEOUT') {
-          Toast.warning('Export delayed', 'Job still processing — check back via /api/exports.');
-        }
-      });
-
-    } catch (err) {
-      Toast.error('Export error', err.message || 'Failed to start export.');
-      console.error('Export error:', err);
-    }
-  }
-
   // ── Toolbar wiring ─────────────────────────────────────────────────────────
 
   function _wireToolbar() {
-
-    // Grid search
-    const gridSearch = document.getElementById('gridSearch');
-    if (gridSearch) {
-      let _debounce;
-      gridSearch.addEventListener('input', () => {
-        clearTimeout(_debounce);
-        _debounce = setTimeout(() => _facilityGrid.setQuickFilter(gridSearch.value), 200);
-      });
-    }
-
-    // Global header search mirrors grid search
-    const globalSearch = document.getElementById('globalSearch');
-    if (globalSearch) {
-      globalSearch.addEventListener('input', () => {
-        if (gridSearch) gridSearch.value = globalSearch.value;
-        _loadFacilities(globalSearch.value.trim());
-      });
-    }
-
-    // Columns panel
-    const btnShowHide = document.getElementById('btnShowHideColumns');
-    if (btnShowHide) {
-      btnShowHide.addEventListener('click', () => _facilityGrid.toggleColumnsPanel(btnShowHide));
-    }
-
-    // Clear filters + sort
-    const btnClearFilters = document.getElementById('btnClearFilters');
-    if (btnClearFilters) {
-      btnClearFilters.addEventListener('click', () => {
-        _facilityGrid.clearFilters();
-        if (gridSearch) gridSearch.value = '';
-        Toast.info('Filters cleared', 'All filters and sort order have been reset.');
-      });
-    }
-
-    // ── Export dropdown ───────────────────────────────────────────────────────
-    const btnExport  = document.getElementById('btnExport');
-    const exportMenu = document.getElementById('exportMenu');
-
-    if (btnExport && exportMenu) {
-      btnExport.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const isOpen = exportMenu.getAttribute('aria-hidden') !== 'true';
-        exportMenu.setAttribute('aria-hidden', isOpen ? 'true' : 'false');
-      });
-
-      document.addEventListener('click', (e) => {
-        if (!exportMenu.contains(e.target) && e.target !== btnExport) {
-          exportMenu.setAttribute('aria-hidden', 'true');
-        }
-      });
-
-      const _getFormat = () => {
-        const r = document.querySelector('input[name="exportFmt"]:checked');
-        return r ? r.value : 'csv';
-      };
-
-      document.getElementById('btnPartialExport')?.addEventListener('click', () => {
-        exportMenu.setAttribute('aria-hidden', 'true');
-        _triggerAsyncExport('partial', _getFormat());
-      });
-
-      document.getElementById('btnFullExport')?.addEventListener('click', () => {
-        exportMenu.setAttribute('aria-hidden', 'true');
-        _triggerAsyncExport('full', _getFormat());
-      });
-    }
-
-    // Sidebar toggle
-    const sidebarToggle = document.getElementById('sidebarToggle');
-    const sidebar        = document.getElementById('sidebar');
-    if (sidebarToggle && sidebar) {
-      sidebarToggle.addEventListener('click', () => {
-        sidebar.classList.toggle('open');
-        sidebar.classList.toggle('collapsed');
-        document.getElementById('mainContent')?.classList.toggle('sidebar-collapsed');
-        setTimeout(() => _facilityGrid?.getApi().sizeColumnsToFit(), 200);
-      });
-    }
+    ApiUtils.wireGridToolbar(_facilityGrid, _loadFacilities);
+    ApiUtils.wireExportDropdown(_facilityGrid, 'facilities', 'Facilities');
   }
 
   // ── Public init ────────────────────────────────────────────────────────────

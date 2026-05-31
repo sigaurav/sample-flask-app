@@ -54,15 +54,14 @@ def create_app(config_name: str = "default") -> Flask:
     os.makedirs(app.config["EXPORT_DIR"], exist_ok=True)
 
     # ── Register Blueprints ───────────────────────────────────────────────────
-    from app.controllers.main_controller         import main_bp
-    from app.controllers.api_controller          import api_bp
-    from app.controllers.export_controller       import export_bp
-    from app.controllers.async_export_controller import async_export_bp
+    from app.controllers.main_controller   import main_bp
+    from app.controllers.api_controller   import api_bp
+    from app.controllers.export_controller import export_bp, internal_export_bp
 
     app.register_blueprint(main_bp)
-    app.register_blueprint(api_bp,          url_prefix="/api")
-    app.register_blueprint(export_bp,       url_prefix="/api/export")
-    app.register_blueprint(async_export_bp, url_prefix="/api/exports")
+    app.register_blueprint(api_bp,             url_prefix="/api")
+    app.register_blueprint(export_bp,          url_prefix="/api/exports")
+    app.register_blueprint(internal_export_bp, url_prefix="/api/internal/exports")
 
     # ── Global error handlers ─────────────────────────────────────────────────
     _register_error_handlers(app)

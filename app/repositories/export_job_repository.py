@@ -12,10 +12,13 @@ by both the HTTP request handlers and the background worker threads.
 
 from __future__ import annotations
 
+import logging
 import threading
 from typing import Dict, List, Optional
 
 from app.models.export_job import ExportJob
+
+log = logging.getLogger(__name__)
 
 
 class ExportJobRepository:
@@ -52,6 +55,8 @@ class ExportJobRepository:
             for key, value in kwargs.items():
                 if hasattr(job, key):
                     setattr(job, key, value)
+                else:
+                    log.debug("ExportJobRepository.update: unknown field %r on job %s", key, job_id)
 
     # ── Reads ──────────────────────────────────────────────────────────────────
 

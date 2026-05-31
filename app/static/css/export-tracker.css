@@ -1,0 +1,199 @@
+/* ── Export Tracker Panel ──────────────────────────────────────────────────── */
+
+.exp-tracker {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  width: 310px;
+  background: #fff;
+  border: 1px solid #d8d8d8;
+  border-radius: 10px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .15);
+  z-index: 9990;
+  font-size: 13px;
+  font-family: inherit;
+  overflow: hidden;
+  transition: box-shadow .15s;
+}
+
+/* ── Header ──────────────────────────────────────────────────────────────────── */
+
+.exp-tracker-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+  background: #1a1a2e;
+  color: #fff;
+  user-select: none;
+}
+
+.exp-tracker-title {
+  font-weight: 600;
+  font-size: 13px;
+  letter-spacing: .3px;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.exp-tracker-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #D71E28;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  line-height: 1;
+}
+
+.exp-tracker-toggle {
+  background: none;
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  line-height: 1;
+  padding: 2px 6px;
+  border-radius: 4px;
+  opacity: .7;
+  transition: opacity .1s, background .1s;
+}
+
+.exp-tracker-toggle:hover {
+  opacity: 1;
+  background: rgba(255, 255, 255, .18);
+}
+
+/* ── Body ────────────────────────────────────────────────────────────────────── */
+
+.exp-tracker-body {
+  max-height: 360px;
+  overflow-y: auto;
+  padding: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.exp-tracker-collapsed .exp-tracker-body {
+  display: none;
+}
+
+/* ── Job card ────────────────────────────────────────────────────────────────── */
+
+.exp-card {
+  background: #f9f9f9;
+  border: 1px solid #e6e6e6;
+  border-radius: 8px;
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  transition: background .1s;
+}
+
+.exp-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.exp-label {
+  font-weight: 600;
+  color: #111;
+  font-size: 12px;
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.exp-fmt-badge {
+  background: #e8f0fe;
+  color: #1a56db;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 3px;
+  flex-shrink: 0;
+  letter-spacing: .4px;
+}
+
+/* ── Status row ──────────────────────────────────────────────────────────────── */
+
+.exp-card-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.exp-status-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 9px;
+  border-radius: 12px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.exp-status-queued  { background: #fff3cd; color: #856404; }
+.exp-status-running { background: #cfe2ff; color: #084298; }
+.exp-status-done    { background: #d1e7dd; color: #0a3622; }
+.exp-status-fail    { background: #f8d7da; color: #58151c; }
+
+.exp-meta {
+  font-size: 11px;
+  color: #888;
+}
+
+/* ── Error message ───────────────────────────────────────────────────────────── */
+
+.exp-error {
+  font-size: 11px;
+  color: #842029;
+  background: #f8d7da;
+  border-radius: 4px;
+  padding: 5px 8px;
+  word-break: break-word;
+  line-height: 1.5;
+}
+
+/* ── Indeterminate progress bar (RUNNING state) ──────────────────────────────── */
+
+.exp-progress {
+  height: 3px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 2px;
+}
+
+.exp-progress-bar {
+  height: 100%;
+  width: 38%;
+  background: #1a56db;
+  border-radius: 2px;
+  animation: exp-slide 1.5s ease-in-out infinite;
+}
+
+@keyframes exp-slide {
+  0%   { transform: translateX(-160%); }
+  100% { transform: translateX(370%); }
+}
+
+/* ── Empty state ─────────────────────────────────────────────────────────────── */
+
+.exp-tracker-empty {
+  text-align: center;
+  color: #aaa;
+  font-size: 12px;
+  padding: 16px 0 8px;
+}

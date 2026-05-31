@@ -40,9 +40,6 @@ class BaseConfig:
     DEFAULT_PAGE_SIZE: int = 50
     MAX_PAGE_SIZE:     int = 500
 
-    # ── Sync export (legacy drill-down) ────────────────────────────────────────
-    MAX_EXPORT_ROWS:   int = 100_000
-
     # ── Async export worker ────────────────────────────────────────────────────
     EXPORT_WORKER_THREADS: int = 4   # ThreadPoolExecutor max_workers
 

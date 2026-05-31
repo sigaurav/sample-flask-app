@@ -23,9 +23,9 @@ const DrillDown = (function () {
    * @param {string} facilityName - Display name for the modal title and breadcrumb.
    */
   function openObligors(facilityId, facilityName) {
-    ModalManager.open({
-      title:      'Counterparties',
-      breadcrumb: ['Credit Exposures', facilityName, 'Counterparties'],
+    ModalManager.open({ // Updated naming Conventions
+      title:      'Obligors',
+      breadcrumb: ['Credit Exposures', facilityName, 'Obligors'],
       onMount:    (panel) => _mountObligorModal(panel, facilityId, facilityName),
     });
   }
@@ -50,13 +50,14 @@ const DrillDown = (function () {
     const searchEl = body.querySelector('.modal-search-input');
     if (searchEl) searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
 
-    _wireModalExport(body, mgr, 'obligors', facilityId, 'Counterparties');
+    _wireModalExport(body, mgr, 'obligors', facilityId, 'Obligors'); // Updated naming Conventions
 
     _loadAndRender(mgr, `/api/facilities/${facilityId}/obligors`, body, `record-count-obligors-${safeId}`);
   }
 
   function _obligorColumns(facilityId, facilityName) {
     return [
+      // Updated naming Conventions
       ColumnHelper.text('obligor_id',   'Obligor ID',   { width: 120, pinned: 'left' }),
       ColumnHelper.text('obligor_name', 'Obligor Name', { width: 180 }),
       ColumnHelper.text('obligor_type', 'Obligor Type', { width: 140 }),
@@ -72,7 +73,7 @@ const DrillDown = (function () {
       ColumnHelper.date('review_date',  'Review Date',  { width: 110, hide: true }),
       // Drill-down to exposure events
       {
-        headerName: 'Transactions',
+        headerName: 'Exp. Events',
         field:      'transaction_count',
         width:      120,
         sortable:   true,
@@ -126,12 +127,12 @@ const DrillDown = (function () {
 
   function _transactionColumns(obligorId, obligorName) {
     return [
-      ColumnHelper.text('transaction_id',   'Transaction ID',   { width: 125, pinned: 'left' }),
+      ColumnHelper.text('transaction_id',   'Event ID',         { width: 125, pinned: 'left' }),
       ColumnHelper.text('reference_number', 'Reference',       { width: 130, hide: true }),
-      ColumnHelper.text('transaction_type', 'Transaction Type',{ width: 150 }),
-      ColumnHelper.money('amount',          'Amount',          { width: 130 }),
+      ColumnHelper.text('transaction_type', 'Event Type',      { width: 150 }),
+      ColumnHelper.money('amount',          'Notional Amount', { width: 130 }),
       ColumnHelper.text('currency',         'Currency',        { width:  70 }),
-      ColumnHelper.date('transaction_date', 'Transaction Date',{ width: 110 }),
+      ColumnHelper.date('transaction_date', 'Event Date',      { width: 110 }),
       ColumnHelper.date('value_date',       'Value Date',     { width: 110, hide: true }),
       // Status column — hidden per product decision; restore by removing this comment block
       // ColumnHelper.statusChip('status', 'Status', { width: 110 }),
@@ -171,7 +172,7 @@ const DrillDown = (function () {
   function openComments(transactionId, txnType, reference, obligorName) {
     ModalManager.open({
       title:      'Analyst Comments',
-      breadcrumb: [obligorName || 'Counterparty', txnType, 'Analyst Comments'],
+      breadcrumb: [obligorName || 'Obligor', txnType, 'Analyst Comments'], // Updated naming Conventions
       onMount:    (panel) => _mountCommentModal(panel, transactionId),
     });
   }
@@ -332,26 +333,7 @@ const DrillDown = (function () {
     }
   }
 
-  // ── Async export helpers ───────────────────────────────────────────────────
-
-  async function _triggerModalExport(spec, label, entityLabel) {
-    try {
-      const job = await ApiUtils.createExportJob(spec);
-      Toast.info(`${label} export queued`, `Preparing ${spec.file_format.toUpperCase()} file…`);
-      await ApiUtils.pollUntilComplete(job.job_id, (status) => {
-        if (status === 'COMPLETED') {
-          ApiUtils.downloadExport(job.job_id);
-          Toast.success('Export ready', `${label} ${entityLabel} export downloaded.`);
-        } else if (status === 'FAILED') {
-          Toast.error('Export failed', 'Check the server log for details.');
-        } else if (status === 'TIMEOUT') {
-          Toast.warning('Export delayed', 'Job still processing — retry later.');
-        }
-      });
-    } catch (err) {
-      Toast.error('Export error', err.message || 'Failed to start export.');
-    }
-  }
+  // ── Modal export wiring ────────────────────────────────────────────────────
 
   function _wireModalExport(body, mgr, entityType, entityId, entityLabel) {
     const trigger = body.querySelector('.modal-export-trigger');
@@ -375,7 +357,7 @@ const DrillDown = (function () {
     body.querySelector('.modal-export-partial')?.addEventListener('click', async () => {
       menu.setAttribute('aria-hidden', 'true');
       const state = mgr.getFilterSortState();
-      await _triggerModalExport({
+      await ApiUtils.triggerExportJob({
         entity_type: entityType, entity_id: entityId,
         export_type: 'partial', schedule_type: 'H1', source_type: 'csv',
         file_format: _fmt(),
@@ -386,7 +368,7 @@ const DrillDown = (function () {
 
     body.querySelector('.modal-export-full')?.addEventListener('click', async () => {
       menu.setAttribute('aria-hidden', 'true');
-      await _triggerModalExport({
+      await ApiUtils.triggerExportJob({
         entity_type: entityType, entity_id: entityId,
         export_type: 'full', schedule_type: 'H1', source_type: 'csv',
         file_format: _fmt(),
