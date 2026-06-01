@@ -186,18 +186,28 @@
 .wf-td-right { text-align: right; }
 .wf-th-right { text-align: right; }
 
-/* Pinned cell dividers */
+/* Pinned cell dividers — explicit backgrounds required for sticky compositing */
 .wf-td-pinned-left {
   position:         sticky;
   z-index:          2;
   box-shadow:       2px 0 4px rgba(0,0,0,.08);
+  background:       #ffffff;
 }
 
 .wf-td-pinned-right {
   position:         sticky;
   z-index:          2;
   box-shadow:       -2px 0 4px rgba(0,0,0,.08);
+  background:       #ffffff;
 }
+
+/* Match alternating row backgrounds on pinned cells */
+.wf-tr:nth-child(odd) .wf-td-pinned-left,
+.wf-tr:nth-child(odd) .wf-td-pinned-right { background: #fafcff; }
+
+/* Restore hover tint on pinned cells */
+.wf-tr:hover .wf-td-pinned-left,
+.wf-tr:hover .wf-td-pinned-right { background: rgba(215, 30, 40, .04) !important; }
 
 /* ── No-rows overlay ─────────────────────────────────────────────────────────── */
 .wf-no-rows {

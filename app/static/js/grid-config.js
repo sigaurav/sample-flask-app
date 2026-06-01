@@ -717,7 +717,8 @@ class GridManager {
 
       cols.forEach(col => {
         const td = document.createElement('td');
-        td.className = 'wf-td';
+        td.className    = 'wf-td';
+        td.dataset.field = col.field;
 
         if (col.cellClass) {
           String(col.cellClass).split(/\s+/).forEach(c => c && td.classList.add(c));
@@ -895,6 +896,18 @@ class GridManager {
     this._colgroup.querySelectorAll('col').forEach((colEl, i) => {
       const col = cols[i];
       if (col) colEl.style.width = widths[col.field] + 'px';
+    });
+
+    // Re-stamp sticky right offsets using the freshly computed widths so that
+    // pinned-right columns don't overlap scrollable columns after a resize.
+    let rightOffset = 0;
+    [...cols].reverse().forEach(col => {
+      if (col.pinned !== 'right') return;
+      const px = rightOffset + 'px';
+      this._table.querySelectorAll(
+        `th[data-field="${col.field}"], td[data-field="${col.field}"]`
+      ).forEach(el => { el.style.right = px; });
+      rightOffset += widths[col.field];
     });
   }
 
