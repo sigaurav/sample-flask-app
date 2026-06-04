@@ -46,10 +46,7 @@ const DrillDown = (function () {
     // completed layout when the grid first initialises inside the modal.
     setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
 
-    // Wire search
-    const searchEl = body.querySelector('.modal-search-input');
-    if (searchEl) searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
-
+    _wireModalToolbar(body, mgr);
     _wireModalExport(body, mgr, 'obligors', facilityId, 'Obligors'); // Updated naming Conventions
 
     _loadAndRender(mgr, `/api/facilities/${facilityId}/obligors`, body, `record-count-obligors-${safeId}`);
@@ -117,9 +114,7 @@ const DrillDown = (function () {
 
     setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
 
-    const searchEl = body.querySelector('.modal-search-input');
-    if (searchEl) searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
-
+    _wireModalToolbar(body, mgr);
     _wireModalExport(body, mgr, 'transactions', obligorId, 'Exposure Events');
 
     _loadAndRender(mgr, `/api/obligors/${obligorId}/transactions`, body, `record-count-transactions-${safeId}`);
@@ -190,9 +185,7 @@ const DrillDown = (function () {
 
     setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
 
-    const searchEl = body.querySelector('.modal-search-input');
-    if (searchEl) searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
-
+    _wireModalToolbar(body, mgr);
     _wireModalExport(body, mgr, 'comments', transactionId, 'Comments');
 
     _loadAndRender(mgr, `/api/transactions/${transactionId}/comments`, body, `record-count-comments-${safeId}`);
@@ -256,8 +249,18 @@ const DrillDown = (function () {
             </svg>
             <input type="text" class="modal-search-input" placeholder="Search…" aria-label="Search" />
           </div>
+          <button class="btn btn-outline modal-clear-btn" title="Clear all filters and search">Clear</button>
         </div>
         <div class="modal-toolbar-right">
+          <button class="btn btn-outline modal-columns-btn" title="Show or hide columns">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
+              <line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/>
+              <line x1="8" y1="18" x2="21" y2="18"/>
+              <line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/>
+              <line x1="3" y1="18" x2="3.01" y2="18"/>
+            </svg>
+            Columns
+          </button>
           <div class="export-dropdown">
             <button class="btn btn-primary export-trigger modal-export-trigger" title="Export options">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13">
@@ -331,6 +334,25 @@ const DrillDown = (function () {
       Toast.error('Failed to load data', err.message || 'Unknown error');
       console.error('DrillDown fetch error:', err);
     }
+  }
+
+  // ── Shared modal toolbar wiring ────────────────────────────────────────────
+
+  function _wireModalToolbar(body, mgr) {
+    const searchEl = body.querySelector('.modal-search-input');
+    if (searchEl) {
+      searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
+    }
+
+    body.querySelector('.modal-columns-btn')?.addEventListener('click', (e) => {
+      mgr.toggleColumnsPanel(e.currentTarget);
+    });
+
+    body.querySelector('.modal-clear-btn')?.addEventListener('click', () => {
+      mgr.clearFilters();
+      if (searchEl) searchEl.value = '';
+      Toast.info('Filters cleared', 'All filters and sort order have been reset.');
+    });
   }
 
   // ── Modal export wiring ────────────────────────────────────────────────────

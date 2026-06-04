@@ -13,10 +13,10 @@ import uuid
 from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional
 
-from app.datasources.csv_datasource       import CSVDataSource
-from app.datasources.excel_datasource     import ExcelDataSource
-from app.datasources.dremio_datasource    import DremioDataSource
-from app.datasources.sqlserver_datasource import SQLServerDataSource
+from app.adapters.csv_adapter        import CSVAdapter
+from app.adapters.excel_adapter      import ExcelAdapter
+from app.adapters.dremio_adapter     import DremioAdapter
+from app.adapters.sqlserver_adapter  import SQLServerAdapter
 from app.models.export_job                import ExportJob
 from app.repositories.export_job_repository import ExportJobRepository
 from app.services.base_service            import BaseService
@@ -28,11 +28,11 @@ VALID_SCHEDULE_TYPES = {"H1", "H2", "all"}
 VALID_FILE_FORMATS   = {"csv", "excel", "parquet"}
 VALID_SOURCE_TYPES   = {"csv", "excel", "dremio", "sqlserver"}
 
-_DATASOURCE_MAP = {
-    "csv":       CSVDataSource,
-    "excel":     ExcelDataSource,
-    "dremio":    DremioDataSource,
-    "sqlserver": SQLServerDataSource,
+_ADAPTER_MAP = {
+    "csv":       CSVAdapter,
+    "excel":     ExcelAdapter,
+    "dremio":    DremioAdapter,
+    "sqlserver": SQLServerAdapter,
 }
 
 
@@ -94,7 +94,7 @@ class ExportService(BaseService):
 
         self._repo.create(job)
 
-        datasource = _DATASOURCE_MAP[source_type](self._build_ds_config(source_type))
+        datasource = _ADAPTER_MAP[source_type](self._build_ds_config(source_type))
         submit_export_job(job, datasource, self._export_dir)
 
         self.log.info(

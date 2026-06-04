@@ -1,13 +1,15 @@
 /**
  * export-tracker.js — real-time export job status panel.
  *
- * Panel is created on page load in a minimized state. It expands
- * automatically when ExportTracker.track() is called for the first job
- * in the session. Once all jobs reach a terminal state the panel
- * auto-minimizes. No history is loaded from the server — the panel
- * only shows jobs submitted in the current browser session.
+ * The panel is a dropdown attached to #exportTrackerBtn in the header.
+ * It starts hidden. It expands automatically when ExportTracker.track()
+ * is called for the first job in the session and auto-collapses once all
+ * jobs reach a terminal state. Clicking the header button toggles it.
  *
- * Internal route used:
+ * Only jobs submitted in the current browser session are shown — no
+ * server-side history is loaded.
+ *
+ * Internal routes used:
  *   GET /api/internal/exports/<id>/status  — per-job status polling
  *   GET /api/internal/exports/<id>/download — triggered on COMPLETED
  *
@@ -22,7 +24,7 @@ const ExportTracker = (function () {
 
   let _pollTimer = null;
   let _panel     = null;
-  let _collapsed = true;   // panel starts minimized in every new session
+  let _collapsed = true;   // panel starts hidden in every new session
 
   // ── Entity type → display label ────────────────────────────────────────────
 
@@ -34,31 +36,21 @@ const ExportTracker = (function () {
     comments:     'Comments',
   };
 
-  function _jobLabel(data) {
-    const type   = data.export_type
-      ? data.export_type.charAt(0).toUpperCase() + data.export_type.slice(1)
-      : 'Full';
-    const entity = _ENTITY_LABEL[data.entity_type] || data.entity_type || 'Export';
-    return `${type} ${entity} Export`;
-  }
-
   // ── Public API ─────────────────────────────────────────────────────────────
 
   /**
    * Register a newly submitted job and expand the panel.
    * @param {string} jobId  - job_id returned by the server
-   * @param {string} label  - human-readable label, e.g. "Full Facilities Export"
+   * @param {string} label  - human-readable label
    */
   function track(jobId, label) {
     if (!_jobs.has(jobId)) {
       _jobs.set(jobId, { jobId, label, data: null, downloaded: false });
     }
     _ensurePanel();
-    // Auto-expand so the user sees the new job immediately
     if (_collapsed) {
       _collapsed = false;
       _panel.classList.remove('exp-tracker-collapsed');
-      _panel.querySelector('.exp-tracker-toggle').textContent = '−';
     }
     _render();
     _startPolling();
@@ -69,29 +61,41 @@ const ExportTracker = (function () {
   function _ensurePanel() {
     if (_panel) return;
 
+    const btn = document.getElementById('exportTrackerBtn');
+    if (!btn) return;
+
+    const wrap = btn.closest('.export-tracker-wrap') || btn.parentElement;
+
     _panel = document.createElement('div');
-    _panel.className = 'exp-tracker exp-tracker-collapsed';   // start minimized
+    _panel.className = 'exp-tracker exp-tracker-collapsed';
     _panel.innerHTML =
       '<div class="exp-tracker-header">' +
-        '<span class="exp-tracker-title">' +
-          '<span>Export Jobs</span>' +
-          '<span class="exp-tracker-badge" id="expTrackerBadge" style="display:none">0</span>' +
-        '</span>' +
-        '<button class="exp-tracker-toggle" title="Expand">+</button>' +
+        '<span class="exp-tracker-title">Export Jobs</span>' +
       '</div>' +
       '<div class="exp-tracker-body"></div>';
 
-    _panel.querySelector('.exp-tracker-toggle').addEventListener('click', _toggleCollapse);
+    wrap.appendChild(_panel);
 
-    _render();   // paint empty state before appending
-    document.body.appendChild(_panel);
+    // Header button toggles the panel
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      _toggleCollapse();
+    });
+
+    // Click outside closes the panel
+    document.addEventListener('click', (e) => {
+      if (!_collapsed && _panel && !_panel.contains(e.target) && e.target !== btn) {
+        _collapsed = true;
+        _panel.classList.add('exp-tracker-collapsed');
+      }
+    });
+
+    _render();
   }
 
   function _toggleCollapse() {
     _collapsed = !_collapsed;
     _panel.classList.toggle('exp-tracker-collapsed', _collapsed);
-    _panel.querySelector('.exp-tracker-toggle').textContent = _collapsed ? '+' : '−';
-    _panel.querySelector('.exp-tracker-toggle').title       = _collapsed ? 'Expand' : 'Collapse';
   }
 
   // ── Polling ────────────────────────────────────────────────────────────────
@@ -114,12 +118,9 @@ const ExportTracker = (function () {
 
     if (active.length === 0) {
       _stopPolling();
-      // Auto-minimize once all jobs in this session are terminal
       if (!_collapsed) {
         _collapsed = true;
         _panel.classList.add('exp-tracker-collapsed');
-        _panel.querySelector('.exp-tracker-toggle').textContent = '+';
-        _panel.querySelector('.exp-tracker-toggle').title       = 'Expand';
       }
       return;
     }
@@ -168,7 +169,8 @@ const ExportTracker = (function () {
     const active = entries.filter(
       e => !e.data || e.data.status === 'QUEUED' || e.data.status === 'RUNNING'
     ).length;
-    const badge = _panel.querySelector('#expTrackerBadge');
+
+    const badge = document.getElementById('expTrackerBadge');
     if (badge) {
       badge.style.display    = entries.length > 0 ? '' : 'none';
       badge.textContent      = active > 0 ? active : entries.length;

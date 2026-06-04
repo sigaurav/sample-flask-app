@@ -205,9 +205,13 @@
 .wf-tr:nth-child(odd) .wf-td-pinned-left,
 .wf-tr:nth-child(odd) .wf-td-pinned-right { background: #fafcff; }
 
-/* Restore hover tint on pinned cells */
+/* Restore hover tint on pinned cells — solid blended values so sticky cells
+   remain opaque and do not let scrolling content bleed through on hover. */
 .wf-tr:hover .wf-td-pinned-left,
-.wf-tr:hover .wf-td-pinned-right { background: rgba(215, 30, 40, .04) !important; }
+.wf-tr:hover .wf-td-pinned-right { background: #fdf6f6 !important; }
+
+.wf-tr:nth-child(odd):hover .wf-td-pinned-left,
+.wf-tr:nth-child(odd):hover .wf-td-pinned-right { background: #f9f3f6 !important; }
 
 /* ── No-rows overlay ─────────────────────────────────────────────────────────── */
 .wf-no-rows {
@@ -403,9 +407,34 @@
   border-radius:    6px;
   box-shadow:       0 4px 16px rgba(0,0,0,.15);
   min-width:        220px;
-  max-height:       340px;
+  max-height:       400px;
   overflow-y:       auto;
   padding-bottom:   4px;
+}
+
+/* Column search input inside the picker panel */
+.col-picker-search {
+  padding:          8px 10px 4px;
+  position:         sticky;
+  top:              36px;   /* sits just below the sticky header */
+  background:       #fff;
+  z-index:          1;
+  border-bottom:    1px solid #f0f0f0;
+}
+
+.col-picker-search-input {
+  width:            100%;
+  box-sizing:       border-box;
+  padding:          5px 10px;
+  border:           1px solid #ddd;
+  border-radius:    4px;
+  font-size:        12px;
+  outline:          none;
+}
+
+.col-picker-search-input:focus {
+  border-color:     #D71E28;
+  box-shadow:       0 0 0 2px rgba(215, 30, 40, .12);
 }
 
 .col-picker-header {

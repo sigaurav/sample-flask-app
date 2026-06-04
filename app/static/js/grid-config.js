@@ -248,6 +248,16 @@ class GridManager {
     header.textContent = 'Show / Hide Columns';
     panel.appendChild(header);
 
+    // ── Column search ──────────────────────────────────────────────────────────
+    const searchWrap = document.createElement('div');
+    searchWrap.className = 'col-picker-search';
+    const searchInput = document.createElement('input');
+    searchInput.type        = 'text';
+    searchInput.placeholder = 'Search columns…';
+    searchInput.className   = 'col-picker-search-input';
+    searchWrap.appendChild(searchInput);
+    panel.appendChild(searchWrap);
+
     const list = document.createElement('div');
     list.className = 'col-picker-list';
 
@@ -308,8 +318,19 @@ class GridManager {
     });
 
     panel.appendChild(list);
+
+    // Filter column items as user types in the search box
+    searchInput.addEventListener('input', () => {
+      const q = searchInput.value.toLowerCase();
+      list.querySelectorAll('.col-picker-item:not(.col-picker-select-all)').forEach(item => {
+        item.style.display = item.textContent.trim().toLowerCase().includes(q) ? '' : 'none';
+      });
+    });
+
     document.body.appendChild(panel);
     this._colPanel = panel;
+
+    setTimeout(() => searchInput.focus(), 0);
 
     const rect = anchorEl.getBoundingClientRect();
     panel.style.top  = (rect.bottom + window.scrollY + 4) + 'px';

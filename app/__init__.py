@@ -54,9 +54,9 @@ def create_app(config_name: str = "default") -> Flask:
     os.makedirs(app.config["EXPORT_DIR"], exist_ok=True)
 
     # ── Register Blueprints ───────────────────────────────────────────────────
-    from app.controllers.main_controller   import main_bp
-    from app.controllers.api_controller   import api_bp
-    from app.controllers.export_controller import export_bp, internal_export_bp
+    from app.blueprints.main   import main_bp
+    from app.blueprints.api    import api_bp
+    from app.blueprints.export import export_bp, internal_export_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(api_bp,             url_prefix="/api")

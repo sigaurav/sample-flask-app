@@ -1,5 +1,5 @@
 """
-CSV data source — reads authoritative data from the flat-file store in DATA_DIR.
+CSV adapter — reads authoritative data from the flat-file store in DATA_DIR.
 
 This is the Phase 1 default source type used for all FR Y-14Q workflows
 when Dremio or SQL Server connectivity is not configured.
@@ -12,10 +12,8 @@ from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
-from app.datasources.base_datasource import BaseDataSource
+from app.adapters.base_adapter import BaseAdapter
 
-
-# ── Entity → file mapping ─────────────────────────────────────────────────────
 
 _ENTITY_FILES: Dict[str, str] = {
     "facilities":   "facilities.csv",
@@ -24,7 +22,6 @@ _ENTITY_FILES: Dict[str, str] = {
     "comments":     "comments.csv",
 }
 
-# Maps each child entity to the parent-FK field used for scoping.
 _PARENT_FK: Dict[str, str] = {
     "obligors":     "facility_id",
     "transactions": "obligor_id",
@@ -32,13 +29,12 @@ _PARENT_FK: Dict[str, str] = {
 }
 
 
-class CSVDataSource(BaseDataSource):
+class CSVAdapter(BaseAdapter):
     """
     Reads authoritative FR Y-14Q data from CSV files.
 
-    Files are loaded once per ``CSVDataSource`` instance and cached in
-    memory for the lifetime of the object.  The export worker creates a
-    fresh instance per job, so the cache does not persist across requests.
+    Files are loaded once per ``CSVAdapter`` instance and cached in
+    memory for the lifetime of the object.
     """
 
     source_type = "csv"
@@ -47,8 +43,6 @@ class CSVDataSource(BaseDataSource):
         super().__init__(config)
         self._data_dir: str = config["data_dir"]
         self._cache: Dict[str, pd.DataFrame] = {}
-
-    # ── Internal loader ───────────────────────────────────────────────────────
 
     def _load(self, entity_type: str) -> pd.DataFrame:
         if entity_type in self._cache:
@@ -66,12 +60,10 @@ class CSVDataSource(BaseDataSource):
         df = pd.read_csv(path, dtype=str).fillna("")
         self._cache[entity_type] = df
         self.log.debug(
-            "CSVDataSource loaded entity=%s rows=%d path=%s",
+            "CSVAdapter loaded entity=%s rows=%d path=%s",
             entity_type, len(df), path,
         )
         return df
-
-    # ── BaseDataSource interface ──────────────────────────────────────────────
 
     def fetch(
         self,
@@ -80,34 +72,24 @@ class CSVDataSource(BaseDataSource):
         filters:     Optional[Dict] = None,
         sorts:       Optional[List] = None,
     ) -> pd.DataFrame:
-        """
-        Fetch entity data with optional parent-scoping, filtering, and sorting.
-
-        For ``export_type=full`` callers pass ``filters=None, sorts=None``;
-        for ``partial`` exports the frontend filter/sort state is forwarded.
-        """
         df = self._load(entity_type).copy()
 
-        # ── Scope to parent entity ────────────────────────────────────────────
         if entity_id and entity_type in _PARENT_FK:
             pk_field = _PARENT_FK[entity_type]
             df = df[df[pk_field] == str(entity_id)].reset_index(drop=True)
 
-        # ── Column filters ────────────────────────────────────────────────────
         if filters:
             col_filters = filters.get("col_filters", {})
             if col_filters:
                 df = self._apply_col_filters(df, col_filters)
-
             quick = filters.get("quick_filter", "")
             if quick:
                 df = self._apply_quick_filter(df, quick)
 
-        # ── Sort ──────────────────────────────────────────────────────────────
         df = self._apply_sorts(df, sorts or [])
 
         self.log.debug(
-            "CSVDataSource.fetch entity=%s entity_id=%s rows_returned=%d",
+            "CSVAdapter.fetch entity=%s entity_id=%s rows_returned=%d",
             entity_type, entity_id, len(df),
         )
         return df
