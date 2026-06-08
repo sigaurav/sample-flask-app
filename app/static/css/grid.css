@@ -30,7 +30,7 @@
 /* ── Header ──────────────────────────────────────────────────────────────────── */
 .wf-th {
   height:           44px;
-  padding:          0 14px;
+  padding:          0 20px 0 14px;   /* extra right padding keeps content clear of the 6px resize handle */
   background:       #F8F8F8;
   border-bottom:    2px solid #e0e0e0;
   border-right:     1px solid #e8e8e8;
@@ -41,7 +41,7 @@
   color:            #424242;
   text-align:       left;
   white-space:      nowrap;
-  overflow:         hidden;
+  overflow:         clip;     /* clip avoids BFC that breaks overflow on sticky cells in Chromium */
   cursor:           grab;
   user-select:      none;
   position:         relative;
@@ -91,7 +91,10 @@
   align-items:      center;
   gap:              4px;
   width:            100%;
+  max-width:        100%;
   overflow:         hidden;
+  min-width:        0;
+  clip-path:        inset(0);   /* hard clip — overflow:hidden unreliable on sticky th in Chromium */
 }
 
 .wf-th-label {
@@ -121,9 +124,11 @@
   margin-left:      1px;
 }
 
-/* Filter button — hidden by default, appears on header hover or when filter is active */
+/* Filter button — always in flow (no layout shift); invisible until hover/active */
 .wf-filter-btn {
   flex-shrink:      0;
+  display:          flex;
+  align-items:      center;
   background:       none;
   border:           none;
   padding:          2px 3px;
@@ -131,11 +136,12 @@
   color:            #aaa;
   line-height:      1;
   border-radius:    3px;
-  display:          none;
-  align-items:      center;
+  opacity:          0;
+  pointer-events:   none;
+  transition:       opacity .12s;
 }
-.wf-th:hover .wf-filter-btn       { display: flex; }
-.wf-filter-btn.wf-filter-active   { display: flex; color: #D71E28; }
+.wf-th:hover .wf-filter-btn     { opacity: 1; pointer-events: auto; }
+.wf-filter-btn.wf-filter-active { opacity: 1; pointer-events: auto; color: #D71E28; }
 
 .wf-filter-btn:hover {
   color:            #D71E28;
@@ -155,6 +161,12 @@
   z-index:          3;
   background:       #F8F8F8;
   box-shadow:       -2px 0 4px rgba(0,0,0,.08);
+  border-left:      2px solid #ddd;
+  padding-right:    14px;   /* no resize handle on pinned-right; restore symmetric padding */
+}
+
+.wf-th-pinned-right:hover {
+  background:       #f4ecec;  /* opaque blend: #F8F8F8 + rgba(215,30,40,.06) — prevents transparency exposing adjacent content */
 }
 
 /* ── Rows ────────────────────────────────────────────────────────────────────── */
@@ -173,6 +185,7 @@
 .wf-td {
   padding:          0 14px;
   overflow:         hidden;
+  max-width:        0;          /* forces overflow:hidden to clip reliably in table-layout:fixed */
   text-overflow:    ellipsis;
   white-space:      nowrap;
   border-right:     1px solid #f0f0f0;
@@ -198,7 +211,9 @@
   position:         sticky;
   z-index:          2;
   box-shadow:       -2px 0 4px rgba(0,0,0,.08);
+  border-left:      2px solid #ddd;   /* hard separator — adjacent cell's subtle border-right disappears on hover */
   background:       #ffffff;
+  max-width:        none;             /* override the max-width:0 trick; sticky cell width is managed by JS */
 }
 
 /* Match alternating row backgrounds on pinned cells */

@@ -283,8 +283,18 @@ class GridManager {
 
     allCb.className = 'col-picker-all-cb';
     allCb.addEventListener('change', () => {
+      const targetState = allCb.checked;
       const cbs = list.querySelectorAll('input[type="checkbox"]:not(.col-picker-all-cb)');
-      cbs.forEach(cb => { cb.checked = allCb.checked; cb.dispatchEvent(new Event('change')); });
+      // Update _hiddenCols directly — dispatching individual change events is buggy
+      // because updateAllCb() resets allCb.checked mid-loop, flipping targetState for
+      // subsequent iterations and preventing re-select from working.
+      if (targetState) {
+        this._hiddenCols.clear();
+      } else {
+        visibleDefs.forEach(col => this._hiddenCols.add(col.field));
+      }
+      cbs.forEach(cb => { cb.checked = targetState; });
+      this._render();
     });
 
     allItem.appendChild(allCb);

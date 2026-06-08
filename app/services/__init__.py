@@ -1,17 +1,11 @@
-"""Service layer package — business logic on top of repositories."""
+"""Service layer package."""
 
-from app.services.data_service        import DataService
-from app.services.reporting_service   import ReportingService
-from app.services.facility_service    import FacilityService
-from app.services.obligor_service     import ObligorService
-from app.services.transaction_service import TransactionService
-from app.services.export_service      import ExportService
+from app.services.data_service      import DataService
+from app.services.reporting_service import ReportingService
+from app.services.export_service    import ExportService
 
 __all__ = [
     "DataService",
     "ReportingService",
-    "FacilityService",
-    "ObligorService",
-    "TransactionService",
     "ExportService",
 ]

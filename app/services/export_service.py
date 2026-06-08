@@ -17,9 +17,10 @@ from app.adapters.csv_adapter        import CSVAdapter
 from app.adapters.excel_adapter      import ExcelAdapter
 from app.adapters.dremio_adapter     import DremioAdapter
 from app.adapters.sqlserver_adapter  import SQLServerAdapter
+import logging
+
 from app.models.export_job                import ExportJob
 from app.repositories.export_job_repository import ExportJobRepository
-from app.services.base_service            import BaseService
 from app.workers.export_worker            import submit_export_job
 
 VALID_ENTITY_TYPES   = {"facilities", "obligors", "transactions", "comments"}
@@ -36,7 +37,7 @@ _ADAPTER_MAP = {
 }
 
 
-class ExportService(BaseService):
+class ExportService:
     """
     All export operations in one place: create, validate, dispatch,
     query status, and authorise downloads.
@@ -55,9 +56,10 @@ class ExportService(BaseService):
         export_dir: str,
         app_config: Optional[Dict[str, Any]] = None,
     ) -> None:
-        super().__init__(data_dir)
+        self._data_dir   = data_dir
         self._export_dir = export_dir
         self._app_config = app_config or {}
+        self.log         = logging.getLogger(__name__)
         self._repo       = ExportJobRepository.get_instance()
 
     # ── Job creation ──────────────────────────────────────────────────────────
