@@ -85,6 +85,18 @@
   background:       rgba(215, 30, 40, .08) !important;
 }
 
+/* Pinned columns must keep an opaque background in every state — sorted and hover
+   states use semi-transparent tints that let scrolling content show through otherwise. */
+.wf-th-pinned-left.wf-th-sorted,
+.wf-th-pinned-right.wf-th-sorted {
+  background:       #f2e9e9 !important;  /* opaque: #F8F8F8 blended with 8% D71E28 */
+}
+
+.wf-th-pinned-left:hover,
+.wf-th-pinned-right:hover {
+  background:       #f4ecec !important;  /* opaque: #F8F8F8 blended with 6% D71E28 */
+}
+
 /* Inner flex layout for header content */
 .wf-th-inner {
   display:          flex;
@@ -163,10 +175,6 @@
   box-shadow:       -2px 0 4px rgba(0,0,0,.08);
   border-left:      2px solid #ddd;
   padding-right:    14px;   /* no resize handle on pinned-right; restore symmetric padding */
-}
-
-.wf-th-pinned-right:hover {
-  background:       #f4ecec;  /* opaque blend: #F8F8F8 + rgba(215,30,40,.06) — prevents transparency exposing adjacent content */
 }
 
 /* ── Rows ────────────────────────────────────────────────────────────────────── */
