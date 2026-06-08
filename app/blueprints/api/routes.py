@@ -4,11 +4,8 @@ import logging
 
 from flask import current_app, request
 
-from app.blueprints.api              import api_bp
-from app.services.facility_service    import FacilityService
-from app.services.obligor_service     import ObligorService
-from app.services.transaction_service import TransactionService
-from app.utils.response_utils         import error_response, paginated_response
+from app.blueprints.api        import api_bp
+from app.utils.response_utils  import error_response, paginated_response, success_response
 
 log = logging.getLogger(__name__)
 
@@ -22,10 +19,6 @@ def _parse_pagination() -> tuple[int, int]:
     return page, per_page
 
 
-def _data_dir() -> str:
-    return current_app.config["DATA_DIR"]
-
-
 # ── Facilities ────────────────────────────────────────────────────────────────
 
 @api_bp.route("/facilities", methods=["GET"])
@@ -33,8 +26,9 @@ def get_facilities():
     try:
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
-        svc    = FacilityService(_data_dir())
-        result = svc.get_facilities(search=search, page=page, per_page=per_page)
+        result = current_app.reporting_service.get_facilities(
+            search=search, page=page, per_page=per_page
+        )
         return paginated_response(
             data=result["records"], total=result["total"],
             page=result["page"],   per_page=result["per_page"],
@@ -50,11 +44,9 @@ def get_facilities():
 @api_bp.route("/facilities/<facility_id>", methods=["GET"])
 def get_facility(facility_id: str):
     try:
-        svc      = FacilityService(_data_dir())
-        facility = svc.get_facility_by_id(facility_id)
+        facility = current_app.reporting_service.get_facility_by_id(facility_id)
         if facility is None:
             return error_response(f"Facility '{facility_id}' not found", 404)
-        from app.utils.response_utils import success_response
         return success_response(facility.to_dict())
     except Exception:
         log.exception("Error fetching facility %s", facility_id)
@@ -68,8 +60,9 @@ def get_all_obligors():
     try:
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
-        svc    = ObligorService(_data_dir())
-        result = svc.get_all_obligors(search=search, page=page, per_page=per_page)
+        result = current_app.reporting_service.get_all_obligors(
+            search=search, page=page, per_page=per_page
+        )
         return paginated_response(
             data=result["records"], total=result["total"],
             page=result["page"],   per_page=result["per_page"],
@@ -88,8 +81,9 @@ def get_all_transactions():
     try:
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
-        svc    = TransactionService(_data_dir())
-        result = svc.get_all_transactions(search=search, page=page, per_page=per_page)
+        result = current_app.reporting_service.get_all_transactions(
+            search=search, page=page, per_page=per_page
+        )
         return paginated_response(
             data=result["records"], total=result["total"],
             page=result["page"],   per_page=result["per_page"],
@@ -108,8 +102,7 @@ def get_obligors_for_facility(facility_id: str):
     try:
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
-        svc    = ObligorService(_data_dir())
-        result = svc.get_obligors_for_facility(
+        result = current_app.reporting_service.get_obligors_for_facility(
             facility_id, search=search, page=page, per_page=per_page
         )
         return paginated_response(
@@ -128,8 +121,7 @@ def get_transactions_for_obligor(obligor_id: str):
     try:
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
-        svc    = TransactionService(_data_dir())
-        result = svc.get_transactions_for_obligor(
+        result = current_app.reporting_service.get_transactions_for_obligor(
             obligor_id, search=search, page=page, per_page=per_page
         )
         return paginated_response(
@@ -148,8 +140,7 @@ def get_comments_for_transaction(transaction_id: str):
     try:
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
-        svc    = TransactionService(_data_dir())
-        result = svc.get_comments_for_transaction(
+        result = current_app.reporting_service.get_comments_for_transaction(
             transaction_id, search=search, page=page, per_page=per_page
         )
         return paginated_response(

@@ -13,6 +13,8 @@ from flask import Flask, g, request
 
 from app.config import config_map
 from app.utils.logger import configure_logging
+from app.services.data_service      import DataService
+from app.services.reporting_service import ReportingService
 
 
 def create_app(config_name: str = "default") -> Flask:
@@ -52,6 +54,10 @@ def create_app(config_name: str = "default") -> Flask:
 
     # ── Ensure export directory exists ─────────────────────────────────────────
     os.makedirs(app.config["EXPORT_DIR"], exist_ok=True)
+
+    # ── Data + Reporting services (shared for app lifetime) ───────────────────
+    app.data_service      = DataService(app.config)
+    app.reporting_service = ReportingService(app.data_service)
 
     # ── Register Blueprints ───────────────────────────────────────────────────
     from app.blueprints.main   import main_bp

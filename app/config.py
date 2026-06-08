@@ -43,6 +43,11 @@ class BaseConfig:
     # ── Async export worker ────────────────────────────────────────────────────
     EXPORT_WORKER_THREADS: int = 4   # ThreadPoolExecutor max_workers
 
+    # ── Active data sources ────────────────────────────────────────────────────
+    # First entry is the primary source used by ReportingService.
+    # Valid values: "csv", "dremio", "sqlserver", "excel"
+    ENABLED_DATA_SOURCES: list = ["csv"]
+
     # ── External data sources (Phase 2) ───────────────────────────────────────
     DREMIO_HOST:    str = ""
     DREMIO_PORT:    int = 32010
