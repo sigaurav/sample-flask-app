@@ -1,20 +1,167 @@
 [
-  {"field": "facility_id",          "label": "Facility ID",         "type": "text",   "key": "primary", "width": 115, "pinned": "left",  "searchable": true},
-  {"field": "facility_name",        "label": "Facility Name",       "type": "text",   "flex": 2,  "minWidth": 160, "tooltip": true, "searchable": true},
-  {"field": "facility_type",        "label": "Facility Type",       "type": "text",   "flex": 1.5,"minWidth": 130, "searchable": true},
-  {"field": "credit_limit",         "label": "Credit Limit",        "type": "money",  "flex": 1,  "minWidth": 120},
-  {"field": "outstanding_balance",  "label": "Outstanding Balance", "type": "money",  "flex": 1,  "minWidth": 115},
-  {"field": "available_credit",     "label": "Available Credit",    "type": "money",  "flex": 1,  "minWidth": 110, "hide": true},
-  {"field": "utilization_pct",      "label": "Utilisation",         "type": "number", "width": 150, "renderer": "utilisation"},
-  {"field": "status",               "label": "Status",              "type": "text",   "width": 118, "renderer": "status",     "hide": true, "searchable": true, "values": ["Active","Inactive","Under Review","Closed","Watch List"]},
-  {"field": "risk_rating",          "label": "Risk Rating",         "type": "text",   "width": 105, "renderer": "riskRating", "searchable": true, "values": ["AAA","AA","A","BBB","BB","B","CCC","CC","C","D"]},
-  {"field": "risk_score",           "label": "Risk Score",          "type": "number", "width": 95,  "hide": true},
-  {"field": "relationship_manager", "label": "Rel. Manager",        "type": "text",   "flex": 1,  "minWidth": 130, "searchable": true},
-  {"field": "region",               "label": "Region",              "type": "text",   "width": 95,  "searchable": true},
-  {"field": "country",              "label": "Country",             "type": "text",   "width": 110, "hide": true, "searchable": true},
-  {"field": "currency",             "label": "Currency",            "type": "text",   "width": 85,  "hide": true},
-  {"field": "created_date",         "label": "Created",             "type": "date",   "width": 105, "hide": true},
-  {"field": "maturity_date",        "label": "Maturity",            "type": "date",   "width": 105, "hide": true},
-  {"field": "interest_rate",        "label": "Rate (%)",            "type": "number", "width": 85,  "hide": true},
-  {"field": "obligor_count",        "label": "Obligors",            "type": "drill",  "width": 118, "pinned": "right", "computed": true, "drill_target": "obligors"}
+  {
+    "field": "facility_id",
+    "label": "Facility ID",
+    "type": "text",
+    "key": "primary",
+    "width": 115,
+    "pinned": "left",
+    "searchable": true
+  },
+  {
+    "field": "facility_name",
+    "label": "Facility Name",
+    "type": "text",
+    "flex": 2,
+    "minWidth": 160,
+    "tooltip": true,
+    "searchable": true
+  },
+  {
+    "field": "facility_type",
+    "label": "Facility Type",
+    "type": "text",
+    "flex": 1.5,
+    "minWidth": 130,
+    "searchable": true
+  },
+  {
+    "field": "credit_limit",
+    "label": "Credit Limit",
+    "type": "money",
+    "flex": 1,
+    "minWidth": 120
+  },
+  {
+    "field": "outstanding_balance",
+    "label": "Outstanding Balance",
+    "type": "money",
+    "flex": 1,
+    "minWidth": 115
+  },
+  {
+    "field": "available_credit",
+    "label": "Available Credit",
+    "type": "money",
+    "flex": 1,
+    "minWidth": 110,
+    "hide": true
+  },
+  {
+    "field": "utilization_pct",
+    "label": "Utilisation",
+    "type": "number",
+    "width": 150,
+    "renderer": "utilisation"
+  },
+  {
+    "field": "status",
+    "label": "Status",
+    "type": "text",
+    "width": 118,
+    "renderer": "status",
+    "hide": true,
+    "searchable": true,
+    "values": [
+      "Active",
+      "Inactive",
+      "Under Review",
+      "Closed",
+      "Watch List"
+    ]
+  },
+  {
+    "field": "risk_rating",
+    "label": "Risk Rating",
+    "type": "text",
+    "width": 105,
+    "renderer": "riskRating",
+    "searchable": true,
+    "values": [
+      "AAA",
+      "AA",
+      "A",
+      "BBB",
+      "BB",
+      "B",
+      "CCC",
+      "CC",
+      "C",
+      "D"
+    ]
+  },
+  {
+    "field": "risk_score",
+    "label": "Risk Score",
+    "type": "number",
+    "width": 95,
+    "hide": true
+  },
+  {
+    "field": "relationship_manager",
+    "label": "Rel. Manager",
+    "type": "text",
+    "flex": 1,
+    "minWidth": 130,
+    "searchable": true
+  },
+  {
+    "field": "region",
+    "label": "Region",
+    "type": "text",
+    "width": 95,
+    "searchable": true
+  },
+  {
+    "field": "country",
+    "label": "Country",
+    "type": "text",
+    "width": 110,
+    "hide": true,
+    "searchable": true
+  },
+  {
+    "field": "currency",
+    "label": "Currency",
+    "type": "text",
+    "width": 85,
+    "hide": true
+  },
+  {
+    "field": "created_date",
+    "label": "Created",
+    "type": "date",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "maturity_date",
+    "label": "Maturity",
+    "type": "date",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "interest_rate",
+    "label": "Rate (%)",
+    "type": "number",
+    "width": 85,
+    "hide": true
+  },
+  {
+    "field": "Additional Column",
+    "label": "Additional Column",
+    "type": "text",
+    "hide": true,
+    "searchable": false
+  },
+  {
+    "field": "obligor_count",
+    "label": "Obligors",
+    "type": "drill",
+    "width": 118,
+    "pinned": "right",
+    "computed": true,
+    "drill_target": "obligors"
+  }
 ]

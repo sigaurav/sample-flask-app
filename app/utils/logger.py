@@ -92,6 +92,8 @@ def configure_logging(
 
     # ── Rotating file handler (opt-in) ─────────────────────────────────────────
     if log_file:
+        import os
+        os.makedirs(os.path.dirname(os.path.abspath(log_file)), exist_ok=True)
         file_handler = RotatingFileHandler(
             log_file,
             maxBytes=max_bytes,

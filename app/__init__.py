@@ -52,8 +52,10 @@ def create_app(config_name: str = "default") -> Flask:
         g.request_id = request.headers.get("X-Request-Id") or uuid.uuid4().hex[:12]
         g.user_id    = request.headers.get("X-User-Id", "anonymous")
 
-    # ── Ensure export directory exists ─────────────────────────────────────────
+    # ── Ensure output directories exist ──────────────────────────────────────
     os.makedirs(app.config["EXPORT_DIR"], exist_ok=True)
+    if app.config.get("LOG_FILE"):
+        os.makedirs(os.path.dirname(app.config["LOG_FILE"]), exist_ok=True)
 
     # ── Data + Reporting services (shared for app lifetime) ───────────────────
     app.data_service      = DataService(app.config)

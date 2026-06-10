@@ -14,36 +14,80 @@ const ContextBar = (function () {
     const el = document.getElementById('ctx-status');
     if (!el) return;
     if (ctx.sor && ctx.fic_mis_date) {
-      el.textContent = '✔ ' + ctx.sor + ' / ' + ctx.fic_mis_date;
+      el.textContent = ctx.sor + '  ·  ' + ctx.fic_mis_date;
       el.className   = 'context-bar-status has-context';
     } else {
-      el.textContent = 'Select SOR and Date, then click Load Data';
+      el.textContent = 'Select SOR and date, then click Load Data';
       el.className   = 'context-bar-status';
     }
   }
 
-  (function init() {
-    const sorSel  = document.getElementById('ctx-sor');
-    const dateIn  = document.getElementById('ctx-date');
-    const loadBtn = document.getElementById('ctx-load-btn');
-    if (!sorSel || !dateIn || !loadBtn) return;
+  function _setActiveSor(group, value) {
+    group.querySelectorAll('.ctx-seg-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.dataset.value === value);
+      btn.setAttribute('aria-pressed', btn.dataset.value === value ? 'true' : 'false');
+    });
+  }
 
+  // Auto-insert dashes while typing: 2026 → 2026- → 2026-06- → 2026-06-11
+  function _autoFormatDate(input) {
+    input.addEventListener('input', function (e) {
+      let v = e.target.value.replace(/\D/g, '');
+      if (v.length > 4)  v = v.slice(0, 4) + '-' + v.slice(4);
+      if (v.length > 7)  v = v.slice(0, 7) + '-' + v.slice(7);
+      if (v.length > 10) v = v.slice(0, 10);
+      e.target.value = v;
+      e.target.classList.toggle('has-value', v.length > 0);
+    });
+  }
+
+  (function init() {
+    const sorGroup = document.getElementById('ctx-sor-group');
+    const dateIn   = document.getElementById('ctx-date');
+    const loadBtn  = document.getElementById('ctx-load-btn');
+    if (!sorGroup || !dateIn || !loadBtn) return;
+
+    // Build segmented buttons from APP_CONFIG
+    let selectedSor = '';
     (window.APP_CONFIG?.enabledSors || []).forEach(function (s) {
-      const o = document.createElement('option');
-      o.value = o.textContent = s;
-      sorSel.appendChild(o);
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'ctx-seg-btn';
+      btn.dataset.value = s;
+      btn.textContent = s;
+      btn.setAttribute('aria-pressed', 'false');
+      btn.addEventListener('click', function () {
+        selectedSor = s;
+        _setActiveSor(sorGroup, s);
+      });
+      sorGroup.appendChild(btn);
     });
 
+    // Restore last-used context
     const saved = getContext();
-    if (saved.sor)          sorSel.value = saved.sor;
-    if (saved.fic_mis_date) dateIn.value  = saved.fic_mis_date;
+    if (saved.sor) {
+      selectedSor = saved.sor;
+      _setActiveSor(sorGroup, saved.sor);
+    }
+    if (saved.fic_mis_date) {
+      dateIn.value = saved.fic_mis_date;
+      dateIn.classList.add('has-value');
+    }
     _updateStatus(saved);
+    _autoFormatDate(dateIn);
 
     loadBtn.addEventListener('click', function () {
-      const ctx = { sor: sorSel.value, fic_mis_date: dateIn.value };
+      const ctx = { sor: selectedSor, fic_mis_date: dateIn.value.trim() };
       if (!ctx.sor || !ctx.fic_mis_date) {
         if (typeof Toast !== 'undefined') {
-          Toast.warning('Query context required', 'Please select both a SOR and a date before loading data.');
+          Toast.warning('Query context required', 'Please select a SOR and enter a date before loading data.');
+        }
+        return;
+      }
+      // Basic YYYY-MM-DD validation
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ctx.fic_mis_date)) {
+        if (typeof Toast !== 'undefined') {
+          Toast.warning('Invalid date', 'Date must be in YYYY-MM-DD format, e.g. 2024-01-31');
         }
         return;
       }

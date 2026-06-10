@@ -1,0 +1,33 @@
+2026-06-11 00:39:14,499 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-11 00:39:14,499 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'dremio'
+2026-06-11 00:39:14,499 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'sqlserver'
+2026-06-11 00:39:14,500 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'excel'
+2026-06-11 00:39:14,500 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv)
+2026-06-11 00:39:15,232 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-11 00:39:15,232 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'dremio'
+2026-06-11 00:39:15,232 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'sqlserver'
+2026-06-11 00:39:15,232 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'excel'
+2026-06-11 00:39:15,233 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv)
+2026-06-11 00:39:15,241 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-11 00:39:15,241 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-11 00:39:15,272 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-11 00:39:29,720 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7b2e835a4870 user=anonymous | CSVAdapter loaded entity=facilities rows=100 path=F:\Office\SampleApp4\data\facilities.csv
+2026-06-11 00:39:29,725 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7b2e835a4870 user=anonymous | CSVAdapter.fetch entity=facilities entity_id=None sor='1SOR' rows_returned=17
+2026-06-11 00:39:29,731 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7b2e835a4870 user=anonymous | CSVAdapter loaded entity=obligors rows=500 path=F:\Office\SampleApp4\data\obligors.csv
+2026-06-11 00:39:29,734 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7b2e835a4870 user=anonymous | CSVAdapter.fetch entity=obligors entity_id=None sor='1SOR' rows_returned=84
+2026-06-11 00:39:29,741 | DEBUG    | app.services.reporting_service | req=7b2e835a4870 user=anonymous | get_facilities search='' sor='1SOR' -> 17/17
+2026-06-11 00:42:00,785 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-11 00:42:00,785 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'dremio'
+2026-06-11 00:42:00,785 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'sqlserver'
+2026-06-11 00:42:00,785 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'excel'
+2026-06-11 00:42:00,786 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv)
+2026-06-11 00:45:09,970 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-11 00:45:09,970 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'dremio'
+2026-06-11 00:45:09,970 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'sqlserver'
+2026-06-11 00:45:09,970 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'excel'
+2026-06-11 00:45:09,970 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv)
+2026-06-11 00:45:19,140 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-11 00:45:19,140 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'dremio'
+2026-06-11 00:45:19,141 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'sqlserver'
+2026-06-11 00:45:19,141 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'excel'
+2026-06-11 00:45:19,141 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv)

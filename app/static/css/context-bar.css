@@ -1,98 +1,166 @@
 .context-bar {
-  background: #f7f7f7;
-  border-bottom: 1px solid #ddd;
-  padding: 7px 20px;
-  /* Span full width by reversing main-content's 24px padding */
+  background: var(--white);
+  border-bottom: 1px solid var(--gray-200);
+  padding: 8px 20px;
   margin: -24px -24px 16px -24px;
-  /* Stick just below the fixed header (--header-h = 58px) when scrolling */
   position: sticky;
   top: var(--header-h);
   z-index: 200;
+  box-shadow: 0 1px 4px rgba(0,0,0,.06);
 }
 
 @media (max-width: 768px) {
-  .context-bar {
-    margin: -16px -16px 16px -16px;
-  }
+  .context-bar { margin: -16px -16px 16px -16px; }
 }
 
 .context-bar-inner {
   display: flex;
   align-items: center;
-  gap: 18px;
+  gap: 20px;
   flex-wrap: wrap;
 }
 
 .context-bar-label {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: #888;
+  letter-spacing: 0.8px;
+  color: var(--gray-400);
   white-space: nowrap;
+  padding-right: 4px;
+  border-right: 1px solid var(--gray-200);
 }
 
 .context-bar-item {
   display: flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  cursor: default;
+  gap: 8px;
 }
 
-.context-bar-item > span {
+.ctx-field-label {
+  font-size: 11px;
   font-weight: 600;
-  color: #444;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--gray-500);
   white-space: nowrap;
 }
 
-.context-bar-item select,
-.context-bar-item input[type="date"] {
-  padding: 4px 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  font-size: 13px;
-  background: #fff;
-  color: #222;
-  outline: none;
-  transition: border-color 0.15s;
+/* ── Segmented button group (SOR) ───────────────────────────────────────────── */
+.ctx-seg-group {
+  display: flex;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  overflow: hidden;
+  background: var(--gray-50);
 }
 
-.context-bar-item select:focus,
-.context-bar-item input[type="date"]:focus {
-  border-color: #D71E28;
-}
-
-.context-bar-btn {
-  padding: 5px 16px;
-  background: #D71E28;
-  color: #fff;
+.ctx-seg-btn {
+  padding: 4px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  font-family: var(--font-mono);
+  letter-spacing: 0.3px;
   border: none;
-  border-radius: 4px;
-  font-size: 13px;
+  border-left: 1px solid var(--gray-300);
+  background: transparent;
+  color: var(--gray-600);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--transition), color var(--transition);
+  line-height: 1.6;
+}
+
+.ctx-seg-btn:first-child { border-left: none; }
+
+.ctx-seg-btn:hover:not(.active) {
+  background: var(--wf-red-light);
+  color: var(--wf-red);
+}
+
+.ctx-seg-btn.active {
+  background: var(--wf-red);
+  color: var(--white);
+}
+
+/* ── Date text input ─────────────────────────────────────────────────────────── */
+.ctx-date-input {
+  padding: 4px 10px;
+  border: 1px solid var(--gray-300);
+  border-radius: var(--radius);
+  font-size: 12px;
+  font-family: var(--font-mono);
+  letter-spacing: 0.4px;
+  background: var(--gray-50);
+  color: var(--gray-800);
+  outline: none;
+  width: 105px;
+  transition: border-color var(--transition), background var(--transition);
+}
+
+.ctx-date-input:focus {
+  border-color: var(--wf-red);
+  background: var(--white);
+}
+
+.ctx-date-input.has-value {
+  border-color: var(--gray-400);
+  background: var(--white);
+}
+
+.ctx-date-input::placeholder {
+  color: var(--gray-400);
+  font-size: 11px;
+  letter-spacing: 0;
+}
+
+/* ── Load button ─────────────────────────────────────────────────────────────── */
+.context-bar-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 14px;
+  background: var(--wf-red);
+  color: var(--white);
+  border: none;
+  border-radius: var(--radius);
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
   white-space: nowrap;
-  transition: background 0.15s;
+  transition: background var(--transition);
+  line-height: 1.6;
 }
 
-.context-bar-btn:hover {
-  background: #b01820;
-}
+.context-bar-btn:hover  { background: var(--wf-red-dark); }
+.context-bar-btn:active { background: #8f1319; }
 
-.context-bar-btn:active {
-  background: #8f1319;
-}
-
+/* ── Status badge ────────────────────────────────────────────────────────────── */
 .context-bar-status {
-  font-size: 12px;
-  color: #888;
+  font-size: 11px;
+  color: var(--gray-400);
   font-style: italic;
   white-space: nowrap;
 }
 
 .context-bar-status.has-context {
-  color: #2a7a2a;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
   font-style: normal;
   font-weight: 600;
+  font-size: 11px;
+  color: var(--gray-700);
+  background: var(--gray-100);
+  border: 1px solid var(--gray-200);
+  border-radius: 20px;
+  padding: 2px 10px;
+}
+
+.context-bar-status.has-context::before {
+  content: '';
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--success);
 }

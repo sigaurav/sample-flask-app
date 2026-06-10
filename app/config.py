@@ -25,6 +25,7 @@ class BaseConfig:
     BASE_DIR:   str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     DATA_DIR:   str = os.path.join(BASE_DIR, "data")
     EXPORT_DIR: str = os.path.join(BASE_DIR, "exports")
+    LOG_DIR:    str = os.path.join(BASE_DIR, "logs")
 
     # ── Logging ────────────────────────────────────────────────────────────────
     LOG_LEVEL:         str = "INFO"
@@ -82,12 +83,14 @@ class DevelopmentConfig(BaseConfig):
 
     DEBUG:     bool = True
     LOG_LEVEL: str  = "DEBUG"
+    LOG_FILE:  str  = os.path.join(BaseConfig.LOG_DIR, "wf_analytics.log")
 
 
 class ProductionConfig(BaseConfig):
     """Production deployment — minimal logging, no debugger."""
 
     LOG_LEVEL: str = "WARNING"
+    LOG_FILE:  str = os.path.join(BaseConfig.LOG_DIR, "wf_analytics.log")
 
     # Enforce a real secret key in production
     SECRET_KEY: str = os.environ.get("SECRET_KEY", BaseConfig.SECRET_KEY)

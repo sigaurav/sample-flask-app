@@ -39,15 +39,23 @@
       <div id="context-bar" class="context-bar">
         <div class="context-bar-inner">
           <span class="context-bar-label">Query Context</span>
-          <label class="context-bar-item">
-            <span>SOR</span>
-            <select id="ctx-sor" aria-label="System of Record"></select>
-          </label>
-          <label class="context-bar-item">
-            <span>Date</span>
-            <input type="date" id="ctx-date" aria-label="Reporting date (FIC_MIS_DATE)" />
-          </label>
-          <button id="ctx-load-btn" class="context-bar-btn">Load Data</button>
+          <div class="context-bar-item">
+            <span class="ctx-field-label">SOR</span>
+            <div id="ctx-sor-group" class="ctx-seg-group" role="group" aria-label="System of Record"></div>
+          </div>
+          <div class="context-bar-item">
+            <span class="ctx-field-label">Report Date</span>
+            <input type="text" id="ctx-date" class="ctx-date-input"
+              placeholder="YYYY-MM-DD" maxlength="10" autocomplete="off"
+              aria-label="Reporting date (FIC_MIS_DATE)" />
+          </div>
+          <button id="ctx-load-btn" class="context-bar-btn">
+            <svg width="13" height="13" viewBox="0 0 16 16" fill="none" style="vertical-align:-1px;margin-right:5px">
+              <path d="M13.5 8A5.5 5.5 0 1 1 8 2.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+              <path d="M11 1v4h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Load Data
+          </button>
           <span id="ctx-status" class="context-bar-status"></span>
         </div>
       </div>
