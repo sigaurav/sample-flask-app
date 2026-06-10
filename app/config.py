@@ -46,21 +46,33 @@ class BaseConfig:
     # ── Active data sources ────────────────────────────────────────────────────
     # First entry is the primary source used by ReportingService.
     # Valid values: "csv", "dremio", "sqlserver", "excel"
-    ENABLED_DATA_SOURCES: list = ["csv"]
+    ENABLED_DATA_SOURCES: list = ["csv", "dremio", "sqlserver", "excel"]
 
-    # ── External data sources (Phase 2) ───────────────────────────────────────
-    DREMIO_HOST:    str = ""
-    DREMIO_PORT:    int = 32010
-    DREMIO_USER:    str = ""
-    DREMIO_PASSWORD: str = ""
-    DREMIO_SOURCE:  str = "FR_Y14Q"
+    # ── Query context ──────────────────────────────────────────────────────────
+    # All rows must carry SOR and FIC_MIS_DATE columns in source tables.
+    # Add new SOR values here; the frontend dropdown auto-populates from this list.
+    ENABLED_SORS: list = ["1SOR", "2SOR", "3SOR"]
 
-    SQLSERVER_HOST:     str = ""
-    SQLSERVER_PORT:     int = 1433
-    SQLSERVER_DB:       str = ""
-    SQLSERVER_USER:     str = ""
-    SQLSERVER_PASSWORD: str = ""
-    SQLSERVER_SCHEMA:   str = "dbo"
+    # ── Per-entity source routing ──────────────────────────────────────────────
+    # Maps each entity to its owning data source.  Must be a value in
+    # ENABLED_DATA_SOURCES; falls back to the primary adapter otherwise.
+    ENTITY_SOURCES: dict = {
+        "facilities":   "csv",
+        "obligors":     "csv",
+        "transactions": "csv",
+        "comments":     "csv",
+    }
+
+    # ── External data sources ──────────────────────────────────────────────────
+    DREMIO_HOST:   str = ""
+    DREMIO_PORT:   int = 32010
+    DREMIO_SOURCE: str = "FR_Y14Q"
+
+    SQLSERVER_HOST:   str = ""
+    SQLSERVER_PORT:   int = 1433
+    SQLSERVER_DB:     str = ""
+    SQLSERVER_SCHEMA: str = "dbo"
+    SQLSERVER_DRIVER: str = "ODBC Driver 18 for SQL Server"
 
     EXCEL_DATA_PATH: str = ""
 

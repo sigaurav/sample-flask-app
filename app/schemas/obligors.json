@@ -1,0 +1,18 @@
+[
+  {"field": "obligor_id",         "label": "Obligor ID",          "type": "text",  "key": "primary", "width": 125, "pinned": "left", "searchable": true},
+  {"field": "facility_id",        "label": "Facility ID",         "type": "text",  "key": "foreign", "width": 110, "searchable": true},
+  {"field": "obligor_name",       "label": "Obligor Name",        "type": "text",  "flex": 2,  "minWidth": 180, "tooltip": true, "searchable": true},
+  {"field": "obligor_type",       "label": "Obligor Type",        "type": "text",  "flex": 1,  "minWidth": 130, "searchable": true},
+  {"field": "tin",                "label": "TIN",                 "type": "text",  "width": 120, "hide": true},
+  {"field": "industry",           "label": "Industry",            "type": "text",  "flex": 1,  "minWidth": 140, "searchable": true},
+  {"field": "sub_industry",       "label": "Sub-Industry",        "type": "text",  "flex": 1,  "minWidth": 140, "hide": true, "searchable": true},
+  {"field": "country",            "label": "Country",             "type": "text",  "width": 100, "hide": true, "searchable": true},
+  {"field": "credit_score",       "label": "Credit Score",        "type": "number","width": 110, "hide": true},
+  {"field": "exposure_amount",    "label": "Exposure Amount",     "type": "money", "flex": 1,  "minWidth": 130},
+  {"field": "outstanding_amount", "label": "Outstanding Amount",  "type": "money", "flex": 1,  "minWidth": 130},
+  {"field": "status",             "label": "Status",              "type": "text",  "width": 118, "renderer": "status", "hide": true, "searchable": true, "values": ["Active","Inactive","Under Review","Closed","Watch List"]},
+  {"field": "risk_grade",         "label": "Risk Grade",          "type": "text",  "width": 110, "hide": true, "searchable": true},
+  {"field": "created_date",       "label": "Created",             "type": "date",  "width": 105, "hide": true},
+  {"field": "review_date",        "label": "Review Date",         "type": "date",  "width": 115, "hide": true},
+  {"field": "transaction_count",  "label": "Transactions",        "type": "drill", "width": 110, "pinned": "right", "computed": true, "drill_target": "transactions"}
+]

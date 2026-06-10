@@ -20,9 +20,8 @@ _MIME_MAP = {
 
 def _svc() -> ExportService:
     return ExportService(
-        data_dir   = current_app.config["DATA_DIR"],
-        export_dir = current_app.config["EXPORT_DIR"],
-        app_config = current_app.config,
+        data_service = current_app.data_service,
+        export_dir   = current_app.config["EXPORT_DIR"],
     )
 
 
@@ -44,7 +43,6 @@ def create_export():
             entity_type   = entity_type,
             export_type   = payload.get("export_type",   "full"),
             schedule_type = payload.get("schedule_type", "H1"),
-            source_type   = payload.get("source_type",   "csv"),
             file_format   = payload.get("file_format",   "csv"),
             entity_id     = payload.get("entity_id") or None,
             filters       = payload.get("filters", {}),

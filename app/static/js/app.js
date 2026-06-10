@@ -11,88 +11,31 @@ const WFApp = (function () {
 
   let _facilityGrid  = null;
   let _allFacilities = null;
+  let _schema        = null;
 
-  // ── Column definitions ─────────────────────────────────────────────────────
+  // ── Schema fetch ───────────────────────────────────────────────────────────
 
-  function _buildFacilityColumns() {
-    return [
-      ColumnHelper.text('facility_id', 'Facility ID', {
-        width: 115, pinned: 'left',
-      }),
-
-      ColumnHelper.text('facility_name', 'Facility Name', {
-        flex: 2, minWidth: 160, tooltipField: 'facility_name',
-      }),
-      ColumnHelper.text('facility_type', 'Facility Type', {
-        flex: 1.5, minWidth: 130,
-      }),
-      ColumnHelper.money('credit_limit', 'Credit Limit', {
-        flex: 1, minWidth: 120,
-      }),
-      ColumnHelper.money('outstanding_balance', 'Outstanding Balance', {
-        flex: 1, minWidth: 115,
-      }),
-
-      {
-        headerName:   'Utilisation',
-        field:        'utilization_pct',
-        width:        150,
-        filter:       'wfNumberFilter',
-        sortable:     true,
-        cellRenderer: CellRenderer.utilisation,
-      },
-      /* Status column — hidden per product decision; restore by removing this comment block
-      {
-        headerName:   'Status',
-        field:        'status',
-        width:        118,
-        filter:       'wfTextFilter',
-        cellRenderer: CellRenderer.status,
-        values:       ['Active', 'Inactive', 'Under Review', 'Closed', 'Watch List'],
-      },
-      */
-      {
-        headerName:   'Risk Rating',
-        field:        'risk_rating',
-        width:        105,
-        filter:       'wfTextFilter',
-        cellRenderer: CellRenderer.riskRating,
-        values:       ['AAA','AA','A','BBB','BB','B','CCC','CC','C','D'],
-      },
-      ColumnHelper.text('relationship_manager', 'Rel. Manager', {
-        flex: 1, minWidth: 130,
-      }),
-      ColumnHelper.text('region', 'Region', { width: 95 }),
-
-      // Hidden columns — toggleable via Columns panel
-      ColumnHelper.money('available_credit', 'Available',   { flex: 1, minWidth: 110, hide: true }),
-      ColumnHelper.text('currency',          'Currency',    { width: 85,  hide: true }),
-      ColumnHelper.number('risk_score',      'Risk Score',  { width: 95,  hide: true }),
-      ColumnHelper.text('country',           'Country',     { width: 110, hide: true }),
-      ColumnHelper.date('created_date',      'Created',     { width: 105, hide: true }),
-      ColumnHelper.date('maturity_date',     'Maturity',    { width: 105, hide: true }),
-      ColumnHelper.number('interest_rate',   'Rate (%)',    { width: 85,  hide: true }),
-
-      // Pinned right — drill-down to obligors
-      { // Updated naming Conventions
-        headerName: 'Obligors',
-        field:      'obligor_count',
-        width:      118,
-        pinned:     'right',
-        sortable:   true,
-        resizable:  true,
-        filter:     'wfNumberFilter',
-        cellClass:  'drill-down-cell',
-        cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
-          DrillDown.openObligors(p.data.facility_id, p.data.facility_name);
-        }),
-      },
-    ];
+  async function _getSchema() {
+    if (_schema) return _schema;
+    try {
+      const r = await ApiUtils.get('/api/schema/facilities', false);
+      _schema = r.data || [];
+    } catch (_) {
+      _schema = [];
+    }
+    return _schema;
   }
 
   // ── Data loading ───────────────────────────────────────────────────────────
 
   async function _loadFacilities(search = '') {
+    const ctx = ContextBar.getContext();
+    if (!ctx.sor || !ctx.fic_mis_date) {
+      _allFacilities = [];
+      _facilityGrid.setData([]);
+      ApiUtils.updateKpi([], () => false);
+      return false;
+    }
     try {
       const url  = ApiUtils.buildUrl('/api/facilities', { per_page: 500, search });
       const resp = await ApiUtils.get(url);
@@ -120,20 +63,27 @@ const WFApp = (function () {
   // ── Public init ────────────────────────────────────────────────────────────
 
   async function init() {
+    const schema = await _getSchema();
     _facilityGrid = new GridManager(
       'facilityGrid',
-      _buildFacilityColumns(),
+      buildColumnsFromSchema(schema, {
+        obligors: (p) => DrillDown.openObligors(p.data.facility_id, p.data.facility_name),
+      }),
       { paginationPageSize: 25, paginationPageSizeSelector: [10, 25, 50, 100] }
     ).init();
 
     _wireToolbar();
-    await _loadFacilities();
+    const loaded = await _loadFacilities();
 
-    Toast.success(
-      'H1 Schedule loaded',
-      `${(_allFacilities || []).length} credit exposures ready.`,
-      undefined, 3000
-    );
+    if (loaded !== false) {
+      Toast.success(
+        'H1 Schedule loaded',
+        `${(_allFacilities || []).length} credit exposures ready.`,
+        undefined, 3000
+      );
+    } else {
+      Toast.info('Select query context', 'Choose a SOR and Date in the bar above, then click Load Data.', undefined, 5000);
+    }
   }
 
   return { init };

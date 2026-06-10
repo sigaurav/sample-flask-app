@@ -12,8 +12,7 @@ Architecture (Phase 2 migration path):
 
 Observability:
     Every state transition is logged with structured extra fields:
-        job_id, entity_type, export_type, source_type, row_count,
-        duration_s, file_path
+        job_id, entity_type, export_type, row_count, duration_s, file_path
 """
 
 from __future__ import annotations
@@ -28,7 +27,7 @@ from typing import TYPE_CHECKING
 from app.repositories.export_job_repository import ExportJobRepository
 
 if TYPE_CHECKING:
-    from app.datasources.base_datasource import BaseDataSource
+    from app.adapters.base_adapter import BaseAdapter
     from app.models.export_job import ExportJob
 
 log = logging.getLogger(__name__)
@@ -39,7 +38,7 @@ _executor = ThreadPoolExecutor(max_workers=_MAX_WORKERS, thread_name_prefix="wf-
 
 # ── Public interface ──────────────────────────────────────────────────────────
 
-def submit_export_job(job: "ExportJob", datasource: "BaseDataSource", export_dir: str) -> None:
+def submit_export_job(job: "ExportJob", datasource: "BaseAdapter", export_dir: str) -> None:
     """
     Enqueue *job* for background processing.
 
@@ -49,15 +48,15 @@ def submit_export_job(job: "ExportJob", datasource: "BaseDataSource", export_dir
     """
     _executor.submit(_run_export, job.job_id, datasource, export_dir)
     log.info(
-        "Export job queued job_id=%s entity=%s type=%s fmt=%s source=%s",
-        job.job_id, job.entity_type, job.export_type, job.file_format, job.source_type,
+        "Export job queued job_id=%s entity=%s type=%s fmt=%s",
+        job.job_id, job.entity_type, job.export_type, job.file_format,
         extra={"job_id": job.job_id},
     )
 
 
 # ── Worker ────────────────────────────────────────────────────────────────────
 
-def _run_export(job_id: str, datasource: "BaseDataSource", export_dir: str) -> None:
+def _run_export(job_id: str, datasource: "BaseAdapter", export_dir: str) -> None:
     """
     Background worker function — runs in thread pool.
 
@@ -77,8 +76,8 @@ def _run_export(job_id: str, datasource: "BaseDataSource", export_dir: str) -> N
     repo.update(job_id, status="RUNNING", started_at=started)
 
     log.info(
-        "Export job started job_id=%s entity=%s type=%s source=%s",
-        job_id, job.entity_type, job.export_type, job.source_type,
+        "Export job started job_id=%s entity=%s type=%s",
+        job_id, job.entity_type, job.export_type,
         extra={"job_id": job_id},
     )
 

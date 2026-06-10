@@ -10,64 +10,31 @@ const ObligorsApp = (function () {
 
   let _grid       = null;
   let _allRecords = null;
+  let _schema     = null;
 
-  // ── Column definitions ─────────────────────────────────────────────────────
+  // ── Schema fetch ───────────────────────────────────────────────────────────
 
-  function _buildColumns() {
-    return [
-      ColumnHelper.text('obligor_id', 'Obligor ID', {
-        width: 125, pinned: 'left',
-      }),
-      ColumnHelper.text('obligor_name', 'Obligor Name', {
-        flex: 2, minWidth: 180, tooltipField: 'obligor_name',
-      }),
-      ColumnHelper.text('obligor_type', 'Obligor Type', {
-        flex: 1, minWidth: 130,
-      }),
-      ColumnHelper.text('facility_id', 'Facility ID', { width: 110 }),
-      ColumnHelper.text('industry',    'Industry',    { flex: 1, minWidth: 140 }),
-      ColumnHelper.text('sub_industry','Sub-Industry',{ flex: 1, minWidth: 140, hide: true }),
-      ColumnHelper.text('country',     'Country',     { width: 100, hide: true }),
-      ColumnHelper.number('credit_score', 'Credit Score', { width: 110, hide: true }),
-      ColumnHelper.money('exposure_amount',    'Exposure Amount',   { flex: 1, minWidth: 130 }),
-      ColumnHelper.money('outstanding_amount', 'Outstanding Amount',{ flex: 1, minWidth: 130 }),
-      /* Status column — hidden per product decision; restore by removing this comment block
-      {
-        headerName:   'Status',
-        field:        'status',
-        width:        118,
-        filter:       'wfTextFilter',
-        cellRenderer: CellRenderer.status,
-        values:       ['Active', 'Inactive', 'Under Review', 'Closed', 'Watch List'],
-      },
-      */
-      ColumnHelper.text('risk_grade',  'Risk Grade',  { width: 110, hide: true }),
-      ColumnHelper.date('review_date', 'Review Date', { width: 115, hide: true }),
-
-      // Drill-down to exposure events
-      {
-        headerName:   'Transactions',
-        field:        'transaction_count',
-        width:        110,
-        pinned:       'right',
-        sortable:     true,
-        filter:       'wfNumberFilter',
-        cellClass:    'drill-down-cell',
-        cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
-          DrillDown.openTransactions(
-            p.data.obligor_id,
-            p.data.obligor_name,
-            p.data.facility_id,
-            p.data.facility_id,
-          );
-        }),
-      },
-    ];
+  async function _getSchema() {
+    if (_schema) return _schema;
+    try {
+      const r = await ApiUtils.get('/api/schema/obligors', false);
+      _schema = r.data || [];
+    } catch (_) {
+      _schema = [];
+    }
+    return _schema;
   }
 
   // ── Data loading ───────────────────────────────────────────────────────────
 
   async function _loadObligors(search = '') {
+    const ctx = ContextBar.getContext();
+    if (!ctx.sor || !ctx.fic_mis_date) {
+      _allRecords = [];
+      _grid.setData([]);
+      ApiUtils.updateKpi([], () => false);
+      return false;
+    }
     try {
       const url  = ApiUtils.buildUrl('/api/obligors', { per_page: 1000, search });
       const resp = await ApiUtils.get(url);
@@ -91,20 +58,30 @@ const ObligorsApp = (function () {
   // ── Public init ────────────────────────────────────────────────────────────
 
   async function init() {
+    const schema = await _getSchema();
     _grid = new GridManager(
       'obligorsGrid',
-      _buildColumns(),
+      buildColumnsFromSchema(schema, {
+        transactions: (p) => DrillDown.openTransactions(
+          p.data.obligor_id, p.data.obligor_name,
+          p.data.facility_id, p.data.facility_id,
+        ),
+      }),
       { paginationPageSize: 25, paginationPageSizeSelector: [10, 25, 50, 100] }
     ).init();
 
     _wireToolbar();
-    await _loadObligors();
+    const loaded = await _loadObligors();
 
-    Toast.success(
-      'H1 Counterparties loaded',
-      `${(_allRecords || []).length} counterparties ready.`,
-      undefined, 3000
-    );
+    if (loaded !== false) {
+      Toast.success(
+        'H1 Counterparties loaded',
+        `${(_allRecords || []).length} counterparties ready.`,
+        undefined, 3000
+      );
+    } else {
+      Toast.info('Select query context', 'Choose a SOR and Date in the bar above, then click Load Data.', undefined, 5000);
+    }
   }
 
   return { init };

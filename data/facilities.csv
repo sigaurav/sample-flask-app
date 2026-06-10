@@ -1,101 +1,101 @@
-facility_id,facility_name,facility_type,credit_limit,currency,outstanding_balance,available_credit,utilization_pct,status,risk_rating,risk_score,relationship_manager,region,country,created_date,maturity_date,interest_rate
-FAC-0001,Apex Capital Corp.,Term Loan,3709044746.3,USD,1097556349.64,2611488396.66,29.59,Active,AA+,6.31,Rebecca Lawson,EMEA,UAE,2016-02-24,2025-04-05,3.249
-FAC-0002,Pacific Capital Group,Trade Finance Facility,137547168.57,USD,35634361.54,101912807.03,25.91,Active,A+,8.28,William Stanton,Global,United States,2020-01-14,2029-08-22,4.222
-FAC-0003,Continental Partners LLC,Bridge Loan,4786279295.67,CHF,1767456331.41,3018822964.26,36.93,Active,B+,4.1,Katherine Mercer,Americas,Mexico,2016-02-01,2023-02-09,5.79
-FAC-0004,Atlantic Finance Group,Construction Loan,2762442953.21,CHF,2109190751.42,653252201.79,76.35,Active,AAA,6.95,Robert Ashford,APAC,South Korea,2017-02-26,2020-12-06,8.432
-FAC-0005,Enhanced Capital Inc.,Construction Loan,2269784460.33,EUR,1741579153.7,528205306.63,76.73,Pending,BB+,3.4,Michael Pemberton,EMEA,France,2018-12-26,2024-05-01,5.773
-FAC-0006,Bilateral Holdings Ltd.,Syndicated Credit Facility,2313989758.2,AUD,731124180.96,1582865577.24,31.6,Under Review,AA-,8.4,Angela Drummond,EMEA,UAE,2018-08-21,2022-04-06,2.03
-FAC-0007,United Ventures LLC,Leveraged Buyout Facility,3590981782.24,JPY,969928615.12,2621053167.12,27.01,Closed,AA,3.38,Andrew Davenport,Global,United States,2022-03-18,2030-05-09,5.812
-FAC-0008,Horizon Credit Group,Leveraged Buyout Facility,4489625303.59,EUR,1883489421.67,2606135881.92,41.95,Active,AA+,7.8,Michael Pemberton,EMEA,Germany,2020-09-18,2029-03-31,7.837
-FAC-0009,Pacific Capital Group,Construction Loan,322320892.23,CHF,130635184.36,191685707.87,40.53,Closed,BB+,7.49,Laura Whitfield,Global,United States,2021-03-16,2024-05-01,2.392
-FAC-0010,Bilateral Holdings Ltd.,Construction Loan,2271349913.11,CHF,1960294770.59,311055142.52,86.31,Closed,B,1.96,Margaret Sinclair,APAC,South Korea,2017-01-01,2025-09-10,6.372
-FAC-0011,Global Ventures Corp.,Bridge Loan,3813741446.38,AUD,2027015874.62,1786725571.76,53.15,Active,AAA,2.01,Robert Ashford,Americas,Chile,2018-08-20,2027-02-10,1.963
-FAC-0012,Atlantic Finance Group,Leveraged Buyout Facility,432838993.08,GBP,211568397.54,221270595.54,48.88,Active,BB+,5.28,Margaret Sinclair,Americas,Chile,2016-05-30,2020-11-05,8.479
-FAC-0013,Continental Partners LLC,Construction Loan,4644922897.55,SGD,3271011174.22,1373911723.33,70.42,Pending,BB+,6.85,Katherine Mercer,EMEA,UAE,2018-06-30,2025-12-19,2.468
-FAC-0014,Atlantic Finance Group,Syndicated Credit Facility,1693737382.93,USD,966526113.62,727211269.31,57.06,Active,AA+,7.37,Rebecca Lawson,EMEA,Switzerland,2017-06-21,2020-07-19,8.743
-FAC-0015,Atlantic Finance Group,Standby Letter of Credit,2573209818.44,SGD,830585325.72,1742624492.72,32.28,Active,BB,9.42,Daniel Fowler,Global,United States,2021-01-17,2025-07-11,7.96
-FAC-0016,Atlantic Finance Group,Syndicated Credit Facility,489169417.07,EUR,217602586.21,271566830.86,44.48,Active,BB+,6.88,Emily Garrison,Global,United States,2020-03-27,2023-11-03,7.326
-FAC-0017,Continental Partners LLC,Term Loan,961992410.35,EUR,508921501.07,453070909.28,52.9,Under Review,BBB+,3.25,Andrew Davenport,EMEA,Netherlands,2017-01-21,2023-03-06,2.283
-FAC-0018,Summit Capital Group,Trade Finance Facility,78715493.2,CAD,13744529.66,64970963.54,17.46,Active,BBB+,2.92,Michael Pemberton,EMEA,Germany,2019-07-23,2028-01-01,4.532
-FAC-0019,Enhanced Capital Inc.,Construction Loan,4632957777.43,GBP,3373272705.62,1259685071.81,72.81,Active,BB+,7.47,Steven Caldwell,APAC,Hong Kong,2022-10-24,2032-01-16,3.242
-FAC-0020,Pacific Capital Group,Revolving Credit Facility,3680007208.05,GBP,547460162.74,3132547045.31,14.88,Active,BBB+,5.53,Margaret Sinclair,APAC,Japan,2015-07-25,2025-02-09,2.141
-FAC-0021,Atlantic Finance Group,Bridge Loan,2977200356.72,USD,1905914480.03,1071285876.69,64.02,Pending,AA-,6.21,Rebecca Lawson,EMEA,Netherlands,2016-05-06,2025-09-24,4.854
-FAC-0022,Pacific Capital Group,Leveraged Buyout Facility,2616299664.08,CHF,2218007300.91,398292363.17,84.78,Under Review,A+,4.56,Laura Whitfield,EMEA,UAE,2018-07-10,2024-03-12,8.932
-FAC-0023,Apex Capital Corp.,Term Loan,2294136185.48,AUD,2061885988.4,232250197.08,89.88,Active,BBB,3.39,Robert Ashford,Americas,United States,2021-01-11,2026-06-02,4.456
-FAC-0024,Meridian Finance Corp.,Bridge Loan,4169556048.43,EUR,2763714924.81,1405841123.62,66.28,Active,B,2.21,Andrew Davenport,Americas,Chile,2018-05-11,2022-07-08,2.744
-FAC-0025,Pacific Capital Group,Asset-Based Lending,1057095125.76,USD,395675177.33,661419948.43,37.43,Active,B,9.17,William Stanton,APAC,South Korea,2020-06-24,2026-04-17,8.135
-FAC-0026,Apex Capital Corp.,Revolving Credit Facility,1671114910.33,USD,342003239.48,1329111670.85,20.47,Active,BB,4.85,Rebecca Lawson,APAC,Australia,2019-12-15,2029-02-19,9.06
-FAC-0027,National Holdings Inc.,Bridge Loan,184960549.61,USD,73128368.1,111832181.51,39.54,Active,A+,4.28,Christine Wallace,EMEA,Netherlands,2016-06-06,2019-11-24,6.957
-FAC-0028,Global Ventures Corp.,Term Loan,3901680628.15,CAD,3149857052.68,751823575.47,80.73,Active,BB-,8.3,Michael Pemberton,Global,United States,2017-08-27,2022-06-22,7.393
-FAC-0029,Strategic Holdings Ltd.,Standby Letter of Credit,4654425350.81,SGD,3452597389.46,1201827961.35,74.18,Active,A-,8.85,Christine Wallace,EMEA,France,2016-10-14,2020-12-29,8.033
-FAC-0030,Global Ventures Corp.,Acquisition Facility,1529428382.36,EUR,1126082022.39,403346359.97,73.63,Active,A-,3.95,Thomas Blackwood,EMEA,Germany,2015-04-07,2020-06-05,6.632
-FAC-0031,Premier Partners LLC,Construction Loan,4905842687.56,CHF,2595056292.86,2310786394.7,52.9,Active,BBB-,9.66,David Harrington,Americas,United States,2017-12-05,2022-12-05,6.273
-FAC-0032,Secured Finance Corp.,Standby Letter of Credit,3933208750.13,CAD,1766463469.05,2166745281.08,44.91,Active,A+,1.4,Margaret Sinclair,Americas,Mexico,2021-06-19,2026-08-05,8.905
-FAC-0033,Premier Partners LLC,Trade Finance Facility,3598552845.73,AUD,2495812535.77,1102740309.96,69.36,Closed,BB+,9.29,David Harrington,EMEA,France,2019-11-02,2023-08-14,7.258
-FAC-0034,National Holdings Inc.,Asset-Based Lending,1549876887.73,CAD,661354672.92,888522214.81,42.67,Closed,AA-,4.78,Michael Pemberton,Global,United States,2021-03-20,2025-08-22,6.424
-FAC-0035,Horizon Credit Group,Asset-Based Lending,2741946379.61,SGD,275085089.87,2466861289.74,10.03,Under Review,BBB-,6.89,Katherine Mercer,APAC,Australia,2019-10-27,2029-04-27,6.905
-FAC-0036,Meridian Finance Corp.,Trade Finance Facility,3969708318.53,AUD,3445173303.38,524535015.15,86.79,Active,BBB,6.97,Robert Ashford,EMEA,UAE,2015-12-14,2022-02-17,6.882
-FAC-0037,Strategic Holdings Ltd.,Syndicated Credit Facility,999654013.97,JPY,119498950.9,880155063.07,11.95,Closed,BBB+,4.73,Emily Garrison,EMEA,Netherlands,2021-11-08,2025-09-01,5.455
-FAC-0038,Bilateral Holdings Ltd.,Syndicated Credit Facility,3282009765.5,SGD,342759494.37,2939250271.13,10.44,Active,BB-,9.62,Andrew Davenport,Americas,Mexico,2017-06-15,2022-06-04,3.494
-FAC-0039,Meridian Finance Corp.,Term Loan,671028832.26,CAD,316534090.49,354494741.77,47.17,Pending,B+,7.47,Katherine Mercer,APAC,China,2019-12-18,2029-10-30,8.678
-FAC-0040,Meridian Finance Corp.,Acquisition Facility,1299661784.58,SGD,387028609.23,912633175.35,29.78,Active,BB+,3.15,Steven Caldwell,APAC,China,2020-11-05,2029-04-11,3.376
-FAC-0041,Global Ventures Corp.,Standby Letter of Credit,4465669029.79,CAD,734433423.21,3731235606.58,16.45,Under Review,BB,2.93,Laura Whitfield,EMEA,Germany,2019-04-18,2024-01-02,5.841
-FAC-0042,Apex Capital Corp.,Construction Loan,1038137775.62,CHF,452747263.15,585390512.47,43.61,Under Review,AAA,9.48,William Stanton,Americas,Chile,2019-04-08,2027-08-12,5.806
-FAC-0043,Strategic Holdings Ltd.,Trade Finance Facility,3018246681.76,CAD,834336814.05,2183909867.71,27.64,Closed,AAA,4.5,Michael Pemberton,EMEA,France,2019-11-21,2028-05-01,8.224
-FAC-0044,Pacific Capital Group,Bridge Loan,2672947529.51,GBP,2206633363.11,466314166.4,82.55,Active,AA,8.8,Angela Drummond,Americas,United States,2022-03-17,2030-01-04,4.533
-FAC-0045,Meridian Finance Corp.,Syndicated Credit Facility,1637594795.38,USD,1161028125.73,476566669.65,70.9,Closed,B+,1.74,Andrew Davenport,Global,United States,2019-09-23,2025-07-21,1.917
-FAC-0046,Continental Partners LLC,Standby Letter of Credit,3252469745.78,GBP,2357996461.19,894473284.59,72.5,Active,B+,1.18,Natalie Forsythe,Americas,United States,2017-10-09,2023-01-02,5.288
-FAC-0047,Pacific Capital Group,Term Loan,4739046325.97,EUR,2236958705.12,2502087620.85,47.2,Active,BBB-,6.47,Steven Caldwell,APAC,China,2019-02-19,2024-01-06,2.365
-FAC-0048,United Ventures LLC,Revolving Credit Facility,1563226435.75,JPY,1003400391.57,559826044.18,64.19,Active,BBB-,7.22,Steven Caldwell,Global,United States,2017-03-23,2021-01-27,8.302
-FAC-0049,Strategic Holdings Ltd.,Leveraged Buyout Facility,609670050.01,AUD,540823352.99,68846697.02,88.71,Active,BB+,4.34,William Stanton,Americas,Brazil,2020-12-22,2028-10-10,8.079
-FAC-0050,Horizon Credit Group,Term Loan,4804133898.24,CHF,2923162152.57,1880971745.67,60.85,Pending,BB,5.7,Andrew Davenport,Global,United States,2019-11-19,2024-11-08,7.697
-FAC-0051,Horizon Credit Group,Acquisition Facility,4129544319.11,JPY,2370274589.81,1759269729.3,57.4,Under Review,A+,8.93,Patricia Holloway,APAC,China,2017-10-02,2021-09-20,6.383
-FAC-0052,Global Ventures Corp.,Construction Loan,148356488.86,CHF,115831148.87,32525339.99,78.08,Pending,BB-,3.33,Angela Drummond,EMEA,Netherlands,2017-05-18,2024-05-09,5.946
-FAC-0053,Continental Partners LLC,Trade Finance Facility,432636744.98,SGD,292488281.55,140148463.43,67.61,Active,BB+,7.41,Rebecca Lawson,Global,United States,2022-09-29,2031-01-30,3.854
-FAC-0054,Secured Finance Corp.,Construction Loan,1220309293.56,AUD,770220197.28,450089096.28,63.12,Active,A,4.83,Katherine Mercer,APAC,Hong Kong,2021-03-17,2030-02-27,3.667
-FAC-0055,Continental Partners LLC,Asset-Based Lending,607676144.34,SGD,154390719.16,453285425.18,25.41,Active,AA-,2.95,Patricia Holloway,Americas,Chile,2022-09-27,2027-10-24,9.313
-FAC-0056,Pacific Capital Group,Trade Finance Facility,1418578522.86,GBP,255941194.63,1162637328.23,18.04,Active,AA,3.72,James Thornton,EMEA,France,2017-07-20,2024-08-05,9.294
-FAC-0057,Enhanced Capital Inc.,Trade Finance Facility,3488599877.59,SGD,701290886.7,2787308990.89,20.1,Active,A+,5.22,Michael Pemberton,Global,United States,2015-02-20,2024-07-28,9.224
-FAC-0058,Summit Capital Group,Asset-Based Lending,2391257290.39,GBP,1811837753.33,579419537.06,75.77,Active,BB+,7.18,Patricia Holloway,Global,United States,2015-10-31,2025-04-19,9.093
-FAC-0059,Continental Partners LLC,Term Loan,596665553.25,CHF,424560212.31,172105340.94,71.16,Pending,BBB+,9.18,William Stanton,EMEA,South Africa,2020-11-10,2028-02-15,3.943
-FAC-0060,Apex Capital Corp.,Leveraged Buyout Facility,3050106406.66,JPY,2110891546.39,939214860.27,69.21,Active,BB+,1.73,Andrew Davenport,EMEA,UAE,2017-05-14,2023-05-01,2.101
-FAC-0061,Horizon Credit Group,Revolving Credit Facility,2255266004.57,SGD,1296888361.65,958377642.92,57.5,Active,BB,3.54,Robert Ashford,APAC,Japan,2017-08-06,2023-10-29,8.891
-FAC-0062,Premier Partners LLC,Leveraged Buyout Facility,4020508873.01,GBP,1038318010.63,2982190862.38,25.83,Active,B,3.39,James Thornton,Americas,Chile,2017-07-09,2022-03-10,2.827
-FAC-0063,Pacific Capital Group,Asset-Based Lending,3746043821.74,CAD,2080424022.49,1665619799.25,55.54,Active,BB,3.74,Margaret Sinclair,APAC,Hong Kong,2016-05-24,2024-08-24,5.82
-FAC-0064,Atlantic Finance Group,Acquisition Facility,2992193126.9,USD,2428279357.69,563913769.21,81.15,Closed,AA+,3.06,Angela Drummond,APAC,South Korea,2017-10-22,2021-02-03,6.11
-FAC-0065,Meridian Finance Corp.,Bridge Loan,2597224385.73,EUR,1178577633.17,1418646752.56,45.38,Under Review,BB+,8.33,Thomas Blackwood,APAC,Australia,2021-07-25,2029-06-13,4.767
-FAC-0066,Premier Partners LLC,Standby Letter of Credit,527476423.49,USD,120612696.82,406863726.67,22.87,Under Review,B+,7.84,Rebecca Lawson,Global,United States,2018-03-26,2025-09-20,4.016
-FAC-0067,Atlantic Finance Group,Standby Letter of Credit,4851072710.41,AUD,2053653342.44,2797419367.97,42.33,Pending,AAA,2.69,Daniel Fowler,Americas,Chile,2020-03-07,2027-10-24,6.503
-FAC-0068,Continental Partners LLC,Revolving Credit Facility,1338945910.17,JPY,274230292.68,1064715617.49,20.48,Closed,AA+,1.26,Michael Pemberton,APAC,Hong Kong,2022-10-31,2031-04-07,3.986
-FAC-0069,National Holdings Inc.,Revolving Credit Facility,2042913483.01,CHF,571526553.78,1471386929.23,27.98,Pending,BBB+,9.39,Angela Drummond,Americas,Mexico,2016-04-26,2021-01-15,4.824
-FAC-0070,Meridian Finance Corp.,Acquisition Facility,1222435875.85,EUR,661352553.25,561083322.6,54.1,Active,BB,8.91,William Stanton,Global,United States,2021-09-21,2030-06-02,4.219
-FAC-0071,Enhanced Capital Inc.,Trade Finance Facility,4103644618.56,GBP,1338900999.19,2764743619.37,32.63,Under Review,BB+,5.41,Andrew Davenport,APAC,China,2021-08-01,2031-01-31,5.375
-FAC-0072,National Holdings Inc.,Standby Letter of Credit,3815549024.71,CAD,1532965666.04,2282583358.67,40.18,Active,BBB-,4.45,Laura Whitfield,APAC,China,2017-02-11,2022-10-16,7.458
-FAC-0073,Horizon Credit Group,Construction Loan,4942127939.69,AUD,3627101473.79,1315026465.9,73.39,Active,BBB,9.69,Katherine Mercer,EMEA,Netherlands,2015-06-01,2019-10-30,2.298
-FAC-0074,Apex Capital Corp.,Acquisition Facility,3613606918.72,CAD,1546561953.35,2067044965.37,42.8,Closed,A,6.61,Rebecca Lawson,EMEA,United Kingdom,2020-04-07,2026-03-27,8.314
-FAC-0075,Horizon Credit Group,Trade Finance Facility,4770927265.15,CHF,2869423360.84,1901503904.31,60.14,Active,AA-,6.68,Rebecca Lawson,Global,United States,2021-12-04,2025-09-09,4.972
-FAC-0076,Strategic Holdings Ltd.,Term Loan,3170570404.76,AUD,2530316153.05,640254251.71,79.81,Active,B,1.26,Steven Caldwell,Global,United States,2022-10-13,2029-02-19,4.368
-FAC-0077,Bilateral Holdings Ltd.,Construction Loan,1224766173.76,JPY,526210252.56,698555921.2,42.96,Under Review,BBB-,8.84,Patricia Holloway,EMEA,Germany,2016-12-18,2020-11-05,2.645
-FAC-0078,Premier Partners LLC,Acquisition Facility,1273616810.37,AUD,387512391.16,886104419.21,30.43,Pending,AA,1.66,Steven Caldwell,Americas,Mexico,2018-03-24,2027-05-09,6.612
-FAC-0079,Secured Finance Corp.,Construction Loan,1254240630.92,AUD,973595685.8,280644945.12,77.62,Pending,AA-,4.43,Steven Caldwell,EMEA,Netherlands,2020-06-02,2024-08-11,9.442
-FAC-0080,Apex Capital Corp.,Asset-Based Lending,4889832700.46,SGD,3063890212.72,1825942487.74,62.66,Active,B,6.46,Robert Ashford,APAC,Japan,2021-05-07,2024-11-22,6.357
-FAC-0081,Continental Partners LLC,Standby Letter of Credit,3184906300.64,USD,1900474772.04,1284431528.6,59.67,Pending,A+,8.1,Thomas Blackwood,EMEA,UAE,2016-02-02,2019-07-12,7.359
-FAC-0082,United Ventures LLC,Term Loan,1479076705.89,CHF,1032372898.93,446703806.96,69.8,Active,B,9.74,Angela Drummond,EMEA,Germany,2016-06-25,2025-07-12,8.812
-FAC-0083,Strategic Holdings Ltd.,Acquisition Facility,1479231538.62,CAD,1177938060.54,301293478.08,79.63,Pending,BB-,9.7,Thomas Blackwood,Americas,Mexico,2015-11-05,2020-06-02,2.222
-FAC-0084,Apex Capital Corp.,Construction Loan,1325970598.87,AUD,263697084.93,1062273513.94,19.89,Active,BBB-,4.43,Robert Ashford,APAC,India,2022-07-16,2028-06-22,5.272
-FAC-0085,United Ventures LLC,Leveraged Buyout Facility,4716129834.61,CAD,1709149152.76,3006980681.85,36.24,Active,B,7.31,Natalie Forsythe,EMEA,UAE,2015-09-16,2023-11-29,1.863
-FAC-0086,Enhanced Capital Inc.,Revolving Credit Facility,4979657236.9,CAD,960557877.45,4019099359.45,19.29,Pending,BBB+,4.34,Natalie Forsythe,EMEA,Switzerland,2016-07-09,2023-11-16,8.583
-FAC-0087,Summit Capital Group,Term Loan,2449288453.76,JPY,1044603666.68,1404684787.08,42.65,Active,AA-,4.99,David Harrington,APAC,Japan,2022-09-28,2029-11-22,9.347
-FAC-0088,National Holdings Inc.,Standby Letter of Credit,4508972581.06,SGD,2776902381.88,1732070199.18,61.59,Active,AA+,9.54,Christine Wallace,Americas,Mexico,2018-02-04,2023-03-22,6.634
-FAC-0089,Apex Capital Corp.,Leveraged Buyout Facility,257639660.76,JPY,94504114.81,163135545.95,36.68,Pending,AA+,8.47,Christine Wallace,EMEA,South Africa,2021-05-01,2026-08-18,8.004
-FAC-0090,Global Ventures Corp.,Syndicated Credit Facility,3872971046.14,GBP,2830812645.44,1042158400.7,73.09,Active,BBB,3.26,Sarah Mitchell,Americas,Brazil,2016-08-15,2021-01-28,2.554
-FAC-0091,Strategic Holdings Ltd.,Standby Letter of Credit,3943215514.6,EUR,2251900733.9,1691314780.7,57.11,Closed,AA,7.68,Rebecca Lawson,Americas,Canada,2017-12-22,2021-07-23,5.31
-FAC-0092,National Holdings Inc.,Standby Letter of Credit,2970361759.25,USD,1371131867.34,1599229891.91,46.16,Active,A+,5.12,Daniel Fowler,EMEA,Switzerland,2015-06-27,2024-04-30,8.278
-FAC-0093,Premier Partners LLC,Construction Loan,544269339.25,GBP,364617488.28,179651850.97,66.99,Active,BBB-,2.34,Charles Sutherland,Global,United States,2015-11-27,2022-07-07,6.565
-FAC-0094,Secured Finance Corp.,Trade Finance Facility,1629301289.38,EUR,1459368757.0,169932532.38,89.57,Closed,A-,1.89,Andrew Davenport,APAC,Hong Kong,2020-09-01,2030-06-15,7.267
-FAC-0095,Horizon Credit Group,Syndicated Credit Facility,2260516805.25,AUD,639262532.32,1621254272.93,28.28,Under Review,A-,7.57,Laura Whitfield,APAC,China,2020-02-01,2027-07-22,6.821
-FAC-0096,Bilateral Holdings Ltd.,Standby Letter of Credit,3435671072.16,AUD,1647109871.19,1788561200.97,47.94,Active,AA+,7.7,Andrew Davenport,Americas,United States,2016-01-17,2023-11-19,1.98
-FAC-0097,National Holdings Inc.,Trade Finance Facility,1651581677.17,USD,326658128.73,1324923548.44,19.78,Active,B+,9.24,Charles Sutherland,APAC,China,2022-06-18,2030-03-15,4.0
-FAC-0098,Pacific Capital Group,Term Loan,2539525672.11,EUR,568305570.28,1971220101.83,22.38,Active,B+,6.01,Patricia Holloway,Global,United States,2016-03-19,2023-02-20,3.309
-FAC-0099,Summit Capital Group,Construction Loan,2807023680.23,CHF,2004063399.93,802960280.3,71.39,Active,AAA,2.62,Thomas Blackwood,Americas,Chile,2022-05-18,2028-05-16,1.549
-FAC-0100,Pacific Capital Group,Bridge Loan,3288436451.01,AUD,511905433.65,2776531017.36,15.57,Active,A-,4.78,Thomas Blackwood,Americas,United States,2020-12-12,2026-05-11,3.993
+SOR,FIC_MIS_DATE,SOR,FIC_MIS_DATE,facility_id,facility_name,facility_type,credit_limit,currency,outstanding_balance,available_credit,utilization_pct,status,risk_rating,risk_score,relationship_manager,region,country,created_date,maturity_date,interest_rate
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0001,Apex Capital Corp.,Term Loan,3709044746.3,USD,1097556349.64,2611488396.66,29.59,Active,AA+,6.31,Rebecca Lawson,EMEA,UAE,2016-02-24,2025-04-05,3.249
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0002,Pacific Capital Group,Trade Finance Facility,137547168.57,USD,35634361.54,101912807.03,25.91,Active,A+,8.28,William Stanton,Global,United States,2020-01-14,2029-08-22,4.222
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0003,Continental Partners LLC,Bridge Loan,4786279295.67,CHF,1767456331.41,3018822964.26,36.93,Active,B+,4.1,Katherine Mercer,Americas,Mexico,2016-02-01,2023-02-09,5.79
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0004,Atlantic Finance Group,Construction Loan,2762442953.21,CHF,2109190751.42,653252201.79,76.35,Active,AAA,6.95,Robert Ashford,APAC,South Korea,2017-02-26,2020-12-06,8.432
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0005,Enhanced Capital Inc.,Construction Loan,2269784460.33,EUR,1741579153.7,528205306.63,76.73,Pending,BB+,3.4,Michael Pemberton,EMEA,France,2018-12-26,2024-05-01,5.773
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0006,Bilateral Holdings Ltd.,Syndicated Credit Facility,2313989758.2,AUD,731124180.96,1582865577.24,31.6,Under Review,AA-,8.4,Angela Drummond,EMEA,UAE,2018-08-21,2022-04-06,2.03
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0007,United Ventures LLC,Leveraged Buyout Facility,3590981782.24,JPY,969928615.12,2621053167.12,27.01,Closed,AA,3.38,Andrew Davenport,Global,United States,2022-03-18,2030-05-09,5.812
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0008,Horizon Credit Group,Leveraged Buyout Facility,4489625303.59,EUR,1883489421.67,2606135881.92,41.95,Active,AA+,7.8,Michael Pemberton,EMEA,Germany,2020-09-18,2029-03-31,7.837
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0009,Pacific Capital Group,Construction Loan,322320892.23,CHF,130635184.36,191685707.87,40.53,Closed,BB+,7.49,Laura Whitfield,Global,United States,2021-03-16,2024-05-01,2.392
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0010,Bilateral Holdings Ltd.,Construction Loan,2271349913.11,CHF,1960294770.59,311055142.52,86.31,Closed,B,1.96,Margaret Sinclair,APAC,South Korea,2017-01-01,2025-09-10,6.372
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0011,Global Ventures Corp.,Bridge Loan,3813741446.38,AUD,2027015874.62,1786725571.76,53.15,Active,AAA,2.01,Robert Ashford,Americas,Chile,2018-08-20,2027-02-10,1.963
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0012,Atlantic Finance Group,Leveraged Buyout Facility,432838993.08,GBP,211568397.54,221270595.54,48.88,Active,BB+,5.28,Margaret Sinclair,Americas,Chile,2016-05-30,2020-11-05,8.479
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0013,Continental Partners LLC,Construction Loan,4644922897.55,SGD,3271011174.22,1373911723.33,70.42,Pending,BB+,6.85,Katherine Mercer,EMEA,UAE,2018-06-30,2025-12-19,2.468
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0014,Atlantic Finance Group,Syndicated Credit Facility,1693737382.93,USD,966526113.62,727211269.31,57.06,Active,AA+,7.37,Rebecca Lawson,EMEA,Switzerland,2017-06-21,2020-07-19,8.743
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0015,Atlantic Finance Group,Standby Letter of Credit,2573209818.44,SGD,830585325.72,1742624492.72,32.28,Active,BB,9.42,Daniel Fowler,Global,United States,2021-01-17,2025-07-11,7.96
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0016,Atlantic Finance Group,Syndicated Credit Facility,489169417.07,EUR,217602586.21,271566830.86,44.48,Active,BB+,6.88,Emily Garrison,Global,United States,2020-03-27,2023-11-03,7.326
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0017,Continental Partners LLC,Term Loan,961992410.35,EUR,508921501.07,453070909.28,52.9,Under Review,BBB+,3.25,Andrew Davenport,EMEA,Netherlands,2017-01-21,2023-03-06,2.283
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0018,Summit Capital Group,Trade Finance Facility,78715493.2,CAD,13744529.66,64970963.54,17.46,Active,BBB+,2.92,Michael Pemberton,EMEA,Germany,2019-07-23,2028-01-01,4.532
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0019,Enhanced Capital Inc.,Construction Loan,4632957777.43,GBP,3373272705.62,1259685071.81,72.81,Active,BB+,7.47,Steven Caldwell,APAC,Hong Kong,2022-10-24,2032-01-16,3.242
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0020,Pacific Capital Group,Revolving Credit Facility,3680007208.05,GBP,547460162.74,3132547045.31,14.88,Active,BBB+,5.53,Margaret Sinclair,APAC,Japan,2015-07-25,2025-02-09,2.141
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0021,Atlantic Finance Group,Bridge Loan,2977200356.72,USD,1905914480.03,1071285876.69,64.02,Pending,AA-,6.21,Rebecca Lawson,EMEA,Netherlands,2016-05-06,2025-09-24,4.854
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0022,Pacific Capital Group,Leveraged Buyout Facility,2616299664.08,CHF,2218007300.91,398292363.17,84.78,Under Review,A+,4.56,Laura Whitfield,EMEA,UAE,2018-07-10,2024-03-12,8.932
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0023,Apex Capital Corp.,Term Loan,2294136185.48,AUD,2061885988.4,232250197.08,89.88,Active,BBB,3.39,Robert Ashford,Americas,United States,2021-01-11,2026-06-02,4.456
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0024,Meridian Finance Corp.,Bridge Loan,4169556048.43,EUR,2763714924.81,1405841123.62,66.28,Active,B,2.21,Andrew Davenport,Americas,Chile,2018-05-11,2022-07-08,2.744
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0025,Pacific Capital Group,Asset-Based Lending,1057095125.76,USD,395675177.33,661419948.43,37.43,Active,B,9.17,William Stanton,APAC,South Korea,2020-06-24,2026-04-17,8.135
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0026,Apex Capital Corp.,Revolving Credit Facility,1671114910.33,USD,342003239.48,1329111670.85,20.47,Active,BB,4.85,Rebecca Lawson,APAC,Australia,2019-12-15,2029-02-19,9.06
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0027,National Holdings Inc.,Bridge Loan,184960549.61,USD,73128368.1,111832181.51,39.54,Active,A+,4.28,Christine Wallace,EMEA,Netherlands,2016-06-06,2019-11-24,6.957
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0028,Global Ventures Corp.,Term Loan,3901680628.15,CAD,3149857052.68,751823575.47,80.73,Active,BB-,8.3,Michael Pemberton,Global,United States,2017-08-27,2022-06-22,7.393
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0029,Strategic Holdings Ltd.,Standby Letter of Credit,4654425350.81,SGD,3452597389.46,1201827961.35,74.18,Active,A-,8.85,Christine Wallace,EMEA,France,2016-10-14,2020-12-29,8.033
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0030,Global Ventures Corp.,Acquisition Facility,1529428382.36,EUR,1126082022.39,403346359.97,73.63,Active,A-,3.95,Thomas Blackwood,EMEA,Germany,2015-04-07,2020-06-05,6.632
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0031,Premier Partners LLC,Construction Loan,4905842687.56,CHF,2595056292.86,2310786394.7,52.9,Active,BBB-,9.66,David Harrington,Americas,United States,2017-12-05,2022-12-05,6.273
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0032,Secured Finance Corp.,Standby Letter of Credit,3933208750.13,CAD,1766463469.05,2166745281.08,44.91,Active,A+,1.4,Margaret Sinclair,Americas,Mexico,2021-06-19,2026-08-05,8.905
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0033,Premier Partners LLC,Trade Finance Facility,3598552845.73,AUD,2495812535.77,1102740309.96,69.36,Closed,BB+,9.29,David Harrington,EMEA,France,2019-11-02,2023-08-14,7.258
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0034,National Holdings Inc.,Asset-Based Lending,1549876887.73,CAD,661354672.92,888522214.81,42.67,Closed,AA-,4.78,Michael Pemberton,Global,United States,2021-03-20,2025-08-22,6.424
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0035,Horizon Credit Group,Asset-Based Lending,2741946379.61,SGD,275085089.87,2466861289.74,10.03,Under Review,BBB-,6.89,Katherine Mercer,APAC,Australia,2019-10-27,2029-04-27,6.905
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0036,Meridian Finance Corp.,Trade Finance Facility,3969708318.53,AUD,3445173303.38,524535015.15,86.79,Active,BBB,6.97,Robert Ashford,EMEA,UAE,2015-12-14,2022-02-17,6.882
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0037,Strategic Holdings Ltd.,Syndicated Credit Facility,999654013.97,JPY,119498950.9,880155063.07,11.95,Closed,BBB+,4.73,Emily Garrison,EMEA,Netherlands,2021-11-08,2025-09-01,5.455
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0038,Bilateral Holdings Ltd.,Syndicated Credit Facility,3282009765.5,SGD,342759494.37,2939250271.13,10.44,Active,BB-,9.62,Andrew Davenport,Americas,Mexico,2017-06-15,2022-06-04,3.494
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0039,Meridian Finance Corp.,Term Loan,671028832.26,CAD,316534090.49,354494741.77,47.17,Pending,B+,7.47,Katherine Mercer,APAC,China,2019-12-18,2029-10-30,8.678
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0040,Meridian Finance Corp.,Acquisition Facility,1299661784.58,SGD,387028609.23,912633175.35,29.78,Active,BB+,3.15,Steven Caldwell,APAC,China,2020-11-05,2029-04-11,3.376
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0041,Global Ventures Corp.,Standby Letter of Credit,4465669029.79,CAD,734433423.21,3731235606.58,16.45,Under Review,BB,2.93,Laura Whitfield,EMEA,Germany,2019-04-18,2024-01-02,5.841
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0042,Apex Capital Corp.,Construction Loan,1038137775.62,CHF,452747263.15,585390512.47,43.61,Under Review,AAA,9.48,William Stanton,Americas,Chile,2019-04-08,2027-08-12,5.806
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0043,Strategic Holdings Ltd.,Trade Finance Facility,3018246681.76,CAD,834336814.05,2183909867.71,27.64,Closed,AAA,4.5,Michael Pemberton,EMEA,France,2019-11-21,2028-05-01,8.224
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0044,Pacific Capital Group,Bridge Loan,2672947529.51,GBP,2206633363.11,466314166.4,82.55,Active,AA,8.8,Angela Drummond,Americas,United States,2022-03-17,2030-01-04,4.533
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0045,Meridian Finance Corp.,Syndicated Credit Facility,1637594795.38,USD,1161028125.73,476566669.65,70.9,Closed,B+,1.74,Andrew Davenport,Global,United States,2019-09-23,2025-07-21,1.917
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0046,Continental Partners LLC,Standby Letter of Credit,3252469745.78,GBP,2357996461.19,894473284.59,72.5,Active,B+,1.18,Natalie Forsythe,Americas,United States,2017-10-09,2023-01-02,5.288
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0047,Pacific Capital Group,Term Loan,4739046325.97,EUR,2236958705.12,2502087620.85,47.2,Active,BBB-,6.47,Steven Caldwell,APAC,China,2019-02-19,2024-01-06,2.365
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0048,United Ventures LLC,Revolving Credit Facility,1563226435.75,JPY,1003400391.57,559826044.18,64.19,Active,BBB-,7.22,Steven Caldwell,Global,United States,2017-03-23,2021-01-27,8.302
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0049,Strategic Holdings Ltd.,Leveraged Buyout Facility,609670050.01,AUD,540823352.99,68846697.02,88.71,Active,BB+,4.34,William Stanton,Americas,Brazil,2020-12-22,2028-10-10,8.079
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0050,Horizon Credit Group,Term Loan,4804133898.24,CHF,2923162152.57,1880971745.67,60.85,Pending,BB,5.7,Andrew Davenport,Global,United States,2019-11-19,2024-11-08,7.697
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0051,Horizon Credit Group,Acquisition Facility,4129544319.11,JPY,2370274589.81,1759269729.3,57.4,Under Review,A+,8.93,Patricia Holloway,APAC,China,2017-10-02,2021-09-20,6.383
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0052,Global Ventures Corp.,Construction Loan,148356488.86,CHF,115831148.87,32525339.99,78.08,Pending,BB-,3.33,Angela Drummond,EMEA,Netherlands,2017-05-18,2024-05-09,5.946
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0053,Continental Partners LLC,Trade Finance Facility,432636744.98,SGD,292488281.55,140148463.43,67.61,Active,BB+,7.41,Rebecca Lawson,Global,United States,2022-09-29,2031-01-30,3.854
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0054,Secured Finance Corp.,Construction Loan,1220309293.56,AUD,770220197.28,450089096.28,63.12,Active,A,4.83,Katherine Mercer,APAC,Hong Kong,2021-03-17,2030-02-27,3.667
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0055,Continental Partners LLC,Asset-Based Lending,607676144.34,SGD,154390719.16,453285425.18,25.41,Active,AA-,2.95,Patricia Holloway,Americas,Chile,2022-09-27,2027-10-24,9.313
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0056,Pacific Capital Group,Trade Finance Facility,1418578522.86,GBP,255941194.63,1162637328.23,18.04,Active,AA,3.72,James Thornton,EMEA,France,2017-07-20,2024-08-05,9.294
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0057,Enhanced Capital Inc.,Trade Finance Facility,3488599877.59,SGD,701290886.7,2787308990.89,20.1,Active,A+,5.22,Michael Pemberton,Global,United States,2015-02-20,2024-07-28,9.224
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0058,Summit Capital Group,Asset-Based Lending,2391257290.39,GBP,1811837753.33,579419537.06,75.77,Active,BB+,7.18,Patricia Holloway,Global,United States,2015-10-31,2025-04-19,9.093
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0059,Continental Partners LLC,Term Loan,596665553.25,CHF,424560212.31,172105340.94,71.16,Pending,BBB+,9.18,William Stanton,EMEA,South Africa,2020-11-10,2028-02-15,3.943
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0060,Apex Capital Corp.,Leveraged Buyout Facility,3050106406.66,JPY,2110891546.39,939214860.27,69.21,Active,BB+,1.73,Andrew Davenport,EMEA,UAE,2017-05-14,2023-05-01,2.101
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0061,Horizon Credit Group,Revolving Credit Facility,2255266004.57,SGD,1296888361.65,958377642.92,57.5,Active,BB,3.54,Robert Ashford,APAC,Japan,2017-08-06,2023-10-29,8.891
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0062,Premier Partners LLC,Leveraged Buyout Facility,4020508873.01,GBP,1038318010.63,2982190862.38,25.83,Active,B,3.39,James Thornton,Americas,Chile,2017-07-09,2022-03-10,2.827
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0063,Pacific Capital Group,Asset-Based Lending,3746043821.74,CAD,2080424022.49,1665619799.25,55.54,Active,BB,3.74,Margaret Sinclair,APAC,Hong Kong,2016-05-24,2024-08-24,5.82
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0064,Atlantic Finance Group,Acquisition Facility,2992193126.9,USD,2428279357.69,563913769.21,81.15,Closed,AA+,3.06,Angela Drummond,APAC,South Korea,2017-10-22,2021-02-03,6.11
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0065,Meridian Finance Corp.,Bridge Loan,2597224385.73,EUR,1178577633.17,1418646752.56,45.38,Under Review,BB+,8.33,Thomas Blackwood,APAC,Australia,2021-07-25,2029-06-13,4.767
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0066,Premier Partners LLC,Standby Letter of Credit,527476423.49,USD,120612696.82,406863726.67,22.87,Under Review,B+,7.84,Rebecca Lawson,Global,United States,2018-03-26,2025-09-20,4.016
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0067,Atlantic Finance Group,Standby Letter of Credit,4851072710.41,AUD,2053653342.44,2797419367.97,42.33,Pending,AAA,2.69,Daniel Fowler,Americas,Chile,2020-03-07,2027-10-24,6.503
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0068,Continental Partners LLC,Revolving Credit Facility,1338945910.17,JPY,274230292.68,1064715617.49,20.48,Closed,AA+,1.26,Michael Pemberton,APAC,Hong Kong,2022-10-31,2031-04-07,3.986
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0069,National Holdings Inc.,Revolving Credit Facility,2042913483.01,CHF,571526553.78,1471386929.23,27.98,Pending,BBB+,9.39,Angela Drummond,Americas,Mexico,2016-04-26,2021-01-15,4.824
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0070,Meridian Finance Corp.,Acquisition Facility,1222435875.85,EUR,661352553.25,561083322.6,54.1,Active,BB,8.91,William Stanton,Global,United States,2021-09-21,2030-06-02,4.219
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0071,Enhanced Capital Inc.,Trade Finance Facility,4103644618.56,GBP,1338900999.19,2764743619.37,32.63,Under Review,BB+,5.41,Andrew Davenport,APAC,China,2021-08-01,2031-01-31,5.375
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0072,National Holdings Inc.,Standby Letter of Credit,3815549024.71,CAD,1532965666.04,2282583358.67,40.18,Active,BBB-,4.45,Laura Whitfield,APAC,China,2017-02-11,2022-10-16,7.458
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0073,Horizon Credit Group,Construction Loan,4942127939.69,AUD,3627101473.79,1315026465.9,73.39,Active,BBB,9.69,Katherine Mercer,EMEA,Netherlands,2015-06-01,2019-10-30,2.298
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0074,Apex Capital Corp.,Acquisition Facility,3613606918.72,CAD,1546561953.35,2067044965.37,42.8,Closed,A,6.61,Rebecca Lawson,EMEA,United Kingdom,2020-04-07,2026-03-27,8.314
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0075,Horizon Credit Group,Trade Finance Facility,4770927265.15,CHF,2869423360.84,1901503904.31,60.14,Active,AA-,6.68,Rebecca Lawson,Global,United States,2021-12-04,2025-09-09,4.972
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0076,Strategic Holdings Ltd.,Term Loan,3170570404.76,AUD,2530316153.05,640254251.71,79.81,Active,B,1.26,Steven Caldwell,Global,United States,2022-10-13,2029-02-19,4.368
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0077,Bilateral Holdings Ltd.,Construction Loan,1224766173.76,JPY,526210252.56,698555921.2,42.96,Under Review,BBB-,8.84,Patricia Holloway,EMEA,Germany,2016-12-18,2020-11-05,2.645
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0078,Premier Partners LLC,Acquisition Facility,1273616810.37,AUD,387512391.16,886104419.21,30.43,Pending,AA,1.66,Steven Caldwell,Americas,Mexico,2018-03-24,2027-05-09,6.612
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0079,Secured Finance Corp.,Construction Loan,1254240630.92,AUD,973595685.8,280644945.12,77.62,Pending,AA-,4.43,Steven Caldwell,EMEA,Netherlands,2020-06-02,2024-08-11,9.442
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0080,Apex Capital Corp.,Asset-Based Lending,4889832700.46,SGD,3063890212.72,1825942487.74,62.66,Active,B,6.46,Robert Ashford,APAC,Japan,2021-05-07,2024-11-22,6.357
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0081,Continental Partners LLC,Standby Letter of Credit,3184906300.64,USD,1900474772.04,1284431528.6,59.67,Pending,A+,8.1,Thomas Blackwood,EMEA,UAE,2016-02-02,2019-07-12,7.359
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0082,United Ventures LLC,Term Loan,1479076705.89,CHF,1032372898.93,446703806.96,69.8,Active,B,9.74,Angela Drummond,EMEA,Germany,2016-06-25,2025-07-12,8.812
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0083,Strategic Holdings Ltd.,Acquisition Facility,1479231538.62,CAD,1177938060.54,301293478.08,79.63,Pending,BB-,9.7,Thomas Blackwood,Americas,Mexico,2015-11-05,2020-06-02,2.222
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0084,Apex Capital Corp.,Construction Loan,1325970598.87,AUD,263697084.93,1062273513.94,19.89,Active,BBB-,4.43,Robert Ashford,APAC,India,2022-07-16,2028-06-22,5.272
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0085,United Ventures LLC,Leveraged Buyout Facility,4716129834.61,CAD,1709149152.76,3006980681.85,36.24,Active,B,7.31,Natalie Forsythe,EMEA,UAE,2015-09-16,2023-11-29,1.863
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0086,Enhanced Capital Inc.,Revolving Credit Facility,4979657236.9,CAD,960557877.45,4019099359.45,19.29,Pending,BBB+,4.34,Natalie Forsythe,EMEA,Switzerland,2016-07-09,2023-11-16,8.583
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0087,Summit Capital Group,Term Loan,2449288453.76,JPY,1044603666.68,1404684787.08,42.65,Active,AA-,4.99,David Harrington,APAC,Japan,2022-09-28,2029-11-22,9.347
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0088,National Holdings Inc.,Standby Letter of Credit,4508972581.06,SGD,2776902381.88,1732070199.18,61.59,Active,AA+,9.54,Christine Wallace,Americas,Mexico,2018-02-04,2023-03-22,6.634
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0089,Apex Capital Corp.,Leveraged Buyout Facility,257639660.76,JPY,94504114.81,163135545.95,36.68,Pending,AA+,8.47,Christine Wallace,EMEA,South Africa,2021-05-01,2026-08-18,8.004
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0090,Global Ventures Corp.,Syndicated Credit Facility,3872971046.14,GBP,2830812645.44,1042158400.7,73.09,Active,BBB,3.26,Sarah Mitchell,Americas,Brazil,2016-08-15,2021-01-28,2.554
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0091,Strategic Holdings Ltd.,Standby Letter of Credit,3943215514.6,EUR,2251900733.9,1691314780.7,57.11,Closed,AA,7.68,Rebecca Lawson,Americas,Canada,2017-12-22,2021-07-23,5.31
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0092,National Holdings Inc.,Standby Letter of Credit,2970361759.25,USD,1371131867.34,1599229891.91,46.16,Active,A+,5.12,Daniel Fowler,EMEA,Switzerland,2015-06-27,2024-04-30,8.278
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0093,Premier Partners LLC,Construction Loan,544269339.25,GBP,364617488.28,179651850.97,66.99,Active,BBB-,2.34,Charles Sutherland,Global,United States,2015-11-27,2022-07-07,6.565
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0094,Secured Finance Corp.,Trade Finance Facility,1629301289.38,EUR,1459368757.0,169932532.38,89.57,Closed,A-,1.89,Andrew Davenport,APAC,Hong Kong,2020-09-01,2030-06-15,7.267
+3SOR,2024-01-31,3SOR,2024-01-31,FAC-0095,Horizon Credit Group,Syndicated Credit Facility,2260516805.25,AUD,639262532.32,1621254272.93,28.28,Under Review,A-,7.57,Laura Whitfield,APAC,China,2020-02-01,2027-07-22,6.821
+3SOR,2024-02-29,3SOR,2024-02-29,FAC-0096,Bilateral Holdings Ltd.,Standby Letter of Credit,3435671072.16,AUD,1647109871.19,1788561200.97,47.94,Active,AA+,7.7,Andrew Davenport,Americas,United States,2016-01-17,2023-11-19,1.98
+1SOR,2024-01-31,1SOR,2024-01-31,FAC-0097,National Holdings Inc.,Trade Finance Facility,1651581677.17,USD,326658128.73,1324923548.44,19.78,Active,B+,9.24,Charles Sutherland,APAC,China,2022-06-18,2030-03-15,4.0
+1SOR,2024-02-29,1SOR,2024-02-29,FAC-0098,Pacific Capital Group,Term Loan,2539525672.11,EUR,568305570.28,1971220101.83,22.38,Active,B+,6.01,Patricia Holloway,Global,United States,2016-03-19,2023-02-20,3.309
+2SOR,2024-01-31,2SOR,2024-01-31,FAC-0099,Summit Capital Group,Construction Loan,2807023680.23,CHF,2004063399.93,802960280.3,71.39,Active,AAA,2.62,Thomas Blackwood,Americas,Chile,2022-05-18,2028-05-16,1.549
+2SOR,2024-02-29,2SOR,2024-02-29,FAC-0100,Pacific Capital Group,Bridge Loan,3288436451.01,AUD,511905433.65,2776531017.36,15.57,Active,A-,4.78,Thomas Blackwood,Americas,United States,2020-12-12,2026-05-11,3.993

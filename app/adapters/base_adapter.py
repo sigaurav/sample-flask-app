@@ -47,6 +47,29 @@ class BaseAdapter(ABC):
     def health_check(self) -> bool:
         """Return True if the underlying source is reachable."""
 
+    @abstractmethod
+    def introspect_columns(self, entity_type: str) -> List[str]:
+        """Return all column names present in the source for *entity_type*.
+
+        Used exclusively by ``scripts/refresh_schema.py`` to detect drift
+        between the live source and the JSON schema files.
+
+        Implementation guide per source type:
+        - CSVAdapter    → read the header row of the entity's CSV file.
+        - DremioAdapter → execute:
+            SELECT COLUMN_NAME
+            FROM   INFORMATION_SCHEMA."COLUMNS"
+            WHERE  TABLE_SCHEMA = '<schema>'
+            AND    TABLE_NAME   = '<table>'
+            ORDER  BY ORDINAL_POSITION
+        - SQLServerAdapter → execute:
+            SELECT COLUMN_NAME
+            FROM   INFORMATION_SCHEMA.COLUMNS
+            WHERE  TABLE_SCHEMA = '<schema>'
+            AND    TABLE_NAME   = '<table>'
+            ORDER  BY ORDINAL_POSITION
+        """
+
     # ── Shared pandas helpers ─────────────────────────────────────────────────
 
     def _apply_col_filters(self, df: pd.DataFrame, col_filters: Dict) -> pd.DataFrame:
@@ -103,6 +126,15 @@ class BaseAdapter(ABC):
             lambda c: c.astype(str).str.lower().str.contains(q, na=False)
         ).any(axis=1)
         return df[mask].reset_index(drop=True)
+
+    def _apply_context_filter(
+        self, df: pd.DataFrame, sor: str, fic_mis_date: str
+    ) -> pd.DataFrame:
+        if sor and "SOR" in df.columns:
+            df = df[df["SOR"] == sor].reset_index(drop=True)
+        if fic_mis_date and "FIC_MIS_DATE" in df.columns:
+            df = df[df["FIC_MIS_DATE"] == fic_mis_date].reset_index(drop=True)
+        return df
 
     def _apply_sorts(self, df: pd.DataFrame, sorts: List[Dict]) -> pd.DataFrame:
         if not sorts or df.empty:

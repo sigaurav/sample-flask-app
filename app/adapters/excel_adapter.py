@@ -33,7 +33,7 @@ class ExcelAdapter(BaseAdapter):
 
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config)
-        self._workbook_path: str = config.get("excel_path", "")
+        self._workbook_path: str = config.get("EXCEL_DATA_PATH", "")
         self._sheet_map: Dict[str, str] = {
             **_DEFAULT_SHEET_MAP,
             **config.get("sheet_map", {}),
@@ -86,6 +86,9 @@ class ExcelAdapter(BaseAdapter):
 
         df = self._apply_sorts(df, sorts or [])
         return df
+
+    def introspect_columns(self, entity_type: str) -> List[str]:  # noqa: ARG002
+        raise NotImplementedError("ExcelAdapter.introspect_columns not available in Phase 1.")
 
     def health_check(self) -> bool:
         return bool(self._workbook_path) and os.path.exists(self._workbook_path)

@@ -7,6 +7,7 @@ when Dremio or SQL Server connectivity is not configured.
 
 from __future__ import annotations
 
+import csv
 import os
 from typing import Any, Dict, List, Optional
 
@@ -41,7 +42,7 @@ class CSVAdapter(BaseAdapter):
 
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config)
-        self._data_dir: str = config["data_dir"]
+        self._data_dir: str = config["DATA_DIR"]
         self._cache: Dict[str, pd.DataFrame] = {}
 
     def _load(self, entity_type: str) -> pd.DataFrame:
@@ -72,27 +73,40 @@ class CSVAdapter(BaseAdapter):
         filters:     Optional[Dict] = None,
         sorts:       Optional[List] = None,
     ) -> pd.DataFrame:
-        df = self._load(entity_type).copy()
+        df      = self._load(entity_type).copy()
+        filters = dict(filters or {})
+
+        # Context filter runs first — narrows to the selected SOR / reporting date
+        sor          = filters.pop("_sor", "")
+        fic_mis_date = filters.pop("_fic_mis_date", "")
+        df = self._apply_context_filter(df, sor, fic_mis_date)
 
         if entity_id and entity_type in _PARENT_FK:
             pk_field = _PARENT_FK[entity_type]
             df = df[df[pk_field] == str(entity_id)].reset_index(drop=True)
 
-        if filters:
-            col_filters = filters.get("col_filters", {})
-            if col_filters:
-                df = self._apply_col_filters(df, col_filters)
-            quick = filters.get("quick_filter", "")
-            if quick:
-                df = self._apply_quick_filter(df, quick)
+        col_filters = filters.get("col_filters", {})
+        if col_filters:
+            df = self._apply_col_filters(df, col_filters)
+        quick = filters.get("quick_filter", "")
+        if quick:
+            df = self._apply_quick_filter(df, quick)
 
         df = self._apply_sorts(df, sorts or [])
 
         self.log.debug(
-            "CSVAdapter.fetch entity=%s entity_id=%s rows_returned=%d",
-            entity_type, entity_id, len(df),
+            "CSVAdapter.fetch entity=%s entity_id=%s sor=%r rows_returned=%d",
+            entity_type, entity_id, sor, len(df),
         )
         return df
+
+    def introspect_columns(self, entity_type: str) -> List[str]:
+        fname = _ENTITY_FILES.get(entity_type)
+        if not fname:
+            raise ValueError(f"Unknown entity_type '{entity_type}'")
+        path = os.path.join(self._data_dir, fname)
+        with open(path, newline="", encoding="utf-8") as f:
+            return next(csv.reader(f))
 
     def health_check(self) -> bool:
         return all(

@@ -11,6 +11,13 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/export-tracker.css') }}" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/context-bar.css') }}" />
+
+  <script>
+    window.APP_CONFIG = {
+      enabledSors: {{ config.ENABLED_SORS | tojson }}
+    };
+  </script>
 
   {% block head_extra %}{% endblock %}
 </head>
@@ -26,6 +33,25 @@
 
     {# ── Main content ─────────────────────────────────────────────────────────── #}
     <main class="main-content" id="mainContent">
+
+      {# ── Query context bar (SOR + Date) — lives inside main-content so it      #}
+      {#    naturally clears the fixed header and fixed sidebar                    #}
+      <div id="context-bar" class="context-bar">
+        <div class="context-bar-inner">
+          <span class="context-bar-label">Query Context</span>
+          <label class="context-bar-item">
+            <span>SOR</span>
+            <select id="ctx-sor" aria-label="System of Record"></select>
+          </label>
+          <label class="context-bar-item">
+            <span>Date</span>
+            <input type="date" id="ctx-date" aria-label="Reporting date (FIC_MIS_DATE)" />
+          </label>
+          <button id="ctx-load-btn" class="context-bar-btn">Load Data</button>
+          <span id="ctx-status" class="context-bar-status"></span>
+        </div>
+      </div>
+
       {% block content %}{% endblock %}
     </main>
 
@@ -48,6 +74,7 @@
   <script src="{{ url_for('static', filename='js/grid-config.js') }}"></script>
   <script src="{{ url_for('static', filename='js/modal-manager.js') }}"></script>
   <script src="{{ url_for('static', filename='js/drill-down.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/context-bar.js') }}"></script>
 
   {% block scripts_extra %}{% endblock %}
 </body>

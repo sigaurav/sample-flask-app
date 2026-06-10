@@ -117,6 +117,68 @@ const ColumnHelper = (function () {
 }());
 
 
+// ── Schema-driven column builder ──────────────────────────────────────────────
+
+/**
+ * Build GridManager column definitions from a schema descriptor array.
+ *
+ * @param {Object[]} schema        - Array from GET /api/schema/<entity_type>.
+ * @param {Object}   drillHandlers - Map of drill_target → click handler closure.
+ *                                   e.g. { obligors: (p) => DrillDown.openObligors(...) }
+ * @returns {Object[]} Column defs ready to pass to new GridManager(id, colDefs, opts).
+ */
+function buildColumnsFromSchema(schema, drillHandlers) {
+  drillHandlers = drillHandlers || {};
+  var filterMap = {
+    text:   'wfTextFilter',
+    number: 'wfNumberFilter',
+    money:  'wfNumberFilter',
+    date:   'wfDateFilter',
+    drill:  'wfNumberFilter',
+  };
+
+  return schema.map(function (col) {
+    var base = {
+      field:      col.field,
+      headerName: col.label,
+      sortable:   true,
+      resizable:  true,
+      filter:     filterMap[col.type] || 'wfTextFilter',
+      minWidth:   col.minWidth || 80,
+    };
+
+    if (col.width)   base.width  = col.width;
+    if (col.flex)    base.flex   = col.flex;
+    if (col.pinned)  base.pinned = col.pinned;
+    if (col.hide)    base.hide   = true;
+    if (col.values)  base.values = col.values;
+    if (col.tooltip) base.tooltipField = col.field;
+    if (col.wrap)  { base.wrapText = true; base.cellClass = 'comment-text-cell'; }
+
+    if (col.type === 'drill') {
+      var target  = col.drill_target;
+      var handler = drillHandlers[target] || function () {};
+      base.pinned      = base.pinned || 'right';
+      base.cellClass   = 'drill-down-cell';
+      base.cellRenderer = (function (h) {
+        return function (p) { return CellRenderer.drillDownLink(p, h); };
+      }(handler));
+
+    } else if (col.type === 'money') {
+      base.cellRenderer = CellRenderer.money;
+      base.cellClass    = 'cell-numeric';
+      base._alignRight  = true;
+
+    } else if (col.renderer && CellRenderer[col.renderer]) {
+      base.cellRenderer = CellRenderer[col.renderer];
+      if (col.type === 'number') { base.cellClass = 'cell-numeric'; base._alignRight = true; }
+    }
+
+    return base;
+  });
+}
+
+
 // ── Grid manager ───────────────────────────────────────────────────────────────
 
 class GridManager {

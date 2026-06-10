@@ -1,0 +1,98 @@
+.context-bar {
+  background: #f7f7f7;
+  border-bottom: 1px solid #ddd;
+  padding: 7px 20px;
+  /* Span full width by reversing main-content's 24px padding */
+  margin: -24px -24px 16px -24px;
+  /* Stick just below the fixed header (--header-h = 58px) when scrolling */
+  position: sticky;
+  top: var(--header-h);
+  z-index: 200;
+}
+
+@media (max-width: 768px) {
+  .context-bar {
+    margin: -16px -16px 16px -16px;
+  }
+}
+
+.context-bar-inner {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.context-bar-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #888;
+  white-space: nowrap;
+}
+
+.context-bar-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  cursor: default;
+}
+
+.context-bar-item > span {
+  font-weight: 600;
+  color: #444;
+  white-space: nowrap;
+}
+
+.context-bar-item select,
+.context-bar-item input[type="date"] {
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 13px;
+  background: #fff;
+  color: #222;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.context-bar-item select:focus,
+.context-bar-item input[type="date"]:focus {
+  border-color: #D71E28;
+}
+
+.context-bar-btn {
+  padding: 5px 16px;
+  background: #D71E28;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s;
+}
+
+.context-bar-btn:hover {
+  background: #b01820;
+}
+
+.context-bar-btn:active {
+  background: #8f1319;
+}
+
+.context-bar-status {
+  font-size: 12px;
+  color: #888;
+  font-style: italic;
+  white-space: nowrap;
+}
+
+.context-bar-status.has-context {
+  color: #2a7a2a;
+  font-style: normal;
+  font-weight: 600;
+}

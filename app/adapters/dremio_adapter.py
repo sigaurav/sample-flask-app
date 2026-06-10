@@ -4,10 +4,10 @@ Dremio adapter — Arrow Flight / REST query engine for FR Y-14Q data.
 Phase 1: Stub — raises ``NotImplementedError`` at runtime.
 Phase 2: Install ``pyarrow`` and configure the connection keys below.
 
-Connection config keys:
-    dremio_host     : Dremio coordinator hostname
-    dremio_port     : Arrow Flight port (default 32010)
-    dremio_source   : Virtual dataset source path (e.g., 'FR_Y14Q.dbo')
+Connection config keys (Flask uppercase):
+    DREMIO_HOST   : Dremio coordinator hostname
+    DREMIO_PORT   : Arrow Flight port (default 32010)
+    DREMIO_SOURCE : Virtual dataset source path (e.g., 'FR_Y14Q.dbo')
 
 Credentials are retrieved via the injected ``CredentialProvider`` —
 passwords are never stored in config or logged.
@@ -34,17 +34,17 @@ class DremioAdapter(BaseAdapter):
     """
     Dremio Arrow Flight adapter for FR Y-14Q regulatory reporting.
 
-    Not available in Phase 1.  Configure in ProductionConfig and set
-    ``source_type='dremio'`` in export job requests to activate.
+    Not available in Phase 1.  Configure DREMIO_HOST/DREMIO_SOURCE in
+    ProductionConfig and add 'dremio' to ENTITY_SOURCES to activate.
     """
 
     source_type = "dremio"
 
     def __init__(self, config: Dict[str, Any], credential_provider=None) -> None:
         super().__init__(config)
-        self._host              = config.get("dremio_host", "")
-        self._port              = int(config.get("dremio_port", 32010))
-        self._source            = config.get("dremio_source", "FR_Y14Q")
+        self._host               = config.get("DREMIO_HOST", "")
+        self._port               = int(config.get("DREMIO_PORT", 32010))
+        self._source             = config.get("DREMIO_SOURCE", "FR_Y14Q")
         self._credential_provider = credential_provider
 
     def _get_credentials(self):
@@ -67,7 +67,7 @@ class DremioAdapter(BaseAdapter):
         """
         raise NotImplementedError(
             "Dremio adapter not configured. "
-            "Set dremio_host/dremio_source in config, configure a CredentialProvider, "
+            "Set DREMIO_HOST/DREMIO_SOURCE in config, configure a CredentialProvider, "
             "and install pyarrow."
         )
 
@@ -78,10 +78,10 @@ class DremioAdapter(BaseAdapter):
         filters:     Optional[Dict] = None,
         sorts:       Optional[List] = None,
     ) -> pd.DataFrame:
-        raise NotImplementedError(
-            "DremioAdapter is not available in Phase 1. "
-            "Use source_type='csv' or 'excel' for export jobs."
-        )
+        raise NotImplementedError("DremioAdapter is not available in Phase 1.")
+
+    def introspect_columns(self, entity_type: str) -> List[str]:  # noqa: ARG002
+        raise NotImplementedError("DremioAdapter.introspect_columns not available in Phase 1.")
 
     def health_check(self) -> bool:
         return False

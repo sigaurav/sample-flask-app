@@ -6,8 +6,8 @@ for the lifetime of the process (Phase 1: in-memory).  Phase 2 will
 persist to a database table for cross-process and cross-restart durability.
 
 Auditable fields captured per the regulatory observability requirements:
-    job_id, user_id, export_type, schedule_type, source_type,
-    entity_type, entity_id, file_format, filters, sorts,
+    job_id, user_id, export_type, schedule_type, entity_type,
+    entity_id, file_format, filters, sorts,
     status, created_at, started_at, completed_at,
     row_count, file_path, error_message
 """
@@ -38,7 +38,6 @@ class ExportJob:
     # ── Request spec (what was asked for) ─────────────────────────────────────
     export_type:   str           # "partial" | "full"
     schedule_type: str           # "H1" | "H2" | "all"
-    source_type:   str           # "csv" | "excel" | "dremio" | "sqlserver"
     entity_type:   str           # "facilities" | "obligors" | "transactions" | "comments"
     file_format:   str           # "csv" | "excel" | "parquet"
 

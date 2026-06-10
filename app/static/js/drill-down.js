@@ -14,6 +14,21 @@
  */
 const DrillDown = (function () {
 
+  // ── Schema cache (per entity, fetched once per page load) ─────────────────
+
+  const _schemaCache = {};
+
+  async function _fetchSchema(entityType) {
+    if (_schemaCache[entityType]) return _schemaCache[entityType];
+    try {
+      const r = await ApiUtils.get('/api/schema/' + entityType, false);
+      _schemaCache[entityType] = r.data || [];
+    } catch (_) {
+      _schemaCache[entityType] = [];
+    }
+    return _schemaCache[entityType];
+  }
+
   // ── Level 2: Obligors for a Facility ──────────────────────────────────────
 
   /**
@@ -30,57 +45,29 @@ const DrillDown = (function () {
     });
   }
 
-  function _mountObligorModal(panel, facilityId, facilityName) {
+  async function _mountObligorModal(panel, facilityId, facilityName) {
     const safeId = _safeId(facilityId);
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml('obligors', facilityId);
 
-    const columnDefs = _obligorColumns(facilityId, facilityName);
+    const schema     = await _fetchSchema('obligors');
+    const columnDefs = buildColumnsFromSchema(schema, {
+      transactions: function (p) {
+        openTransactions(p.data.obligor_id, p.data.obligor_name, facilityId, facilityName);
+      },
+    });
+
     const mgr = new GridManager(`drill-grid-obligors-${safeId}`, columnDefs, {
       paginationPageSize: 20,
     });
     mgr.init();
 
-    // Refit columns after modal CSS animation (300 ms) has settled.
-    // Cannot rely on _onGridReady alone because the browser may not have
-    // completed layout when the grid first initialises inside the modal.
     setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
 
     _wireModalToolbar(body, mgr);
-    _wireModalExport(body, mgr, 'obligors', facilityId, 'Obligors'); // Updated naming Conventions
+    _wireModalExport(body, mgr, 'obligors', facilityId, 'Obligors');
 
     _loadAndRender(mgr, `/api/facilities/${facilityId}/obligors`, body, `record-count-obligors-${safeId}`);
-  }
-
-  function _obligorColumns(facilityId, facilityName) {
-    return [
-      // Updated naming Conventions
-      ColumnHelper.text('obligor_id',   'Obligor ID',   { width: 120, pinned: 'left' }),
-      ColumnHelper.text('obligor_name', 'Obligor Name', { width: 180 }),
-      ColumnHelper.text('obligor_type', 'Obligor Type', { width: 140 }),
-      ColumnHelper.text('industry',     'Industry',     { width: 150 }),
-      ColumnHelper.text('sub_industry', 'Sub-Industry', { width: 150, hide: true }),
-      ColumnHelper.text('country',      'Country',      { width: 100, hide: true }),
-      ColumnHelper.number('credit_score', 'Credit Score', { width: 110, hide: true }),
-      ColumnHelper.money('exposure_amount',    'Exposure Amount',   { width: 130 }),
-      ColumnHelper.money('outstanding_amount', 'Outstanding Amount',{ width: 130 }),
-      // Status column — hidden per product decision; restore by removing this comment block
-      // ColumnHelper.statusChip('status', 'Status', { width: 110 }),
-      ColumnHelper.text('risk_grade',   'Risk Grade',   { width: 110, hide: true }),
-      ColumnHelper.date('review_date',  'Review Date',  { width: 110, hide: true }),
-      // Drill-down to exposure events
-      {
-        headerName: 'Exp. Events',
-        field:      'transaction_count',
-        width:      120,
-        sortable:   true,
-        filter:     'wfNumberFilter',
-        cellClass:  'drill-down-cell',
-        cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
-          openTransactions(p.data.obligor_id, p.data.obligor_name, facilityId, facilityName);
-        }),
-      },
-    ];
   }
 
   // ── Level 3: Transactions for an Obligor ──────────────────────────────────
@@ -101,12 +88,21 @@ const DrillDown = (function () {
     });
   }
 
-  function _mountTransactionModal(panel, obligorId, obligorName, facilityId) {
+  async function _mountTransactionModal(panel, obligorId, obligorName, facilityId) {
     const safeId = _safeId(obligorId);
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml('transactions', obligorId);
 
-    const columnDefs = _transactionColumns(obligorId, obligorName);
+    const schema     = await _fetchSchema('transactions');
+    const columnDefs = buildColumnsFromSchema(schema, {
+      comments: function (p) {
+        openComments(
+          p.data.transaction_id, p.data.transaction_type,
+          p.data.reference_number, obligorName,
+        );
+      },
+    });
+
     const mgr = new GridManager(`drill-grid-transactions-${safeId}`, columnDefs, {
       paginationPageSize: 20,
     });
@@ -118,40 +114,6 @@ const DrillDown = (function () {
     _wireModalExport(body, mgr, 'transactions', obligorId, 'Exposure Events');
 
     _loadAndRender(mgr, `/api/obligors/${obligorId}/transactions`, body, `record-count-transactions-${safeId}`);
-  }
-
-  function _transactionColumns(obligorId, obligorName) {
-    return [
-      ColumnHelper.text('transaction_id',   'Event ID',         { width: 125, pinned: 'left' }),
-      ColumnHelper.text('reference_number', 'Reference',       { width: 130, hide: true }),
-      ColumnHelper.text('transaction_type', 'Event Type',      { width: 150 }),
-      ColumnHelper.money('amount',          'Notional Amount', { width: 130 }),
-      ColumnHelper.text('currency',         'Currency',        { width:  70 }),
-      ColumnHelper.date('transaction_date', 'Event Date',      { width: 110 }),
-      ColumnHelper.date('value_date',       'Value Date',     { width: 110, hide: true }),
-      // Status column — hidden per product decision; restore by removing this comment block
-      // ColumnHelper.statusChip('status', 'Status', { width: 110 }),
-      ColumnHelper.text('created_by',       'Created By',     { width: 120, hide: true }),
-      ColumnHelper.text('approved_by',      'Approved By',    { width: 120, hide: true }),
-      ColumnHelper.text('description',      'Description',    { width: 220, tooltipField: 'description' }),
-      // Drill-down to comments
-      {
-        headerName: 'Comments',
-        field:      'comment_count',
-        width:      110,
-        sortable:   true,
-        filter:     'wfNumberFilter',
-        cellClass:  'drill-down-cell',
-        cellRenderer: (params) => CellRenderer.drillDownLink(params, (p) => {
-          openComments(
-            p.data.transaction_id,
-            p.data.transaction_type,
-            p.data.reference_number,
-            obligorName,
-          );
-        }),
-      },
-    ];
   }
 
   // ── Level 4: Comments for a Transaction ──────────────────────────────────
@@ -172,12 +134,14 @@ const DrillDown = (function () {
     });
   }
 
-  function _mountCommentModal(panel, transactionId) {
+  async function _mountCommentModal(panel, transactionId) {
     const safeId = _safeId(transactionId);
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml('comments', transactionId);
 
-    const columnDefs = _commentColumns();
+    const schema     = await _fetchSchema('comments');
+    const columnDefs = buildColumnsFromSchema(schema, {});
+
     const mgr = new GridManager(`drill-grid-comments-${safeId}`, columnDefs, {
       paginationPageSize: 15,
     });
@@ -189,39 +153,6 @@ const DrillDown = (function () {
     _wireModalExport(body, mgr, 'comments', transactionId, 'Comments');
 
     _loadAndRender(mgr, `/api/transactions/${transactionId}/comments`, body, `record-count-comments-${safeId}`);
-  }
-
-  function _commentColumns() {
-    return [
-      ColumnHelper.text('comment_id',   'Comment ID',  { width: 120, pinned: 'left' }),
-      ColumnHelper.text('comment_type', 'Type',        { width: 130 }),
-      {
-        headerName:   'Comment',
-        field:        'comment_text',
-        width:         280,
-        wrapText:      true,
-        cellClass:     'comment-text-cell',
-        filter:        'wfTextFilter',
-      },
-      ColumnHelper.text('author',       'Author',      { width: 140 }),
-      ColumnHelper.text('department',   'Department',  { width: 140, hide: true }),
-      // Status column — hidden per product decision; restore by removing this comment block
-      // ColumnHelper.statusChip('status', 'Status', { width: 110 }),
-      {
-        headerName:   'Priority',
-        field:        'priority',
-        width:         110,
-        filter:        'wfTextFilter',
-        cellRenderer: (params) => {
-          const val = (params.value || '').toLowerCase();
-          const el  = document.createElement('span');
-          el.className = `status-chip chip-${val}`;
-          el.innerHTML = `<span class="status-dot"></span>${params.value}`;
-          return el;
-        },
-      },
-      ColumnHelper.date('created_date', 'Created Date', { width: 120, hide: true }),
-    ];
   }
 
   function _safeId(id) {
@@ -381,7 +312,7 @@ const DrillDown = (function () {
       const state = mgr.getFilterSortState();
       await ApiUtils.triggerExportJob({
         entity_type: entityType, entity_id: entityId,
-        export_type: 'partial', schedule_type: 'H1', source_type: 'csv',
+        export_type: 'partial', schedule_type: 'H1',
         file_format: _fmt(),
         filters: { col_filters: state.col_filters, quick_filter: state.quick_filter },
         sorts: state.sort_state,
@@ -392,7 +323,7 @@ const DrillDown = (function () {
       menu.setAttribute('aria-hidden', 'true');
       await ApiUtils.triggerExportJob({
         entity_type: entityType, entity_id: entityId,
-        export_type: 'full', schedule_type: 'H1', source_type: 'csv',
+        export_type: 'full', schedule_type: 'H1',
         file_format: _fmt(),
         filters: {}, sorts: [],
       }, 'Full', entityLabel);

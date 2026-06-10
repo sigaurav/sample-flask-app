@@ -3,8 +3,9 @@ ReportingService — single data-access facade for all FR Y-14Q entities.
 
 Follows the SantoshReference pattern:
   - Receives DataService (adapter registry) in __init__
-  - Calls DataService.get_adapter() for every query — no direct CSV/DB reads here
-  - Handles enrichment (cross-entity counts), coercion, and pagination in one place
+  - Calls DataService.get_adapter_for_entity() for every query so that each
+    entity type can route to its own source (csv / dremio / sqlserver)
+  - Uses app/schemas/ as single source of truth for field selection and coercion
 
 Routes access this via current_app.reporting_service (registered in create_app).
 """
@@ -16,38 +17,43 @@ from typing import Any, Optional
 
 import pandas as pd
 
-from app.services.data_service  import DataService
+from app.services.data_service        import DataService
 from app.repositories.base_repository import BaseRepository
-from app.models.facility    import Facility
-from app.models.obligor     import Obligor
-from app.models.transaction import Transaction
-from app.models.comment     import Comment
+from app.schemas                       import get_api_fields, get_numeric_fields
 
 log = logging.getLogger(__name__)
 
-# ── Numeric fields per entity — coerced from CSV strings to float ─────────────
-_FACILITY_NUMERIC    = ["credit_limit", "outstanding_balance", "available_credit",
-                        "utilization_pct", "risk_score", "interest_rate"]
-_OBLIGOR_NUMERIC     = ["credit_score", "exposure_amount", "outstanding_amount"]
-_TRANSACTION_NUMERIC = ["amount"]
 
+def _schema_coerce_records(df: pd.DataFrame, entity_type: str) -> list[dict]:
+    """
+    Filter DataFrame to schema-declared fields and coerce numeric columns to float.
 
-def _coerce(row: dict, numeric_fields: list[str]) -> dict:
-    for f in numeric_fields:
-        if f in row:
-            try:
-                row[f] = float(row[f])
-            except (ValueError, TypeError):
-                row[f] = 0.0
-    return row
+    Fields in the DataFrame but not in the schema are silently dropped (this is
+    intentional — it excludes SOR, FIC_MIS_DATE, and any source columns not yet
+    promoted to the schema).  Schema fields absent from the DataFrame are also
+    silently skipped (graceful — handles computed fields added downstream).
+    """
+    api_fields     = get_api_fields(entity_type)
+    numeric_fields = set(get_numeric_fields(entity_type))
+    present        = [f for f in api_fields if f in df.columns]
+    records        = []
+    for row in df[present].to_dict(orient="records"):
+        for f in numeric_fields:
+            if f in row:
+                try:
+                    row[f] = float(row[f])
+                except (ValueError, TypeError):
+                    row[f] = 0.0
+        records.append(row)
+    return records
 
 
 class ReportingService:
     """
     Single entry point for all read-oriented reporting queries.
 
-    Uses DataService.get_adapter() for every data access so that
-    the active source (csv / dremio / sqlserver) is transparent to callers.
+    Each entity resolves its own adapter via DataService.get_adapter_for_entity()
+    so that different tables can live on different sources transparently.
     """
 
     def __init__(self, data_service: DataService) -> None:
@@ -60,13 +66,15 @@ class ReportingService:
     # ── Facilities ─────────────────────────────────────────────────────────────
 
     def get_facilities(
-        self, search: str = "", page: int = 1, per_page: int = 50
+        self, search: str = "", page: int = 1, per_page: int = 50,
+        sor: str = "", fic_mis_date: str = "",
     ) -> dict[str, Any]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch("facilities", filters={"quick_filter": search})
+        fac_adapter = self._data_service.get_adapter_for_entity("facilities")
+        obl_adapter = self._data_service.get_adapter_for_entity("obligors")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = fac_adapter.fetch("facilities", filters={"quick_filter": search, **ctx})
 
-        # Enrich: obligor counts per facility
-        obl_df = adapter.fetch("obligors")
+        obl_df = obl_adapter.fetch("obligors", filters=ctx)
         if not obl_df.empty:
             counts = obl_df.groupby("facility_id").size()
             df["obligor_count"] = df["facility_id"].map(counts).fillna(0).astype(int)
@@ -75,36 +83,40 @@ class ReportingService:
 
         total   = len(df)
         df_page = BaseRepository.paginate(df, page, per_page)
-        records = [
-            Facility.from_dict(_coerce(row, _FACILITY_NUMERIC)).to_dict()
-            for row in df_page.to_dict(orient="records")
-        ]
-        log.debug("get_facilities search=%r -> %d/%d", search, len(records), total)
+        records = _schema_coerce_records(df_page, "facilities")
+        log.debug("get_facilities search=%r sor=%r -> %d/%d", search, sor, len(records), total)
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
-    def get_facility_by_id(self, facility_id: str) -> Optional[Facility]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch("facilities")
-        mask    = df["facility_id"] == str(facility_id)
+    def get_facility_by_id(
+        self, facility_id: str, sor: str = "", fic_mis_date: str = ""
+    ) -> Optional[dict]:
+        fac_adapter = self._data_service.get_adapter_for_entity("facilities")
+        obl_adapter = self._data_service.get_adapter_for_entity("obligors")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = fac_adapter.fetch("facilities", filters=ctx)
+        mask = df["facility_id"] == str(facility_id)
         if not mask.any():
             return None
-        row = df.loc[mask].iloc[0].to_dict()
 
-        obl_df = adapter.fetch("obligors", entity_id=facility_id)
-        row["obligor_count"] = len(obl_df)
+        row_df = df.loc[mask].copy()
+        obl_df = obl_adapter.fetch("obligors", entity_id=facility_id, filters=ctx)
+        row_df["obligor_count"] = len(obl_df)
 
-        return Facility.from_dict(_coerce(row, _FACILITY_NUMERIC))
+        records = _schema_coerce_records(row_df, "facilities")
+        return records[0] if records else None
 
     # ── Obligors ───────────────────────────────────────────────────────────────
 
     def get_all_obligors(
-        self, search: str = "", page: int = 1, per_page: int = 50
+        self, search: str = "", page: int = 1, per_page: int = 50,
+        sor: str = "", fic_mis_date: str = "",
     ) -> dict[str, Any]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch("obligors", filters={"quick_filter": search})
+        obl_adapter = self._data_service.get_adapter_for_entity("obligors")
+        txn_adapter = self._data_service.get_adapter_for_entity("transactions")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = obl_adapter.fetch("obligors", filters={"quick_filter": search, **ctx})
 
-        # Enrich: transaction counts per obligor
-        txn_df = adapter.fetch("transactions")
+        txn_df = txn_adapter.fetch("transactions", filters=ctx)
         if not txn_df.empty:
             counts = txn_df.groupby("obligor_id").size()
             df["transaction_count"] = df["obligor_id"].map(counts).fillna(0).astype(int)
@@ -113,23 +125,23 @@ class ReportingService:
 
         total   = len(df)
         df_page = BaseRepository.paginate(df, page, per_page)
-        records = [
-            Obligor.from_dict(_coerce(row, _OBLIGOR_NUMERIC)).to_dict()
-            for row in df_page.to_dict(orient="records")
-        ]
+        records = _schema_coerce_records(df_page, "obligors")
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
     def get_obligors_for_facility(
-        self, facility_id: str, search: str = "", page: int = 1, per_page: int = 50
+        self, facility_id: str, search: str = "", page: int = 1, per_page: int = 50,
+        sor: str = "", fic_mis_date: str = "",
     ) -> dict[str, Any]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch(
+        obl_adapter = self._data_service.get_adapter_for_entity("obligors")
+        txn_adapter = self._data_service.get_adapter_for_entity("transactions")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = obl_adapter.fetch(
             "obligors",
             entity_id=facility_id,
-            filters={"quick_filter": search},
+            filters={"quick_filter": search, **ctx},
         )
 
-        txn_df = adapter.fetch("transactions")
+        txn_df = txn_adapter.fetch("transactions", filters=ctx)
         if not txn_df.empty:
             counts = txn_df.groupby("obligor_id").size()
             df["transaction_count"] = df["obligor_id"].map(counts).fillna(0).astype(int)
@@ -138,34 +150,39 @@ class ReportingService:
 
         total   = len(df)
         df_page = BaseRepository.paginate(df, page, per_page)
-        records = [
-            Obligor.from_dict(_coerce(row, _OBLIGOR_NUMERIC)).to_dict()
-            for row in df_page.to_dict(orient="records")
-        ]
+        records = _schema_coerce_records(df_page, "obligors")
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
-    def get_obligor_by_id(self, obligor_id: str) -> Optional[Obligor]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch("obligors")
-        mask    = df["obligor_id"] == str(obligor_id)
+    def get_obligor_by_id(
+        self, obligor_id: str, sor: str = "", fic_mis_date: str = ""
+    ) -> Optional[dict]:
+        obl_adapter = self._data_service.get_adapter_for_entity("obligors")
+        txn_adapter = self._data_service.get_adapter_for_entity("transactions")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = obl_adapter.fetch("obligors", filters=ctx)
+        mask = df["obligor_id"] == str(obligor_id)
         if not mask.any():
             return None
-        row = df.loc[mask].iloc[0].to_dict()
 
-        txn_df = adapter.fetch("transactions", entity_id=obligor_id)
-        row["transaction_count"] = len(txn_df)
+        row_df = df.loc[mask].copy()
+        txn_df = txn_adapter.fetch("transactions", entity_id=obligor_id, filters=ctx)
+        row_df["transaction_count"] = len(txn_df)
 
-        return Obligor.from_dict(_coerce(row, _OBLIGOR_NUMERIC))
+        records = _schema_coerce_records(row_df, "obligors")
+        return records[0] if records else None
 
     # ── Transactions ───────────────────────────────────────────────────────────
 
     def get_all_transactions(
-        self, search: str = "", page: int = 1, per_page: int = 50
+        self, search: str = "", page: int = 1, per_page: int = 50,
+        sor: str = "", fic_mis_date: str = "",
     ) -> dict[str, Any]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch("transactions", filters={"quick_filter": search})
+        txn_adapter = self._data_service.get_adapter_for_entity("transactions")
+        cmt_adapter = self._data_service.get_adapter_for_entity("comments")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = txn_adapter.fetch("transactions", filters={"quick_filter": search, **ctx})
 
-        cmt_df = adapter.fetch("comments")
+        cmt_df = cmt_adapter.fetch("comments", filters=ctx)
         if not cmt_df.empty:
             counts = cmt_df.groupby("transaction_id").size()
             df["comment_count"] = df["transaction_id"].map(counts).fillna(0).astype(int)
@@ -174,23 +191,23 @@ class ReportingService:
 
         total   = len(df)
         df_page = BaseRepository.paginate(df, page, per_page)
-        records = [
-            Transaction.from_dict(_coerce(row, _TRANSACTION_NUMERIC)).to_dict()
-            for row in df_page.to_dict(orient="records")
-        ]
+        records = _schema_coerce_records(df_page, "transactions")
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
     def get_transactions_for_obligor(
-        self, obligor_id: str, search: str = "", page: int = 1, per_page: int = 50
+        self, obligor_id: str, search: str = "", page: int = 1, per_page: int = 50,
+        sor: str = "", fic_mis_date: str = "",
     ) -> dict[str, Any]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch(
+        txn_adapter = self._data_service.get_adapter_for_entity("transactions")
+        cmt_adapter = self._data_service.get_adapter_for_entity("comments")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = txn_adapter.fetch(
             "transactions",
             entity_id=obligor_id,
-            filters={"quick_filter": search},
+            filters={"quick_filter": search, **ctx},
         )
 
-        cmt_df = adapter.fetch("comments")
+        cmt_df = cmt_adapter.fetch("comments", filters=ctx)
         if not cmt_df.empty:
             counts = cmt_df.groupby("transaction_id").size()
             df["comment_count"] = df["transaction_id"].map(counts).fillna(0).astype(int)
@@ -199,26 +216,22 @@ class ReportingService:
 
         total   = len(df)
         df_page = BaseRepository.paginate(df, page, per_page)
-        records = [
-            Transaction.from_dict(_coerce(row, _TRANSACTION_NUMERIC)).to_dict()
-            for row in df_page.to_dict(orient="records")
-        ]
+        records = _schema_coerce_records(df_page, "transactions")
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
     def get_comments_for_transaction(
-        self, transaction_id: str, search: str = "", page: int = 1, per_page: int = 50
+        self, transaction_id: str, search: str = "", page: int = 1, per_page: int = 50,
+        sor: str = "", fic_mis_date: str = "",
     ) -> dict[str, Any]:
-        adapter = self._data_service.get_adapter()
-        df      = adapter.fetch(
+        cmt_adapter = self._data_service.get_adapter_for_entity("comments")
+        ctx  = {"_sor": sor, "_fic_mis_date": fic_mis_date}
+        df   = cmt_adapter.fetch(
             "comments",
             entity_id=transaction_id,
-            filters={"quick_filter": search},
+            filters={"quick_filter": search, **ctx},
         )
 
         total   = len(df)
         df_page = BaseRepository.paginate(df, page, per_page)
-        records = [
-            Comment.from_dict(row).to_dict()
-            for row in df_page.to_dict(orient="records")
-        ]
+        records = _schema_coerce_records(df_page, "comments")
         return {"records": records, "total": total, "page": page, "per_page": per_page}

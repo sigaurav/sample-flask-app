@@ -44,12 +44,25 @@ const ApiUtils = (function () {
     if (el) el.classList.remove('active');
   }
 
+  // ── Query context helpers ─────────────────────────────────────────────────
+
+  function _withContext(url) {
+    try {
+      const ctx = JSON.parse(localStorage.getItem('wf_query_context') || '{}');
+      const params = [];
+      if (ctx.sor)          params.push('sor='          + encodeURIComponent(ctx.sor));
+      if (ctx.fic_mis_date) params.push('fic_mis_date=' + encodeURIComponent(ctx.fic_mis_date));
+      if (!params.length) return url;
+      return url + (url.includes('?') ? '&' : '?') + params.join('&');
+    } catch (_) { return url; }
+  }
+
   // ── Core GET wrapper ──────────────────────────────────────────────────────
 
   async function get(url, showLoader = true) {
     if (showLoader) _showLoading();
     try {
-      const resp = await fetch(url, {
+      const resp = await fetch(_withContext(url), {
         method:  'GET',
         headers: { 'Accept': 'application/json' },
       });
@@ -102,7 +115,6 @@ const ApiUtils = (function () {
    *     entity_type:   'facilities' | 'obligors' | 'transactions' | 'comments',
    *     export_type:   'partial' | 'full',
    *     schedule_type: 'H1' | 'H2' | 'all',
-   *     source_type:   'csv' | 'excel' | 'dremio' | 'sqlserver',
    *     file_format:   'csv' | 'excel' | 'parquet',
    *     entity_id:     string | null,   // optional scope
    *     filters:       { col_filters: {}, quick_filter: '' },
@@ -169,7 +181,6 @@ const ApiUtils = (function () {
       entity_type:   entityType,
       export_type:   exportType,
       schedule_type: 'H1',
-      source_type:   'csv',
       file_format:   fileFormat,
       filters:       exportType === 'partial'
         ? { col_filters: state.col_filters, quick_filter: state.quick_filter }
