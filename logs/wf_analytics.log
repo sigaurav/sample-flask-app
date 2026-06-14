@@ -375,3 +375,37 @@
 2026-06-14 21:27:54,496 | DEBUG    | app.services.reporting_service | req=9d965d0fc9b7 user=anonymous | get_entity entity=property entity_key={'FACLTY_ID': 'FAC-001', 'FACLTY_OBLGR_ID': 'OBLGR-001'} sor='1SOR' -> 2/2
 2026-06-14 21:41:08,695 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
 2026-06-14 21:41:08,696 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-14 21:45:49,457 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-14 21:45:49,457 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-14 21:45:50,145 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-14 21:45:50,145 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-14 21:45:50,151 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-14 21:45:50,151 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-14 21:45:50,178 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-14 21:45:54,167 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f50721a3a419 user=anonymous | CSVAdapter loaded entity=facilities rows=8 path=F:\Office\SampleApp4\data\facilities.csv
+2026-06-14 21:45:54,178 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f50721a3a419 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:45:54,187 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f50721a3a419 user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-06-14 21:45:54,202 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f50721a3a419 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None sor='1SOR' rows_returned=6
+2026-06-14 21:45:54,207 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f50721a3a419 user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-06-14 21:45:54,213 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f50721a3a419 user=anonymous | CSVAdapter.fetch entity=property entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:45:54,225 | DEBUG    | app.services.reporting_service | req=f50721a3a419 user=anonymous | get_entity entity=facilities entity_key=None sor='1SOR' -> 4/4
+2026-06-14 21:45:56,161 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b3d1dbbf9419 user=anonymous | CSVAdapter.fetch entity=property entity_key={'FACLTY_ID': 'FAC-001', 'FACLTY_OBLGR_ID': 'OBLGR-001'} sor='1SOR' rows_returned=2
+2026-06-14 21:45:56,164 | DEBUG    | app.services.reporting_service | req=b3d1dbbf9419 user=anonymous | get_entity entity=property entity_key={'FACLTY_ID': 'FAC-001', 'FACLTY_OBLGR_ID': 'OBLGR-001'} sor='1SOR' -> 2/2
+2026-06-14 21:45:57,695 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c38f83b58dab user=anonymous | CSVAdapter.fetch entity=obligations entity_key={'LOANNUMBER': 'LN-001'} sor='1SOR' rows_returned=2
+2026-06-14 21:45:57,700 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c38f83b58dab user=anonymous | CSVAdapter.fetch entity=property entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:45:57,712 | DEBUG    | app.services.reporting_service | req=c38f83b58dab user=anonymous | get_entity entity=obligations entity_key={'LOANNUMBER': 'LN-001'} sor='1SOR' -> 2/2
+2026-06-14 21:45:59,389 | INFO     | app.workers.export_worker | req=- user=- | Export job started job_id=7499aa4936b245c1bfdd8c31e79baf46 entity=facilities type=full
+2026-06-14 21:45:59,389 | INFO     | app.workers.export_worker | req=a20c2f27fb34 user=anonymous | Export job queued job_id=7499aa4936b245c1bfdd8c31e79baf46 entity=facilities type=full fmt=csv
+2026-06-14 21:45:59,390 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=- user=- | CSVAdapter.fetch entity=facilities entity_key=None sor='' rows_returned=8
+2026-06-14 21:45:59,390 | INFO     | app.services.export_service | req=a20c2f27fb34 user=anonymous | Export job created job_id=7499aa4936b245c1bfdd8c31e79baf46 user=anonymous entity=facilities type=full fmt=csv
+2026-06-14 21:45:59,398 | INFO     | app.workers.export_worker | req=- user=- | Export job completed job_id=7499aa4936b245c1bfdd8c31e79baf46 rows=8 duration_s=0.01 file=7499aa4936b245c1bfdd8c31e79baf46_facilities_full.csv
+2026-06-14 21:46:02,984 | INFO     | app.blueprints.export.routes | req=48fbe6f66ad6 user=anonymous | Export download served job_id=7499aa4936b245c1bfdd8c31e79baf46 user=anonymous
+2026-06-14 21:46:10,133 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=db6d0f5a9c5d user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None sor='1SOR' rows_returned=6
+2026-06-14 21:46:10,137 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=db6d0f5a9c5d user=anonymous | CSVAdapter.fetch entity=property entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:46:10,150 | DEBUG    | app.services.reporting_service | req=db6d0f5a9c5d user=anonymous | get_entity entity=obligations entity_key=None sor='1SOR' -> 6/6
+2026-06-14 21:46:11,958 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=dadd44c0a168 user=anonymous | CSVAdapter.fetch entity=property entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:46:11,961 | DEBUG    | app.services.reporting_service | req=dadd44c0a168 user=anonymous | get_entity entity=property entity_key=None sor='1SOR' -> 4/4
+2026-06-14 21:46:17,119 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a0db227f9c9b user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:46:17,126 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a0db227f9c9b user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None sor='1SOR' rows_returned=6
+2026-06-14 21:46:17,131 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a0db227f9c9b user=anonymous | CSVAdapter.fetch entity=property entity_key=None sor='1SOR' rows_returned=4
+2026-06-14 21:46:17,142 | DEBUG    | app.services.reporting_service | req=a0db227f9c9b user=anonymous | get_entity entity=facilities entity_key=None sor='1SOR' -> 4/4

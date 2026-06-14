@@ -12,3 +12,4 @@ build/
 generate*.py
 exports/
 SantoshReference/
+logs/
