@@ -12,11 +12,11 @@ The script uses whichever adapter is currently configured in ENABLED_DATA_SOURCE
     FLASK_ENV=production python scripts/refresh_schema.py --all
 
 Each run compares the live source columns against the corresponding JSON schema file:
-  - NEW columns (in source, not in schema) → appended as hidden text fields
-  - REMOVED columns (in schema, not in source) → marked {"deprecated": true}
-  - Key columns ("key": "primary" or "foreign") → never deprecated
-  - Computed columns ("computed": true) → skipped in both directions
-  - Context columns (SOR, FIC_MIS_DATE) → always ignored
+  - NEW columns (in source, not in schema) -> appended as hidden text fields
+  - REMOVED columns (in schema, not in source) -> marked {"deprecated": true}
+  - Key columns ("key": "primary" or "foreign") -> never deprecated
+  - Computed columns ("computed": true) -> skipped in both directions
+  - Context columns (SOR, FIC_MIS_DATE) -> always ignored
 
 Git provides the audit trail: commit the updated JSON files after applying.
 """
@@ -31,9 +31,19 @@ _SCHEMA_DIR   = os.path.join(_PROJECT_ROOT, "app", "schemas")
 
 sys.path.insert(0, _PROJECT_ROOT)
 
-_ENTITIES = ["facilities", "obligors", "transactions", "comments"]
-
 _CONTEXT_COLUMNS = {"SOR", "FIC_MIS_DATE"}
+
+
+def _infer_type(field: str) -> str:
+    """Guess a schema type from the column name as a best-effort default."""
+    name = field.lower()
+    if name.endswith(("_amt", "_amount")):
+        return "money"
+    if name.endswith(("_date", "_dt", "_ts", "_timestamp")):
+        return "date"
+    if name.endswith(("_pct", "_rate", "_score", "_count", "_qty", "_num")):
+        return "number"
+    return "text"
 
 
 # ── Schema file helpers ───────────────────────────────────────────────────────
@@ -73,9 +83,9 @@ def _print_diff(entity_type: str, diff: dict) -> None:
         print(f"  {entity_type}: no drift detected")
         return
     if diff["added"]:
-        print(f"  {entity_type}: NEW   → {diff['added']}")
+        print(f"  {entity_type}: NEW   -> {diff['added']}")
     if diff["removed"]:
-        print(f"  {entity_type}: GONE  → {diff['removed']}")
+        print(f"  {entity_type}: GONE  -> {diff['removed']}")
 
 
 def _apply_diff(entity_type: str, diff: dict) -> None:
@@ -94,12 +104,13 @@ def _apply_diff(entity_type: str, diff: dict) -> None:
         (i for i, c in enumerate(schema) if c.get("computed")), len(schema)
     )
     for field in diff["added"]:
+        inferred = _infer_type(field)
         schema.insert(first_computed, {
-            "field": field,
-            "label": field.replace("_", " ").title(),
-            "type": "text",
-            "hide": True,
-            "searchable": False,
+            "field":      field,
+            "label":      field.replace("_", " ").title(),
+            "type":       inferred,
+            "hide":       True,
+            "searchable": inferred == "text",
         })
         first_computed += 1
 
@@ -113,26 +124,33 @@ def main() -> None:
     parser = argparse.ArgumentParser(
         description="Detect and apply schema drift between the active data source and JSON schema files."
     )
-    group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--entity", choices=_ENTITIES, help="Single entity to check")
-    group.add_argument("--all",    action="store_true", help="Check all entities")
     parser.add_argument("--apply", action="store_true", help="Write changes to JSON schema files")
+    target_group = parser.add_mutually_exclusive_group(required=True)
+    target_group.add_argument("--entity", metavar="ENTITY", help="Single entity to check")
+    target_group.add_argument("--all",    action="store_true", help="Check all entities")
     args = parser.parse_args()
 
-    entities = _ENTITIES if args.all else [args.entity]
-
-    # ── Resolve the active adapter via the Flask app ──────────────────────────
+    # ── Resolve entity list and adapters via the Flask app ────────────────────
     from app import create_app
-    flask_app = create_app(os.getenv("FLASK_ENV", "development"))
-    adapter   = flask_app.data_service.get_adapter()
-    print(f"Source: {adapter.source_type}  (set FLASK_ENV to switch environment)\n")
+    flask_app    = create_app(os.getenv("FLASK_ENV", "development"))
+    all_entities = list(flask_app.config.get("ENTITIES", {}).keys())
 
-    # ── Introspect columns and diff ───────────────────────────────────────────
-    print("Checking schema drift…")
+    if args.entity:
+        if args.entity not in all_entities:
+            parser.error(f"Unknown entity '{args.entity}'. Known: {all_entities}")
+        entities = [args.entity]
+    else:
+        entities = all_entities
+
+    print(f"Entities: {entities}  (set FLASK_ENV to switch environment)\n")
+
+    # ── Introspect columns and diff (using the per-entity adapter) ────────────
+    print("Checking schema drift...")
     diffs: dict = {}
     for ent in entities:
-        source_cols  = adapter.introspect_columns(ent)
-        diffs[ent]   = _diff(ent, source_cols)
+        adapter     = flask_app.data_service.get_adapter_for_entity(ent)
+        source_cols = adapter.introspect_columns(ent)
+        diffs[ent]  = _diff(ent, source_cols)
         _print_diff(ent, diffs[ent])
 
     has_drift = any(d["added"] or d["removed"] for d in diffs.values())

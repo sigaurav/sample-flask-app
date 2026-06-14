@@ -15,11 +15,11 @@ from __future__ import annotations
 import logging
 from typing import Any, Dict, Optional
 
-from app.adapters.base_adapter      import BaseAdapter
-from app.adapters.csv_adapter       import CSVAdapter
-from app.adapters.dremio_adapter    import DremioAdapter
-from app.adapters.excel_adapter     import ExcelAdapter
-from app.adapters.sqlserver_adapter import SQLServerAdapter
+from app.adapters.base_adapter       import BaseAdapter
+from app.adapters.csv_adapter        import CSVAdapter
+from app.adapters.dremio_adapter     import DremioAdapter
+from app.adapters.sqlserver_adapter  import SQLServerAdapter
+from app.adapters.teradata_adapter   import TeradataAdapter
 
 log = logging.getLogger(__name__)
 
@@ -27,7 +27,7 @@ _ADAPTER_CLASSES: Dict[str, type] = {
     "csv":       CSVAdapter,
     "dremio":    DremioAdapter,
     "sqlserver": SQLServerAdapter,
-    "excel":     ExcelAdapter,
+    "teradata":  TeradataAdapter,
 }
 
 # Only Dremio uses a credential provider (Windows Credential Manager / keyring).
@@ -48,15 +48,20 @@ class DataService:
         self._config  = config
         self.adapters: Dict[str, BaseAdapter] = {}
 
-        enabled = config.get("ENABLED_DATA_SOURCES", ["csv"])
+        # Intersect: sources declared in ENTITIES that are also in ENABLED_DATA_SOURCES.
+        # ENTITIES says what source each entity *wants*; ENABLED_DATA_SOURCES gates
+        # which sources are permitted to connect.  Unlisted sources are skipped.
+        entities = config.get("ENTITIES", {})
+        required = {v.get("source", "csv") for v in entities.values()}
+        enabled  = set(config.get("ENABLED_DATA_SOURCES", ["csv"]))
+        to_init  = required & enabled or {"csv"}
 
-        # Lazy-import keyring only when Dremio is actually enabled.
         cp = None
-        if any(s in _NEEDS_CREDENTIAL_PROVIDER for s in enabled):
+        if any(s in _NEEDS_CREDENTIAL_PROVIDER for s in to_init):
             from app.security.windows_credential_provider import WindowsCredentialProvider
             cp = WindowsCredentialProvider()
 
-        for source in enabled:
+        for source in to_init:
             cls = _ADAPTER_CLASSES.get(source)
             if cls is None:
                 log.warning("DataService: unknown source '%s' — skipped", source)
@@ -89,17 +94,10 @@ class DataService:
         return next(iter(self.adapters.values()))
 
     def get_adapter_for_entity(self, entity_type: str) -> BaseAdapter:
-        """
-        Return the adapter designated for *entity_type* via ENTITY_SOURCES config.
-
-        Falls back to the primary adapter when no specific routing is configured
-        or the designated source is not currently enabled.
-        """
-        entity_sources: Dict[str, str] = self._config.get("ENTITY_SOURCES", {})
-        source = entity_sources.get(entity_type)
+        """Return the adapter configured for *entity_type* in ENTITIES config."""
+        source = self._config.get("ENTITIES", {}).get(entity_type, {}).get("source")
         if source and source in self.adapters:
             return self.adapters[source]
-        # Fallback to primary
         return next(iter(self.adapters.values()))
 
     def health(self) -> Dict[str, bool]:

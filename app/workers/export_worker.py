@@ -32,6 +32,7 @@ if TYPE_CHECKING:
 
 log = logging.getLogger(__name__)
 
+
 _MAX_WORKERS = int(os.environ.get("EXPORT_WORKER_THREADS", 4))
 _executor = ThreadPoolExecutor(max_workers=_MAX_WORKERS, thread_name_prefix="wf-export")
 
@@ -86,9 +87,18 @@ def _run_export(job_id: str, datasource: "BaseAdapter", export_dir: str) -> None
         filters = job.filters if job.export_type == "partial" else None
         sorts   = job.sorts   if job.export_type == "partial" else None
 
+        # entity_id is a JSON-encoded FK dict set by the frontend drill-down export.
+        entity_key = None
+        if job.entity_id:
+            import json
+            try:
+                entity_key = json.loads(job.entity_id)
+            except (json.JSONDecodeError, ValueError):
+                entity_key = None
+
         df = datasource.fetch(
             entity_type=job.entity_type,
-            entity_id=job.entity_id,
+            entity_key=entity_key,
             filters=filters,
             sorts=sorts,
         )

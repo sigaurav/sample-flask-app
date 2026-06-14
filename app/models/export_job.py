@@ -38,7 +38,7 @@ class ExportJob:
     # ── Request spec (what was asked for) ─────────────────────────────────────
     export_type:   str           # "partial" | "full"
     schedule_type: str           # "H1" | "H2" | "all"
-    entity_type:   str           # "facilities" | "obligors" | "transactions" | "comments"
+    entity_type:   str           # "facilities" | "obligations" | "property"
     file_format:   str           # "csv" | "excel" | "parquet"
 
     # ── Lifecycle ──────────────────────────────────────────────────────────────

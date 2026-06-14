@@ -56,15 +56,6 @@ def create_export():
     return success_response({"job_id": job.job_id, "status": job.status}, status_code=202)
 
 
-# ── GET /api/internal/exports ─────────────────────────────────────────────────
-
-@internal_export_bp.route("", methods=["GET"])
-def list_exports():
-    limit = min(int(request.args.get("limit", 50)), 200)
-    jobs  = _svc().list_recent(limit)
-    return success_response(jobs, meta={"count": len(jobs)})
-
-
 @internal_export_bp.route("/<job_id>/status", methods=["GET"])
 def export_status(job_id: str):
     status = _svc().get_status(job_id)

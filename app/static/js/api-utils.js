@@ -10,7 +10,7 @@
  *  - triggerExportJob(spec, typeLabel, entityLabel)
  *  - triggerGridExport(grid, entityType, entityLabel, exportType, fileFormat)
  *
- * Shared DOM wiring (eliminates duplication across app.js / obligors.js / transactions.js):
+ * Shared DOM wiring (eliminates duplication across app.js / obligations.js / property.js):
  *  - wireGridToolbar(grid, reloadFn)
  *  - wireExportDropdown(grid, entityType, entityLabel)
  *
@@ -89,7 +89,8 @@ const ApiUtils = (function () {
       .filter(([, v]) => v !== null && v !== undefined && v !== '')
       .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
       .join('&');
-    return qs ? `${base}?${qs}` : base;
+    if (!qs) return base;
+    return base + (base.includes('?') ? '&' : '?') + qs;
   }
 
   // ── Legacy sync download (drill-down modal exports) ────────────────────────
@@ -112,7 +113,7 @@ const ApiUtils = (function () {
    *
    * @param {Object} spec - Export job specification:
    *   {
-   *     entity_type:   'facilities' | 'obligors' | 'transactions' | 'comments',
+   *     entity_type:   'facilities' | 'obligations' | 'property',
    *     export_type:   'partial' | 'full',
    *     schedule_type: 'H1' | 'H2' | 'all',
    *     file_format:   'csv' | 'excel' | 'parquet',

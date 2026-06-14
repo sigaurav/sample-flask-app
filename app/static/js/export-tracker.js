@@ -26,16 +26,6 @@ const ExportTracker = (function () {
   let _panel     = null;
   let _collapsed = true;   // panel starts hidden in every new session
 
-  // ── Entity type → display label ────────────────────────────────────────────
-
-  // Updated naming Conventions
-  const _ENTITY_LABEL = {
-    facilities:   'Facilities',
-    obligors:     'Obligors',
-    transactions: 'Exposure Events',
-    comments:     'Comments',
-  };
-
   // ── Public API ─────────────────────────────────────────────────────────────
 
   /**

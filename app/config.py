@@ -45,23 +45,73 @@ class BaseConfig:
     EXPORT_WORKER_THREADS: int = 4   # ThreadPoolExecutor max_workers
 
     # ── Active data sources ────────────────────────────────────────────────────
-    # First entry is the primary source used by ReportingService.
-    # Valid values: "csv", "dremio", "sqlserver", "excel"
-    ENABLED_DATA_SOURCES: list = ["csv", "dremio", "sqlserver", "excel"]
+    # Allowlist of source types that are permitted to establish connections.
+    # ENTITIES declares which source each entity *wants*; if that source is not
+    # in this list no adapter is initialised and the entity falls back to CSV.
+    # Valid values: "csv", "dremio", "sqlserver", "teradata"
+    ENABLED_DATA_SOURCES: list = ["csv", "dremio", "sqlserver"]
 
     # ── Query context ──────────────────────────────────────────────────────────
-    # All rows must carry SOR and FIC_MIS_DATE columns in source tables.
+    # SOR column in source tables: FACLTY_SOR_ID
+    # Date column in source tables: PERIOD_DT  (lowercase period_dt in obligations)
     # Add new SOR values here; the frontend dropdown auto-populates from this list.
     ENABLED_SORS: list = ["1SOR", "2SOR", "3SOR"]
 
-    # ── Per-entity source routing ──────────────────────────────────────────────
-    # Maps each entity to its owning data source.  Must be a value in
-    # ENABLED_DATA_SOURCES; falls back to the primary adapter otherwise.
-    ENTITY_SOURCES: dict = {
-        "facilities":   "csv",
-        "obligors":     "csv",
-        "transactions": "csv",
-        "comments":     "csv",
+    # ── Entity graph ───────────────────────────────────────────────────────────
+    # Single source of truth for all entity configuration.
+    #
+    # source      : adapter that owns this entity's data ("csv", "dremio",
+    #               "sqlserver", "teradata")
+    # pk          : primary-key column(s) for this entity
+    # label_field : column used as the human-readable label in breadcrumbs
+    # active_filter : optional {"field": col, "value": val} for the KPI strip
+    # columns     : column selection passed to the adapter; ["*"] fetches all
+    # children    : dict of child-entity → relationship config
+    #   fk        : FK column(s) on the child table that link to this parent
+    #   count_col : computed count column added to this entity's rows
+    #
+    # To add a new entity: add one block here, create its data file and schema
+    # JSON, add a page template and sidebar link.  No other code changes needed.
+    ENTITIES: dict = {
+        "facilities": {
+            "source":        "csv",
+            "label":         "Credit Facilities",
+            "pk":            ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+            "label_field":   "OBLIGOR_NAME",
+            "active_filter": {"field": "ACTIVE_FLAG", "value": "Y"},
+            "columns":       ["*"],
+            "children": {
+                "obligations": {
+                    "fk":        ["LOANNUMBER"],
+                    "count_col": "OBLIGATION_COUNT",
+                },
+                "property": {
+                    "fk":        ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+                    "count_col": "PROPERTY_COUNT",
+                },
+            },
+        },
+        "obligations": {
+            "source":      "csv",
+            "label":       "Obligations",
+            "pk":          ["OBLGN_ID"],
+            "label_field": "OBLGN_ID",
+            "columns":     ["*"],
+            "children": {
+                "property": {
+                    "fk":        ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+                    "count_col": "PROPERTY_COUNT",
+                },
+            },
+        },
+        "property": {
+            "source":      "csv",
+            "label":       "Property",
+            "pk":          ["PRPRTY_ID"],
+            "label_field": "PRPRTY_ID",
+            "columns":     ["*"],
+            "children":    {},
+        },
     }
 
     # ── External data sources ──────────────────────────────────────────────────
@@ -75,7 +125,10 @@ class BaseConfig:
     SQLSERVER_SCHEMA: str = "dbo"
     SQLSERVER_DRIVER: str = "ODBC Driver 18 for SQL Server"
 
-    EXCEL_DATA_PATH: str = ""
+    TERADATA_HOST:   str = ""
+    TERADATA_PORT:   int = 1025
+    TERADATA_DB:     str = ""
+    TERADATA_SCHEMA: str = ""
 
 
 class DevelopmentConfig(BaseConfig):

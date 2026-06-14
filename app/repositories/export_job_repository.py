@@ -14,7 +14,7 @@ from __future__ import annotations
 
 import logging
 import threading
-from typing import Dict, List, Optional
+from typing import Dict, Optional
 
 from app.models.export_job import ExportJob
 
@@ -64,20 +64,6 @@ class ExportJobRepository:
         """Return the job record or ``None`` if not found."""
         with self._lock:
             return self._jobs.get(job_id)
-
-    def list_recent(self, limit: int = 100) -> List[ExportJob]:
-        """Return up to *limit* jobs sorted by ``created_at`` descending."""
-        with self._lock:
-            jobs = sorted(
-                self._jobs.values(),
-                key=lambda j: j.created_at,
-                reverse=True,
-            )
-        return jobs[:limit]
-
-    def exists(self, job_id: str) -> bool:
-        with self._lock:
-            return job_id in self._jobs
 
     # ── Singleton ──────────────────────────────────────────────────────────────
 

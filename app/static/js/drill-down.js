@@ -1,22 +1,20 @@
 /**
- * drill-down.js — Multi-level drill-down orchestrator.
+ * drill-down.js — Generic multi-level drill-down orchestrator.
  *
- * Hierarchy:
- *   Facility  →  Obligors  →  Transactions  →  Comments
+ * Reads the full entity graph from APP_CONFIG.entities at call-time, so adding
+ * new entities or changing FK columns only requires a config change — no edits here.
  *
- * Each level:
- *  1. Opens a ModalManager modal with a breadcrumb trail.
- *  2. Builds an AG Grid inside it using GridManager.
- *  3. Fetches data from the API and loads it.
- *  4. Wires export buttons and (optionally) the next drill-down level.
+ * Public API:
+ *   DrillDown.open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel?)
  *
- * Exported as the global `DrillDown` object.
+ * The function is recursive: when a modal opens it auto-wires drill handlers for
+ * the child entity's own children, enabling unlimited nesting depth.
  */
 const DrillDown = (function () {
 
-  // ── Schema cache (per entity, fetched once per page load) ─────────────────
-
   const _schemaCache = {};
+
+  // ── Schema cache ──────────────────────────────────────────────────────────
 
   async function _fetchSchema(entityType) {
     if (_schemaCache[entityType]) return _schemaCache[entityType];
@@ -29,146 +27,89 @@ const DrillDown = (function () {
     return _schemaCache[entityType];
   }
 
-  // ── Level 2: Obligors for a Facility ──────────────────────────────────────
+  // ── Label helpers ─────────────────────────────────────────────────────────
 
-  /**
-   * Open the obligors drill-down modal for a given facility.
-   *
-   * @param {string} facilityId   - Parent facility identifier.
-   * @param {string} facilityName - Display name for the modal title and breadcrumb.
-   */
-  function openObligors(facilityId, facilityName) {
-    ModalManager.open({ // Updated naming Conventions
-      title:      'Obligors',
-      breadcrumb: ['Credit Exposures', facilityName, 'Obligors'],
-      onMount:    (panel) => _mountObligorModal(panel, facilityId, facilityName),
-    });
+  function _getLabelForRow(rowData, entityType) {
+    const cfg        = (APP_CONFIG.entities || {})[entityType] || {};
+    const labelField = cfg.label_field || (cfg.pk || [])[0];
+    return (labelField && rowData[labelField]) ? String(rowData[labelField]) : '';
   }
 
-  async function _mountObligorModal(panel, facilityId, facilityName) {
-    const safeId = _safeId(facilityId);
-    const body   = panel.querySelector('.modal-body');
-    body.innerHTML = _buildModalBodyHtml('obligors', facilityId);
-
-    const schema     = await _fetchSchema('obligors');
-    const columnDefs = buildColumnsFromSchema(schema, {
-      transactions: function (p) {
-        openTransactions(p.data.obligor_id, p.data.obligor_name, facilityId, facilityName);
-      },
-    });
-
-    const mgr = new GridManager(`drill-grid-obligors-${safeId}`, columnDefs, {
-      paginationPageSize: 20,
-    });
-    mgr.init();
-
-    setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
-
-    _wireModalToolbar(body, mgr);
-    _wireModalExport(body, mgr, 'obligors', facilityId, 'Obligors');
-
-    _loadAndRender(mgr, `/api/facilities/${facilityId}/obligors`, body, `record-count-obligors-${safeId}`);
-  }
-
-  // ── Level 3: Transactions for an Obligor ──────────────────────────────────
+  // ── Public: open a child entity in a modal ────────────────────────────────
 
   /**
-   * Open the transactions drill-down modal for a given obligor.
-   *
-   * @param {string} obligorId    - Parent obligor identifier.
-   * @param {string} obligorName  - Display name.
-   * @param {string} facilityId   - Grandparent facility ID.
-   * @param {string} facilityName - Grandparent facility name (for breadcrumb).
+   * @param {string}  parentEntity       - Entity type of the row being drilled from.
+   * @param {string}  childEntity        - Entity type to display in the modal.
+   * @param {Object}  rowData            - Full grid row (p.data) of the parent.
+   * @param {string}  parentLabel        - Breadcrumb label for the parent row.
+   * @param {string}  [grandparentLabel] - Breadcrumb one level further up (for deep drills).
    */
-  function openTransactions(obligorId, obligorName, facilityId, facilityName) {
+  function open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel) {
+    const entities  = APP_CONFIG.entities || {};
+    const childCfg  = (entities[parentEntity] || {}).children || {};
+    const fkCols    = (childCfg[childEntity]  || {}).fk || [];
+    const fkValues  = Object.fromEntries(fkCols.map(col => [col, rowData[col]]));
+    const display   = parentLabel || _getLabelForRow(rowData, parentEntity);
+
+    const breadcrumb = grandparentLabel
+      ? ['Credit Facilities', grandparentLabel, display, _capitalize(childEntity)]
+      : ['Credit Facilities', display, _capitalize(childEntity)];
+
     ModalManager.open({
-      title:      'Exposure Events',
-      breadcrumb: ['Credit Exposures', facilityName || facilityId, obligorName, 'Exposure Events'],
-      onMount:    (panel) => _mountTransactionModal(panel, obligorId, obligorName, facilityId),
+      title:   _capitalize(childEntity),
+      breadcrumb,
+      onMount: (panel) => _mountModal(panel, parentEntity, childEntity, fkValues, display),
     });
   }
 
-  async function _mountTransactionModal(panel, obligorId, obligorName, facilityId) {
-    const safeId = _safeId(obligorId);
+  // ── Modal mount ───────────────────────────────────────────────────────────
+
+  async function _mountModal(panel, parentEntity, childEntity, fkValues, parentLabel) {
+    const safeId = _safeId(Object.values(fkValues).join('-'));
     const body   = panel.querySelector('.modal-body');
-    body.innerHTML = _buildModalBodyHtml('transactions', obligorId);
+    body.innerHTML = _buildModalBodyHtml(childEntity, Object.values(fkValues).join('-'));
 
-    const schema     = await _fetchSchema('transactions');
-    const columnDefs = buildColumnsFromSchema(schema, {
-      comments: function (p) {
-        openComments(
-          p.data.transaction_id, p.data.transaction_type,
-          p.data.reference_number, obligorName,
-        );
-      },
+    const schema      = await _fetchSchema(childEntity);
+    const grandchildren = ((APP_CONFIG.entities || {})[childEntity] || {}).children || {};
+
+    // Auto-wire drill handlers for the next level down — enables unlimited depth.
+    const drillHandlers = {};
+    Object.keys(grandchildren).forEach(grandchild => {
+      drillHandlers[grandchild] = (p) => open(
+        childEntity, grandchild, p.data,
+        _getLabelForRow(p.data, childEntity),
+        parentLabel,
+      );
     });
 
-    const mgr = new GridManager(`drill-grid-transactions-${safeId}`, columnDefs, {
-      paginationPageSize: 20,
-    });
+    const mgr = new GridManager(
+      `drill-grid-${childEntity}-${safeId}`,
+      buildColumnsFromSchema(schema, drillHandlers),
+      { paginationPageSize: 20 },
+    );
     mgr.init();
-
     setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
 
     _wireModalToolbar(body, mgr);
-    _wireModalExport(body, mgr, 'transactions', obligorId, 'Exposure Events');
+    _wireModalExport(body, mgr, childEntity, JSON.stringify(fkValues), _capitalize(childEntity));
 
-    _loadAndRender(mgr, `/api/obligors/${obligorId}/transactions`, body, `record-count-transactions-${safeId}`);
-  }
-
-  // ── Level 4: Comments for a Transaction ──────────────────────────────────
-
-  /**
-   * Open the comments drill-down modal for a given transaction.
-   *
-   * @param {string} transactionId  - Parent transaction identifier.
-   * @param {string} txnType        - Transaction type label.
-   * @param {string} reference      - Reference number.
-   * @param {string} obligorName    - Parent obligor name (for breadcrumb).
-   */
-  function openComments(transactionId, txnType, reference, obligorName) {
-    ModalManager.open({
-      title:      'Analyst Comments',
-      breadcrumb: [obligorName || 'Obligor', txnType, 'Analyst Comments'], // Updated naming Conventions
-      onMount:    (panel) => _mountCommentModal(panel, transactionId),
-    });
-  }
-
-  async function _mountCommentModal(panel, transactionId) {
-    const safeId = _safeId(transactionId);
-    const body   = panel.querySelector('.modal-body');
-    body.innerHTML = _buildModalBodyHtml('comments', transactionId);
-
-    const schema     = await _fetchSchema('comments');
-    const columnDefs = buildColumnsFromSchema(schema, {});
-
-    const mgr = new GridManager(`drill-grid-comments-${safeId}`, columnDefs, {
-      paginationPageSize: 15,
-    });
-    mgr.init();
-
-    setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);
-
-    _wireModalToolbar(body, mgr);
-    _wireModalExport(body, mgr, 'comments', transactionId, 'Comments');
-
-    _loadAndRender(mgr, `/api/transactions/${transactionId}/comments`, body, `record-count-comments-${safeId}`);
-  }
-
-  function _safeId(id) {
-    return id.replace(/[^a-z0-9]/gi, '-');
+    const apiUrl = ApiUtils.buildUrl(
+      `/api/${parentEntity}/${childEntity}`,
+      fkValues,
+    );
+    _loadAndRender(mgr, apiUrl, body, `record-count-${childEntity}-${safeId}`);
   }
 
   // ── Shared helpers ────────────────────────────────────────────────────────
 
-  /**
-   * Build the inner HTML of a modal body section.
-   * Includes toolbar (search + export) and an AG Grid container.
-   *
-   * @param {string} entityType  - 'obligors'|'transactions'|'comments'
-   * @param {string} entityId    - Parent entity ID (used for unique DOM IDs).
-   * @returns {string}           HTML string.
-   */
+  function _capitalize(s) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
+
+  function _safeId(id) {
+    return String(id).replace(/[^a-z0-9]/gi, '-');
+  }
+
   function _buildModalBodyHtml(entityType, entityId) {
     const safeId = _safeId(entityId);
     return `
@@ -239,27 +180,17 @@ const DrillDown = (function () {
     `;
   }
 
-  /**
-   * Fetch data from *apiUrl* and populate the GridManager.
-   * Updates the record count label and shows toast on error.
-   *
-   * @param {GridManager} mgr          - The grid to populate.
-   * @param {string}      apiUrl       - Endpoint to call.
-   * @param {HTMLElement} bodyEl       - Modal body element.
-   * @param {string}      countLabelId - ID of the record-count span.
-   */
   async function _loadAndRender(mgr, apiUrl, bodyEl, countLabelId) {
     try {
       const resp = await ApiUtils.get(
         ApiUtils.buildUrl(apiUrl, { per_page: 500 }),
-        false   // don't show global overlay inside a modal
+        false
       );
-
       mgr.setData(resp.data || []);
-
       const totalLabel = bodyEl.querySelector(`#${countLabelId}`);
       if (totalLabel && resp.meta) {
-        totalLabel.innerHTML = `Showing <strong>${resp.data.length}</strong> of <strong>${resp.meta.total}</strong> records`;
+        totalLabel.innerHTML =
+          `Showing <strong>${resp.data.length}</strong> of <strong>${resp.meta.total}</strong> records`;
       }
     } catch (err) {
       Toast.error('Failed to load data', err.message || 'Unknown error');
@@ -267,26 +198,20 @@ const DrillDown = (function () {
     }
   }
 
-  // ── Shared modal toolbar wiring ────────────────────────────────────────────
-
   function _wireModalToolbar(body, mgr) {
     const searchEl = body.querySelector('.modal-search-input');
     if (searchEl) {
       searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
     }
-
     body.querySelector('.modal-columns-btn')?.addEventListener('click', (e) => {
       mgr.toggleColumnsPanel(e.currentTarget);
     });
-
     body.querySelector('.modal-clear-btn')?.addEventListener('click', () => {
       mgr.clearFilters();
       if (searchEl) searchEl.value = '';
       Toast.info('Filters cleared', 'All filters and sort order have been reset.');
     });
   }
-
-  // ── Modal export wiring ────────────────────────────────────────────────────
 
   function _wireModalExport(body, mgr, entityType, entityId, entityLabel) {
     const trigger = body.querySelector('.modal-export-trigger');
@@ -330,8 +255,6 @@ const DrillDown = (function () {
     });
   }
 
-  // ── Public surface ─────────────────────────────────────────────────────────
-
-  return { openObligors, openTransactions, openComments };
+  return { open };
 
 }());

@@ -16,20 +16,6 @@ import pandas as pd
 from app.adapters.base_adapter import BaseAdapter
 
 
-_ENTITY_FILES: Dict[str, str] = {
-    "facilities":   "facilities.csv",
-    "obligors":     "obligors.csv",
-    "transactions": "transactions.csv",
-    "comments":     "comments.csv",
-}
-
-_PARENT_FK: Dict[str, str] = {
-    "obligors":     "facility_id",
-    "transactions": "obligor_id",
-    "comments":     "transaction_id",
-}
-
-
 class CSVAdapter(BaseAdapter):
     """
     Reads authoritative FR Y-14Q data from CSV files.
@@ -49,10 +35,7 @@ class CSVAdapter(BaseAdapter):
         if entity_type in self._cache:
             return self._cache[entity_type]
 
-        fname = _ENTITY_FILES.get(entity_type)
-        if not fname:
-            raise ValueError(f"Unknown entity_type '{entity_type}'. "
-                             f"Valid: {sorted(_ENTITY_FILES)}")
+        fname = entity_type + ".csv"
 
         path = os.path.join(self._data_dir, fname)
         if not os.path.exists(path):
@@ -69,21 +52,21 @@ class CSVAdapter(BaseAdapter):
     def fetch(
         self,
         entity_type: str,
-        entity_id:   Optional[str]  = None,
-        filters:     Optional[Dict] = None,
-        sorts:       Optional[List] = None,
+        entity_key:  Optional[Dict[str, str]] = None,
+        filters:     Optional[Dict]           = None,
+        sorts:       Optional[List]           = None,
     ) -> pd.DataFrame:
         df      = self._load(entity_type).copy()
         filters = dict(filters or {})
 
-        # Context filter runs first — narrows to the selected SOR / reporting date
         sor          = filters.pop("_sor", "")
         fic_mis_date = filters.pop("_fic_mis_date", "")
         df = self._apply_context_filter(df, sor, fic_mis_date)
 
-        if entity_id and entity_type in _PARENT_FK:
-            pk_field = _PARENT_FK[entity_type]
-            df = df[df[pk_field] == str(entity_id)].reset_index(drop=True)
+        if entity_key:
+            for field, val in entity_key.items():
+                if field in df.columns:
+                    df = df[df[field] == str(val)].reset_index(drop=True)
 
         col_filters = filters.get("col_filters", {})
         if col_filters:
@@ -94,22 +77,28 @@ class CSVAdapter(BaseAdapter):
 
         df = self._apply_sorts(df, sorts or [])
 
+        cols = self._get_select_cols(entity_type)
+        if cols != ["*"]:
+            df = df[[c for c in cols if c in df.columns]]
+
         self.log.debug(
-            "CSVAdapter.fetch entity=%s entity_id=%s sor=%r rows_returned=%d",
-            entity_type, entity_id, sor, len(df),
+            "CSVAdapter.fetch entity=%s entity_key=%s sor=%r rows_returned=%d",
+            entity_type, entity_key, sor, len(df),
         )
         return df
 
     def introspect_columns(self, entity_type: str) -> List[str]:
-        fname = _ENTITY_FILES.get(entity_type)
-        if not fname:
-            raise ValueError(f"Unknown entity_type '{entity_type}'")
-        path = os.path.join(self._data_dir, fname)
+        cols = self._get_select_cols(entity_type)
+        if cols != ["*"]:
+            return cols
+        path = os.path.join(self._data_dir, entity_type + ".csv")
         with open(path, newline="", encoding="utf-8") as f:
             return next(csv.reader(f))
 
     def health_check(self) -> bool:
+        entities = self._config.get("ENTITIES", {})
+        csv_entities = [e for e, cfg in entities.items() if cfg.get("source", "csv") == "csv"]
         return all(
-            os.path.exists(os.path.join(self._data_dir, f))
-            for f in _ENTITY_FILES.values()
+            os.path.exists(os.path.join(self._data_dir, e + ".csv"))
+            for e in csv_entities
         )

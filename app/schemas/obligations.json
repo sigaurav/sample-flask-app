@@ -1,0 +1,729 @@
+[
+  {
+    "field": "OBLGN_ID",
+    "label": "Obligation ID",
+    "type": "text",
+    "key": "primary",
+    "width": 110,
+    "pinned": "left",
+    "searchable": true
+  },
+  {
+    "field": "LOANNUMBER",
+    "label": "Loan Number",
+    "type": "text",
+    "width": 110,
+    "searchable": true
+  },
+  {
+    "field": "FACLTY_ID",
+    "label": "Facility ID",
+    "type": "text",
+    "width": 105,
+    "searchable": true
+  },
+  {
+    "field": "FACLTY_OBLGR_ID",
+    "label": "Obligor ID",
+    "type": "text",
+    "width": 105,
+    "searchable": true
+  },
+  {
+    "field": "OBLGN_TYP_CD",
+    "label": "Obligation Type",
+    "type": "text",
+    "width": 120,
+    "searchable": true
+  },
+  {
+    "field": "LOAN_PURPOSE",
+    "label": "Loan Purpose",
+    "type": "text",
+    "flex": 1.5,
+    "minWidth": 150,
+    "searchable": true
+  },
+  {
+    "field": "COMMITMENT_AMT",
+    "label": "Commitment Amt",
+    "type": "money",
+    "width": 140
+  },
+  {
+    "field": "OUTSTANDING_AMT",
+    "label": "Outstanding Amt",
+    "type": "money",
+    "width": 140
+  },
+  {
+    "field": "BNK_NET_COMMTMT_AMT",
+    "label": "Net Commitment",
+    "type": "money",
+    "width": 135,
+    "hide": true
+  },
+  {
+    "field": "BNK_NET_OUTSTDG_AMT",
+    "label": "Net Outstanding",
+    "type": "money",
+    "width": 135,
+    "hide": true
+  },
+  {
+    "field": "NET_AVLBL_AMT",
+    "label": "Net Available",
+    "type": "money",
+    "width": 125
+  },
+  {
+    "field": "INT_RT",
+    "label": "Interest Rate",
+    "type": "number",
+    "width": 110
+  },
+  {
+    "field": "INT_RT_SPRD",
+    "label": "Spread",
+    "type": "number",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "INT_RT_CEILNG",
+    "label": "Rate Ceiling",
+    "type": "number",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "INT_RT_FLR",
+    "label": "Rate Floor",
+    "type": "number",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "INTEREST_RATE_INDEX",
+    "label": "Rate Index",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "INTEREST_RATE_VARIABILITY",
+    "label": "Rate Type",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "INTERNAL_RATING",
+    "label": "Internal Rating",
+    "type": "text",
+    "width": 110,
+    "searchable": true
+  },
+  {
+    "field": "MATURTY_DT",
+    "label": "Maturity Date",
+    "type": "date",
+    "width": 115
+  },
+  {
+    "field": "CURR_MATURTY_DT",
+    "label": "Current Maturity",
+    "type": "date",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "ORIGINATION_DATE",
+    "label": "Origination Date",
+    "type": "date",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "LIENPOSITION",
+    "label": "Lien Position",
+    "type": "number",
+    "width": 100
+  },
+  {
+    "field": "LIEN_CD",
+    "label": "Lien Code",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "COLLTRL_CD",
+    "label": "Collateral",
+    "type": "text",
+    "width": 90,
+    "searchable": true
+  },
+  {
+    "field": "ACCRUAL_STATUS_CD",
+    "label": "Accrual Status",
+    "type": "text",
+    "width": 110,
+    "searchable": true
+  },
+  {
+    "field": "OBLGN_CLSD_STAT_FLG",
+    "label": "Closed Status",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "DAYS_PAST_DUE_CT",
+    "label": "Days Past Due",
+    "type": "number",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "NINETY_DAYS_PAST_DUE_RPTBLE_FLG",
+    "label": "90+ DPD",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "THIRTY_TO_89_DAYS_PAST_DUE_RPTBLE_FLG",
+    "label": "30-89 DPD",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "NON_ACCRL_FLG",
+    "label": "Non-Accrual",
+    "type": "text",
+    "width": 95,
+    "hide": true
+  },
+  {
+    "field": "PARTICIPATION_IND",
+    "label": "Participation",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "PARTICIPATION_INT",
+    "label": "Participation Amt",
+    "type": "money",
+    "width": 130,
+    "hide": true
+  },
+  {
+    "field": "PARTICIPATION_PRCNT",
+    "label": "Participation %",
+    "type": "number",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "BNK_NET_AVG_OUTSTDG_MTD_AMT",
+    "label": "Avg Outstanding MTD",
+    "type": "money",
+    "width": 150,
+    "hide": true
+  },
+  {
+    "field": "BNK_NET_OUTSTDG_INCL_PCI_AMT",
+    "label": "Outstanding incl PCI",
+    "type": "money",
+    "width": 155,
+    "hide": true
+  },
+  {
+    "field": "CUST_NET_COMMTMT_AMT",
+    "label": "Cust Net Commitment",
+    "type": "money",
+    "width": 145,
+    "hide": true
+  },
+  {
+    "field": "CUST_NET_OUTSTDG_AMT",
+    "label": "Cust Net Outstanding",
+    "type": "money",
+    "width": 145,
+    "hide": true
+  },
+  {
+    "field": "ORIGNL_COMMTMT_AMT",
+    "label": "Orig Commitment",
+    "type": "money",
+    "width": 130,
+    "hide": true
+  },
+  {
+    "field": "NET_COMMTTD_AVLBL_AMT",
+    "label": "Net Committed Avail",
+    "type": "money",
+    "width": 145,
+    "hide": true
+  },
+  {
+    "field": "NET_LTTR_OF_CRDT_ISSUED_AMT",
+    "label": "LOC Issued",
+    "type": "money",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "GLBL_AMT",
+    "label": "Global Amt",
+    "type": "money",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "CHRGOFF_NET_LTD_AMT",
+    "label": "Chargeoff LTD",
+    "type": "money",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "DEFF_FEES",
+    "label": "Deferred Fees",
+    "type": "money",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "MATURTY_DURTN_CD",
+    "label": "Maturity Duration",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "FACLTY_SOR_ID",
+    "label": "SOR",
+    "type": "text",
+    "width": 80,
+    "hide": true
+  },
+  {
+    "field": "period_dt",
+    "label": "Period Date",
+    "type": "date",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "RUN_DATE",
+    "label": "Run Date",
+    "type": "date",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "FACLTY_AU_CD",
+    "label": "AU Code",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "FACLTY_BNK_NBR_ID",
+    "label": "Bank Nbr",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "OBLGN_AU_CD",
+    "label": "Obl AU Code",
+    "type": "text",
+    "width": 95,
+    "hide": true
+  },
+  {
+    "field": "OBLGN_BNK_NBR_ID",
+    "label": "Obl Bank Nbr",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "OBLGN_SOR_ID",
+    "label": "Obl SOR",
+    "type": "text",
+    "width": 80,
+    "hide": true
+  },
+  {
+    "field": "OBLGN_OBLGR_ID",
+    "label": "Obl Obligor ID",
+    "type": "text",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "OBLGN_WF_LEGL_ENTITY_CD",
+    "label": "Obl Legal Entity",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "OBLGR_ID",
+    "label": "Obligor ID",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "OBLGR_BNK_NBR_ID",
+    "label": "Obl Bk Nbr",
+    "type": "text",
+    "width": 95,
+    "hide": true
+  },
+  {
+    "field": "OBLGR_SOR_ID",
+    "label": "Obl SOR ID",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "GL_ACCT_NBR",
+    "label": "GL Account",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "GL_CD",
+    "label": "GL Code",
+    "type": "text",
+    "width": 80,
+    "hide": true
+  },
+  {
+    "field": "LOAN_PRPSE_CD",
+    "label": "Purpose Code",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "PROD_CD",
+    "label": "Product Code",
+    "type": "text",
+    "width": 95,
+    "hide": true
+  },
+  {
+    "field": "REC_TYP_CD",
+    "label": "Record Type",
+    "type": "text",
+    "width": 95,
+    "hide": true
+  },
+  {
+    "field": "BQR_CD",
+    "label": "BQR Code",
+    "type": "text",
+    "width": 85,
+    "hide": true
+  },
+  {
+    "field": "Y9C_CD",
+    "label": "Y9C Code",
+    "type": "text",
+    "width": 85,
+    "hide": true
+  },
+  {
+    "field": "QSR_NO",
+    "label": "QSR No",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "ORIG_FACILITY_ID",
+    "label": "Orig Facility ID",
+    "type": "text",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "ORIG_OBLIGOR_ID",
+    "label": "Orig Obligor ID",
+    "type": "text",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "ORIG_SYS_ID",
+    "label": "Orig Sys ID",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "FACLTY_WF_LEGL_ENTITY_CD",
+    "label": "WF Legal Entity",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "LEVRG_LENDG_FLG",
+    "label": "Leveraged Lending",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "HFS_IND",
+    "label": "Held for Sale",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "IS_OBLIGATORY_FLG",
+    "label": "Obligatory",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "PCI_FLG",
+    "label": "PCI",
+    "type": "text",
+    "width": 70,
+    "hide": true
+  },
+  {
+    "field": "PREPAYMENT_PENALTY_FLAG",
+    "label": "Prepay Penalty",
+    "type": "text",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "Disposition_FLG",
+    "label": "Disposition",
+    "type": "text",
+    "width": 100,
+    "hide": true
+  },
+  {
+    "field": "Exclusion_flag",
+    "label": "Exclusion",
+    "type": "text",
+    "width": 90,
+    "hide": true
+  },
+  {
+    "field": "CROSS_COLLAT_loans",
+    "label": "Cross Collateral",
+    "type": "text",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "ALL_INT_RT_FLR_IND",
+    "label": "All Rate Floor Ind",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "INT_RT_INDX_CD",
+    "label": "Rate Index Code",
+    "type": "text",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "INT_RT_RESET_FREQ_CD",
+    "label": "Reset Freq Code",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "INT_RT_TYP_CD",
+    "label": "Rate Type Code",
+    "type": "text",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "PRIME_INT_RT_FLR",
+    "label": "Prime Rate Floor",
+    "type": "number",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "REF_INT_RT_FLR",
+    "label": "Ref Rate Floor",
+    "type": "number",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "REF_INT_RT_FLR_IND",
+    "label": "Ref Rate Floor Ind",
+    "type": "text",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "AMORTIZATION",
+    "label": "Amortization",
+    "type": "text",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "ACQSTN_FLG",
+    "label": "Acquisition Flag",
+    "type": "text",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "ORIGNL_ORIGNG_BNK_CD",
+    "label": "Orig Bank Code",
+    "type": "text",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "V_CMPST_SRC_CONTRACT_ID",
+    "label": "Composite Contract",
+    "type": "text",
+    "width": 140,
+    "hide": true
+  },
+  {
+    "field": "v_hiercy_lvl_cd",
+    "label": "Hierarchy Level",
+    "type": "text",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "v_imm_prnt_contract_code",
+    "label": "Parent Contract",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "V_REC_TY_TXT",
+    "label": "Record Type Text",
+    "type": "text",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "faclty_unique_identifier",
+    "label": "Facility Unique ID",
+    "type": "text",
+    "width": 130,
+    "hide": true
+  },
+  {
+    "field": "ACQSTN_DT",
+    "label": "Acquisition Date",
+    "type": "date",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "CURR_EFF_DT",
+    "label": "Current Eff Date",
+    "type": "date",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "CURRENT_APPRAISAL_DATE",
+    "label": "Appraisal Date",
+    "type": "date",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "LST_MAJR_TERMS_MOD_DT",
+    "label": "Last Terms Mod Date",
+    "type": "date",
+    "width": 130,
+    "hide": true
+  },
+  {
+    "field": "NON_ACCRL_DT",
+    "label": "Non-Accrual Date",
+    "type": "date",
+    "width": 115,
+    "hide": true
+  },
+  {
+    "field": "DELIVERY_DT",
+    "label": "Delivery Date",
+    "type": "date",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "AMENDED_RESTATED_EFF_DT",
+    "label": "Amended Eff Date",
+    "type": "date",
+    "width": 125,
+    "hide": true
+  },
+  {
+    "field": "RENEWAL_DT",
+    "label": "Renewal Date",
+    "type": "date",
+    "width": 105,
+    "hide": true
+  },
+  {
+    "field": "ORIGNL_EFF_DT",
+    "label": "Orig Eff Date",
+    "type": "date",
+    "width": 110,
+    "hide": true
+  },
+  {
+    "field": "EXT_MATURTY_ALLWNCE_DT",
+    "label": "Ext Maturity Allow",
+    "type": "date",
+    "width": 130,
+    "hide": true
+  },
+  {
+    "field": "EXT_MATURTY_DT",
+    "label": "Ext Maturity Date",
+    "type": "date",
+    "width": 120,
+    "hide": true
+  },
+  {
+    "field": "PROPERTY_COUNT",
+    "label": "Properties",
+    "type": "drill",
+    "width": 100,
+    "pinned": "right",
+    "computed": true,
+    "drill_target": "property"
+  }
+]

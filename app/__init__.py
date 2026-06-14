@@ -59,7 +59,7 @@ def create_app(config_name: str = "default") -> Flask:
 
     # ── Data + Reporting services (shared for app lifetime) ───────────────────
     app.data_service      = DataService(app.config)
-    app.reporting_service = ReportingService(app.data_service)
+    app.reporting_service = ReportingService(app.data_service, app.config)
 
     # ── Register Blueprints ───────────────────────────────────────────────────
     from app.blueprints.main   import main_bp

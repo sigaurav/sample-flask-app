@@ -11,14 +11,13 @@ import logging
 import os
 import uuid
 from datetime import datetime, timezone
-from typing import Any, Dict, List, Optional
+from typing import Dict, List, Optional
 
 from app.models.export_job                   import ExportJob
 from app.repositories.export_job_repository  import ExportJobRepository
 from app.services.data_service               import DataService
 from app.workers.export_worker               import submit_export_job
 
-VALID_ENTITY_TYPES   = {"facilities", "obligors", "transactions", "comments"}
 VALID_EXPORT_TYPES   = {"partial", "full"}
 VALID_SCHEDULE_TYPES = {"H1", "H2", "all"}
 VALID_FILE_FORMATS   = {"csv", "excel", "parquet"}
@@ -56,7 +55,8 @@ class ExportService:
         sorts:         Optional[List] = None,
     ) -> ExportJob:
         """Validate, persist, and enqueue a new export job. Returns the job immediately."""
-        self._validate(entity_type, export_type, schedule_type, file_format)
+        valid_entities = set(self._data_service._config.get("ENTITIES", {}).keys())
+        self._validate(entity_type, export_type, schedule_type, file_format, valid_entities)
 
         job = ExportJob(
             job_id        = uuid.uuid4().hex,
@@ -102,35 +102,18 @@ class ExportService:
         path = self.get_file_path(job_id)
         return path is not None and os.path.exists(path)
 
-    def list_recent(self, limit: int = 100) -> List[Dict]:
-        """Return summary dicts for the most-recent *limit* jobs."""
-        return [self._job_summary(j) for j in self._repo.list_recent(limit)]
-
     # ── Private helpers ───────────────────────────────────────────────────────
 
     @staticmethod
     def _validate(
         entity_type: str, export_type: str, schedule_type: str, file_format: str,
+        valid_entities: set,
     ) -> None:
         errors = []
-        if entity_type   not in VALID_ENTITY_TYPES:   errors.append(f"entity_type={entity_type!r}")
+        if entity_type   not in valid_entities:       errors.append(f"entity_type={entity_type!r}")
         if export_type   not in VALID_EXPORT_TYPES:   errors.append(f"export_type={export_type!r}")
         if schedule_type not in VALID_SCHEDULE_TYPES: errors.append(f"schedule_type={schedule_type!r}")
         if file_format   not in VALID_FILE_FORMATS:   errors.append(f"file_format={file_format!r}")
         if errors:
             raise ValueError(f"Invalid export parameters: {', '.join(errors)}")
 
-    @staticmethod
-    def _job_summary(job: ExportJob) -> Dict[str, Any]:
-        return {
-            "job_id":           job.job_id,
-            "user_id":          job.user_id,
-            "export_type":      job.export_type,
-            "schedule_type":    job.schedule_type,
-            "entity_type":      job.entity_type,
-            "file_format":      job.file_format,
-            "status":           job.status,
-            "created_at":       job.created_at.isoformat() + "Z",
-            "row_count":        job.row_count,
-            "duration_seconds": job.duration_seconds,
-        }

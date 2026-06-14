@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
-{% block title %}FR Y-14Q — Schedule H1 Exposure Events{% endblock %}
+{% block title %}FR Y-14Q — Schedule H1 {{ entity_label }}{% endblock %}
 
 {% block content %}
 
 {# ── Breadcrumb ───────────────────────────────────────────────────────────── #}
-{% with crumbs=[{label: 'Schedule H1'}, {label: 'Exposure Events'}] %}
+{% with crumbs=[{'label': 'Schedule H1'}, {'label': entity_label}] %}
   {% include 'components/breadcrumb.html' %}
 {% endwith %}
 
@@ -14,22 +14,22 @@
   <div>
     <h1 class="page-title">
       <span class="schedule-badge">H1</span>
-      Exposure Event Ledger
+      {{ entity_label }}
     </h1>
     <p class="page-subtitle">
-      FR Y-14Q Schedule H1 — Wholesale exposure event ledger with analyst
-      comment drill-down, multi-column sort, and authoritative async export workflows.
+      FR Y-14Q Schedule H1 — {{ entity_label }} register with drill-down,
+      multi-column sort, and authoritative async export workflows.
     </p>
   </div>
   <div>
     <div class="kpi-strip">
       <div class="kpi-card">
         <span class="kpi-value" id="kpiTotal">–</span>
-        <span class="kpi-label">Total Events</span>
+        <span class="kpi-label">Total {{ entity_label }}</span>
       </div>
       <div class="kpi-card">
         <span class="kpi-value" id="kpiActive">–</span>
-        <span class="kpi-label">Completed</span>
+        <span class="kpi-label">Active</span>
       </div>
     </div>
   </div>
@@ -45,8 +45,8 @@
       <input type="text"
              id="gridSearch"
              class="search-input"
-             placeholder="Search events, counterparties…"
-             aria-label="Search exposure events" />
+             placeholder="Search {{ entity_label|lower }}…"
+             aria-label="Search {{ entity_label|lower }}" />
     </div>
   </div>
   <div class="toolbar-right">
@@ -105,7 +105,7 @@
 
 {# ── Grid container ────────────────────────────────────────────────────────── #}
 <div class="grid-card">
-  <div id="transactionsGrid" class="wf-grid" style="width:100%; height:620px;"></div>
+  <div id="{{ entity_type }}Grid" class="wf-grid" style="width:100%; height:620px;"></div>
 </div>
 
 <p class="grid-hint">
@@ -117,8 +117,8 @@
 
 
 {% block scripts_extra %}
-<script src="{{ url_for('static', filename='js/transactions.js') }}"></script>
+<script src="{{ url_for('static', filename='js/entity-page.js') }}"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function () { TransactionsApp.init(); });
+  document.addEventListener('DOMContentLoaded', function () { EntityPage.init('{{ entity_type }}'); });
 </script>
 {% endblock %}

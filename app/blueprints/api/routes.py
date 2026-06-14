@@ -26,157 +26,7 @@ def _parse_context() -> tuple[str, str]:
     )
 
 
-# ── Facilities ────────────────────────────────────────────────────────────────
-
-@api_bp.route("/facilities", methods=["GET"])
-def get_facilities():
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        result = current_app.reporting_service.get_facilities(
-            search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        log.error("Data file missing: %s", exc)
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Unexpected error in get_facilities")
-        return error_response("Internal server error", 500)
-
-
-@api_bp.route("/facilities/<facility_id>", methods=["GET"])
-def get_facility(facility_id: str):
-    try:
-        sor, fic_mis_date = _parse_context()
-        facility = current_app.reporting_service.get_facility_by_id(
-            facility_id, sor=sor, fic_mis_date=fic_mis_date
-        )
-        if facility is None:
-            return error_response(f"Facility '{facility_id}' not found", 404)
-        return success_response(facility)
-    except Exception:
-        log.exception("Error fetching facility %s", facility_id)
-        return error_response("Internal server error", 500)
-
-
-# ── Obligors ──────────────────────────────────────────────────────────────────
-
-@api_bp.route("/obligors", methods=["GET"])
-def get_all_obligors():
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        result = current_app.reporting_service.get_all_obligors(
-            search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Error fetching all obligors")
-        return error_response("Internal server error", 500)
-
-
-# ── Transactions ──────────────────────────────────────────────────────────────
-
-@api_bp.route("/transactions", methods=["GET"])
-def get_all_transactions():
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        result = current_app.reporting_service.get_all_transactions(
-            search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Error fetching all transactions")
-        return error_response("Internal server error", 500)
-
-
-# ── Drill-down endpoints ──────────────────────────────────────────────────────
-
-@api_bp.route("/facilities/<facility_id>/obligors", methods=["GET"])
-def get_obligors_for_facility(facility_id: str):
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        result = current_app.reporting_service.get_obligors_for_facility(
-            facility_id, search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Error fetching obligors for facility %s", facility_id)
-        return error_response("Internal server error", 500)
-
-
-@api_bp.route("/obligors/<obligor_id>/transactions", methods=["GET"])
-def get_transactions_for_obligor(obligor_id: str):
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        result = current_app.reporting_service.get_transactions_for_obligor(
-            obligor_id, search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Error fetching transactions for obligor %s", obligor_id)
-        return error_response("Internal server error", 500)
-
-
-@api_bp.route("/transactions/<transaction_id>/comments", methods=["GET"])
-def get_comments_for_transaction(transaction_id: str):
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        result = current_app.reporting_service.get_comments_for_transaction(
-            transaction_id, search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Error fetching comments for transaction %s", transaction_id)
-        return error_response("Internal server error", 500)
-
-
-# ── Schema endpoints ──────────────────────────────────────────────────────────
+# ── Schema endpoint (registered first so literal "schema" beats /<entity_type>) ──
 
 @api_bp.route("/schema/<entity_type>", methods=["GET"])
 def get_entity_schema(entity_type: str):
@@ -187,4 +37,65 @@ def get_entity_schema(entity_type: str):
         return error_response(f"Unknown entity type: '{entity_type}'", 404)
     except Exception:
         log.exception("Error fetching schema for %s", entity_type)
+        return error_response("Internal server error", 500)
+
+
+# ── Generic entity routes ─────────────────────────────────────────────────────
+
+@api_bp.route("/<entity_type>", methods=["GET"])
+def get_entity(entity_type: str):
+    entities = current_app.config.get("ENTITIES", {})
+    if entity_type not in entities:
+        return error_response(f"Unknown entity: '{entity_type}'", 404)
+    try:
+        page, per_page    = _parse_pagination()
+        search            = request.args.get("search", "").strip()
+        sor, fic_mis_date = _parse_context()
+        result = current_app.reporting_service.get_entity(
+            entity_type, search=search, page=page, per_page=per_page,
+            sor=sor, fic_mis_date=fic_mis_date,
+        )
+        return paginated_response(
+            data=result["records"], total=result["total"],
+            page=result["page"],   per_page=result["per_page"],
+        )
+    except FileNotFoundError as exc:
+        log.error("Data file missing: %s", exc)
+        return error_response(str(exc), 503)
+    except Exception:
+        log.exception("Unexpected error fetching %s", entity_type)
+        return error_response("Internal server error", 500)
+
+
+@api_bp.route("/<parent_entity>/<child_entity>", methods=["GET"])
+def get_child_entity(parent_entity: str, child_entity: str):
+    entities = current_app.config.get("ENTITIES", {})
+    if parent_entity not in entities:
+        return error_response(f"Unknown entity: '{parent_entity}'", 404)
+    children = entities[parent_entity].get("children", {})
+    if child_entity not in children:
+        return error_response(
+            f"'{child_entity}' is not a declared child of '{parent_entity}'", 404
+        )
+    try:
+        page, per_page    = _parse_pagination()
+        search            = request.args.get("search", "").strip()
+        sor, fic_mis_date = _parse_context()
+        fk_cols    = children[child_entity]["fk"]
+        fk_vals    = {col: request.args.get(col, "").strip() for col in fk_cols}
+        entity_key = fk_vals if all(fk_vals.values()) else None
+        result = current_app.reporting_service.get_entity(
+            child_entity, entity_key=entity_key, search=search,
+            page=page, per_page=per_page, sor=sor, fic_mis_date=fic_mis_date,
+        )
+        return paginated_response(
+            data=result["records"], total=result["total"],
+            page=result["page"],   per_page=result["per_page"],
+        )
+    except FileNotFoundError as exc:
+        return error_response(str(exc), 503)
+    except Exception:
+        log.exception(
+            "Unexpected error fetching %s → %s", parent_entity, child_entity
+        )
         return error_response("Internal server error", 500)

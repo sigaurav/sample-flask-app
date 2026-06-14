@@ -19,8 +19,8 @@ class BaseAdapter(ABC):
     """
     Unified data retrieval interface.
 
-    Each subclass targets one physical source (CSV, Excel, Dremio,
-    SQL Server).  Controllers and services depend only on this interface,
+    Each subclass targets one physical source (CSV, Dremio,
+    SQL Server, Teradata).  Controllers and services depend only on this interface,
     keeping source mechanics encapsulated.
     """
 
@@ -31,17 +31,27 @@ class BaseAdapter(ABC):
         self._config = config
         self.log = logging.getLogger(f"{__name__}.{self.__class__.__name__}")
 
+    def _get_select_cols(self, entity_type: str) -> List[str]:
+        """Return the configured column list, or ['*'] when none is set."""
+        return self._config.get("ENTITIES", {}).get(entity_type, {}).get("columns", ["*"])
+
     # ── Abstract interface ────────────────────────────────────────────────────
 
     @abstractmethod
     def fetch(
         self,
         entity_type: str,
-        entity_id:   Optional[str]  = None,
-        filters:     Optional[Dict] = None,
-        sorts:       Optional[List] = None,
+        entity_key:  Optional[Dict[str, str]] = None,
+        filters:     Optional[Dict]           = None,
+        sorts:       Optional[List]           = None,
     ) -> pd.DataFrame:
-        """Retrieve data for *entity_type*, optionally scoped and filtered."""
+        """Retrieve data for *entity_type*, optionally scoped and filtered.
+
+        *entity_key* is a field→value dict identifying the parent scope, e.g.
+        ``{"facility_id": "FAC001"}`` for child entities or a composite key
+        ``{"facility_id": "FAC001", "region_code": "US"}``.  Pass ``None``
+        to fetch all rows (subject to context filters).
+        """
 
     @abstractmethod
     def health_check(self) -> bool:
@@ -130,10 +140,19 @@ class BaseAdapter(ABC):
     def _apply_context_filter(
         self, df: pd.DataFrame, sor: str, fic_mis_date: str
     ) -> pd.DataFrame:
-        if sor and "SOR" in df.columns:
-            df = df[df["SOR"] == sor].reset_index(drop=True)
-        if fic_mis_date and "FIC_MIS_DATE" in df.columns:
-            df = df[df["FIC_MIS_DATE"] == fic_mis_date].reset_index(drop=True)
+        # SOR column is FACLTY_SOR_ID; match case-insensitively in case source differs
+        sor_col = next((c for c in df.columns if c.upper() == "FACLTY_SOR_ID"), None)
+        if sor and sor_col:
+            df = df[df[sor_col] == sor].reset_index(drop=True)
+        # Date column is PERIOD_DT (lowercase period_dt in obligations table)
+        date_col = next((c for c in df.columns if c.upper() == "PERIOD_DT"), None)
+        if fic_mis_date and date_col:
+            try:
+                target = pd.to_datetime(fic_mis_date).date()
+                parsed = pd.to_datetime(df[date_col], errors="coerce").dt.date
+                df = df[parsed == target].reset_index(drop=True)
+            except Exception:
+                df = df[df[date_col] == fic_mis_date].reset_index(drop=True)
         return df
 
     def _apply_sorts(self, df: pd.DataFrame, sorts: List[Dict]) -> pd.DataFrame:

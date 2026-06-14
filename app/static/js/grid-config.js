@@ -2,9 +2,9 @@
  * grid-config.js — Custom table grid factory and column definition helpers.
  *
  * Responsibilities:
- *  - GridManager class: custom HTML table grid (no external dependencies).
- *  - ColumnHelper:      builds typed column definitions.
- *  - CellRenderer:      provides common cell rendering functions.
+ *  - GridManager class:        custom HTML table grid (no external dependencies).
+ *  - buildColumnsFromSchema(): converts JSON schema descriptors to column defs.
+ *  - CellRenderer:             provides common cell rendering functions.
  *
  * FR Y-14Q enhancements over baseline:
  *  - Multi-column sorting with priority ordering (Ctrl+click to add).
@@ -80,43 +80,6 @@ const CellRenderer = (function () {
 }());
 
 
-// ── Column helpers ─────────────────────────────────────────────────────────────
-
-const ColumnHelper = (function () {
-
-  const _base = { sortable: true, filter: true, resizable: true, minWidth: 80 };
-
-  function text(field, header, extra = {}) {
-    return { ..._base, field, headerName: header, filter: 'wfTextFilter', ...extra };
-  }
-
-  function number(field, header, extra = {}) {
-    return { ..._base, field, headerName: header, filter: 'wfNumberFilter', ...extra };
-  }
-
-  function date(field, header, extra = {}) {
-    return { ..._base, field, headerName: header, filter: 'wfDateFilter', ...extra };
-  }
-
-  function money(field, header, extra = {}) {
-    return {
-      ...number(field, header),
-      cellRenderer: CellRenderer.money,
-      cellClass:    'cell-numeric',
-      _alignRight:  true,
-      ...extra,
-    };
-  }
-
-  function statusChip(field, header, extra = {}) {
-    return { ...text(field, header), cellRenderer: CellRenderer.status, ...extra };
-  }
-
-  return { text, number, date, money, statusChip };
-
-}());
-
-
 // ── Schema-driven column builder ──────────────────────────────────────────────
 
 /**
@@ -124,7 +87,7 @@ const ColumnHelper = (function () {
  *
  * @param {Object[]} schema        - Array from GET /api/schema/<entity_type>.
  * @param {Object}   drillHandlers - Map of drill_target → click handler closure.
- *                                   e.g. { obligors: (p) => DrillDown.openObligors(...) }
+ *                                   e.g. { obligations: (p) => DrillDown.open('facilities', 'obligations', p.data, ...) }
  * @returns {Object[]} Column defs ready to pass to new GridManager(id, colDefs, opts).
  */
 function buildColumnsFromSchema(schema, drillHandlers) {

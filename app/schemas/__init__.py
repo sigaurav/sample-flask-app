@@ -13,9 +13,8 @@ _SCHEMA_DIR = os.path.dirname(os.path.abspath(__file__))
 
 _REGISTRY_FILES: dict[str, str] = {
     "facilities":   "facilities.json",
-    "obligors":     "obligors.json",
-    "transactions": "transactions.json",
-    "comments":     "comments.json",
+    "obligations":  "obligations.json",
+    "property":     "property.json",
 }
 
 _CACHE: dict[str, list] = {}
@@ -42,7 +41,3 @@ def get_api_fields(entity_type: str) -> list[str]:
 
 def get_numeric_fields(entity_type: str) -> list[str]:
     return [c["field"] for c in get_schema(entity_type) if c["type"] in ("number", "money")]
-
-
-def get_searchable_fields(entity_type: str) -> list[str]:
-    return [c["field"] for c in get_schema(entity_type) if c.get("searchable")]
