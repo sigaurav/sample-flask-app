@@ -664,3 +664,19 @@
 2026-06-18 09:33:42,384 | INFO     | app | req=- user=- | Application created with config: development
 2026-06-18 09:33:42,384 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
 2026-06-18 09:33:42,411 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-18 09:36:16,935 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-18 09:36:16,935 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-18 09:36:16,942 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-18 09:36:16,942 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-18 09:36:16,968 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-18 09:38:51,749 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=fa4542c0677e user=anonymous | CSVAdapter loaded entity=facilities rows=19766 path=F:\Office\SampleApp4\data\facilities.csv
+2026-06-18 09:38:51,759 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=fa4542c0677e user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-06-18 09:38:51,769 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=fa4542c0677e user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-06-18 09:38:51,773 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=fa4542c0677e user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-06-18 09:38:51,781 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=fa4542c0677e user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-06-18 09:38:51,783 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=fa4542c0677e user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-06-18 09:38:53,587 | DEBUG    | app.services.reporting_service | req=fa4542c0677e user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 19766/19766
+2026-06-18 09:43:30,346 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0805e637fac7 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-06-18 09:43:30,348 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0805e637fac7 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-06-18 09:43:30,354 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0805e637fac7 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-06-18 09:43:32,205 | DEBUG    | app.services.reporting_service | req=0805e637fac7 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 19766/19766
