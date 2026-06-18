@@ -12,28 +12,33 @@ Connection config keys (Flask uppercase):
 
 Authentication uses SSO Windows Authentication (Trusted_Connection=yes).
 No username or password is required or stored.
+
+Add one entry to _QUERY_MAP per entity.  Each query must accept two named
+parameters: :sor and :fic_mis_date.  Everything else — joins, CTEs,
+column aliases — goes directly in the SQL.
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
 from app.adapters.base_adapter import BaseAdapter
 
 
-_TABLE_MAP: Dict[str, str] = {
-    "facilities":  "h1_facilities",
-    "obligations": "h1_obligations",
-    "property":    "h1_property",
-}
-
-
 class SQLServerAdapter(BaseAdapter):
-    """SQL Server adapter using SSO Windows Authentication."""
 
     source_type = "sqlserver"
+
+    # One entry per entity.  Parameter: :fic_mis_date
+    _QUERY_MAP: Dict[str, str] = {
+        # "facilities": """
+        #     SELECT *
+        #     FROM   [dbo].[H1_FACILITIES]
+        #     WHERE  [PERIOD_DT] = :fic_mis_date
+        # """,
+    }
 
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config)
@@ -42,9 +47,7 @@ class SQLServerAdapter(BaseAdapter):
         self._db     = config.get("SQLSERVER_DB", "")
         self._schema = config.get("SQLSERVER_SCHEMA", "dbo")
         self._driver = config.get("SQLSERVER_DRIVER", "ODBC Driver 18 for SQL Server")
-        self._engine = None   # lazy — created on first use
-
-    # ── Connection ────────────────────────────────────────────────────────────
+        self._engine = None
 
     def _get_engine(self):
         if self._engine is not None:
@@ -61,44 +64,16 @@ class SQLServerAdapter(BaseAdapter):
             f"?driver={self._driver.replace(' ', '+')}"
             f"&Trusted_Connection=yes"
         )
-        self._engine = create_engine(
-            conn_str, fast_executemany=True, pool_pre_ping=True
-        )
+        self._engine = create_engine(conn_str, fast_executemany=True, pool_pre_ping=True)
         return self._engine
 
-    # ── SQL builder ───────────────────────────────────────────────────────────
-
-    def _build_query(
-        self,
-        entity_type:  str,
-        entity_key:   Optional[Dict[str, str]],
-        sor:          str,
-        fic_mis_date: str,
-    ) -> Tuple[str, Dict]:
-        """Return (sql_string, params_dict) using SQLAlchemy named parameters."""
-        cols   = self._get_select_cols(entity_type)
-        select = "*" if cols == ["*"] else ", ".join(f"[{c}]" for c in cols)
-        table  = _TABLE_MAP[entity_type]
-        conditions = []
-        params: Dict[str, Any] = {}
-
-        if sor:
-            conditions.append("[FACLTY_SOR_ID] = :sor")
-            params["sor"] = sor
-        if fic_mis_date:
-            conditions.append("[PERIOD_DT] = :fic_mis_date")
-            params["fic_mis_date"] = fic_mis_date
-        if entity_key:
-            for i, (field, val) in enumerate(entity_key.items()):
-                p = f"ek_{i}"
-                conditions.append(f"[{field}] = :{p}")
-                params[p] = val
-
-        where = f" WHERE {' AND '.join(conditions)}" if conditions else ""
-        sql   = f"SELECT {select} FROM [{self._schema}].[{table}]{where}"
-        return sql, params
-
-    # ── Public interface ──────────────────────────────────────────────────────
+    def _get_query(self, entity_type: str) -> str:
+        sql = self._QUERY_MAP.get(entity_type)
+        if not sql:
+            raise KeyError(
+                f"No query defined for '{entity_type}' in SQLServerAdapter._QUERY_MAP"
+            )
+        return sql
 
     def fetch(
         self,
@@ -110,15 +85,21 @@ class SQLServerAdapter(BaseAdapter):
         from sqlalchemy import text
 
         filters      = dict(filters or {})
-        sor          = filters.pop("_sor", "")
         fic_mis_date = filters.pop("_fic_mis_date", "")
+        filters.pop("_sor", None)
 
-        sql, params = self._build_query(entity_type, entity_key, sor, fic_mis_date)
+        sql    = self._get_query(entity_type)
+        params = {"fic_mis_date": fic_mis_date}
         self.log.debug("SQLServerAdapter SQL: %s  params=%s", sql, params)
 
         engine = self._get_engine()
         with engine.connect() as conn:
             df = pd.read_sql(text(sql), conn, params=params)
+
+        if entity_key:
+            for field, val in entity_key.items():
+                if field in df.columns:
+                    df = df[df[field] == str(val)].reset_index(drop=True)
 
         col_filters = filters.get("col_filters", {})
         if col_filters:
@@ -135,33 +116,23 @@ class SQLServerAdapter(BaseAdapter):
         return df
 
     def introspect_columns(self, entity_type: str) -> List[str]:
-        cols = self._get_select_cols(entity_type)
-        if cols != ["*"]:
-            return cols
-
         from sqlalchemy import text
 
-        table = _TABLE_MAP.get(entity_type)
-        if not table:
-            raise ValueError(f"Unknown entity_type '{entity_type}'")
+        sql    = self._get_query(entity_type)
+        params = {"fic_mis_date": ""}
 
-        sql = text("""
-            SELECT COLUMN_NAME
-            FROM   INFORMATION_SCHEMA.COLUMNS
-            WHERE  TABLE_SCHEMA = :schema
-            AND    TABLE_NAME   = :table
-            ORDER  BY ORDINAL_POSITION
-        """)
         engine = self._get_engine()
         with engine.connect() as conn:
-            result = conn.execute(sql, {"schema": self._schema, "table": table})
-            return [row[0] for row in result]
+            result = conn.execute(
+                text(f"SELECT TOP 0 * FROM ({sql}) AS _q"),
+                params,
+            )
+            return list(result.keys())
 
     def health_check(self) -> bool:
         try:
             from sqlalchemy import text
-            engine = self._get_engine()
-            with engine.connect() as conn:
+            with self._get_engine().connect() as conn:
                 conn.execute(text("SELECT 1"))
             return True
         except Exception:

@@ -82,10 +82,15 @@ const DrillDown = (function () {
       );
     });
 
+    const childPkCols = ((APP_CONFIG.entities || {})[childEntity] || {}).pk || [];
     const mgr = new GridManager(
       `drill-grid-${childEntity}-${safeId}`,
       buildColumnsFromSchema(schema, drillHandlers),
-      { paginationPageSize: 20 },
+      {
+        paginationPageSize:         10,
+        paginationPageSizeSelector: [10, 25, 50, 100],
+        initialSort: childPkCols.map(f => ({ field: f, dir: 'asc' })),
+      },
     );
     mgr.init();
     setTimeout(() => mgr.getApi().sizeColumnsToFit(), 320);

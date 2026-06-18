@@ -15,8 +15,8 @@
 
   <script>
     window.APP_CONFIG = {
-      enabledSors: {{ config.ENABLED_SORS | tojson }},
-      entities:    {{ config.ENTITIES     | tojson }}
+      entities:    {{ config.ENTITIES      | tojson }},
+      maxPageSize: {{ config.MAX_PAGE_SIZE | tojson }}
     };
   </script>
 
@@ -40,10 +40,6 @@
       <div id="context-bar" class="context-bar">
         <div class="context-bar-inner">
           <span class="context-bar-label">Query Context</span>
-          <div class="context-bar-item">
-            <span class="ctx-field-label">SOR</span>
-            <div id="ctx-sor-group" class="ctx-seg-group" role="group" aria-label="System of Record"></div>
-          </div>
           <div class="context-bar-item">
             <span class="ctx-field-label">Report Date</span>
             <input type="text" id="ctx-date" class="ctx-date-input"

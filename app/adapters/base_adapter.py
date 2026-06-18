@@ -138,12 +138,8 @@ class BaseAdapter(ABC):
         return df[mask].reset_index(drop=True)
 
     def _apply_context_filter(
-        self, df: pd.DataFrame, sor: str, fic_mis_date: str
+        self, df: pd.DataFrame, fic_mis_date: str
     ) -> pd.DataFrame:
-        # SOR column is FACLTY_SOR_ID; match case-insensitively in case source differs
-        sor_col = next((c for c in df.columns if c.upper() == "FACLTY_SOR_ID"), None)
-        if sor and sor_col:
-            df = df[df[sor_col] == sor].reset_index(drop=True)
         # Date column is PERIOD_DT (lowercase period_dt in obligations table)
         date_col = next((c for c in df.columns if c.upper() == "PERIOD_DT"), None)
         if fic_mis_date and date_col:

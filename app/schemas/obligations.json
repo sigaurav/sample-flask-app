@@ -9,7 +9,7 @@
     "searchable": true
   },
   {
-    "field": "LOANNUMBER",
+    "field": "LOAN_NUMBER",
     "label": "Loan Number",
     "type": "text",
     "width": 110,

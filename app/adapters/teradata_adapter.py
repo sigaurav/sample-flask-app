@@ -11,28 +11,33 @@ Connection config keys (Flask uppercase):
 
 Authentication uses Kerberos / Windows SSO via TDNEGO logon mechanism.
 No username or password is required or stored.
+
+Add one entry to _QUERY_MAP per entity.  Each query must accept two
+positional (?) parameters in order: SOR, fic_mis_date.  Everything else —
+joins, CTEs, column aliases — goes directly in the SQL.
 """
 
 from __future__ import annotations
 
-from typing import Any, Dict, List, Optional, Tuple
+from typing import Any, Dict, List, Optional
 
 import pandas as pd
 
 from app.adapters.base_adapter import BaseAdapter
 
 
-_TABLE_MAP: Dict[str, str] = {
-    "facilities":  "h1_facilities",
-    "obligations": "h1_obligations",
-    "property":    "h1_property",
-}
-
-
 class TeradataAdapter(BaseAdapter):
-    """Teradata adapter using SSO Kerberos/TDNEGO authentication."""
 
     source_type = "teradata"
+
+    # One entry per entity.  Positional ? parameter: fic_mis_date
+    _QUERY_MAP: Dict[str, str] = {
+        # "facilities": """
+        #     SELECT *
+        #     FROM   "SCHEMA"."H1_FACILITIES"
+        #     WHERE  "PERIOD_DT" = ?
+        # """,
+    }
 
     def __init__(self, config: Dict[str, Any]) -> None:
         super().__init__(config)
@@ -41,54 +46,25 @@ class TeradataAdapter(BaseAdapter):
         self._db     = config.get("TERADATA_DB", "")
         self._schema = config.get("TERADATA_SCHEMA", "") or config.get("TERADATA_DB", "")
 
-    # ── Connection ────────────────────────────────────────────────────────────
-
     def _get_connection(self):
         try:
             import teradatasql
         except ImportError:
-            raise RuntimeError(
-                "teradatasql is required for Teradata: pip install teradatasql"
-            )
+            raise RuntimeError("teradatasql is required for Teradata: pip install teradatasql")
         return teradatasql.connect(
             host     = self._host,
             dbs_port = str(self._port),
             database = self._db,
-            logmech  = "TDNEGO",   # SSO — negotiates Kerberos or LDAP automatically
+            logmech  = "TDNEGO",
         )
 
-    # ── SQL builder ───────────────────────────────────────────────────────────
-
-    def _build_query(
-        self,
-        entity_type:  str,
-        entity_key:   Optional[Dict[str, str]],
-        sor:          str,
-        fic_mis_date: str,
-    ) -> Tuple[str, List]:
-        """Return (sql_string, positional_params_list) for teradatasql ? binding."""
-        cols   = self._get_select_cols(entity_type)
-        select = "*" if cols == ["*"] else ", ".join(f'"{c}"' for c in cols)
-        table  = _TABLE_MAP[entity_type]
-        conditions = []
-        params: List[Any] = []
-
-        if sor:
-            conditions.append('"FACLTY_SOR_ID" = ?')
-            params.append(sor)
-        if fic_mis_date:
-            conditions.append('"PERIOD_DT" = ?')
-            params.append(fic_mis_date)
-        if entity_key:
-            for field, val in entity_key.items():
-                conditions.append(f'"{field}" = ?')
-                params.append(val)
-
-        where = f" WHERE {' AND '.join(conditions)}" if conditions else ""
-        sql   = f'SELECT {select} FROM "{self._schema}"."{table}"{where}'
-        return sql, params
-
-    # ── Public interface ──────────────────────────────────────────────────────
+    def _get_query(self, entity_type: str) -> str:
+        sql = self._QUERY_MAP.get(entity_type)
+        if not sql:
+            raise KeyError(
+                f"No query defined for '{entity_type}' in TeradataAdapter._QUERY_MAP"
+            )
+        return sql
 
     def fetch(
         self,
@@ -98,14 +74,20 @@ class TeradataAdapter(BaseAdapter):
         sorts:       Optional[List]           = None,
     ) -> pd.DataFrame:
         filters      = dict(filters or {})
-        sor          = filters.pop("_sor", "")
         fic_mis_date = filters.pop("_fic_mis_date", "")
+        filters.pop("_sor", None)
 
-        sql, params = self._build_query(entity_type, entity_key, sor, fic_mis_date)
+        sql    = self._get_query(entity_type)
+        params = [fic_mis_date]
         self.log.debug("TeradataAdapter SQL: %s  params=%s", sql, params)
 
         with self._get_connection() as con:
-            df = pd.read_sql(sql, con, params=params if params else None)
+            df = pd.read_sql(sql, con, params=params)
+
+        if entity_key:
+            for field, val in entity_key.items():
+                if field in df.columns:
+                    df = df[df[field] == str(val)].reset_index(drop=True)
 
         col_filters = filters.get("col_filters", {})
         if col_filters:
@@ -122,22 +104,14 @@ class TeradataAdapter(BaseAdapter):
         return df
 
     def introspect_columns(self, entity_type: str) -> List[str]:
-        cols = self._get_select_cols(entity_type)
-        if cols != ["*"]:
-            return cols
-
-        table = _TABLE_MAP.get(entity_type)
-        if not table:
-            raise ValueError(f"Unknown entity_type '{entity_type}'")
-
-        sql = (
-            "SELECT ColumnName FROM DBC.ColumnsV "
-            f"WHERE DatabaseName = '{self._db}' AND TableName = '{table}' "
-            "ORDER BY ColumnId"
-        )
+        sql = self._get_query(entity_type)
         with self._get_connection() as con:
-            df = pd.read_sql(sql, con)
-        return df["ColumnName"].tolist()
+            df = pd.read_sql(
+                f"SELECT * FROM ({sql}) AS _q WHERE 1=0",
+                con,
+                params=[""],
+            )
+        return df.columns.tolist()
 
     def health_check(self) -> bool:
         try:

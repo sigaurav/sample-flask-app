@@ -59,9 +59,9 @@ class CSVAdapter(BaseAdapter):
         df      = self._load(entity_type).copy()
         filters = dict(filters or {})
 
-        sor          = filters.pop("_sor", "")
         fic_mis_date = filters.pop("_fic_mis_date", "")
-        df = self._apply_context_filter(df, sor, fic_mis_date)
+        filters.pop("_sor", None)
+        df = self._apply_context_filter(df, fic_mis_date)
 
         if entity_key:
             for field, val in entity_key.items():
@@ -82,8 +82,8 @@ class CSVAdapter(BaseAdapter):
             df = df[[c for c in cols if c in df.columns]]
 
         self.log.debug(
-            "CSVAdapter.fetch entity=%s entity_key=%s sor=%r rows_returned=%d",
-            entity_type, entity_key, sor, len(df),
+            "CSVAdapter.fetch entity=%s entity_key=%s rows_returned=%d",
+            entity_type, entity_key, len(df),
         )
         return df
 

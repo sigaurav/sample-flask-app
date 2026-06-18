@@ -32,13 +32,13 @@ const EntityPage = (function () {
 
   async function _loadData(entityType, grid, search = '') {
     const ctx = ContextBar.getContext();
-    if (!ctx.sor || !ctx.fic_mis_date) {
+    if (!ctx.fic_mis_date) {
       grid.setData([]);
       ApiUtils.updateKpi([], () => false);
       return false;
     }
     try {
-      const url  = ApiUtils.buildUrl(`/api/${entityType}`, { per_page: 500, search });
+      const url  = ApiUtils.buildUrl(`/api/${entityType}`, { per_page: APP_CONFIG.maxPageSize, search });
       const resp = await ApiUtils.get(url);
       const data = resp.data || [];
       grid.setData(data);
@@ -55,7 +55,9 @@ const EntityPage = (function () {
 
   async function init(entityType) {
     const schema   = await _getSchema(entityType);
-    const children = ((APP_CONFIG.entities || {})[entityType] || {}).children || {};
+    const entityCfg = (APP_CONFIG.entities || {})[entityType] || {};
+    const children  = entityCfg.children || {};
+    const pkCols    = entityCfg.pk || [];
 
     const drillHandlers = {};
     Object.keys(children).forEach(childEntity => {
@@ -68,7 +70,11 @@ const EntityPage = (function () {
     const grid = new GridManager(
       entityType + 'Grid',
       buildColumnsFromSchema(schema, drillHandlers),
-      { paginationPageSize: 25, paginationPageSizeSelector: [10, 25, 50, 100] },
+      {
+        paginationPageSize:         25,
+        paginationPageSizeSelector: [10, 25, 50, 100],
+        initialSort: pkCols.map(f => ({ field: f, dir: 'asc' })),
+      },
     ).init();
 
     ApiUtils.wireGridToolbar(grid, (search) => _loadData(entityType, grid, search));
@@ -80,8 +86,8 @@ const EntityPage = (function () {
     const loaded = await _loadData(entityType, grid);
     if (loaded === false) {
       Toast.info(
-        'Select query context',
-        'Choose a SOR and Date in the bar above, then click Load Data.',
+        'Select report date',
+        'Enter a report date in the bar above, then click Load Data.',
         undefined, 5000,
       );
     }

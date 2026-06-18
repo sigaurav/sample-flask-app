@@ -50,8 +50,8 @@ class ReportingService:
             list(self._entities),
         )
 
-    def _ctx(self, sor: str, fic_mis_date: str) -> dict:
-        return {"_sor": sor, "_fic_mis_date": fic_mis_date}
+    def _ctx(self, fic_mis_date: str) -> dict:
+        return {"_fic_mis_date": fic_mis_date}
 
     # ── Generic entry point ────────────────────────────────────────────────────
 
@@ -61,12 +61,13 @@ class ReportingService:
         entity_key:   Optional[dict] = None,
         search:       str  = "",
         page:         int  = 1,
-        per_page:     int  = 50,
-        sor:          str  = "",
+        per_page:     Optional[int]  = None,
         fic_mis_date: str  = "",
     ) -> dict[str, Any]:
+        if per_page is None:
+            per_page = (self._config or {}).get("DEFAULT_PAGE_SIZE", 50)
         adapter = self._data_service.get_adapter_for_entity(entity_type)
-        ctx     = self._ctx(sor, fic_mis_date)
+        ctx     = self._ctx(fic_mis_date)
 
         df = adapter.fetch(entity_type, entity_key=entity_key,
                            filters={"quick_filter": search, **ctx})
@@ -76,8 +77,8 @@ class ReportingService:
         df_page = BaseRepository.paginate(df, page, per_page)
         records = _schema_coerce_records(df_page, entity_type)
         log.debug(
-            "get_entity entity=%s entity_key=%s sor=%r -> %d/%d",
-            entity_type, entity_key, sor, len(records), total,
+            "get_entity entity=%s entity_key=%s fic_mis_date=%r -> %d/%d",
+            entity_type, entity_key, fic_mis_date, len(records), total,
         )
         return {"records": records, "total": total, "page": page, "per_page": per_page}
 
@@ -88,18 +89,25 @@ class ReportingService:
     ) -> pd.DataFrame:
         children = self._entities.get(entity_type, {}).get("children", {})
         for child_entity, child_cfg in children.items():
-            count_col = child_cfg.get("count_col", child_entity.upper() + "_COUNT")
-            fk_cols   = child_cfg["fk"]
+            count_col     = child_cfg.get("count_col", child_entity.upper() + "_COUNT")
+            fk_cols       = child_cfg["fk"]
+            child_fk_cols = child_cfg["child_fk"]
+
             child_adapter = self._data_service.get_adapter_for_entity(child_entity)
-            child_df = child_adapter.fetch(child_entity, filters=ctx)
-            if (not child_df.empty
-                    and all(c in child_df.columns for c in fk_cols)
-                    and all(c in df.columns for c in fk_cols)):
+            child_df      = child_adapter.fetch(child_entity, filters=ctx)
+
+            parent_ok = all(c in df.columns for c in fk_cols)
+            child_ok  = all(c in child_df.columns for c in child_fk_cols)
+
+            if not child_df.empty and parent_ok and child_ok:
                 if len(fk_cols) == 1:
-                    counts = child_df.groupby(fk_cols[0]).size()
+                    counts = child_df.groupby(child_fk_cols[0]).size()
                     df[count_col] = df[fk_cols[0]].map(counts).fillna(0).astype(int)
                 else:
-                    counts = child_df.groupby(fk_cols).size()
+                    # Rename child FK cols to parent names so groupby keys align
+                    rename = {c: p for c, p in zip(child_fk_cols, fk_cols) if c != p}
+                    child_keyed = child_df.rename(columns=rename)
+                    counts = child_keyed.groupby(fk_cols).size()
                     df[count_col] = (
                         pd.MultiIndex.from_frame(df[fk_cols])
                         .map(counts)

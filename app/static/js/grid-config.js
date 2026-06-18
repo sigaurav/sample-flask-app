@@ -56,6 +56,21 @@ const CellRenderer = (function () {
     return isNaN(n) ? params.value : '$' + n.toLocaleString('en-US', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
   }
 
+  function date(params) {
+    const v = params.value;
+    if (v === null || v === undefined || v === '') return '';
+    const s = String(v).trim();
+    // Already yyyy-mm-dd (possibly with trailing time component)
+    if (/^\d{4}-\d{2}-\d{2}/.test(s)) return s.slice(0, 10);
+    // Parse and reformat using UTC parts to avoid timezone-shift off-by-one
+    const d = new Date(s);
+    if (isNaN(d.getTime())) return s;
+    const yyyy = d.getUTCFullYear();
+    const mm   = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const dd   = String(d.getUTCDate()).padStart(2, '0');
+    return `${yyyy}-${mm}-${dd}`;
+  }
+
   function drillDownLink(params, clickHandler) {
     const val = parseInt(params.value, 10) || 0;
     if (val === 0) {
@@ -75,7 +90,7 @@ const CellRenderer = (function () {
     return a;
   }
 
-  return { status, riskRating, utilisation, money, drillDownLink };
+  return { status, riskRating, utilisation, money, date, drillDownLink };
 
 }());
 
@@ -132,6 +147,9 @@ function buildColumnsFromSchema(schema, drillHandlers) {
       base.cellClass    = 'cell-numeric';
       base._alignRight  = true;
 
+    } else if (col.type === 'date') {
+      base.cellRenderer = CellRenderer.date;
+
     } else if (col.renderer && CellRenderer[col.renderer]) {
       base.cellRenderer = CellRenderer[col.renderer];
       if (col.type === 'number') { base.cellClass = 'cell-numeric'; base._alignRight = true; }
@@ -162,7 +180,7 @@ class GridManager {
     this._filteredData = [];
 
     // Multi-column sort state: [{field, dir}] in priority order (index 0 = primary).
-    this._sortState = [];
+    this._sortState = options.initialSort ? [...options.initialSort] : [];
 
     // Pagination state
     this._page     = 0;
@@ -1062,8 +1080,7 @@ class GridManager {
     } else {
       // ── Text / numeric filter ────────────────────────────────────────────────
       const textOps    = [['contains','Contains'],['equals','Equals'],['startsWith','Starts with']];
-      const numericOps = [['numEq','Equals'],['gt','Greater than'],['gte','≥'],
-                          ['lt','Less than'],['lte','≤']];
+      const numericOps = [['numEq','='],['gt','>'],['gte','≥'],['lt','<'],['lte','≤']];
 
       const opSel = document.createElement('select');
       opSel.className = 'wf-cfp-op';

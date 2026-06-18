@@ -19,11 +19,8 @@ def _parse_pagination() -> tuple[int, int]:
     return page, per_page
 
 
-def _parse_context() -> tuple[str, str]:
-    return (
-        request.args.get("sor",          "").strip(),
-        request.args.get("fic_mis_date", "").strip(),
-    )
+def _parse_context() -> str:
+    return request.args.get("fic_mis_date", "").strip()
 
 
 # ── Schema endpoint (registered first so literal "schema" beats /<entity_type>) ──
@@ -48,12 +45,12 @@ def get_entity(entity_type: str):
     if entity_type not in entities:
         return error_response(f"Unknown entity: '{entity_type}'", 404)
     try:
-        page, per_page    = _parse_pagination()
-        search            = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
+        page, per_page = _parse_pagination()
+        search         = request.args.get("search", "").strip()
+        fic_mis_date   = _parse_context()
         result = current_app.reporting_service.get_entity(
             entity_type, search=search, page=page, per_page=per_page,
-            sor=sor, fic_mis_date=fic_mis_date,
+            fic_mis_date=fic_mis_date,
         )
         return paginated_response(
             data=result["records"], total=result["total"],
@@ -78,15 +75,22 @@ def get_child_entity(parent_entity: str, child_entity: str):
             f"'{child_entity}' is not a declared child of '{parent_entity}'", 404
         )
     try:
-        page, per_page    = _parse_pagination()
-        search            = request.args.get("search", "").strip()
-        sor, fic_mis_date = _parse_context()
-        fk_cols    = children[child_entity]["fk"]
+        page, per_page = _parse_pagination()
+        search         = request.args.get("search", "").strip()
+        fic_mis_date   = _parse_context()
+        fk_cols       = children[child_entity]["fk"]
+        child_fk_cols = children[child_entity]["child_fk"]
+
+        # URL params use parent-side column names; entity_key uses child-side names
         fk_vals    = {col: request.args.get(col, "").strip() for col in fk_cols}
-        entity_key = fk_vals if all(fk_vals.values()) else None
+        entity_key = (
+            {child_col: fk_vals[parent_col]
+             for parent_col, child_col in zip(fk_cols, child_fk_cols)}
+            if all(fk_vals.values()) else None
+        )
         result = current_app.reporting_service.get_entity(
             child_entity, entity_key=entity_key, search=search,
-            page=page, per_page=per_page, sor=sor, fic_mis_date=fic_mis_date,
+            page=page, per_page=per_page, fic_mis_date=fic_mis_date,
         )
         return paginated_response(
             data=result["records"], total=result["total"],

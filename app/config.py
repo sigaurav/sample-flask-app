@@ -39,7 +39,7 @@ class BaseConfig:
 
     # ── Pagination ─────────────────────────────────────────────────────────────
     DEFAULT_PAGE_SIZE: int = 50
-    MAX_PAGE_SIZE:     int = 500
+    MAX_PAGE_SIZE:     int = 100_000
 
     # ── Async export worker ────────────────────────────────────────────────────
     EXPORT_WORKER_THREADS: int = 4   # ThreadPoolExecutor max_workers
@@ -60,18 +60,24 @@ class BaseConfig:
     # ── Entity graph ───────────────────────────────────────────────────────────
     # Single source of truth for all entity configuration.
     #
-    # source      : adapter that owns this entity's data ("csv", "dremio",
-    #               "sqlserver", "teradata")
-    # pk          : primary-key column(s) for this entity
-    # label_field : column used as the human-readable label in breadcrumbs
+    # source        : adapter that owns this entity's data
+    #                 ("csv", "dremio", "sqlserver", "teradata")
+    #                 DB adapters resolve the SQL from their _QUERY_MAP; CSV
+    #                 reads <entity_type>.csv from DATA_DIR.
+    # pk            : primary-key column(s) for this entity
+    # label_field   : column used as the human-readable label in breadcrumbs
     # active_filter : optional {"field": col, "value": val} for the KPI strip
-    # columns     : column selection passed to the adapter; ["*"] fetches all
-    # children    : dict of child-entity → relationship config
-    #   fk        : FK column(s) on the child table that link to this parent
-    #   count_col : computed count column added to this entity's rows
+    # columns       : column selection for the adapter fallback (ignored when
+    #                 "query" is set); ["*"] fetches all
+    # children      : dict of child-entity -> relationship config
+    #   fk          : FK column(s) on the *parent* table — used as URL params
+    #                 and for the parent-side groupby when computing counts
+    #   child_fk    : FK column(s) on the *child* table — REQUIRED even when
+    #                 names are identical to "fk"; makes the join explicit
+    #   count_col   : computed count column added to this entity's rows
     #
     # To add a new entity: add one block here, create its data file and schema
-    # JSON, add a page template and sidebar link.  No other code changes needed.
+    # JSON, and add a sidebar link.  No other code changes needed.
     ENTITIES: dict = {
         "facilities": {
             "source":        "csv",
@@ -83,10 +89,12 @@ class BaseConfig:
             "children": {
                 "obligations": {
                     "fk":        ["LOANNUMBER"],
+                    "child_fk":  ["LOAN_NUMBER"],
                     "count_col": "OBLIGATION_COUNT",
                 },
                 "property": {
                     "fk":        ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+                    "child_fk":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
                     "count_col": "PROPERTY_COUNT",
                 },
             },
@@ -100,6 +108,7 @@ class BaseConfig:
             "children": {
                 "property": {
                     "fk":        ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+                    "child_fk":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
                     "count_col": "PROPERTY_COUNT",
                 },
             },

@@ -49,11 +49,9 @@ const ApiUtils = (function () {
   function _withContext(url) {
     try {
       const ctx = JSON.parse(localStorage.getItem('wf_query_context') || '{}');
-      const params = [];
-      if (ctx.sor)          params.push('sor='          + encodeURIComponent(ctx.sor));
-      if (ctx.fic_mis_date) params.push('fic_mis_date=' + encodeURIComponent(ctx.fic_mis_date));
-      if (!params.length) return url;
-      return url + (url.includes('?') ? '&' : '?') + params.join('&');
+      if (!ctx.fic_mis_date) return url;
+      const sep = url.includes('?') ? '&' : '?';
+      return url + sep + 'fic_mis_date=' + encodeURIComponent(ctx.fic_mis_date);
     } catch (_) { return url; }
   }
 

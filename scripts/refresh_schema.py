@@ -6,8 +6,9 @@ Usage:
     python scripts/refresh_schema.py --entity facilities --apply
     python scripts/refresh_schema.py --all
 
-The script uses whichever adapter is currently configured in ENABLED_DATA_SOURCES
-(csv / dremio / sqlserver) — set FLASK_ENV to target a specific environment.
+The script reads ENTITIES config directly (no Flask app needed) and creates only
+the adapter required by each entity being checked. Set FLASK_ENV to target a
+specific environment.
 
     FLASK_ENV=production python scripts/refresh_schema.py --all
 
@@ -34,6 +35,52 @@ sys.path.insert(0, _PROJECT_ROOT)
 _CONTEXT_COLUMNS = {"SOR", "FIC_MIS_DATE"}
 
 
+def _load_config() -> dict:
+    """Load Flask config without starting the app or initialising any adapters."""
+    from app.config import config_map
+    name = os.getenv("FLASK_ENV", "development")
+    cls  = config_map.get(name, config_map.get("default"))
+    if cls is None:
+        raise RuntimeError(f"No config found for FLASK_ENV={name!r}")
+    cfg = {}
+    for key in dir(cls):
+        if not key.startswith("_"):
+            cfg[key] = getattr(cls, key)
+    if "DATA_DIR" not in cfg or not cfg["DATA_DIR"]:
+        cfg["DATA_DIR"] = os.path.join(_PROJECT_ROOT, "data")
+    return cfg
+
+
+def _get_adapter(config: dict, entity_type: str):
+    """Instantiate only the adapter needed for this entity — no other adapters are touched."""
+    entities = config.get("ENTITIES", {})
+    source   = entities.get(entity_type, {}).get("source", "csv")
+
+    if source == "csv":
+        from app.adapters.csv_adapter import CSVAdapter
+        return CSVAdapter(config)
+
+    if source == "dremio":
+        from app.adapters.dremio_adapter import DremioAdapter
+        try:
+            from app.security.windows_credential_provider import WindowsCredentialProvider
+            cp = WindowsCredentialProvider()
+        except Exception:
+            cp = None
+        return DremioAdapter(config, cp)
+
+    if source == "sqlserver":
+        from app.adapters.sqlserver_adapter import SQLServerAdapter
+        return SQLServerAdapter(config)
+
+    if source == "teradata":
+        from app.adapters.teradata_adapter import TeradataAdapter
+        return TeradataAdapter(config)
+
+    from app.adapters.csv_adapter import CSVAdapter
+    return CSVAdapter(config)
+
+
 def _infer_type(field: str) -> str:
     """Guess a schema type from the column name as a best-effort default."""
     name = field.lower()
@@ -46,24 +93,26 @@ def _infer_type(field: str) -> str:
     return "text"
 
 
-# ── Schema file helpers ───────────────────────────────────────────────────────
+# -- Schema file helpers -------------------------------------------------------
 
-def _load_schema(entity_type: str) -> list[dict]:
+def _load_schema(entity_type: str) -> list:
     path = os.path.join(_SCHEMA_DIR, entity_type + ".json")
+    if not os.path.exists(path):
+        return []
     with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
-def _save_schema(entity_type: str, schema: list[dict]) -> None:
+def _save_schema(entity_type: str, schema: list) -> None:
     path = os.path.join(_SCHEMA_DIR, entity_type + ".json")
     with open(path, "w", encoding="utf-8") as f:
         json.dump(schema, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
 
-# ── Drift detection ───────────────────────────────────────────────────────────
+# -- Drift detection ----------------------------------------------------------
 
-def _diff(entity_type: str, source_cols: list[str]) -> dict:
+def _diff(entity_type: str, source_cols: list) -> dict:
     source_cols = [c for c in source_cols if c not in _CONTEXT_COLUMNS]
     schema      = _load_schema(entity_type)
     schema_live = [c for c in schema if not c.get("computed") and not c.get("deprecated")]
@@ -118,7 +167,7 @@ def _apply_diff(entity_type: str, diff: dict) -> None:
     print(f"  {entity_type}: schema file updated")
 
 
-# ── Entry point ───────────────────────────────────────────────────────────────
+# -- Entry point --------------------------------------------------------------
 
 def main() -> None:
     parser = argparse.ArgumentParser(
@@ -130,10 +179,12 @@ def main() -> None:
     target_group.add_argument("--all",    action="store_true", help="Check all entities")
     args = parser.parse_args()
 
-    # ── Resolve entity list and adapters via the Flask app ────────────────────
-    from app import create_app
-    flask_app    = create_app(os.getenv("FLASK_ENV", "development"))
-    all_entities = list(flask_app.config.get("ENTITIES", {}).keys())
+    config       = _load_config()
+    all_entities = list(config.get("ENTITIES", {}).keys())
+
+    if not all_entities:
+        print("ERROR: No entities found in config. Check FLASK_ENV and app/config.py.")
+        sys.exit(1)
 
     if args.entity:
         if args.entity not in all_entities:
@@ -142,13 +193,13 @@ def main() -> None:
     else:
         entities = all_entities
 
-    print(f"Entities: {entities}  (set FLASK_ENV to switch environment)\n")
+    env = os.getenv("FLASK_ENV", "development")
+    print(f"Entities: {entities}  (FLASK_ENV={env})\n")
 
-    # ── Introspect columns and diff (using the per-entity adapter) ────────────
     print("Checking schema drift...")
-    diffs: dict = {}
+    diffs = {}
     for ent in entities:
-        adapter     = flask_app.data_service.get_adapter_for_entity(ent)
+        adapter     = _get_adapter(config, ent)
         source_cols = adapter.introspect_columns(ent)
         diffs[ent]  = _diff(ent, source_cols)
         _print_diff(ent, diffs[ent])
@@ -162,7 +213,7 @@ def main() -> None:
         print("\nRe-run with --apply to write changes.")
         return
 
-    print("\nApplying changes…")
+    print("\nApplying changes...")
     for ent in entities:
         _apply_diff(ent, diffs[ent])
     print("\nDone. Commit the updated JSON files to preserve the audit trail.")

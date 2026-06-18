@@ -41,3 +41,8 @@ def get_api_fields(entity_type: str) -> list[str]:
 
 def get_numeric_fields(entity_type: str) -> list[str]:
     return [c["field"] for c in get_schema(entity_type) if c["type"] in ("number", "money")]
+
+
+def get_visible_fields(entity_type: str) -> list[dict]:
+    """Return column descriptors for columns shown in the grid (hide != True)."""
+    return [c for c in get_schema(entity_type) if not c.get("hide")]

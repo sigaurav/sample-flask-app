@@ -13,20 +13,13 @@ const ContextBar = (function () {
   function _updateStatus(ctx) {
     const el = document.getElementById('ctx-status');
     if (!el) return;
-    if (ctx.sor && ctx.fic_mis_date) {
-      el.textContent = ctx.sor + '  ·  ' + ctx.fic_mis_date;
+    if (ctx.fic_mis_date) {
+      el.textContent = ctx.fic_mis_date;
       el.className   = 'context-bar-status has-context';
     } else {
-      el.textContent = 'Select SOR and date, then click Load Data';
+      el.textContent = 'Enter a report date, then click Load Data';
       el.className   = 'context-bar-status';
     }
-  }
-
-  function _setActiveSor(group, value) {
-    group.querySelectorAll('.ctx-seg-btn').forEach(function (btn) {
-      btn.classList.toggle('active', btn.dataset.value === value);
-      btn.setAttribute('aria-pressed', btn.dataset.value === value ? 'true' : 'false');
-    });
   }
 
   // Auto-insert dashes while typing: 2026 → 2026- → 2026-06- → 2026-06-11
@@ -42,33 +35,12 @@ const ContextBar = (function () {
   }
 
   (function init() {
-    const sorGroup = document.getElementById('ctx-sor-group');
-    const dateIn   = document.getElementById('ctx-date');
-    const loadBtn  = document.getElementById('ctx-load-btn');
-    if (!sorGroup || !dateIn || !loadBtn) return;
-
-    // Build segmented buttons from APP_CONFIG
-    let selectedSor = '';
-    (window.APP_CONFIG?.enabledSors || []).forEach(function (s) {
-      const btn = document.createElement('button');
-      btn.type = 'button';
-      btn.className = 'ctx-seg-btn';
-      btn.dataset.value = s;
-      btn.textContent = s;
-      btn.setAttribute('aria-pressed', 'false');
-      btn.addEventListener('click', function () {
-        selectedSor = s;
-        _setActiveSor(sorGroup, s);
-      });
-      sorGroup.appendChild(btn);
-    });
+    const dateIn  = document.getElementById('ctx-date');
+    const loadBtn = document.getElementById('ctx-load-btn');
+    if (!dateIn || !loadBtn) return;
 
     // Restore last-used context
     const saved = getContext();
-    if (saved.sor) {
-      selectedSor = saved.sor;
-      _setActiveSor(sorGroup, saved.sor);
-    }
     if (saved.fic_mis_date) {
       dateIn.value = saved.fic_mis_date;
       dateIn.classList.add('has-value');
@@ -77,10 +49,10 @@ const ContextBar = (function () {
     _autoFormatDate(dateIn);
 
     loadBtn.addEventListener('click', function () {
-      const ctx = { sor: selectedSor, fic_mis_date: dateIn.value.trim() };
-      if (!ctx.sor || !ctx.fic_mis_date) {
+      const ctx = { fic_mis_date: dateIn.value.trim() };
+      if (!ctx.fic_mis_date) {
         if (typeof Toast !== 'undefined') {
-          Toast.warning('Query context required', 'Please select a SOR and enter a date before loading data.');
+          Toast.warning('Query context required', 'Please enter a report date before loading data.');
         }
         return;
       }

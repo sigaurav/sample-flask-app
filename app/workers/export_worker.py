@@ -143,6 +143,13 @@ def _run_export(job_id: str, datasource: "BaseAdapter", export_dir: str) -> None
 def _serialize(df, job: "ExportJob", export_dir: str) -> str:
     """Write *df* to *export_dir* and return the absolute file path."""
     import pandas as pd  # local import — worker threads don't always share the GIL
+    from app.schemas import get_visible_fields
+
+    # Keep only visible (non-hidden) columns; rename to schema labels.
+    visible   = get_visible_fields(job.entity_type)
+    present   = [c["field"] for c in visible if c["field"] in df.columns]
+    label_map = {c["field"]: c["label"] for c in visible}
+    df = df[present].rename(columns=label_map)
 
     os.makedirs(export_dir, exist_ok=True)
     stem = f"{job.job_id}_{job.entity_type}_{job.export_type}"
