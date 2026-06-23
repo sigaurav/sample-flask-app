@@ -1189,3 +1189,104 @@
 2026-06-23 12:16:34,301 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3e2083bf8f91 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
 2026-06-23 12:16:34,308 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3e2083bf8f91 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
 2026-06-23 12:16:34,372 | DEBUG    | app.services.reporting_service | req=3e2083bf8f91 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 5/19766
+2026-06-23 13:33:59,524 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:33:59,524 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:33:59,531 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:33:59,531 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:33:59,559 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:01,108 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:01,109 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:01,115 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:01,115 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:01,141 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:11,926 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:11,926 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:11,935 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:11,935 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:11,962 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:13,581 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:13,581 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:13,588 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:13,588 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:13,614 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:21,248 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:21,248 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:21,257 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:21,257 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:21,283 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:22,233 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:22,233 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:22,240 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:22,240 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:22,268 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:29,793 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:29,793 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:29,802 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:29,802 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:29,829 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:34:31,250 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:34:31,250 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:34:31,258 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:34:31,258 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:34:31,285 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:35:01,677 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:35:01,677 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:35:01,821 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=ed7e17a43fc1 user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-06-23 13:35:01,830 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=ed7e17a43fc1 user=anonymous | CSVAdapter.fetch entity=obligations entity_key={'LOAN_NUMBER': 'LN-001'} rows_returned=2
+2026-06-23 13:35:01,832 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=ed7e17a43fc1 user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-06-23 13:35:01,834 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=ed7e17a43fc1 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-06-23 13:35:01,846 | DEBUG    | app.services.reporting_service | req=ed7e17a43fc1 user=anonymous | get_entity entity=obligations entity_key={'LOAN_NUMBER': 'LN-001'} fic_mis_date='2024-01-31' -> 2/2
+2026-06-23 13:52:17,245 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:52:17,246 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:52:17,253 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:52:17,253 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:52:17,360 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:52:17,475 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:52:17,475 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property'])
+2026-06-23 13:52:17,483 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:52:17,483 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:52:17,510 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:52:24,936 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:52:24,936 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-06-23 13:52:24,945 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:52:24,945 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:52:24,973 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:52:25,119 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:52:25,119 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-06-23 13:52:25,126 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:52:25,126 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:52:25,153 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:52:53,548 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:52:53,548 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-06-23 13:52:53,556 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:52:53,556 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:52:53,588 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:52:53,775 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:52:53,775 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-06-23 13:52:53,783 | INFO     | app | req=- user=- | Application created with config: development
+2026-06-23 13:52:53,783 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-06-23 13:52:53,809 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-06-23 13:53:16,302 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:53:16,303 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-06-23 13:53:16,685 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e18e5a6f078e user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-06-23 13:53:16,690 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e18e5a6f078e user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-06-23 13:53:16,693 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e18e5a6f078e user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-06-23 13:53:16,694 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e18e5a6f078e user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-06-23 13:53:16,707 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e18e5a6f078e user=anonymous | CSVAdapter loaded entity=errors rows=18 path=F:\Office\SampleApp4\data\errors.csv
+2026-06-23 13:53:16,708 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e18e5a6f078e user=anonymous | CSVAdapter.fetch entity=errors entity_key=None rows_returned=18
+2026-06-23 13:53:16,721 | DEBUG    | app.services.reporting_service | req=e18e5a6f078e user=anonymous | get_entity entity=obligations entity_key=None fic_mis_date='2024-01-31' -> 12/12
+2026-06-23 13:53:16,725 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b1a4eae3d1b4 user=anonymous | CSVAdapter.fetch entity=errors entity_key={'RECORD_ID': '1001|OBL-001|OBLGR-001|FAC-001|OBLGR-001|1SOR|1001|1SOR|1001|OBLGR-001|1SOR|OBL-AU-001'} rows_returned=2
+2026-06-23 13:53:16,726 | DEBUG    | app.services.reporting_service | req=b1a4eae3d1b4 user=anonymous | get_entity entity=errors entity_key={'RECORD_ID': '1001|OBL-001|OBLGR-001|FAC-001|OBLGR-001|1SOR|1001|1SOR|1001|OBLGR-001|1SOR|OBL-AU-001'} fic_mis_date='2024-01-31' -> 2/2
+2026-06-23 13:54:05,083 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-06-23 13:54:05,083 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-06-23 13:54:05,226 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a6ece53c2145 user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-06-23 13:54:05,231 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a6ece53c2145 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-06-23 13:54:05,233 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a6ece53c2145 user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-06-23 13:54:05,234 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a6ece53c2145 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-06-23 13:54:05,242 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a6ece53c2145 user=anonymous | CSVAdapter loaded entity=errors rows=18 path=F:\Office\SampleApp4\data\errors.csv
+2026-06-23 13:54:05,243 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a6ece53c2145 user=anonymous | CSVAdapter.fetch entity=errors entity_key=None rows_returned=18
+2026-06-23 13:54:05,255 | DEBUG    | app.services.reporting_service | req=a6ece53c2145 user=anonymous | get_entity entity=obligations entity_key=None fic_mis_date='2024-01-31' -> 12/12
+2026-06-23 13:54:05,258 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=df334cf09b71 user=anonymous | CSVAdapter.fetch entity=errors entity_key={'RECORD_ID': '1003|OBL-005|OBLGR-003|FAC-003|OBLGR-003|1SOR|1003|1SOR|1003|OBLGR-003|1SOR|OBL-AU-003'} rows_returned=3
+2026-06-23 13:54:05,260 | DEBUG    | app.services.reporting_service | req=df334cf09b71 user=anonymous | get_entity entity=errors entity_key={'RECORD_ID': '1003|OBL-005|OBLGR-003|FAC-003|OBLGR-003|1SOR|1003|1SOR|1003|OBLGR-003|1SOR|OBL-AU-003'} fic_mis_date='2024-01-31' -> 3/3
+2026-06-23 13:54:05,262 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=4bf4015ae73a user=anonymous | CSVAdapter.fetch entity=errors entity_key={'RECORD_ID': '1004|OBL-006|OBLGR-004|FAC-004|OBLGR-004|1SOR|1004|1SOR|1004|OBLGR-004|1SOR|OBL-AU-004'} rows_returned=0
+2026-06-23 13:54:05,263 | DEBUG    | app.services.reporting_service | req=4bf4015ae73a user=anonymous | get_entity entity=errors entity_key={'RECORD_ID': '1004|OBL-006|OBLGR-004|FAC-004|OBLGR-004|1SOR|1004|1SOR|1004|OBLGR-004|1SOR|OBL-AU-004'} fic_mis_date='2024-01-31' -> 0/0

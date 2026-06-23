@@ -105,6 +105,18 @@ class BaseConfig:
                     "child_fk":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
                     "count_col": "PROPERTY_COUNT",
                 },
+                "errors": {
+                    "fk": [
+                        "FACLTY_BNK_NBR_ID", "OBLGN_ID", "OBLGN_OBLGR_ID",
+                        "FACLTY_ID", "FACLTY_OBLGR_ID", "FACLTY_SOR_ID",
+                        "OBLGN_BNK_NBR_ID", "OBLGN_SOR_ID",
+                        "OBLGR_BNK_NBR_ID", "OBLGR_ID", "OBLGR_SOR_ID",
+                        "OBLGN_AU_CD",
+                    ],
+                    "child_fk":          ["RECORD_ID"],
+                    "concat_separator":  "|",
+                    "count_col":         "ERROR_COUNT",
+                },
             },
         },
         "property": {
@@ -112,6 +124,14 @@ class BaseConfig:
             "label":       "Property",
             "pk":          ["PRPRTY_ID"],
             "label_field": "PRPRTY_ID",
+            "columns":     ["*"],
+            "children":    {},
+        },
+        "errors": {
+            "source":      "csv",
+            "label":       "Data Load Errors",
+            "pk":          ["ID"],
+            "label_field": "ID",
             "columns":     ["*"],
             "children":    {},
         },

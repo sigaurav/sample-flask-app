@@ -1,0 +1,11 @@
+[
+  {"field": "ID",          "label": "Error ID",      "type": "text",   "width": 110, "pinned": "left", "searchable": true},
+  {"field": "RULE_ID",     "label": "Rule",          "type": "text",   "width": 100, "searchable": true},
+  {"field": "COLUMN_NAME", "label": "Column",        "type": "text",   "flex": 1, "minWidth": 140, "searchable": true},
+  {"field": "FAIL_REASON", "label": "Failure Reason", "type": "text",  "flex": 2, "minWidth": 180, "searchable": true},
+  {"field": "VALUE",       "label": "Value",          "type": "text",  "width": 120},
+  {"field": "BATCH_ID",    "label": "Batch",          "type": "text",  "width": 140, "searchable": true},
+  {"field": "RUN_DATE",    "label": "Run Date",       "type": "date",  "width": 110},
+  {"field": "PERIOD_DT",   "label": "Period Date",    "type": "date",  "width": 110, "hide": true},
+  {"field": "RECORD_ID",   "label": "Record ID",      "type": "text",  "flex": 2, "minWidth": 200, "hide": true}
+]

@@ -15,6 +15,7 @@ _REGISTRY_FILES: dict[str, str] = {
     "facilities":   "facilities.json",
     "obligations":  "obligations.json",
     "property":     "property.json",
+    "errors":       "errors.json",
 }
 
 _CACHE: dict[str, list] = {}

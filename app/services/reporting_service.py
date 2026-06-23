@@ -142,6 +142,7 @@ class ReportingService:
             count_col     = child_cfg.get("count_col", child_entity.upper() + "_COUNT")
             fk_cols       = child_cfg["fk"]
             child_fk_cols = child_cfg["child_fk"]
+            concat_sep    = child_cfg.get("concat_separator")
 
             child_adapter = self._data_service.get_adapter_for_entity(child_entity)
             child_df      = child_adapter.fetch(child_entity, filters=ctx)
@@ -150,11 +151,15 @@ class ReportingService:
             child_ok  = all(c in child_df.columns for c in child_fk_cols)
 
             if not child_df.empty and parent_ok and child_ok:
-                if len(fk_cols) == 1:
+                if concat_sep:
+                    # Many-to-one: concatenate parent columns → match child's single column
+                    concat_key = df[fk_cols].astype(str).agg(concat_sep.join, axis=1)
+                    counts = child_df.groupby(child_fk_cols[0]).size()
+                    df[count_col] = concat_key.map(counts).fillna(0).astype(int)
+                elif len(fk_cols) == 1:
                     counts = child_df.groupby(child_fk_cols[0]).size()
                     df[count_col] = df[fk_cols[0]].map(counts).fillna(0).astype(int)
                 else:
-                    # Rename child FK cols to parent names so groupby keys align
                     rename = {c: p for c, p in zip(child_fk_cols, fk_cols) if c != p}
                     child_keyed = child_df.rename(columns=rename)
                     counts = child_keyed.groupby(fk_cols).size()

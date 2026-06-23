@@ -725,5 +725,14 @@
     "pinned": "right",
     "computed": true,
     "drill_target": "property"
+  },
+  {
+    "field": "ERROR_COUNT",
+    "label": "Errors",
+    "type": "drill",
+    "width": 100,
+    "pinned": "right",
+    "computed": true,
+    "drill_target": "errors"
   }
 ]

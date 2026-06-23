@@ -23,6 +23,16 @@ def _parse_context() -> str:
     return request.args.get("fic_mis_date", "").strip()
 
 
+def _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep=None):
+    if not fk_vals or not all(fk_vals.get(c) for c in fk_cols):
+        return None
+    if concat_sep:
+        concat_val = concat_sep.join(str(fk_vals.get(c, "")) for c in fk_cols)
+        return {child_fk_cols[0]: concat_val}
+    return {child_col: fk_vals.get(parent_col, "")
+            for parent_col, child_col in zip(fk_cols, child_fk_cols)}
+
+
 #  Schema endpoint (registered first so literal "schema" beats /<entity_type>) 
 
 @api_bp.route("/schema/<entity_type>", methods=["GET"])
@@ -89,15 +99,13 @@ def query_child_entity(parent_entity: str, child_entity: str):
             payload.get("per_page", current_app.config["DEFAULT_PAGE_SIZE"]),
             current_app.config["MAX_PAGE_SIZE"],
         ))
-        fk_cols       = children[child_entity]["fk"]
-        child_fk_cols = children[child_entity]["child_fk"]
+        child_rel     = children[child_entity]
+        fk_cols       = child_rel["fk"]
+        child_fk_cols = child_rel["child_fk"]
+        concat_sep    = child_rel.get("concat_separator")
 
         fk_vals    = payload.get("entity_key", {})
-        entity_key = (
-            {child_col: fk_vals.get(parent_col, "")
-             for parent_col, child_col in zip(fk_cols, child_fk_cols)}
-            if fk_vals and all(fk_vals.get(c) for c in fk_cols) else None
-        )
+        entity_key = _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep)
         result = current_app.reporting_service.get_entity(
             child_entity, entity_key=entity_key,
             search=payload.get("quick_filter", ""),
@@ -160,16 +168,13 @@ def get_child_entity(parent_entity: str, child_entity: str):
         page, per_page = _parse_pagination()
         search         = request.args.get("search", "").strip()
         fic_mis_date   = _parse_context()
-        fk_cols       = children[child_entity]["fk"]
-        child_fk_cols = children[child_entity]["child_fk"]
+        child_rel     = children[child_entity]
+        fk_cols       = child_rel["fk"]
+        child_fk_cols = child_rel["child_fk"]
+        concat_sep    = child_rel.get("concat_separator")
 
-        # URL params use parent-side column names; entity_key uses child-side names
         fk_vals    = {col: request.args.get(col, "").strip() for col in fk_cols}
-        entity_key = (
-            {child_col: fk_vals[parent_col]
-             for parent_col, child_col in zip(fk_cols, child_fk_cols)}
-            if all(fk_vals.values()) else None
-        )
+        entity_key = _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep)
         result = current_app.reporting_service.get_entity(
             child_entity, entity_key=entity_key, search=search,
             page=page, per_page=per_page, fic_mis_date=fic_mis_date,
