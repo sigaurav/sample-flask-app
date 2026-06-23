@@ -1,242 +1,171 @@
 # WF Enterprise Analytics Platform
 
-A professional enterprise-grade web application for credit facility portfolio management with multi-level drill-down capabilities. Built with Python / Flask / WF Grid Community.
+Flask application for FR Y-14Q Schedule H1 regulatory reporting.  Multi-entity
+data grid with server-side pagination, multi-level drill-down, async export,
+and schema-driven column definitions.  Adapters abstract CSV (dev), Dremio,
+SQL Server, and Teradata behind a single interface.
 
 ---
 
-## Screenshots & Features
+## Features
 
 | Feature | Detail |
 |---------|--------|
-| **Dashboard** | WF-inspired banking UI — deep red, gold accents |
-| **Main Grid** | 100 facilities with sorting, filtering, pagination, column management |
-| **Drill-Down L2** | Click Obligors count → modal with 500 obligors |
-| **Drill-Down L3** | Click Transactions count → nested modal with 5 000 transactions |
-| **Drill-Down L4** | Click Comments count → deepest modal with 2 000 analyst comments |
-| **Export** | CSV, Excel (.xlsx), Parquet — at every drill-down level |
+| **Schema-driven grids** | Column definitions loaded from JSON — no JS changes when columns change |
+| **Server-side pagination** | Sort/filter/paginate on the server; frontend receives one page at a time |
+| **Apply Filters** | Sort and filter changes are batched; user clicks Apply to send one request |
+| **Multi-level drill-down** | Facilities → Obligations → Property (auto-wired from config) |
+| **Async export** | CSV, Excel, Parquet — background worker with polling status |
+| **Multi-source adapters** | CSV, Dremio, SQL Server, Teradata — same interface |
 
 ---
 
 ## Folder Structure
 
 ```
-SampleApp4/
-├── app/
-│   ├── __init__.py              # Flask application factory
-│   ├── config.py                # Hierarchical config classes
-│   ├── controllers/             # Flask Blueprints (routes)
-│   │   ├── main_controller.py   # Page routes
-│   │   ├── api_controller.py    # JSON data API
-│   │   └── export_controller.py # File download API
-│   ├── services/                # Business logic layer
-│   │   ├── base_service.py      # ABC for all services
-│   │   ├── facility_service.py
-│   │   ├── obligor_service.py
-│   │   ├── transaction_service.py
-│   │   └── export_service.py
-│   ├── repositories/            # CSV data access layer
-│   │   ├── base_repository.py   # ABC with cache + helpers
-│   │   ├── facility_repository.py
-│   │   ├── obligor_repository.py
-│   │   ├── transaction_repository.py
-│   │   └── comment_repository.py
-│   ├── models/                  # Dataclass domain models
-│   │   ├── facility.py
-│   │   ├── obligor.py
-│   │   ├── transaction.py
-│   │   └── comment.py
-│   ├── utils/
-│   │   ├── logger.py            # Centralised logging setup
-│   │   └── response_utils.py    # JSON response envelope helpers
-│   ├── templates/
-│   │   ├── base.html            # Master layout (header, sidebar, scripts)
-│   │   ├── dashboard.html       # Main facility grid page
-│   │   └── components/
-│   │       ├── header.html
-│   │       ├── sidebar.html
-│   │       └── breadcrumb.html
-│   └── static/
-│       ├── css/
-│       │   ├── main.css         # WF-themed layout & components
-│       │   ├── grid.css         # WF Grid custom theme overrides
-│       │   └── modal.css        # Stacked modal system styles
-│       └── js/
-│           ├── api-utils.js     # Fetch wrapper, loading overlay
-│           ├── grid-config.js   # GridManager, ColumnHelper, CellRenderer
-│           ├── modal-manager.js # Stack-based modal + Toast system
-│           ├── drill-down.js    # 4-level drill-down orchestrator
-│           └── app.js           # Dashboard bootstrap, main grid
-├── data/                        # Generated CSV files (git-ignored)
-├── exports/                     # Temporary export files
-├── generate_data.py             # Synthetic data generator
-├── run.py                       # Application entry point
-└── requirements.txt
+app/
+  __init__.py              Flask application factory
+  config.py                ENTITIES config — single source of truth
+  adapters/                BaseAdapter + CSV, Dremio, SQLServer, Teradata
+  blueprints/
+    main/routes.py         Page routes (/, /<entity_type>)
+    api/routes.py          Data API (GET + POST /query endpoints)
+    export/routes.py       Export API (/api/exports/*)
+  models/
+    export_job.py          Export job dataclass
+  repositories/
+    base_repository.py     Static paginate() helper
+    export_job_repository.py In-memory export job store
+  schemas/                 JSON column descriptors + registry
+  services/
+    data_service.py        Adapter registry
+    reporting_service.py   Generic get_entity() facade
+    export_service.py      Job creation, validation, dispatch
+  security/                Credential providers (Windows Credential Manager)
+  workers/
+    export_worker.py       Background thread pool worker
+  templates/
+    base.html              Master layout, APP_CONFIG injection
+    entity.html            Generic entity page (all entities use this)
+    components/            Header, sidebar, breadcrumb partials
+  static/
+    css/                   main.css, grid.css, modal.css, context-bar.css, export-tracker.css
+    js/
+      entity-page.js       Generic page (server-side pagination via queryFn)
+      drill-down.js        Multi-level drill-down modal
+      grid-config.js       GridManager class + buildColumnsFromSchema()
+      api-utils.js         GET/POST wrappers, toolbar wiring, KPI helpers
+      context-bar.js       Date picker, localStorage persistence
+      modal-manager.js     Stack-based modals + Toast notifications
+      export-tracker.js    Polling export status badge
+data/                      CSV files (one per entity)
+scripts/
+  refresh_schema.py        Schema drift detection CLI
+run.py                     Application entry point
 ```
 
 ---
 
-## Setup Instructions
+## Setup
 
-### 1. Prerequisites
+### Prerequisites
 
-- Python 3.12 (3.11+ should work too)
+- Python 3.11+
 - pip
 
-### 2. Create a virtual environment
+### Install and run
 
 ```bash
 python -m venv .venv
+.venv\Scripts\Activate.ps1     # Windows
+# source .venv/bin/activate    # macOS / Linux
 
-# Windows PowerShell
-.venv\Scripts\Activate.ps1
-
-# macOS / Linux
-source .venv/bin/activate
-```
-
-### 3. Install dependencies
-
-```bash
 pip install -r requirements.txt
-```
-
-### 4. Generate sample data (run once)
-
-```bash
-python generate_data.py
-```
-
-This creates four CSV files in the `data/` directory:
-
-| File | Rows | Description |
-|------|------|-------------|
-| `facilities.csv` | 100 | Credit facility register |
-| `obligors.csv` | 500 | Borrowers mapped to facilities |
-| `transactions.csv` | 5 000 | Financial transactions per obligor |
-| `comments.csv` | 2 000 | Analyst notes per transaction |
-
-### 5. Start the application
-
-```bash
 python run.py
 ```
 
-Open your browser at **http://localhost:5000**
+Open **http://localhost:5000**
 
----
+### Data files
 
-## Demo Workflow
+CSV data files are in `data/`:
 
-1. **Load dashboard** — 100 facilities displayed in the main WF Grid
-2. **Sort / filter** — click column headers, use the filter icon
-3. **Search** — type in the search box (top-left of toolbar)
-4. **Show / Hide columns** — click the Columns button
-5. **Click an Obligors count** (red link) → obligors modal opens
-6. **Click a Transactions count** → nested transaction modal opens
-7. **Click a Comments count** → deepest comments modal opens
-8. **Export** — use CSV / Excel / Parquet buttons at any level
+| File | Entity |
+|------|--------|
+| `facilities.csv` | Credit facilities (Schedule H1) |
+| `obligations.csv` | Obligations linked to facilities |
+| `property.csv` | Property collateral linked to obligations |
 
 ---
 
 ## API Endpoints
 
-### Data endpoints
+### Query endpoints (primary — server-side pagination)
 
 | Method | Path | Description |
 |--------|------|-------------|
-| GET | `/api/facilities` | Paginated facilities with obligor counts |
-| GET | `/api/facilities/<id>` | Single facility |
-| GET | `/api/facilities/<id>/obligors` | Paginated obligors for a facility |
-| GET | `/api/obligors/<id>/transactions` | Paginated transactions for an obligor |
-| GET | `/api/transactions/<id>/comments` | Paginated comments for a transaction |
+| POST | `/api/<entity>/query` | Paginated query with sort/filter |
+| POST | `/api/<parent>/<child>/query` | Paginated child entity query |
 
-**Common query parameters:**
-- `page` (int, default 1)
-- `per_page` (int, default 50, max 500)
-- `search` (str, searches multiple fields)
+POST body: `{ fic_mis_date, page, per_page, sorts, col_filters, quick_filter, entity_key }`
+
+### Backward-compatible GET endpoints
+
+| Method | Path | Description |
+|--------|------|-------------|
+| GET | `/api/<entity>` | Query params: page, per_page, search, fic_mis_date |
+| GET | `/api/<parent>/<child>` | Same + FK params |
+| GET | `/api/schema/<entity>` | Column descriptors for grid setup |
 
 ### Export endpoints
 
-| Method | Path | Formats |
-|--------|------|---------|
-| GET | `/api/export/facilities` | csv, excel, parquet |
-| GET | `/api/export/facilities/<id>/obligors` | csv, excel, parquet |
-| GET | `/api/export/obligors/<id>/transactions` | csv, excel, parquet |
-| GET | `/api/export/transactions/<id>/comments` | csv, excel, parquet |
-
-**Query parameter:** `?format=csv` (or `excel`, `parquet`)
+| Method | Path | Description |
+|--------|------|-------------|
+| POST | `/api/exports` | Create async export job |
+| GET | `/api/internal/exports/<id>/status` | Poll job status |
+| GET | `/api/internal/exports/<id>/download` | Download completed file |
 
 ---
 
 ## Architecture
 
-### Backend (Python / Flask)
-
 ```
-Request → Blueprint Controller → Service → Repository → CSV
-                                     ↓
-                               Domain Model
-                                     ↓
-                         JSON Response (success envelope)
-```
-
-- **Controllers**: Thin HTTP layer — parse params, call service, return JSON
-- **Services**: Business logic — enrichment (obligor counts, transaction counts), pagination
-- **Repositories**: Data access — CSV loading, caching, filtering, searching
-- **Models**: Typed dataclasses with `to_dict()` / `from_dict()` methods
-
-### Frontend (Vanilla JS)
-
-```
-WFApp.init()
-  └─ GridManager (facility grid)
-       └─ CellRenderer.drillDownLink (Obligors column)
-            └─ DrillDown.openObligors()
-                 └─ ModalManager.open()
-                      └─ GridManager (obligors grid)
-                           └─ DrillDown.openTransactions()
-                                └─ ModalManager.open()  [stacked]
-                                     └─ GridManager (transactions grid)
-                                          └─ DrillDown.openComments()
+POST /api/facilities/query { sorts, col_filters, page, per_page, fic_mis_date }
+  └─ routes.py → ReportingService.get_entity()
+       └─ adapter.fetch(filters, sorts, page, per_page)
+            CSV:  pandas filter/sort → slice page
+            DB:   CTE wrapper → SQL WHERE/ORDER BY/OFFSET-FETCH
+       └─ _enrich_with_child_counts()
+       └─ _count_active() → KPI from full dataset
+       └─ paginated_response(data, total, active)
 ```
 
-- **GridManager**: Wraps `agGrid.createGrid()`, manages lifecycle
-- **ColumnHelper / CellRenderer**: Typed column factories
-- **ModalManager**: Stack-based modals with CSS transitions
-- **Toast**: Auto-dismissing notification system
-- **ApiUtils**: Fetch wrapper with loading overlay management
-- **DrillDown**: Orchestrates all four drill-down levels
+- **Adapters** abstract the data source.  DB adapters push filter/sort/paginate
+  into SQL via a CTE wrapper around the base `_QUERY_MAP` query.
+- **ReportingService** is the only data-access facade — all routes call `get_entity()`.
+- **GridManager** in server-side mode sends `queryFn` POST requests.  Sort/filter
+  changes are batched behind an Apply Filters button.  Page navigation auto-fires.
 
-### Drill-Down Architecture (extensible)
+### Adding a new entity
 
-Adding a new drill-down level requires:
-1. A new repository method (`filter_by`)
-2. A new service method (enrichment + pagination)
-3. A new API endpoint in `api_controller.py`
-4. A new export endpoint in `export_controller.py`
-5. A new `DrillDown.openXxx()` function in `drill-down.js`
+1. Add to `ENTITIES` in `config.py` (source, pk, label_field, children)
+2. Create data file (`data/<entity>.csv` or `_QUERY_MAP` entry)
+3. Create schema (`app/schemas/<entity>.json` + register in `__init__.py`)
+4. Add sidebar link in `components/sidebar.html`
+
+No other code changes needed — routes, pages, drill-down, and export are generic.
 
 ---
 
-## Environment Variables
+## Environment
 
 | Variable | Default | Description |
 |----------|---------|-------------|
 | `FLASK_ENV` | `development` | `development` / `production` / `testing` |
 | `SECRET_KEY` | dev key | Flask session secret |
-| `HOST` | `0.0.0.0` | Bind address |
-| `PORT` | `5000` | Bind port |
 
----
-
-## Technology Stack
-
-| Layer | Technology |
-|-------|-----------|
-| Backend | Python 3.12, Flask 3.0 |
-| Templates | Jinja2 |
-| Data | pandas, CSV files |
-| Export | pandas + openpyxl (Excel), pyarrow (Parquet) |
-| Frontend | Vanilla JavaScript (ES2020), HTML5, CSS3 |
-| Grid | WF Grid Community 31.3.2 (CDN) |
-| Styling | Custom CSS — WF design system |
+| Config class | Log level | Debug |
+|---|---|---|
+| `DevelopmentConfig` | DEBUG | on |
+| `ProductionConfig` | WARNING | off |
+| `TestingConfig` | DEBUG | on |

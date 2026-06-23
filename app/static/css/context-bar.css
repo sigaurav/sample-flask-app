@@ -46,43 +46,6 @@
   white-space: nowrap;
 }
 
-/*  Segmented button group (SOR) ─ */
-.ctx-seg-group {
-  display: flex;
-  border: 1px solid var(--gray-300);
-  border-radius: var(--radius);
-  overflow: hidden;
-  background: var(--gray-50);
-}
-
-.ctx-seg-btn {
-  padding: 4px 14px;
-  font-size: 12px;
-  font-weight: 600;
-  font-family: var(--font-mono);
-  letter-spacing: 0.3px;
-  border: none;
-  border-left: 1px solid var(--gray-300);
-  background: transparent;
-  color: var(--gray-600);
-  cursor: pointer;
-  white-space: nowrap;
-  transition: background var(--transition), color var(--transition);
-  line-height: 1.6;
-}
-
-.ctx-seg-btn:first-child { border-left: none; }
-
-.ctx-seg-btn:hover:not(.active) {
-  background: var(--wf-red-light);
-  color: var(--wf-red);
-}
-
-.ctx-seg-btn.active {
-  background: var(--wf-red);
-  color: var(--white);
-}
-
 /*  Date text input ─ */
 .ctx-date-input {
   padding: 4px 10px;

@@ -4,15 +4,17 @@
  *
  * HTTP / export API:
  *  - get(url, showLoader)
+ *  - post(url, body, showLoader)
  *  - buildUrl(base, params)
  *  - createExportJob(spec)
  *  - downloadExport(jobId)
  *  - triggerExportJob(spec, typeLabel, entityLabel)
  *  - triggerGridExport(grid, entityType, entityLabel, exportType, fileFormat)
  *
- * Shared DOM wiring (eliminates duplication across app.js / obligations.js / property.js):
- *  - wireGridToolbar(grid, reloadFn)
+ * Shared DOM wiring:
+ *  - wireGridToolbar(grid)
  *  - wireExportDropdown(grid, entityType, entityLabel)
+ *  - updateKpi(meta, records, activeFn)
  *
  * Depends on: ExportTracker (export-tracker.js), Toast (base.html inline).
  * Exported as the global `ApiUtils` object (IIFE module pattern).
@@ -117,7 +119,7 @@ const ApiUtils = (function () {
     return base + (base.includes('?') ? '&' : '?') + qs;
   }
 
-  //  Legacy sync download (drill-down modal exports) 
+  // ── Sync file download ────────────────────────────────────────────────────── 
 
   function downloadFile(url) {
     _showLoading();
@@ -242,25 +244,15 @@ const ApiUtils = (function () {
    * grid search (debounced), global header search, clear-filters button,
    * column-visibility button, and sidebar toggle.
    *
-   * @param {GridManager} grid     - The page grid instance.
-   * @param {Function}    reloadFn - Page-specific data-load function; called
-   *                                 with the current search string on globalSearch input.
+   * @param {GridManager} grid - The page grid instance.
    */
-  function wireGridToolbar(grid, reloadFn) {
+  function wireGridToolbar(grid) {
     const gridSearch = document.getElementById('gridSearch');
     if (gridSearch) {
       let _t;
       gridSearch.addEventListener('input', () => {
         clearTimeout(_t);
         _t = setTimeout(() => grid.setQuickFilter(gridSearch.value), 200);
-      });
-    }
-
-    const globalSearch = document.getElementById('globalSearch');
-    if (globalSearch) {
-      globalSearch.addEventListener('input', () => {
-        if (gridSearch) gridSearch.value = globalSearch.value;
-        reloadFn(globalSearch.value.trim());
       });
     }
 

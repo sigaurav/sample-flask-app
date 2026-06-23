@@ -69,7 +69,7 @@ const EntityPage = (function () {
       applyBtn.addEventListener('click', () => grid.applyFilters());
     }
 
-    ApiUtils.wireGridToolbar(grid, () => {});
+    ApiUtils.wireGridToolbar(grid);
     ApiUtils.wireExportDropdown(
       grid, entityType,
       entityType.charAt(0).toUpperCase() + entityType.slice(1),
