@@ -587,3 +587,12 @@
   min-width:        36px;
   text-align:       right;
 }
+
+/* ── Apply Filters pending indicator ─────────────────────────────────────── */
+#btnApplyFilters.has-pending,
+.modal-apply-btn.has-pending {
+  background:       #D71E28;
+  border-color:     #D71E28;
+  color:            #fff;
+  box-shadow:       0 0 0 2px rgba(215, 30, 40, 0.25);
+}

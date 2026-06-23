@@ -80,6 +80,32 @@ const ApiUtils = (function () {
     }
   }
 
+  // ── Core POST wrapper ─────────────────────────────────────────────────────
+
+  async function post(url, body, showLoader = true) {
+    if (showLoader) _showLoading();
+    try {
+      const resp = await fetch(url, {
+        method:  'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body:    JSON.stringify(body),
+      });
+
+      const json = await resp.json();
+
+      if (!resp.ok || json.success === false) {
+        const err         = new Error(json.error || `HTTP ${resp.status}`);
+        err.status        = resp.status;
+        err.serverMessage = json.error || '';
+        throw err;
+      }
+
+      return json;
+    } finally {
+      if (showLoader) _hideLoading();
+    }
+  }
+
   // ── URL builder ────────────────────────────────────────────────────────────
 
   function buildUrl(base, params = {}) {
@@ -293,7 +319,7 @@ const ApiUtils = (function () {
   // ── Public surface ─────────────────────────────────────────────────────────
 
   return {
-    get, buildUrl, createExportJob, downloadExport,
+    get, post, buildUrl, createExportJob, downloadExport,
     triggerExportJob, triggerGridExport,
     wireGridToolbar, wireExportDropdown,
     updateKpi,

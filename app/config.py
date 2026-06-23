@@ -51,12 +51,6 @@ class BaseConfig:
     # Valid values: "csv", "dremio", "sqlserver", "teradata"
     ENABLED_DATA_SOURCES: list = ["csv", "dremio", "sqlserver"]
 
-    # ── Query context ──────────────────────────────────────────────────────────
-    # SOR column in source tables: FACLTY_SOR_ID
-    # Date column in source tables: PERIOD_DT  (lowercase period_dt in obligations)
-    # Add new SOR values here; the frontend dropdown auto-populates from this list.
-    ENABLED_SORS: list = ["1SOR", "2SOR", "3SOR"]
-
     # ── Entity graph ───────────────────────────────────────────────────────────
     # Single source of truth for all entity configuration.
     #

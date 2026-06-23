@@ -60,7 +60,6 @@ class CSVAdapter(BaseAdapter):
         filters = dict(filters or {})
 
         fic_mis_date = filters.pop("_fic_mis_date", "")
-        filters.pop("_sor", None)
         df = self._apply_context_filter(df, fic_mis_date)
 
         if entity_key:

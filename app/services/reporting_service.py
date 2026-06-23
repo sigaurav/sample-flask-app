@@ -43,7 +43,8 @@ class ReportingService:
 
     def __init__(self, data_service: DataService, config: dict = None) -> None:
         self._data_service = data_service
-        self._entities     = (config or {}).get("ENTITIES", {})
+        self._config       = config or {}
+        self._entities     = self._config.get("ENTITIES", {})
         log.info(
             "ReportingService initialised (primary adapter: %s, entities: %s)",
             next(iter(data_service.adapters), "none"),
@@ -63,14 +64,19 @@ class ReportingService:
         page:         int  = 1,
         per_page:     Optional[int]  = None,
         fic_mis_date: str  = "",
+        sorts:        Optional[list] = None,
+        col_filters:  Optional[dict] = None,
     ) -> dict[str, Any]:
         if per_page is None:
-            per_page = (self._config or {}).get("DEFAULT_PAGE_SIZE", 50)
+            per_page = self._config.get("DEFAULT_PAGE_SIZE", 50)
         adapter = self._data_service.get_adapter_for_entity(entity_type)
         ctx     = self._ctx(fic_mis_date)
 
-        df = adapter.fetch(entity_type, entity_key=entity_key,
-                           filters={"quick_filter": search, **ctx})
+        df = adapter.fetch(
+            entity_type, entity_key=entity_key,
+            filters={"quick_filter": search, "col_filters": col_filters or {}, **ctx},
+            sorts=sorts or [],
+        )
         df = self._enrich_with_child_counts(df, entity_type, ctx)
 
         total   = len(df)

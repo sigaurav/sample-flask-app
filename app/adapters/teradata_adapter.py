@@ -75,7 +75,6 @@ class TeradataAdapter(BaseAdapter):
     ) -> pd.DataFrame:
         filters      = dict(filters or {})
         fic_mis_date = filters.pop("_fic_mis_date", "")
-        filters.pop("_sor", None)
 
         sql    = self._get_query(entity_type)
         params = [fic_mis_date]

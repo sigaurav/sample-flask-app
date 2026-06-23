@@ -39,6 +39,85 @@ def get_entity_schema(entity_type: str):
 
 # ── Generic entity routes ─────────────────────────────────────────────────────
 
+@api_bp.route("/<entity_type>/query", methods=["POST"])
+def query_entity(entity_type: str):
+    entities = current_app.config.get("ENTITIES", {})
+    if entity_type not in entities:
+        return error_response(f"Unknown entity: '{entity_type}'", 404)
+    try:
+        payload  = request.get_json(silent=True) or {}
+        page     = max(1, payload.get("page", 1))
+        per_page = max(1, min(
+            payload.get("per_page", current_app.config["DEFAULT_PAGE_SIZE"]),
+            current_app.config["MAX_PAGE_SIZE"],
+        ))
+        result = current_app.reporting_service.get_entity(
+            entity_type,
+            search=payload.get("quick_filter", ""),
+            page=page, per_page=per_page,
+            fic_mis_date=payload.get("fic_mis_date", ""),
+            sorts=payload.get("sorts", []),
+            col_filters=payload.get("col_filters", {}),
+        )
+        return paginated_response(
+            data=result["records"], total=result["total"],
+            page=result["page"],   per_page=result["per_page"],
+        )
+    except FileNotFoundError as exc:
+        log.error("Data file missing: %s", exc)
+        return error_response(str(exc), 503)
+    except Exception:
+        log.exception("Unexpected error querying %s", entity_type)
+        return error_response("Internal server error", 500)
+
+
+@api_bp.route("/<parent_entity>/<child_entity>/query", methods=["POST"])
+def query_child_entity(parent_entity: str, child_entity: str):
+    entities = current_app.config.get("ENTITIES", {})
+    if parent_entity not in entities:
+        return error_response(f"Unknown entity: '{parent_entity}'", 404)
+    children = entities[parent_entity].get("children", {})
+    if child_entity not in children:
+        return error_response(
+            f"'{child_entity}' is not a declared child of '{parent_entity}'", 404
+        )
+    try:
+        payload  = request.get_json(silent=True) or {}
+        page     = max(1, payload.get("page", 1))
+        per_page = max(1, min(
+            payload.get("per_page", current_app.config["DEFAULT_PAGE_SIZE"]),
+            current_app.config["MAX_PAGE_SIZE"],
+        ))
+        fk_cols       = children[child_entity]["fk"]
+        child_fk_cols = children[child_entity]["child_fk"]
+
+        fk_vals    = payload.get("entity_key", {})
+        entity_key = (
+            {child_col: fk_vals.get(parent_col, "")
+             for parent_col, child_col in zip(fk_cols, child_fk_cols)}
+            if fk_vals and all(fk_vals.get(c) for c in fk_cols) else None
+        )
+        result = current_app.reporting_service.get_entity(
+            child_entity, entity_key=entity_key,
+            search=payload.get("quick_filter", ""),
+            page=page, per_page=per_page,
+            fic_mis_date=payload.get("fic_mis_date", ""),
+            sorts=payload.get("sorts", []),
+            col_filters=payload.get("col_filters", {}),
+        )
+        return paginated_response(
+            data=result["records"], total=result["total"],
+            page=result["page"],   per_page=result["per_page"],
+        )
+    except FileNotFoundError as exc:
+        return error_response(str(exc), 503)
+    except Exception:
+        log.exception(
+            "Unexpected error querying %s → %s", parent_entity, child_entity
+        )
+        return error_response("Internal server error", 500)
+
+
 @api_bp.route("/<entity_type>", methods=["GET"])
 def get_entity(entity_type: str):
     entities = current_app.config.get("ENTITIES", {})

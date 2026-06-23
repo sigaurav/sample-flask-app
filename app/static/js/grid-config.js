@@ -211,6 +211,16 @@ class GridManager {
     this._thDownX = 0;
     this._thDownY = 0;
 
+    // Server-side pagination mode (activated when options.queryFn is provided)
+    this._serverMode     = !!options.queryFn;
+    this._queryFn        = options.queryFn || null;
+    this._totalRows      = 0;
+    this._pendingChanges = false;
+    this._batchPages     = 3;
+    this._batchData      = [];
+    this._batchStartPage = 0;
+    this._applyBtnEl     = null;
+
     // DOM refs (set in _buildTable)
     this._container = null;
     this._wrapper   = null;
@@ -237,14 +247,21 @@ class GridManager {
 
   // ── Public data API ──────────────────────────────────────────────────────────
 
-  setData(rows) {
+  setData(rows, total) {
     this._allData = rows || [];
     this._page    = 0;
+    if (this._serverMode && total !== undefined) {
+      this._totalRows = total;
+    }
     this._render();
   }
 
   setQuickFilter(text) {
     this._quickFilter = text || '';
+    if (this._serverMode) {
+      this._setPending(true);
+      return;
+    }
     this._page = 0;
     this._render();
   }
@@ -252,9 +269,26 @@ class GridManager {
   clearFilters() {
     this._quickFilter = '';
     this._colFilters.clear();
-    this._sortState   = [];
-    this._page        = 0;
+    this._sortState = this._options.initialSort ? [...this._options.initialSort] : [];
+    this._page = 0;
+    if (this._serverMode) {
+      this._serverFetch();
+      return;
+    }
     this._render();
+  }
+
+  applyFilters() {
+    this._page = 0;
+    if (this._serverMode) {
+      this._serverFetch();
+    } else {
+      this._render();
+    }
+  }
+
+  setApplyButton(el) {
+    this._applyBtnEl = el;
   }
 
   /**
@@ -428,6 +462,10 @@ class GridManager {
   // ── Render pipeline ──────────────────────────────────────────────────────────
 
   _render() {
+    if (this._serverMode) {
+      this._renderServerPage();
+      return;
+    }
     this._applyFilters();
     this._applySort();
     const start    = this._page * this._pageSize;
@@ -761,6 +799,11 @@ class GridManager {
     }
 
     this._page = 0;
+    if (this._serverMode) {
+      this._setPending(true);
+      this._buildHeaders();
+      return;
+    }
     this._render();
   }
 
@@ -1124,7 +1167,8 @@ class GridManager {
       popup.remove();
       this._filterPopup = null;
       this._page = 0;
-      this._render();
+      if (this._serverMode) { this._setPending(true); }
+      else                  { this._render(); }
     });
 
     const applyBtn = document.createElement('button');
@@ -1135,7 +1179,8 @@ class GridManager {
       popup.remove();
       this._filterPopup = null;
       this._page = 0;
-      this._render();
+      if (this._serverMode) { this._setPending(true); }
+      else                  { this._render(); }
     });
 
     footer.appendChild(clearBtn);
@@ -1192,5 +1237,125 @@ class GridManager {
     const [col] = this._columnDefs.splice(srcIdx, 1);
     this._columnDefs.splice(tgtIdx, 0, col);
     this._render();
+  }
+
+  // ── Server-side pagination ──────────────────────────────────────────────────
+
+  _setPending(pending) {
+    this._pendingChanges = pending;
+    if (this._applyBtnEl) {
+      this._applyBtnEl.classList.toggle('has-pending', pending);
+    }
+  }
+
+  async _serverFetch() {
+    this._setPending(false);
+    const batchSize      = this._pageSize * this._batchPages;
+    const batchStartPage = Math.floor(this._page / this._batchPages) * this._batchPages;
+
+    const spec = {
+      page:         batchStartPage + 1,
+      per_page:     batchSize,
+      sorts:        this._sortState.map(s => ({ field: s.field, dir: s.dir })),
+      col_filters:  Object.fromEntries(this._colFilters),
+      quick_filter: this._quickFilter,
+    };
+
+    try {
+      const result      = await this._queryFn(spec);
+      this._batchData      = result.data || [];
+      this._batchStartPage = batchStartPage;
+      this._totalRows      = result.meta?.total || 0;
+      this._renderServerPage();
+    } catch (err) {
+      console.error('Server fetch error:', err);
+      if (typeof Toast !== 'undefined') {
+        Toast.error('Failed to load data', err.message || 'Unknown error');
+      }
+    }
+  }
+
+  _renderServerPage() {
+    const offsetInBatch = (this._page - this._batchStartPage) * this._pageSize;
+    const pageData = this._batchData.slice(offsetInBatch, offsetInBatch + this._pageSize);
+    this._buildHeaders();
+    this._buildRows(pageData);
+    this._buildServerPagination();
+    this._recalcWidths();
+  }
+
+  _buildServerPagination() {
+    this._pagBar.innerHTML = '';
+
+    const total      = this._totalRows;
+    const totalPages = Math.max(1, Math.ceil(total / this._pageSize));
+    const start      = total === 0 ? 0 : this._page * this._pageSize + 1;
+    const end        = Math.min(total, (this._page + 1) * this._pageSize);
+
+    const sortHint = this._sortState.length > 0
+      ? this._sortState.map(s => `${s.field} ${s.dir === 'asc' ? '↑' : '↓'}`).join(', ')
+      : '';
+
+    const info = document.createElement('span');
+    info.className = 'wf-pag-info';
+    info.innerHTML = `Rows ${start}–${end} of <strong>${total.toLocaleString()}</strong>` +
+      (sortHint ? `<span class="wf-sort-hint"> · Sorted: ${sortHint}</span>` : '');
+    this._pagBar.appendChild(info);
+
+    const controls = document.createElement('div');
+    controls.className = 'wf-pag-controls';
+
+    const sizeLabel = document.createElement('label');
+    sizeLabel.textContent = 'Rows per page:';
+    sizeLabel.style.marginRight = '4px';
+    controls.appendChild(sizeLabel);
+
+    const sizeSelect = document.createElement('select');
+    sizeSelect.className = 'wf-pag-size';
+    this._pageSizeOptions.forEach(n => {
+      const opt = document.createElement('option');
+      opt.value       = n;
+      opt.textContent = n;
+      opt.selected    = n === this._pageSize;
+      sizeSelect.appendChild(opt);
+    });
+    sizeSelect.addEventListener('change', () => {
+      this._pageSize = parseInt(sizeSelect.value, 10);
+      this._page     = 0;
+      this._serverFetch();
+    });
+    controls.appendChild(sizeSelect);
+
+    const navTo = (targetPage) => {
+      this._page = targetPage;
+      const batchEnd = this._batchStartPage + this._batchPages;
+      if (targetPage >= this._batchStartPage && targetPage < batchEnd) {
+        this._renderServerPage();
+      } else {
+        this._serverFetch();
+      }
+    };
+
+    const mkBtn = (label, targetPage, disabled) => {
+      const btn = document.createElement('button');
+      btn.className   = 'wf-pag-btn';
+      btn.textContent = label;
+      btn.disabled    = disabled;
+      btn.addEventListener('click', () => navTo(targetPage));
+      return btn;
+    };
+
+    controls.appendChild(mkBtn('«', 0,              this._page === 0));
+    controls.appendChild(mkBtn('‹', this._page - 1, this._page === 0));
+
+    const pageLabel = document.createElement('span');
+    pageLabel.className   = 'wf-pag-page';
+    pageLabel.textContent = `Page ${this._page + 1} of ${totalPages}`;
+    controls.appendChild(pageLabel);
+
+    controls.appendChild(mkBtn('›', this._page + 1, this._page >= totalPages - 1));
+    controls.appendChild(mkBtn('»', totalPages - 1,  this._page >= totalPages - 1));
+
+    this._pagBar.appendChild(controls);
   }
 }

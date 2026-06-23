@@ -4,11 +4,10 @@
  * Reads the full entity graph from APP_CONFIG.entities at call-time, so adding
  * new entities or changing FK columns only requires a config change — no edits here.
  *
+ * Uses server-side pagination via POST /api/<parent>/<child>/query.
+ *
  * Public API:
  *   DrillDown.open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel?)
- *
- * The function is recursive: when a modal opens it auto-wires drill handlers for
- * the child entity's own children, enabling unlimited nesting depth.
  */
 const DrillDown = (function () {
 
@@ -37,13 +36,6 @@ const DrillDown = (function () {
 
   // ── Public: open a child entity in a modal ────────────────────────────────
 
-  /**
-   * @param {string}  parentEntity       - Entity type of the row being drilled from.
-   * @param {string}  childEntity        - Entity type to display in the modal.
-   * @param {Object}  rowData            - Full grid row (p.data) of the parent.
-   * @param {string}  parentLabel        - Breadcrumb label for the parent row.
-   * @param {string}  [grandparentLabel] - Breadcrumb one level further up (for deep drills).
-   */
   function open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel) {
     const entities  = APP_CONFIG.entities || {};
     const childCfg  = (entities[parentEntity] || {}).children || {};
@@ -69,10 +61,9 @@ const DrillDown = (function () {
     const body   = panel.querySelector('.modal-body');
     body.innerHTML = _buildModalBodyHtml(childEntity, Object.values(fkValues).join('-'));
 
-    const schema      = await _fetchSchema(childEntity);
+    const schema        = await _fetchSchema(childEntity);
     const grandchildren = ((APP_CONFIG.entities || {})[childEntity] || {}).children || {};
 
-    // Auto-wire drill handlers for the next level down — enables unlimited depth.
     const drillHandlers = {};
     Object.keys(grandchildren).forEach(grandchild => {
       drillHandlers[grandchild] = (p) => open(
@@ -83,6 +74,13 @@ const DrillDown = (function () {
     });
 
     const childPkCols = ((APP_CONFIG.entities || {})[childEntity] || {}).pk || [];
+
+    const queryFn = async (spec) => {
+      spec.fic_mis_date = (ContextBar.getContext()).fic_mis_date || '';
+      spec.entity_key   = fkValues;
+      return ApiUtils.post(`/api/${parentEntity}/${childEntity}/query`, spec);
+    };
+
     const mgr = new GridManager(
       `drill-grid-${childEntity}-${safeId}`,
       buildColumnsFromSchema(schema, drillHandlers),
@@ -90,6 +88,7 @@ const DrillDown = (function () {
         paginationPageSize:         10,
         paginationPageSizeSelector: [10, 25, 50, 100],
         initialSort: childPkCols.map(f => ({ field: f, dir: 'asc' })),
+        queryFn,
       },
     );
     mgr.init();
@@ -98,11 +97,7 @@ const DrillDown = (function () {
     _wireModalToolbar(body, mgr);
     _wireModalExport(body, mgr, childEntity, JSON.stringify(fkValues), _capitalize(childEntity));
 
-    const apiUrl = ApiUtils.buildUrl(
-      `/api/${parentEntity}/${childEntity}`,
-      fkValues,
-    );
-    _loadAndRender(mgr, apiUrl, body, `record-count-${childEntity}-${safeId}`);
+    mgr.applyFilters();
   }
 
   // ── Shared helpers ────────────────────────────────────────────────────────
@@ -126,6 +121,7 @@ const DrillDown = (function () {
             </svg>
             <input type="text" class="modal-search-input" placeholder="Search…" aria-label="Search" />
           </div>
+          <button class="btn btn-primary modal-apply-btn" title="Apply sort and filter selection">Apply Filters</button>
           <button class="btn btn-outline modal-clear-btn" title="Clear all filters and search">Clear</button>
         </div>
         <div class="modal-toolbar-right">
@@ -176,7 +172,7 @@ const DrillDown = (function () {
       </div>
       <div class="modal-footer">
         <div class="modal-footer-left">
-          <span class="record-count" id="record-count-${entityType}-${safeId}">Loading…</span>
+          <span class="record-count" id="record-count-${entityType}-${safeId}"></span>
         </div>
         <div class="modal-footer-right">
           <button class="btn btn-ghost" onclick="ModalManager.close()">Close</button>
@@ -185,29 +181,18 @@ const DrillDown = (function () {
     `;
   }
 
-  async function _loadAndRender(mgr, apiUrl, bodyEl, countLabelId) {
-    try {
-      const resp = await ApiUtils.get(
-        ApiUtils.buildUrl(apiUrl, { per_page: 500 }),
-        false
-      );
-      mgr.setData(resp.data || []);
-      const totalLabel = bodyEl.querySelector(`#${countLabelId}`);
-      if (totalLabel && resp.meta) {
-        totalLabel.innerHTML =
-          `Showing <strong>${resp.data.length}</strong> of <strong>${resp.meta.total}</strong> records`;
-      }
-    } catch (err) {
-      Toast.error('Failed to load data', err.message || 'Unknown error');
-      console.error('DrillDown fetch error:', err);
-    }
-  }
-
   function _wireModalToolbar(body, mgr) {
     const searchEl = body.querySelector('.modal-search-input');
     if (searchEl) {
       searchEl.addEventListener('input', () => mgr.setQuickFilter(searchEl.value));
     }
+
+    const applyBtn = body.querySelector('.modal-apply-btn');
+    if (applyBtn) {
+      mgr.setApplyButton(applyBtn);
+      applyBtn.addEventListener('click', () => mgr.applyFilters());
+    }
+
     body.querySelector('.modal-columns-btn')?.addEventListener('click', (e) => {
       mgr.toggleColumnsPanel(e.currentTarget);
     });
