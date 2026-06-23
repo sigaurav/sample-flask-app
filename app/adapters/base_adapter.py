@@ -9,8 +9,9 @@ without duplicating logic.
 from __future__ import annotations
 
 import logging
+import re
 from abc import ABC, abstractmethod
-from typing import Any, Dict, List, Optional
+from typing import Any, Dict, List, Optional, Tuple
 
 import pandas as pd
 
@@ -35,7 +36,7 @@ class BaseAdapter(ABC):
         """Return the configured column list, or ['*'] when none is set."""
         return self._config.get("ENTITIES", {}).get(entity_type, {}).get("columns", ["*"])
 
-    # ── Abstract interface ────────────────────────────────────────────────────
+    #  Abstract interface 
 
     @abstractmethod
     def fetch(
@@ -80,7 +81,60 @@ class BaseAdapter(ABC):
             ORDER  BY ORDINAL_POSITION
         """
 
-    # ── Shared pandas helpers ─────────────────────────────────────────────────
+    # ── Column-name validation (SQL injection prevention) ────────────────────
+
+    _COL_NAME_RE = re.compile(r"^[A-Za-z_][A-Za-z0-9_]*$")
+
+    def _valid_col(self, name: str) -> bool:
+        return bool(self._COL_NAME_RE.match(name))
+
+    def _build_filter_clauses(
+        self,
+        col_filters: Dict,
+        entity_key: Optional[Dict[str, str]] = None,
+    ) -> List[Tuple[str, str, str]]:
+        """Convert col_filters + entity_key into (field, op, value) tuples.
+
+        Only columns passing ``_valid_col`` are included — this prevents
+        SQL injection via crafted column names.
+        """
+        clauses: List[Tuple[str, str, str]] = []
+        if entity_key:
+            for field, val in entity_key.items():
+                if self._valid_col(field):
+                    clauses.append((field, "eq", str(val)))
+        for field, spec in (col_filters or {}).items():
+            if not self._valid_col(field):
+                continue
+            op  = spec.get("op", "contains")
+            val = str(spec.get("val", "")).strip()
+            if val:
+                clauses.append((field, op, val))
+        return clauses
+
+    def _build_sort_fields(self, sorts: List[Dict]) -> List[Tuple[str, str]]:
+        """Return [(field, 'ASC'|'DESC')] with column-name validation."""
+        result = []
+        for s in (sorts or []):
+            field = s.get("field", "")
+            if self._valid_col(field):
+                result.append((field, "ASC" if s.get("dir", "asc") == "asc" else "DESC"))
+        return result
+
+    _ORDER_BY_RE = re.compile(
+        r"\bORDER\s+BY\b.*$", re.IGNORECASE | re.DOTALL
+    )
+
+    def _strip_order_by(self, sql: str) -> str:
+        """Remove a trailing ORDER BY from a base query.
+
+        ORDER BY inside a CTE subquery is invalid in SQL Server (and
+        most databases) unless paired with TOP / OFFSET.  The outer
+        query provides its own ORDER BY, so the inner one is not needed.
+        """
+        return self._ORDER_BY_RE.sub("", sql).rstrip()
+
+    #  Shared pandas helpers ─
 
     def _apply_col_filters(self, df: pd.DataFrame, col_filters: Dict) -> pd.DataFrame:
         for field, spec in col_filters.items():

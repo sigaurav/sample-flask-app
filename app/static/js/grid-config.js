@@ -14,7 +14,7 @@
  *  - getFilterSortState() for async export job specs.
  */
 
-// ── Cell renderers ─────────────────────────────────────────────────────────────
+//  Cell renderers ─
 
 const CellRenderer = (function () {
 
@@ -95,7 +95,7 @@ const CellRenderer = (function () {
 }());
 
 
-// ── Schema-driven column builder ──────────────────────────────────────────────
+//  Schema-driven column builder 
 
 /**
  * Build GridManager column definitions from a schema descriptor array.
@@ -160,11 +160,11 @@ function buildColumnsFromSchema(schema, drillHandlers) {
 }
 
 
-// ── Grid manager ───────────────────────────────────────────────────────────────
+//  Grid manager ─
 
 class GridManager {
   /**
-   * Custom HTML table grid — drop-in replacement for the former AG Grid wrapper.
+   * Custom HTML table grid — drop-in replacement for the former WF Grid wrapper.
    *
    * @param {string}   containerId - DOM element ID to mount into.
    * @param {Object[]} columnDefs  - Column definitions (same shape as before).
@@ -230,7 +230,7 @@ class GridManager {
     this._pagBar    = null;
   }
 
-  // ── Public lifecycle ─────────────────────────────────────────────────────────
+  //  Public lifecycle ─
 
   init() {
     this._container = document.getElementById(this._containerId);
@@ -245,7 +245,7 @@ class GridManager {
     return this;
   }
 
-  // ── Public data API ──────────────────────────────────────────────────────────
+  //  Public data API 
 
   setData(rows, total) {
     this._allData = rows || [];
@@ -308,7 +308,7 @@ class GridManager {
     return { sizeColumnsToFit: () => this._recalcWidths() };
   }
 
-  // ── Column picker panel ──────────────────────────────────────────────────────
+  //  Column picker panel 
 
   toggleColumnsPanel(anchorEl) {
     if (this._colPanel) {
@@ -325,7 +325,7 @@ class GridManager {
     header.textContent = 'Show / Hide Columns';
     panel.appendChild(header);
 
-    // ── Column search ──────────────────────────────────────────────────────────
+    //  Column search 
     const searchWrap = document.createElement('div');
     searchWrap.className = 'col-picker-search';
     const searchInput = document.createElement('input');
@@ -338,7 +338,7 @@ class GridManager {
     const list = document.createElement('div');
     list.className = 'col-picker-list';
 
-    // ── Select All row ─────────────────────────────────────────────────────────
+    //  Select All row ─
     const allItem = document.createElement('label');
     allItem.className = 'col-picker-item col-picker-select-all';
 
@@ -433,7 +433,7 @@ class GridManager {
     setTimeout(() => document.addEventListener('mousedown', onOutside), 0);
   }
 
-  // ── DOM construction (one-time) ──────────────────────────────────────────────
+  //  DOM construction (one-time) 
 
   _buildTable() {
     this._container.innerHTML = '';
@@ -459,7 +459,7 @@ class GridManager {
     this._container.appendChild(this._pagBar);
   }
 
-  // ── Render pipeline ──────────────────────────────────────────────────────────
+  //  Render pipeline 
 
   _render() {
     if (this._serverMode) {
@@ -572,7 +572,7 @@ class GridManager {
     return col._alignRight || col.filter === 'wfNumberFilter';
   }
 
-  // ── Header building ──────────────────────────────────────────────────────────
+  //  Header building 
 
   _buildHeaders() {
     this._thead.innerHTML    = '';
@@ -650,7 +650,7 @@ class GridManager {
 
       th.appendChild(inner);
 
-      // ── Resize handle ──────────────────────────────────────────────────────
+      //  Resize handle 
       if (col.pinned !== 'right') {
         const handle = document.createElement('div');
         handle.className = 'wf-resize-handle';
@@ -693,7 +693,7 @@ class GridManager {
         th.appendChild(handle);
       }
 
-      // ── Column drag-to-reorder ─────────────────────────────────────────────
+      //  Column drag-to-reorder ─
       th.setAttribute('draggable', 'true');
       th.addEventListener('dragstart', (e) => {
         // Modifier-key click = additive sort intent — cancel drag so _didDrag stays false.
@@ -727,7 +727,7 @@ class GridManager {
         this._dragSrcField = null;
       });
 
-      // ── Sort click ─────────────────────────────────────────────────────────
+      //  Sort click ─
       // Track mousedown position so we can distinguish click from drag.
       if (col.sortable !== false) {
         th.style.cursor = 'pointer';
@@ -807,7 +807,7 @@ class GridManager {
     this._render();
   }
 
-  // ── Row building ─────────────────────────────────────────────────────────────
+  //  Row building ─
 
   _buildRows(pageData) {
     this._tbody.innerHTML = '';
@@ -883,7 +883,7 @@ class GridManager {
     });
   }
 
-  // ── Pagination bar ───────────────────────────────────────────────────────────
+  //  Pagination bar ─
 
   _buildPagination() {
     this._pagBar.innerHTML = '';
@@ -951,7 +951,7 @@ class GridManager {
     this._pagBar.appendChild(controls);
   }
 
-  // ── Column width calculation ─────────────────────────────────────────────────
+  //  Column width calculation ─
 
   _recalcWidths() {
     const containerWidth = this._container.clientWidth;
@@ -1028,7 +1028,7 @@ class GridManager {
     });
   }
 
-  // ── Column filter popup ──────────────────────────────────────────────────────
+  //  Column filter popup 
 
   _openFilterPopup(col, anchorEl) {
     if (this._filterPopup) {
@@ -1060,7 +1060,7 @@ class GridManager {
     let applyFn;  // set per filter type
 
     if (isCategorical) {
-      // ── Categorical filter — checkbox list ──────────────────────────────────
+      //  Categorical filter — checkbox list 
       const selected = new Set(
         current.op === 'inList' ? String(current.val || '').split(',').map(v => v.trim()) : []
       );
@@ -1092,7 +1092,7 @@ class GridManager {
       };
 
     } else if (isDate) {
-      // ── Date filter ─────────────────────────────────────────────────────────
+      //  Date filter ─
       const dateOps = [['dateEq','On date'],['dateBefore','Before'],['dateAfter','After']];
 
       const opSel = document.createElement('select');
@@ -1121,7 +1121,7 @@ class GridManager {
       };
 
     } else {
-      // ── Text / numeric filter ────────────────────────────────────────────────
+      //  Text / numeric filter 
       const textOps    = [['contains','Contains'],['equals','Equals'],['startsWith','Starts with']];
       const numericOps = [['numEq','='],['gt','>'],['gte','≥'],['lt','<'],['lte','≤']];
 
@@ -1205,7 +1205,7 @@ class GridManager {
     setTimeout(() => document.addEventListener('mousedown', onOutside), 0);
   }
 
-  // ── Helpers ──────────────────────────────────────────────────────────────────
+  //  Helpers 
 
   _visibleCols() {
     return this._columnDefs.filter(c => !this._hiddenCols.has(c.field));
@@ -1239,7 +1239,7 @@ class GridManager {
     this._render();
   }
 
-  // ── Server-side pagination ──────────────────────────────────────────────────
+  //  Server-side pagination 
 
   _setPending(pending) {
     this._pendingChanges = pending;

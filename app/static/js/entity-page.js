@@ -48,7 +48,7 @@ const EntityPage = (function () {
       const ctx = ContextBar.getContext();
       spec.fic_mis_date = ctx.fic_mis_date || '';
       const resp = await ApiUtils.post(`/api/${entityType}/query`, spec);
-      ApiUtils.updateKpi(resp.data || [], _getActivePredicate(entityType));
+      ApiUtils.updateKpi(resp.meta);
       return resp;
     };
 

@@ -3,7 +3,7 @@
    Wells Fargo inspired color palette + enterprise banking UI
    ============================================================ */
 
-/* ── Design tokens ─────────────────────────────────────────────────────────── */
+/*  Design tokens ─ */
 :root {
   /* Brand */
   --wf-red:          #D71E28;
@@ -55,7 +55,7 @@
   --transition:      150ms ease;
 }
 
-/* ── Reset & base ───────────────────────────────────────────────────────────── */
+/*  Reset & base ─ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 html { font-size: 14px; scroll-behavior: smooth; }
@@ -71,7 +71,7 @@ body {
 a { color: var(--wf-red); text-decoration: none; transition: color var(--transition); }
 a:hover { color: var(--wf-red-dark); }
 
-/* ── Application header ─────────────────────────────────────────────────────── */
+/*  Application header ─ */
 .app-header {
   position:         fixed;
   top:              0; left: 0; right: 0;
@@ -223,7 +223,7 @@ a:hover { color: var(--wf-red-dark); }
 .user-name { color: var(--white); font-size: 13px; font-weight: 600; }
 .user-role { color: rgba(255,255,255,.65); font-size: 10px; }
 
-/* ── Sidebar ─────────────────────────────────────────────────────────────────── */
+/*  Sidebar ─ */
 .sidebar {
   position:         fixed;
   top:              var(--header-h);
@@ -307,7 +307,7 @@ a:hover { color: var(--wf-red-dark); }
 .env-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--success); flex-shrink: 0; }
 .version { font-size: 10px; color: var(--gray-700); }
 
-/* ── Layout ──────────────────────────────────────────────────────────────────── */
+/*  Layout  */
 .app-layout {
   display:          flex;
   margin-top:       var(--header-h);
@@ -324,7 +324,7 @@ a:hover { color: var(--wf-red-dark); }
 
 .main-content.sidebar-collapsed { margin-left: var(--sidebar-w-collapsed); }
 
-/* ── Breadcrumb ─────────────────────────────────────────────────────────────── */
+/*  Breadcrumb ─ */
 .breadcrumb-nav { margin-bottom: 16px; }
 
 .breadcrumb {
@@ -348,7 +348,7 @@ a:hover { color: var(--wf-red-dark); }
 
 .breadcrumb-sep { color: var(--gray-400); font-size: 12px; }
 
-/* ── Page header ─────────────────────────────────────────────────────────────── */
+/*  Page header ─ */
 .page-header {
   display:          flex;
   align-items:      flex-start;
@@ -372,7 +372,7 @@ a:hover { color: var(--wf-red-dark); }
   max-width:        560px;
 }
 
-/* ── KPI Strip ───────────────────────────────────────────────────────────────── */
+/*  KPI Strip ─ */
 .kpi-strip {
   display:          flex;
   gap:              12px;
@@ -407,7 +407,7 @@ a:hover { color: var(--wf-red-dark); }
   margin-top:       4px;
 }
 
-/* ── Toolbar ─────────────────────────────────────────────────────────────────── */
+/*  Toolbar ─ */
 .toolbar {
   display:          flex;
   align-items:      center;
@@ -529,7 +529,7 @@ a:hover { color: var(--wf-red-dark); }
   line-height:      1.4;
 }
 
-/* ── Export dropdown ─────────────────────────────────────────────────────────── */
+/*  Export dropdown ─ */
 .export-dropdown {
   position:         relative;
   display:          inline-flex;
@@ -644,7 +644,7 @@ a:hover { color: var(--wf-red-dark); }
   cursor:           pointer;
 }
 
-/* ── Status / badge chips ────────────────────────────────────────────────────── */
+/*  Status / badge chips  */
 .status-chip {
   display:          inline-flex;
   align-items:      center;
@@ -662,7 +662,7 @@ a:hover { color: var(--wf-red-dark); }
   flex-shrink:      0;
 }
 
-/* ── Facility statuses ───────────────────────────────────────────────────────── */
+/*  Facility statuses ─ */
 .chip-active        { background: var(--success-light); color: var(--success); }
 .chip-active .status-dot { background: var(--success); }
 
@@ -675,7 +675,7 @@ a:hover { color: var(--wf-red-dark); }
 .chip-under-review  { background: #fff3cd; color: #b45309; }
 .chip-under-review .status-dot { background: #b45309; }
 
-/* ── Obligor statuses ────────────────────────────────────────────────────────── */
+/*  Obligor statuses  */
 .chip-defaulted     { background: var(--danger-light); color: var(--danger); }
 .chip-defaulted .status-dot { background: var(--danger); }
 
@@ -685,7 +685,7 @@ a:hover { color: var(--wf-red-dark); }
 .chip-watchlist     { background: var(--warning-light); color: var(--warning); }
 .chip-watchlist .status-dot { background: var(--warning); }
 
-/* ── Transaction statuses ────────────────────────────────────────────────────── */
+/*  Transaction statuses  */
 .chip-completed     { background: #dcfce7; color: #15803d; }
 .chip-completed .status-dot { background: #15803d; }
 
@@ -695,7 +695,7 @@ a:hover { color: var(--wf-red-dark); }
 .chip-failed        { background: #fee2e2; color: #b91c1c; }
 .chip-failed .status-dot { background: #b91c1c; }
 
-/* ── Comment statuses ────────────────────────────────────────────────────────── */
+/*  Comment statuses  */
 .chip-open          { background: #fff3cd; color: #b45309; }
 .chip-open .status-dot { background: #b45309; }
 
@@ -708,13 +708,13 @@ a:hover { color: var(--wf-red-dark); }
 .chip-resolved      { background: #dcfce7; color: #15803d; }
 .chip-resolved .status-dot { background: #15803d; }
 
-/* ── Priority chips ──────────────────────────────────────────────────────────── */
+/*  Priority chips  */
 .chip-critical      { background: #fdecea; color: #b71c1c; }
 .chip-high          { background: #fef3c7; color: #92400e; }
 .chip-medium        { background: #eff6ff; color: #1e40af; }
 .chip-low           { background: #f0fdf4; color: #15803d; }
 
-/* ── Loading overlay ─────────────────────────────────────────────────────────── */
+/*  Loading overlay ─ */
 .loading-overlay {
   position:         fixed;
   inset:            0;
@@ -751,7 +751,7 @@ a:hover { color: var(--wf-red-dark); }
   color:            var(--gray-600);
 }
 
-/* ── Toast notifications ─────────────────────────────────────────────────────── */
+/*  Toast notifications ─ */
 .toast-container {
   position:         fixed;
   bottom:           24px;
@@ -793,7 +793,7 @@ a:hover { color: var(--wf-red-dark); }
 .toast-warning { border-left: 3px solid var(--warning); }
 .toast-info    { border-left: 3px solid var(--info); }
 
-/* ── Responsive ──────────────────────────────────────────────────────────────── */
+/*  Responsive  */
 @media (max-width: 1024px) {
   .sidebar        { transform: translateX(-100%); }
   .sidebar.open   { transform: translateX(0); }

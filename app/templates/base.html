@@ -6,7 +6,7 @@
   <meta name="description" content="Wells Fargo Enterprise Credit Analytics Platform" />
   <title>{% block title %}{{ title | default('WF Analytics') }}{% endblock %} | WF Enterprise Analytics</title>
 
-  {# ── Application styles ───────────────────────────────────────────────────── #}
+  {#  Application styles ─ #}
   <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/grid.css') }}" />
   <link rel="stylesheet" href="{{ url_for('static', filename='css/modal.css') }}" />
@@ -24,18 +24,18 @@
 </head>
 <body>
 
-  {# ── Header ───────────────────────────────────────────────────────────────── #}
+  {#  Header ─ #}
   {% include 'components/header.html' %}
 
   <div class="app-layout">
 
-    {# ── Sidebar ──────────────────────────────────────────────────────────────── #}
+    {#  Sidebar  #}
     {% include 'components/sidebar.html' %}
 
-    {# ── Main content ─────────────────────────────────────────────────────────── #}
+    {#  Main content ─ #}
     <main class="main-content" id="mainContent">
 
-      {# ── Query context bar (SOR + Date) — lives inside main-content so it      #}
+      {#  Query context bar (SOR + Date) — lives inside main-content so it      #}
       {#    naturally clears the fixed header and fixed sidebar                    #}
       <div id="context-bar" class="context-bar">
         <div class="context-bar-inner">
@@ -62,10 +62,10 @@
 
   </div>
 
-  {# ── Toast notification container ─────────────────────────────────────────── #}
+  {#  Toast notification container ─ #}
   <div class="toast-container" id="toastContainer" aria-live="polite"></div>
 
-  {# ── Loading overlay ──────────────────────────────────────────────────────── #}
+  {#  Loading overlay  #}
   <div class="loading-overlay" id="loadingOverlay" aria-hidden="true">
     <div class="loading-spinner">
       <div class="spinner-ring"></div>
@@ -73,7 +73,7 @@
     </div>
   </div>
 
-  {# ── Application JS modules (order matters) ─────────────────────────────── #}
+  {#  Application JS modules (order matters) ─ #}
   <script src="{{ url_for('static', filename='js/api-utils.js') }}"></script>
   <script src="{{ url_for('static', filename='js/export-tracker.js') }}"></script>
   <script src="{{ url_for('static', filename='js/grid-config.js') }}"></script>

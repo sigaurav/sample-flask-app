@@ -4,12 +4,12 @@
 
 {% block content %}
 
-{# ── Breadcrumb ───────────────────────────────────────────────────────────── #}
+{#  Breadcrumb ─ #}
 {% with crumbs=[{'label': 'Schedule H1'}, {'label': entity_label}] %}
   {% include 'components/breadcrumb.html' %}
 {% endwith %}
 
-{# ── Page header ──────────────────────────────────────────────────────────── #}
+{#  Page header  #}
 <div class="page-header">
   <div>
     <h1 class="page-title">
@@ -35,7 +35,7 @@
   </div>
 </div>
 
-{# ── Toolbar ──────────────────────────────────────────────────────────────── #}
+{#  Toolbar  #}
 <div class="toolbar">
   <div class="toolbar-left">
     <div class="search-box">
@@ -74,7 +74,7 @@
       </button>
     </div>
 
-    {# ── Export dropdown ───────────────────────────────────────────────────── #}
+    {#  Export dropdown ─ #}
     <div class="export-dropdown">
       <button class="btn btn-primary export-trigger" id="btnExport" title="Export options">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14">
@@ -109,7 +109,7 @@
   </div>
 </div>
 
-{# ── Grid container ────────────────────────────────────────────────────────── #}
+{#  Grid container  #}
 <div class="grid-card">
   <div id="{{ entity_type }}Grid" class="wf-grid" style="width:100%; height:620px;"></div>
 </div>

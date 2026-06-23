@@ -46,7 +46,7 @@
   white-space: nowrap;
 }
 
-/* ── Segmented button group (SOR) ───────────────────────────────────────────── */
+/*  Segmented button group (SOR) ─ */
 .ctx-seg-group {
   display: flex;
   border: 1px solid var(--gray-300);
@@ -83,7 +83,7 @@
   color: var(--white);
 }
 
-/* ── Date text input ─────────────────────────────────────────────────────────── */
+/*  Date text input ─ */
 .ctx-date-input {
   padding: 4px 10px;
   border: 1px solid var(--gray-300);
@@ -114,7 +114,7 @@
   letter-spacing: 0;
 }
 
-/* ── Load button ─────────────────────────────────────────────────────────────── */
+/*  Load button ─ */
 .context-bar-btn {
   display: inline-flex;
   align-items: center;
@@ -134,7 +134,7 @@
 .context-bar-btn:hover  { background: var(--wf-red-dark); }
 .context-bar-btn:active { background: #8f1319; }
 
-/* ── Status badge ────────────────────────────────────────────────────────────── */
+/*  Status badge  */
 .context-bar-status {
   font-size: 11px;
   color: var(--gray-400);

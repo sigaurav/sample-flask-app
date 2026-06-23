@@ -24,7 +24,7 @@ const ApiUtils = (function () {
   let _pendingRequests = 0;
   let _loadingTimer    = null;
 
-  // ── Loading overlay management ─────────────────────────────────────────────
+  //  Loading overlay management ─
 
   function _showLoading() {
     _pendingRequests++;
@@ -44,7 +44,7 @@ const ApiUtils = (function () {
     if (el) el.classList.remove('active');
   }
 
-  // ── Query context helpers ─────────────────────────────────────────────────
+  //  Query context helpers ─
 
   function _withContext(url) {
     try {
@@ -55,7 +55,7 @@ const ApiUtils = (function () {
     } catch (_) { return url; }
   }
 
-  // ── Core GET wrapper ──────────────────────────────────────────────────────
+  //  Core GET wrapper 
 
   async function get(url, showLoader = true) {
     if (showLoader) _showLoading();
@@ -80,7 +80,7 @@ const ApiUtils = (function () {
     }
   }
 
-  // ── Core POST wrapper ─────────────────────────────────────────────────────
+  //  Core POST wrapper ─
 
   async function post(url, body, showLoader = true) {
     if (showLoader) _showLoading();
@@ -106,7 +106,7 @@ const ApiUtils = (function () {
     }
   }
 
-  // ── URL builder ────────────────────────────────────────────────────────────
+  //  URL builder 
 
   function buildUrl(base, params = {}) {
     const qs = Object.entries(params)
@@ -117,7 +117,7 @@ const ApiUtils = (function () {
     return base + (base.includes('?') ? '&' : '?') + qs;
   }
 
-  // ── Legacy sync download (drill-down modal exports) ────────────────────────
+  //  Legacy sync download (drill-down modal exports) 
 
   function downloadFile(url) {
     _showLoading();
@@ -130,7 +130,7 @@ const ApiUtils = (function () {
     setTimeout(_hideLoading, 1200);
   }
 
-  // ── Async export API ───────────────────────────────────────────────────────
+  //  Async export API ─
 
   /**
    * Create an async export job on the backend.
@@ -169,7 +169,7 @@ const ApiUtils = (function () {
     downloadFile(`/api/internal/exports/${jobId}/download`);
   }
 
-  // ── Shared export triggers ─────────────────────────────────────────────────
+  //  Shared export triggers ─
 
   /**
    * Create an export job from a ready-made spec, show a toast, and register
@@ -214,22 +214,28 @@ const ApiUtils = (function () {
     }, typeLabel, entityLabel);
   }
 
-  // ── Shared KPI strip ──────────────────────────────────────────────────────
+  //  Shared KPI strip 
 
   /**
    * Update the kpiTotal and kpiActive counters in the page header strip.
    *
-   * @param {Array}    records  - Full dataset currently loaded in the grid.
-   * @param {Function} activeFn - Predicate that returns true for "active" records,
-   *                              e.g. r => r.status === 'Active'.
+   * Accepts either server-provided meta (total + active counts) or falls back
+   * to client-side counting from records + predicate.
+   *
+   * @param {Object}   meta     - Response meta with total and active counts.
+   * @param {Array}    [records]  - Records array (fallback for client-side count).
+   * @param {Function} [activeFn] - Predicate for client-side active count.
    */
-  function updateKpi(records, activeFn) {
+  function updateKpi(meta, records, activeFn) {
     const el = (id) => document.getElementById(id);
-    if (el('kpiTotal'))  el('kpiTotal').textContent  = records.length.toLocaleString();
-    if (el('kpiActive')) el('kpiActive').textContent = records.filter(activeFn).length.toLocaleString();
+    const total  = meta && meta.total  !== undefined ? meta.total  : (records || []).length;
+    const active = meta && meta.active !== undefined ? meta.active
+                 : (records && activeFn ? records.filter(activeFn).length : 0);
+    if (el('kpiTotal'))  el('kpiTotal').textContent  = total.toLocaleString();
+    if (el('kpiActive')) el('kpiActive').textContent = active.toLocaleString();
   }
 
-  // ── Shared toolbar wiring ──────────────────────────────────────────────────
+  //  Shared toolbar wiring 
 
   /**
    * Wire the standard grid toolbar controls shared by every page:
@@ -316,7 +322,7 @@ const ApiUtils = (function () {
     });
   }
 
-  // ── Public surface ─────────────────────────────────────────────────────────
+  //  Public surface ─
 
   return {
     get, post, buildUrl, createExportJob, downloadExport,

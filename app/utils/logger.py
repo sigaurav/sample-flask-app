@@ -79,7 +79,7 @@ def configure_logging(
     formatter     = logging.Formatter(fmt)
     ctx_filter    = RequestContextFilter()
 
-    # ── Console handler ────────────────────────────────────────────────────────
+    #  Console handler 
     stream_handler = logging.StreamHandler(sys.stdout)
     stream_handler.setLevel(numeric_level)
     stream_handler.setFormatter(formatter)
@@ -90,7 +90,7 @@ def configure_logging(
     root.handlers.clear()
     root.addHandler(stream_handler)
 
-    # ── Rotating file handler (opt-in) ─────────────────────────────────────────
+    #  Rotating file handler (opt-in) ─
     if log_file:
         import os
         os.makedirs(os.path.dirname(os.path.abspath(log_file)), exist_ok=True)

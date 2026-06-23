@@ -60,16 +60,18 @@ def paginated_response(
     total: int,
     page: int,
     per_page: int,
+    active: int | None = None,
     status_code: int = 200,
 ) -> tuple:
     """
     Return a paginated JSON response with navigation metadata.
 
     Args:
-        data:      Page of records.
-        total:     Total record count (all pages).
-        page:      Current 1-based page number.
-        per_page:  Records per page.
+        data:        Page of records.
+        total:       Total record count (all pages).
+        page:        Current 1-based page number.
+        per_page:    Records per page.
+        active:      Active record count across full dataset (optional).
         status_code: HTTP status code.
 
     Returns:
@@ -83,4 +85,6 @@ def paginated_response(
         "has_next":    page * per_page < total,
         "has_prev":    page > 1,
     }
+    if active is not None:
+        meta["active"] = active
     return success_response(data, status_code=status_code, meta=meta)

@@ -33,11 +33,11 @@ def create_app(config_name: str = "default") -> Flask:
         static_folder="static",
     )
 
-    # ── Configuration ─────────────────────────────────────────────────────────
+    #  Configuration ─
     cfg_class = config_map.get(config_name, config_map["default"])
     app.config.from_object(cfg_class)
 
-    # ── Logging ───────────────────────────────────────────────────────────────
+    #  Logging ─
     configure_logging(
         level        = app.config["LOG_LEVEL"],
         fmt          = app.config["LOG_FORMAT"],
@@ -46,22 +46,22 @@ def create_app(config_name: str = "default") -> Flask:
         backup_count = app.config.get("LOG_BACKUP_COUNT", 5),
     )
 
-    # ── Per-request context stamps ────────────────────────────────────────────
+    #  Per-request context stamps 
     @app.before_request
     def _stamp_request_context() -> None:
         g.request_id = request.headers.get("X-Request-Id") or uuid.uuid4().hex[:12]
         g.user_id    = request.headers.get("X-User-Id", "anonymous")
 
-    # ── Ensure output directories exist ──────────────────────────────────────
+    #  Ensure output directories exist 
     os.makedirs(app.config["EXPORT_DIR"], exist_ok=True)
     if app.config.get("LOG_FILE"):
         os.makedirs(os.path.dirname(app.config["LOG_FILE"]), exist_ok=True)
 
-    # ── Data + Reporting services (shared for app lifetime) ───────────────────
+    #  Data + Reporting services (shared for app lifetime) ─
     app.data_service      = DataService(app.config)
     app.reporting_service = ReportingService(app.data_service, app.config)
 
-    # ── Register Blueprints ───────────────────────────────────────────────────
+    #  Register Blueprints ─
     from app.blueprints.main   import main_bp
     from app.blueprints.api    import api_bp
     from app.blueprints.export import export_bp, internal_export_bp
@@ -71,7 +71,7 @@ def create_app(config_name: str = "default") -> Flask:
     app.register_blueprint(export_bp,          url_prefix="/api/exports")
     app.register_blueprint(internal_export_bp, url_prefix="/api/internal/exports")
 
-    # ── Global error handlers ─────────────────────────────────────────────────
+    #  Global error handlers ─
     _register_error_handlers(app)
 
     # Only log in the child server process; the parent (reloader) runs create_app

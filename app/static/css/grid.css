@@ -2,14 +2,14 @@
    WF Enterprise Analytics — Custom table grid styles
    ============================================================ */
 
-/* ── Grid container — flex column so pagBar always sits at the bottom ─────────── */
+/*  Grid container — flex column so pagBar always sits at the bottom ─ */
 .wf-grid {
   display:          flex;
   flex-direction:   column;
   overflow:         hidden;
 }
 
-/* ── Table wrapper — takes remaining height, scrolls both axes ───────────────── */
+/*  Table wrapper — takes remaining height, scrolls both axes ─ */
 .wf-table-wrapper {
   flex:             1;
   min-height:       0;
@@ -17,7 +17,7 @@
   overflow-y:       auto;
 }
 
-/* ── Table base ──────────────────────────────────────────────────────────────── */
+/*  Table base  */
 .wf-table {
   table-layout:     fixed;
   border-collapse:  separate;   /* required for position:sticky to work */
@@ -27,7 +27,7 @@
   color:            #2c2c2c;
 }
 
-/* ── Header ──────────────────────────────────────────────────────────────────── */
+/*  Header  */
 .wf-th {
   height:           44px;
   padding:          0 20px 0 14px;   /* extra right padding keeps content clear of the 6px resize handle */
@@ -177,7 +177,7 @@
   padding-right:    14px;   /* no resize handle on pinned-right; restore symmetric padding */
 }
 
-/* ── Rows ────────────────────────────────────────────────────────────────────── */
+/*  Rows  */
 .wf-tr {
   height:           40px;
   border-bottom:    1px solid #f0f0f0;
@@ -189,7 +189,7 @@
 
 .wf-tr:hover { background: rgba(215, 30, 40, .04) !important; }
 
-/* ── Cells ───────────────────────────────────────────────────────────────────── */
+/*  Cells ─ */
 .wf-td {
   padding:          0 14px;
   overflow:         hidden;
@@ -236,7 +236,7 @@
 .wf-tr:nth-child(odd):hover .wf-td-pinned-left,
 .wf-tr:nth-child(odd):hover .wf-td-pinned-right { background: #f9f3f6 !important; }
 
-/* ── No-rows overlay ─────────────────────────────────────────────────────────── */
+/*  No-rows overlay ─ */
 .wf-no-rows {
   padding:          32px;
   text-align:       center;
@@ -245,7 +245,7 @@
   font-style:       italic;
 }
 
-/* ── Pagination bar ──────────────────────────────────────────────────────────── */
+/*  Pagination bar  */
 .wf-pag-bar {
   display:          flex;
   align-items:      center;
@@ -328,7 +328,7 @@
   font-style:       italic;
 }
 
-/* ── Column filter popup ─────────────────────────────────────────────────────── */
+/*  Column filter popup ─ */
 .wf-col-filter-popup {
   position:         fixed;
   z-index:          9000;
@@ -421,7 +421,7 @@
 
 .wf-cfp-clear:hover { background: #ebebeb; }
 
-/* ── Column picker dropdown ──────────────────────────────────────────────────── */
+/*  Column picker dropdown  */
 .col-picker-panel {
   position:         absolute;
   z-index:          8000;
@@ -504,7 +504,7 @@
   background:       rgba(215, 30, 40, .03);
 }
 
-/* ── Drill-down link ─────────────────────────────────────────────────────────── */
+/*  Drill-down link ─ */
 .drill-down-cell {
   cursor:           pointer;
 }
@@ -536,14 +536,14 @@
   opacity:          .7;
 }
 
-/* ── Money / numeric cells ───────────────────────────────────────────────────── */
+/*  Money / numeric cells ─ */
 .cell-numeric {
   font-family:      "SFMono-Regular", Consolas, monospace;
   font-size:        12.5px;
   color:            #1a3a5c;
 }
 
-/* ── Risk rating chips ───────────────────────────────────────────────────────── */
+/*  Risk rating chips ─ */
 .risk-chip {
   display:          inline-block;
   padding:          2px 7px;
@@ -558,7 +558,7 @@
 .risk-bb  { background: #fff3cd; color: #c47a00; }
 .risk-b   { background: #fdecea; color: #c0392b; }
 
-/* ── Utilisation bar ─────────────────────────────────────────────────────────── */
+/*  Utilisation bar ─ */
 .util-bar-wrap {
   display:          flex;
   align-items:      center;
@@ -588,7 +588,7 @@
   text-align:       right;
 }
 
-/* ── Apply Filters pending indicator ─────────────────────────────────────── */
+/*  Apply Filters pending indicator ─ */
 #btnApplyFilters.has-pending,
 .modal-apply-btn.has-pending {
   background:       #D71E28;

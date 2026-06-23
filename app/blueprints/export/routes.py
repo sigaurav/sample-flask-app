@@ -29,7 +29,7 @@ def _user_id() -> str:
     return getattr(g, "user_id", "anonymous")
 
 
-# ── POST /api/exports ─────────────────────────────────────────────────────────
+#  POST /api/exports ─
 
 @export_bp.route("", methods=["POST"])
 def create_export():

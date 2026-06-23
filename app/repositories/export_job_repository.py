@@ -33,7 +33,7 @@ class ExportJobRepository:
         self._jobs: Dict[str, ExportJob] = {}
         self._lock = threading.Lock()
 
-    # ── Writes ─────────────────────────────────────────────────────────────────
+    #  Writes ─
 
     def create(self, job: ExportJob) -> ExportJob:
         """Persist a new job record.  Returns the same object."""
@@ -58,14 +58,14 @@ class ExportJobRepository:
                 else:
                     log.debug("ExportJobRepository.update: unknown field %r on job %s", key, job_id)
 
-    # ── Reads ──────────────────────────────────────────────────────────────────
+    #  Reads 
 
     def get(self, job_id: str) -> Optional[ExportJob]:
         """Return the job record or ``None`` if not found."""
         with self._lock:
             return self._jobs.get(job_id)
 
-    # ── Singleton ──────────────────────────────────────────────────────────────
+    #  Singleton 
 
     _instance: Optional["ExportJobRepository"] = None
     _init_lock = threading.Lock()

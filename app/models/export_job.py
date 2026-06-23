@@ -31,33 +31,33 @@ class ExportJob:
         FAILED    → worker encountered an unrecoverable error
     """
 
-    # ── Identity ───────────────────────────────────────────────────────────────
+    #  Identity ─
     job_id:        str
     user_id:       str
 
-    # ── Request spec (what was asked for) ─────────────────────────────────────
+    #  Request spec (what was asked for) ─
     export_type:   str           # "partial" | "full"
     schedule_type: str           # "H1" | "H2" | "all"
     entity_type:   str           # "facilities" | "obligations" | "property"
     file_format:   str           # "csv" | "excel" | "parquet"
 
-    # ── Lifecycle ──────────────────────────────────────────────────────────────
+    #  Lifecycle 
     status:        str
     created_at:    datetime
 
-    # ── Optional scope / filter state ─────────────────────────────────────────
+    #  Optional scope / filter state ─
     entity_id:     Optional[str]  = None
     filters:       Dict[str, Any] = field(default_factory=dict)
     sorts:         List[Dict]     = field(default_factory=list)
 
-    # ── Worker result ──────────────────────────────────────────────────────────
+    #  Worker result 
     started_at:    Optional[datetime] = None
     completed_at:  Optional[datetime] = None
     row_count:     Optional[int]      = None
     file_path:     Optional[str]      = None
     error_message: Optional[str]      = None
 
-    # ── Computed ───────────────────────────────────────────────────────────────
+    #  Computed ─
 
     @property
     def duration_seconds(self) -> Optional[float]:

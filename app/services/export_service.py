@@ -41,7 +41,7 @@ class ExportService:
         self.log           = logging.getLogger(__name__)
         self._repo         = ExportJobRepository.get_instance()
 
-    # ── Job creation ──────────────────────────────────────────────────────────
+    #  Job creation 
 
     def create_job(
         self,
@@ -83,7 +83,7 @@ class ExportService:
         )
         return job
 
-    # ── Status queries ────────────────────────────────────────────────────────
+    #  Status queries 
 
     def get_status(self, job_id: str) -> Optional[Dict]:
         """Return full job metadata as a JSON-serialisable dict, or None if not found."""
@@ -102,7 +102,7 @@ class ExportService:
         path = self.get_file_path(job_id)
         return path is not None and os.path.exists(path)
 
-    # ── Private helpers ───────────────────────────────────────────────────────
+    #  Private helpers ─
 
     @staticmethod
     def _validate(

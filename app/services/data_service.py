@@ -79,7 +79,7 @@ class DataService:
             log.warning("DataService: no adapters initialised — falling back to CSV")
             self.adapters["csv"] = CSVAdapter(config)
 
-    # ── Public API ─────────────────────────────────────────────────────────────
+    #  Public API ─
 
     def get_adapter(self, source_type: Optional[str] = None) -> BaseAdapter:
         """Return the adapter for *source_type*, or the primary adapter."""

@@ -37,7 +37,7 @@ _MAX_WORKERS = int(os.environ.get("EXPORT_WORKER_THREADS", 4))
 _executor = ThreadPoolExecutor(max_workers=_MAX_WORKERS, thread_name_prefix="wf-export")
 
 
-# ── Public interface ──────────────────────────────────────────────────────────
+#  Public interface 
 
 def submit_export_job(job: "ExportJob", datasource: "BaseAdapter", export_dir: str) -> None:
     """
@@ -55,7 +55,7 @@ def submit_export_job(job: "ExportJob", datasource: "BaseAdapter", export_dir: s
     )
 
 
-# ── Worker ────────────────────────────────────────────────────────────────────
+#  Worker 
 
 def _run_export(job_id: str, datasource: "BaseAdapter", export_dir: str) -> None:
     """
@@ -138,7 +138,7 @@ def _run_export(job_id: str, datasource: "BaseAdapter", export_dir: str) -> None
         )
 
 
-# ── Serialisation ─────────────────────────────────────────────────────────────
+#  Serialisation ─
 
 def _serialize(df, job: "ExportJob", export_dir: str) -> str:
     """Write *df* to *export_dir* and return the absolute file path."""

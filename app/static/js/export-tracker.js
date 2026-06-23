@@ -26,7 +26,7 @@ const ExportTracker = (function () {
   let _panel     = null;
   let _collapsed = true;   // panel starts hidden in every new session
 
-  // ── Public API ─────────────────────────────────────────────────────────────
+  //  Public API ─
 
   /**
    * Register a newly submitted job and expand the panel.
@@ -46,7 +46,7 @@ const ExportTracker = (function () {
     _startPolling();
   }
 
-  // ── Panel lifecycle ────────────────────────────────────────────────────────
+  //  Panel lifecycle 
 
   function _ensurePanel() {
     if (_panel) return;
@@ -88,7 +88,7 @@ const ExportTracker = (function () {
     _panel.classList.toggle('exp-tracker-collapsed', _collapsed);
   }
 
-  // ── Polling ────────────────────────────────────────────────────────────────
+  //  Polling 
 
   function _startPolling() {
     if (_pollTimer !== null) return;
@@ -137,7 +137,7 @@ const ExportTracker = (function () {
     }
   }
 
-  // ── Rendering ──────────────────────────────────────────────────────────────
+  //  Rendering 
 
   function _render() {
     if (!_panel) return;
@@ -232,11 +232,11 @@ const ExportTracker = (function () {
       .replace(/"/g, '&quot;');
   }
 
-  // ── Boot ───────────────────────────────────────────────────────────────────
+  //  Boot ─
 
   document.addEventListener('DOMContentLoaded', _ensurePanel);
 
-  // ── Public surface ─────────────────────────────────────────────────────────
+  //  Public surface ─
 
   return { track };
 

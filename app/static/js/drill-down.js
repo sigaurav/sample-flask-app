@@ -13,7 +13,7 @@ const DrillDown = (function () {
 
   const _schemaCache = {};
 
-  // ── Schema cache ──────────────────────────────────────────────────────────
+  //  Schema cache 
 
   async function _fetchSchema(entityType) {
     if (_schemaCache[entityType]) return _schemaCache[entityType];
@@ -26,7 +26,7 @@ const DrillDown = (function () {
     return _schemaCache[entityType];
   }
 
-  // ── Label helpers ─────────────────────────────────────────────────────────
+  //  Label helpers ─
 
   function _getLabelForRow(rowData, entityType) {
     const cfg        = (APP_CONFIG.entities || {})[entityType] || {};
@@ -34,7 +34,7 @@ const DrillDown = (function () {
     return (labelField && rowData[labelField]) ? String(rowData[labelField]) : '';
   }
 
-  // ── Public: open a child entity in a modal ────────────────────────────────
+  //  Public: open a child entity in a modal 
 
   function open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel) {
     const entities  = APP_CONFIG.entities || {};
@@ -54,7 +54,7 @@ const DrillDown = (function () {
     });
   }
 
-  // ── Modal mount ───────────────────────────────────────────────────────────
+  //  Modal mount ─
 
   async function _mountModal(panel, parentEntity, childEntity, fkValues, parentLabel) {
     const safeId = _safeId(Object.values(fkValues).join('-'));
@@ -100,7 +100,7 @@ const DrillDown = (function () {
     mgr.applyFilters();
   }
 
-  // ── Shared helpers ────────────────────────────────────────────────────────
+  //  Shared helpers 
 
   function _capitalize(s) {
     return s.charAt(0).toUpperCase() + s.slice(1);

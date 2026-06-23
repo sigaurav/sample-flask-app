@@ -3,7 +3,7 @@
    Stacked modal system with smooth transitions
    ============================================================ */
 
-/* ── Backdrop ────────────────────────────────────────────────────────────────── */
+/*  Backdrop  */
 .modal-backdrop {
   position:         fixed;
   inset:            0;
@@ -21,7 +21,7 @@
 
 /* z-index is set via JavaScript (backdrop.style.zIndex) so nth-of-type is not needed here. */
 
-/* ── Modal panel ─────────────────────────────────────────────────────────────── */
+/*  Modal panel ─ */
 .modal-panel {
   background:       #fff;
   border-radius:    10px;
@@ -45,7 +45,7 @@
 .modal-backdrop[data-depth="3"] .modal-panel { max-width:  960px; }
 .modal-backdrop[data-depth="4"] .modal-panel { max-width:  860px; }
 
-/* ── Modal header ────────────────────────────────────────────────────────────── */
+/*  Modal header  */
 .modal-header {
   display:          flex;
   align-items:      center;
@@ -119,7 +119,7 @@
 }
 .modal-close-btn:hover { background: #fdecea; color: #D71E28; }
 
-/* ── Modal toolbar ───────────────────────────────────────────────────────────── */
+/*  Modal toolbar ─ */
 .modal-toolbar {
   display:          flex;
   align-items:      center;
@@ -160,7 +160,7 @@
 }
 .modal-search-input:focus { border-color: #D71E28; }
 
-/* ── Modal body / grid area ──────────────────────────────────────────────────── */
+/*  Modal body / grid area  */
 .modal-body {
   flex:             1;
   overflow:         hidden;
@@ -182,7 +182,7 @@
   height:           460px;
 }
 
-/* ── Modal footer ────────────────────────────────────────────────────────────── */
+/*  Modal footer  */
 .modal-footer {
   display:          flex;
   align-items:      center;
@@ -204,7 +204,7 @@
 }
 .record-count strong { color: #2c2c2c; }
 
-/* ── Comment text cell ───────────────────────────────────────────────────────── */
+/*  Comment text cell ─ */
 .comment-text-cell {
   white-space:      normal !important;
   line-height:      1.4;
@@ -214,5 +214,5 @@
   color:            #424242;
 }
 
-/* ── Utility ─────────────────────────────────────────────────────────────────── */
+/*  Utility ─ */
 .text-muted { color: #9e9e9e; font-style: italic; }

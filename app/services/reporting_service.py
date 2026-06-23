@@ -54,7 +54,7 @@ class ReportingService:
     def _ctx(self, fic_mis_date: str) -> dict:
         return {"_fic_mis_date": fic_mis_date}
 
-    # ── Generic entry point ────────────────────────────────────────────────────
+    #  Generic entry point 
 
     def get_entity(
         self,
@@ -72,23 +72,67 @@ class ReportingService:
         adapter = self._data_service.get_adapter_for_entity(entity_type)
         ctx     = self._ctx(fic_mis_date)
 
-        df = adapter.fetch(
-            entity_type, entity_key=entity_key,
-            filters={"quick_filter": search, "col_filters": col_filters or {}, **ctx},
-            sorts=sorts or [],
+        filters = {"quick_filter": search, "col_filters": col_filters or {}, **ctx}
+        use_db_pagination = (
+            hasattr(adapter, "fetch_count")
+            and not search
         )
-        df = self._enrich_with_child_counts(df, entity_type, ctx)
 
-        total   = len(df)
-        df_page = BaseRepository.paginate(df, page, per_page)
-        records = _schema_coerce_records(df_page, entity_type)
+        if use_db_pagination:
+            total  = adapter.fetch_count(entity_type, entity_key=entity_key,
+                                         filters=dict(filters))
+            active = self._count_active_db(adapter, entity_type, entity_key,
+                                           filters)
+            df = adapter.fetch(
+                entity_type, entity_key=entity_key,
+                filters=filters, sorts=sorts or [],
+                page=page, per_page=per_page,
+            )
+            df = self._enrich_with_child_counts(df, entity_type, ctx)
+            records = _schema_coerce_records(df, entity_type)
+        else:
+            df = adapter.fetch(
+                entity_type, entity_key=entity_key,
+                filters=filters, sorts=sorts or [],
+            )
+            df = self._enrich_with_child_counts(df, entity_type, ctx)
+            total   = len(df)
+            active  = self._count_active(df, entity_type)
+            df_page = BaseRepository.paginate(df, page, per_page)
+            records = _schema_coerce_records(df_page, entity_type)
         log.debug(
             "get_entity entity=%s entity_key=%s fic_mis_date=%r -> %d/%d",
             entity_type, entity_key, fic_mis_date, len(records), total,
         )
-        return {"records": records, "total": total, "page": page, "per_page": per_page}
+        return {
+            "records": records, "total": total,
+            "active": active,
+            "page": page, "per_page": per_page,
+        }
 
-    # ── Child-count enrichment ─────────────────────────────────────────────────
+    #  KPI helpers ─
+
+    def _count_active(self, df: pd.DataFrame, entity_type: str) -> int:
+        cfg = self._entities.get(entity_type, {}).get("active_filter")
+        if not cfg or df.empty:
+            return 0
+        field, value = cfg.get("field", ""), cfg.get("value", "")
+        if field and field in df.columns:
+            return int((df[field].astype(str) == str(value)).sum())
+        return 0
+
+    def _count_active_db(self, adapter, entity_type, entity_key, filters) -> int:
+        cfg = self._entities.get(entity_type, {}).get("active_filter")
+        if not cfg:
+            return 0
+        active_filters = dict(filters)
+        cf = dict(active_filters.get("col_filters", {}))
+        cf[cfg["field"]] = {"op": "equals", "val": cfg["value"]}
+        active_filters["col_filters"] = cf
+        return adapter.fetch_count(entity_type, entity_key=entity_key,
+                                   filters=active_filters)
+
+    #  Child-count enrichment ─
 
     def _enrich_with_child_counts(
         self, df: pd.DataFrame, entity_type: str, ctx: dict

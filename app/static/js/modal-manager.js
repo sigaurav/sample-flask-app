@@ -11,7 +11,7 @@ const ModalManager = (function () {
   /** @type {HTMLElement[]} Stack of currently open backdrop elements. */
   const _stack = [];
 
-  // ── Public API ─────────────────────────────────────────────────────────────
+  //  Public API ─
 
   /**
    * Open a new modal.
@@ -28,7 +28,7 @@ const ModalManager = (function () {
   function open(config) {
     const { title, breadcrumb = null, subtitle = '', onMount, id } = config;
 
-    // ── Build the backdrop
+    //  Build the backdrop
     const backdrop = document.createElement('div');
     backdrop.className = 'modal-backdrop';
     if (id) backdrop.dataset.modalId = id;
@@ -41,7 +41,7 @@ const ModalManager = (function () {
     // CSS nth-of-type cannot do this reliably when other divs exist in <body>.
     backdrop.style.zIndex = 1100 + (depth - 1) * 100;
 
-    // ── Build the panel
+    //  Build the panel
     backdrop.innerHTML = _buildPanelHtml(title, subtitle, breadcrumb);
     document.body.appendChild(backdrop);
 
@@ -120,7 +120,7 @@ const ModalManager = (function () {
     return _stack.length;
   }
 
-  // ── HTML builder ───────────────────────────────────────────────────────────
+  //  HTML builder ─
 
   function _buildPanelHtml(title, subtitle, breadcrumb) {
     let headerDetail = '';
@@ -160,7 +160,7 @@ const ModalManager = (function () {
     `;
   }
 
-  // ── Utilities ──────────────────────────────────────────────────────────────
+  //  Utilities 
 
   function _esc(str) {
     return String(str)
@@ -173,14 +173,14 @@ const ModalManager = (function () {
   let _counter = 0;
   function _uid() { return ++_counter; }
 
-  // ── Public surface ─────────────────────────────────────────────────────────
+  //  Public surface ─
 
   return { open, close, closeAll, depth };
 
 }());
 
 
-// ── Toast notification utility ─────────────────────────────────────────────────
+//  Toast notification utility ─
 
 const Toast = (function () {
 

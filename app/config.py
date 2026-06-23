@@ -16,18 +16,18 @@ class BaseConfig:
     can be launched from any working directory.
     """
 
-    # ── Core Flask ─────────────────────────────────────────────────────────────
+    #  Core Flask ─
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "wf-enterprise-dev-secret-2024")
     DEBUG: bool     = False
     TESTING: bool   = False
 
-    # ── Paths ──────────────────────────────────────────────────────────────────
+    #  Paths 
     BASE_DIR:   str = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     DATA_DIR:   str = os.path.join(BASE_DIR, "data")
     EXPORT_DIR: str = os.path.join(BASE_DIR, "exports")
     LOG_DIR:    str = os.path.join(BASE_DIR, "logs")
 
-    # ── Logging ────────────────────────────────────────────────────────────────
+    #  Logging 
     LOG_LEVEL:         str = "INFO"
     LOG_FORMAT:        str = (
         "%(asctime)s | %(levelname)-8s | %(name)s | "
@@ -37,21 +37,21 @@ class BaseConfig:
     LOG_MAX_BYTES:     int = 10 * 1024 * 1024   # 10 MB
     LOG_BACKUP_COUNT:  int = 5
 
-    # ── Pagination ─────────────────────────────────────────────────────────────
+    #  Pagination ─
     DEFAULT_PAGE_SIZE: int = 50
     MAX_PAGE_SIZE:     int = 100_000
 
-    # ── Async export worker ────────────────────────────────────────────────────
+    #  Async export worker 
     EXPORT_WORKER_THREADS: int = 4   # ThreadPoolExecutor max_workers
 
-    # ── Active data sources ────────────────────────────────────────────────────
+    #  Active data sources 
     # Allowlist of source types that are permitted to establish connections.
     # ENTITIES declares which source each entity *wants*; if that source is not
     # in this list no adapter is initialised and the entity falls back to CSV.
     # Valid values: "csv", "dremio", "sqlserver", "teradata"
     ENABLED_DATA_SOURCES: list = ["csv", "dremio", "sqlserver"]
 
-    # ── Entity graph ───────────────────────────────────────────────────────────
+    #  Entity graph ─
     # Single source of truth for all entity configuration.
     #
     # source        : adapter that owns this entity's data
@@ -117,7 +117,7 @@ class BaseConfig:
         },
     }
 
-    # ── External data sources ──────────────────────────────────────────────────
+    #  External data sources 
     DREMIO_HOST:   str = ""
     DREMIO_PORT:   int = 32010
     DREMIO_SOURCE: str = "FR_Y14Q"
@@ -160,7 +160,7 @@ class TestingConfig(BaseConfig):
     LOG_LEVEL: str  = "DEBUG"
 
 
-# ── Registry ───────────────────────────────────────────────────────────────────
+#  Registry ─
 config_map: dict = {
     "development": DevelopmentConfig,
     "production":  ProductionConfig,

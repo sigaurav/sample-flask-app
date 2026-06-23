@@ -1,6 +1,6 @@
 # WF Enterprise Analytics Platform
 
-A professional enterprise-grade web application for credit facility portfolio management with multi-level drill-down capabilities. Built with Python / Flask / AG Grid Community.
+A professional enterprise-grade web application for credit facility portfolio management with multi-level drill-down capabilities. Built with Python / Flask / WF Grid Community.
 
 ---
 
@@ -58,7 +58,7 @@ SampleApp4/
 │   └── static/
 │       ├── css/
 │       │   ├── main.css         # WF-themed layout & components
-│       │   ├── grid.css         # AG Grid custom theme overrides
+│       │   ├── grid.css         # WF Grid custom theme overrides
 │       │   └── modal.css        # Stacked modal system styles
 │       └── js/
 │           ├── api-utils.js     # Fetch wrapper, loading overlay
@@ -127,7 +127,7 @@ Open your browser at **http://localhost:5000**
 
 ## Demo Workflow
 
-1. **Load dashboard** — 100 facilities displayed in the main AG Grid
+1. **Load dashboard** — 100 facilities displayed in the main WF Grid
 2. **Sort / filter** — click column headers, use the filter icon
 3. **Search** — type in the search box (top-left of toolbar)
 4. **Show / Hide columns** — click the Columns button
@@ -238,5 +238,5 @@ Adding a new drill-down level requires:
 | Data | pandas, CSV files |
 | Export | pandas + openpyxl (Excel), pyarrow (Parquet) |
 | Frontend | Vanilla JavaScript (ES2020), HTML5, CSS3 |
-| Grid | AG Grid Community 31.3.2 (CDN) |
+| Grid | WF Grid Community 31.3.2 (CDN) |
 | Styling | Custom CSS — WF design system |

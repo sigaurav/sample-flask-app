@@ -23,7 +23,7 @@ def _parse_context() -> str:
     return request.args.get("fic_mis_date", "").strip()
 
 
-# ── Schema endpoint (registered first so literal "schema" beats /<entity_type>) ──
+#  Schema endpoint (registered first so literal "schema" beats /<entity_type>) 
 
 @api_bp.route("/schema/<entity_type>", methods=["GET"])
 def get_entity_schema(entity_type: str):
@@ -37,7 +37,7 @@ def get_entity_schema(entity_type: str):
         return error_response("Internal server error", 500)
 
 
-# ── Generic entity routes ─────────────────────────────────────────────────────
+#  Generic entity routes ─
 
 @api_bp.route("/<entity_type>/query", methods=["POST"])
 def query_entity(entity_type: str):
@@ -62,6 +62,7 @@ def query_entity(entity_type: str):
         return paginated_response(
             data=result["records"], total=result["total"],
             page=result["page"],   per_page=result["per_page"],
+            active=result.get("active"),
         )
     except FileNotFoundError as exc:
         log.error("Data file missing: %s", exc)
@@ -108,6 +109,7 @@ def query_child_entity(parent_entity: str, child_entity: str):
         return paginated_response(
             data=result["records"], total=result["total"],
             page=result["page"],   per_page=result["per_page"],
+            active=result.get("active"),
         )
     except FileNotFoundError as exc:
         return error_response(str(exc), 503)
@@ -134,6 +136,7 @@ def get_entity(entity_type: str):
         return paginated_response(
             data=result["records"], total=result["total"],
             page=result["page"],   per_page=result["per_page"],
+            active=result.get("active"),
         )
     except FileNotFoundError as exc:
         log.error("Data file missing: %s", exc)
