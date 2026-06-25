@@ -39,16 +39,8 @@ const DrillDown = (function () {
   function open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel) {
     const entities  = APP_CONFIG.entities || {};
     const childRel  = ((entities[parentEntity] || {}).children || {})[childEntity] || {};
-    const fkCols    = childRel.fk || [];
-    const concatSep = childRel.concat_separator;
-
-    let fkValues;
-    if (concatSep) {
-      const concatVal = fkCols.map(col => String(rowData[col] ?? '')).join(concatSep);
-      fkValues = { [childRel.child_fk[0]]: concatVal };
-    } else {
-      fkValues = Object.fromEntries(fkCols.map(col => [col, rowData[col]]));
-    }
+    const fkCols   = childRel.fk || [];
+    const fkValues = Object.fromEntries(fkCols.map(col => [col, rowData[col]]));
     const display = parentLabel || _getLabelForRow(rowData, parentEntity);
 
     const breadcrumb = grandparentLabel

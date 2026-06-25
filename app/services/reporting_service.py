@@ -91,11 +91,14 @@ class ReportingService:
             df = self._enrich_with_child_counts(df, entity_type, ctx)
             records = _schema_coerce_records(df, entity_type)
         else:
+            # Don't pass sorts to adapter — sort AFTER enrichment so
+            # computed columns (count cols) are available for sorting.
             df = adapter.fetch(
                 entity_type, entity_key=entity_key,
-                filters=filters, sorts=sorts or [],
+                filters=filters,
             )
             df = self._enrich_with_child_counts(df, entity_type, ctx)
+            df = self._apply_sorts(df, sorts or [])
             total   = len(df)
             active  = self._count_active(df, entity_type)
             df_page = BaseRepository.paginate(df, page, per_page)
@@ -109,6 +112,18 @@ class ReportingService:
             "active": active,
             "page": page, "per_page": per_page,
         }
+
+    # ── Sort helper (post-enrichment) ────────────────────────────────────────
+
+    @staticmethod
+    def _apply_sorts(df: pd.DataFrame, sorts: list) -> pd.DataFrame:
+        if not sorts or df.empty:
+            return df
+        fields    = [s["field"]                   for s in sorts if s.get("field") in df.columns]
+        ascending = [s.get("dir", "asc") == "asc" for s in sorts if s.get("field") in df.columns]
+        if fields:
+            df = df.sort_values(by=fields, ascending=ascending, ignore_index=True)
+        return df
 
     #  KPI helpers ─
 

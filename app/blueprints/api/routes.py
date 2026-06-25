@@ -23,11 +23,18 @@ def _parse_context() -> str:
     return request.args.get("fic_mis_date", "").strip()
 
 
+def _to_str(val):
+    """Convert a value to string, reversing float coercion for integer-valued floats."""
+    if isinstance(val, float) and val == int(val):
+        return str(int(val))
+    return str(val) if val is not None else ""
+
+
 def _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep=None):
     if not fk_vals or not all(fk_vals.get(c) for c in fk_cols):
         return None
     if concat_sep:
-        concat_val = concat_sep.join(str(fk_vals.get(c, "")) for c in fk_cols)
+        concat_val = concat_sep.join(_to_str(fk_vals.get(c, "")) for c in fk_cols)
         return {child_fk_cols[0]: concat_val}
     return {child_col: fk_vals.get(parent_col, "")
             for parent_col, child_col in zip(fk_cols, child_fk_cols)}
