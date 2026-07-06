@@ -18,38 +18,6 @@
 
 const CellRenderer = (function () {
 
-  function status(params) {
-    const val = (params.value || '').toString();
-    const key = val.toLowerCase().replace(/\s+/g, '-');
-    const el  = document.createElement('span');
-    el.className = `status-chip chip-${key}`;
-    el.innerHTML = `<span class="status-dot"></span>${val}`;
-    return el;
-  }
-
-  function riskRating(params) {
-    const val = (params.value || '').toString();
-    const key = val.replace(/[^a-z]/gi, '').toLowerCase().slice(0, 3);
-    const el  = document.createElement('span');
-    el.className = `risk-chip risk-${key}`;
-    el.textContent = val;
-    return el;
-  }
-
-  function utilisation(params) {
-    const pct   = parseFloat(params.value) || 0;
-    const color = pct >= 90 ? '#c0392b' : pct >= 70 ? '#c47a00' : '#1b7a3e';
-    const el    = document.createElement('div');
-    el.className = 'util-bar-wrap';
-    el.innerHTML = `
-      <div class="util-bar">
-        <div class="util-bar-fill" style="width:${Math.min(pct,100)}%;background:${color};"></div>
-      </div>
-      <span class="util-pct">${pct.toFixed(1)}%</span>
-    `;
-    return el;
-  }
-
   function money(params) {
     if (params.value === null || params.value === undefined || params.value === '') return '–';
     const n = parseFloat(params.value);
@@ -90,7 +58,7 @@ const CellRenderer = (function () {
     return a;
   }
 
-  return { status, riskRating, utilisation, money, date, drillDownLink };
+  return { money, date, drillDownLink };
 
 }());
 
@@ -246,15 +214,6 @@ class GridManager {
   }
 
   //  Public data API 
-
-  setData(rows, total) {
-    this._allData = rows || [];
-    this._page    = 0;
-    if (this._serverMode && total !== undefined) {
-      this._totalRows = total;
-    }
-    this._render();
-  }
 
   setQuickFilter(text) {
     this._quickFilter = text || '';
@@ -1254,7 +1213,7 @@ class GridManager {
     const batchStartPage = Math.floor(this._page / this._batchPages) * this._batchPages;
 
     const spec = {
-      page:         batchStartPage + 1,
+      page:         batchStartPage / this._batchPages + 1,
       per_page:     batchSize,
       sorts:        this._sortState.map(s => ({ field: s.field, dir: s.dir })),
       col_filters:  Object.fromEntries(this._colFilters),

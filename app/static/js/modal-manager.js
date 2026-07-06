@@ -107,19 +107,6 @@ const ModalManager = (function () {
     }, 280);
   }
 
-  /** Close all open modals at once. */
-  function closeAll() {
-    [..._stack].reverse().forEach(close);
-  }
-
-  /**
-   * Return the number of currently open modals.
-   * @returns {number}
-   */
-  function depth() {
-    return _stack.length;
-  }
-
   //  HTML builder ─
 
   function _buildPanelHtml(title, subtitle, breadcrumb) {
@@ -175,7 +162,7 @@ const ModalManager = (function () {
 
   //  Public surface ─
 
-  return { open, close, closeAll, depth };
+  return { open, close };
 
 }());
 

@@ -543,51 +543,6 @@
   color:            #1a3a5c;
 }
 
-/*  Risk rating chips ─ */
-.risk-chip {
-  display:          inline-block;
-  padding:          2px 7px;
-  border-radius:    4px;
-  font-size:        11px;
-  font-weight:      700;
-  letter-spacing:   .3px;
-}
-
-.risk-aaa, .risk-aa, .risk-a { background: #e6f4ec; color: #1b7a3e; }
-.risk-bbb { background: #eff6ff; color: #1565c0; }
-.risk-bb  { background: #fff3cd; color: #c47a00; }
-.risk-b   { background: #fdecea; color: #c0392b; }
-
-/*  Utilisation bar ─ */
-.util-bar-wrap {
-  display:          flex;
-  align-items:      center;
-  gap:              8px;
-  width:            100%;
-}
-
-.util-bar {
-  flex:             1;
-  height:           6px;
-  background:       #e0e0e0;
-  border-radius:    3px;
-  overflow:         hidden;
-}
-
-.util-bar-fill {
-  height:           100%;
-  border-radius:    3px;
-  transition:       width .4s ease;
-}
-
-.util-pct {
-  font-size:        11px;
-  color:            #5a5a5a;
-  white-space:      nowrap;
-  min-width:        36px;
-  text-align:       right;
-}
-
 /*  Apply Filters pending indicator ─ */
 #btnApplyFilters.has-pending,
 .modal-apply-btn.has-pending {

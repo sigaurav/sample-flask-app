@@ -5,7 +5,6 @@
  * HTTP / export API:
  *  - get(url, showLoader)
  *  - post(url, body, showLoader)
- *  - buildUrl(base, params)
  *  - createExportJob(spec)
  *  - downloadExport(jobId)
  *  - triggerExportJob(spec, typeLabel, entityLabel)
@@ -106,17 +105,6 @@ const ApiUtils = (function () {
     } finally {
       if (showLoader) _hideLoading();
     }
-  }
-
-  //  URL builder 
-
-  function buildUrl(base, params = {}) {
-    const qs = Object.entries(params)
-      .filter(([, v]) => v !== null && v !== undefined && v !== '')
-      .map(([k, v]) => `${encodeURIComponent(k)}=${encodeURIComponent(v)}`)
-      .join('&');
-    if (!qs) return base;
-    return base + (base.includes('?') ? '&' : '?') + qs;
   }
 
   // ── Sync file download ────────────────────────────────────────────────────── 
@@ -317,7 +305,7 @@ const ApiUtils = (function () {
   //  Public surface ─
 
   return {
-    get, post, buildUrl, createExportJob, downloadExport,
+    get, post, createExportJob, downloadExport,
     triggerExportJob, triggerGridExport,
     wireGridToolbar, wireExportDropdown,
     updateKpi,

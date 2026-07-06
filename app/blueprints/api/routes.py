@@ -10,18 +10,6 @@ from app.utils.response_utils  import error_response, paginated_response, succes
 log = logging.getLogger(__name__)
 
 
-def _parse_pagination() -> tuple[int, int]:
-    page     = max(1, request.args.get("page",     1,  type=int))
-    per_page = max(1, min(
-        request.args.get("per_page", current_app.config["DEFAULT_PAGE_SIZE"], type=int),
-        current_app.config["MAX_PAGE_SIZE"],
-    ))
-    return page, per_page
-
-
-def _parse_context() -> str:
-    return request.args.get("fic_mis_date", "").strip()
-
 
 def _to_str(val):
     """Convert a value to string, reversing float coercion for integer-valued floats."""
@@ -135,65 +123,3 @@ def query_child_entity(parent_entity: str, child_entity: str):
         return error_response("Internal server error", 500)
 
 
-@api_bp.route("/<entity_type>", methods=["GET"])
-def get_entity(entity_type: str):
-    entities = current_app.config.get("ENTITIES", {})
-    if entity_type not in entities:
-        return error_response(f"Unknown entity: '{entity_type}'", 404)
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        fic_mis_date   = _parse_context()
-        result = current_app.reporting_service.get_entity(
-            entity_type, search=search, page=page, per_page=per_page,
-            fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-            active=result.get("active"),
-        )
-    except FileNotFoundError as exc:
-        log.error("Data file missing: %s", exc)
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception("Unexpected error fetching %s", entity_type)
-        return error_response("Internal server error", 500)
-
-
-@api_bp.route("/<parent_entity>/<child_entity>", methods=["GET"])
-def get_child_entity(parent_entity: str, child_entity: str):
-    entities = current_app.config.get("ENTITIES", {})
-    if parent_entity not in entities:
-        return error_response(f"Unknown entity: '{parent_entity}'", 404)
-    children = entities[parent_entity].get("children", {})
-    if child_entity not in children:
-        return error_response(
-            f"'{child_entity}' is not a declared child of '{parent_entity}'", 404
-        )
-    try:
-        page, per_page = _parse_pagination()
-        search         = request.args.get("search", "").strip()
-        fic_mis_date   = _parse_context()
-        child_rel     = children[child_entity]
-        fk_cols       = child_rel["fk"]
-        child_fk_cols = child_rel["child_fk"]
-        concat_sep    = child_rel.get("concat_separator")
-
-        fk_vals    = {col: request.args.get(col, "").strip() for col in fk_cols}
-        entity_key = _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep)
-        result = current_app.reporting_service.get_entity(
-            child_entity, entity_key=entity_key, search=search,
-            page=page, per_page=per_page, fic_mis_date=fic_mis_date,
-        )
-        return paginated_response(
-            data=result["records"], total=result["total"],
-            page=result["page"],   per_page=result["per_page"],
-        )
-    except FileNotFoundError as exc:
-        return error_response(str(exc), 503)
-    except Exception:
-        log.exception(
-            "Unexpected error fetching %s → %s", parent_entity, child_entity
-        )
-        return error_response("Internal server error", 500)

@@ -142,7 +142,7 @@ def _run_export(job_id: str, datasource: "BaseAdapter", export_dir: str) -> None
 
 def _serialize(df, job: "ExportJob", export_dir: str) -> str:
     """Write *df* to *export_dir* and return the absolute file path."""
-    import pandas as pd  # local import — worker threads don't always share the GIL
+    import pandas as pd
     from app.schemas import get_visible_fields
 
     # Keep only visible (non-hidden) columns; rename to schema labels.

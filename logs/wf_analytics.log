@@ -1457,3 +1457,288 @@
 2026-06-23 18:28:42,947 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3284922883a0 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
 2026-06-23 18:28:42,952 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3284922883a0 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
 2026-06-23 18:28:43,067 | DEBUG    | app.services.reporting_service | req=3284922883a0 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:05:19,225 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-06 10:05:19,225 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-07-06 10:05:19,983 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-06 10:05:19,984 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors'])
+2026-07-06 10:05:19,991 | INFO     | app | req=- user=- | Application created with config: development
+2026-07-06 10:05:19,991 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-07-06 10:05:20,017 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-07-06 10:06:58,836 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51c39d68d96f user=anonymous | CSVAdapter loaded entity=facilities rows=19766 path=F:\Office\SampleApp4\data\facilities.csv
+2026-07-06 10:06:58,850 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51c39d68d96f user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:06:58,870 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51c39d68d96f user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-07-06 10:06:58,873 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51c39d68d96f user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:06:58,890 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51c39d68d96f user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-07-06 10:06:58,893 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51c39d68d96f user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:06:58,987 | DEBUG    | app.services.reporting_service | req=51c39d68d96f user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:04,798 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d7446746efc5 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:04,801 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d7446746efc5 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:04,805 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d7446746efc5 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:04,900 | DEBUG    | app.services.reporting_service | req=d7446746efc5 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:05,852 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=689c5b52a04f user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:05,855 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=689c5b52a04f user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:05,860 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=689c5b52a04f user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:05,969 | DEBUG    | app.services.reporting_service | req=689c5b52a04f user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:06,009 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=214bc5713f18 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:06,011 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=214bc5713f18 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:06,016 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=214bc5713f18 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:06,120 | DEBUG    | app.services.reporting_service | req=214bc5713f18 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:07,094 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9a6849fc75c1 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:07,097 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9a6849fc75c1 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:07,102 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9a6849fc75c1 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:07,183 | DEBUG    | app.services.reporting_service | req=9a6849fc75c1 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:08,141 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=05344eff981a user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:08,144 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=05344eff981a user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:08,149 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=05344eff981a user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:08,260 | DEBUG    | app.services.reporting_service | req=05344eff981a user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:08,326 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=54fc415dfca6 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:08,328 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=54fc415dfca6 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:08,333 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=54fc415dfca6 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:08,430 | DEBUG    | app.services.reporting_service | req=54fc415dfca6 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:09,129 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d11b8e08f957 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:09,132 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d11b8e08f957 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:09,136 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d11b8e08f957 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:09,230 | DEBUG    | app.services.reporting_service | req=d11b8e08f957 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:10,156 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=47939be0b502 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:10,159 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=47939be0b502 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:10,164 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=47939be0b502 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:10,251 | DEBUG    | app.services.reporting_service | req=47939be0b502 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:10,342 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3a45a00622e6 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:10,344 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3a45a00622e6 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:10,349 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=3a45a00622e6 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:10,430 | DEBUG    | app.services.reporting_service | req=3a45a00622e6 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:11,154 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5a5537073142 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:11,157 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5a5537073142 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:11,161 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5a5537073142 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:11,271 | DEBUG    | app.services.reporting_service | req=5a5537073142 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:12,943 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5fec2740d639 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:12,945 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5fec2740d639 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:12,950 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5fec2740d639 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:13,039 | DEBUG    | app.services.reporting_service | req=5fec2740d639 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:15,077 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a68a48e68200 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:15,080 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a68a48e68200 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:15,084 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a68a48e68200 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:15,164 | DEBUG    | app.services.reporting_service | req=a68a48e68200 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:16,024 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5b149f408d66 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:16,027 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5b149f408d66 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:16,032 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5b149f408d66 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:16,141 | DEBUG    | app.services.reporting_service | req=5b149f408d66 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:16,242 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=090422b90384 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:16,245 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=090422b90384 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:16,249 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=090422b90384 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:16,349 | DEBUG    | app.services.reporting_service | req=090422b90384 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:17,458 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a431efb29496 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:17,461 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a431efb29496 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:17,465 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a431efb29496 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:17,562 | DEBUG    | app.services.reporting_service | req=a431efb29496 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:07:18,449 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=803c517d6913 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:18,451 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=803c517d6913 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:18,457 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=803c517d6913 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:18,539 | DEBUG    | app.services.reporting_service | req=803c517d6913 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 0/19766
+2026-07-06 10:07:20,811 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=056877704a02 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:20,814 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=056877704a02 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:20,818 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=056877704a02 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:20,895 | DEBUG    | app.services.reporting_service | req=056877704a02 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 0/19766
+2026-07-06 10:07:22,630 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c381cd570af9 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:22,634 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c381cd570af9 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:22,639 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c381cd570af9 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:22,749 | DEBUG    | app.services.reporting_service | req=c381cd570af9 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 0/19766
+2026-07-06 10:07:24,793 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=960ff7968654 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:24,796 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=960ff7968654 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:24,801 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=960ff7968654 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:24,921 | DEBUG    | app.services.reporting_service | req=960ff7968654 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:27,144 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7149e7f50e66 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:27,147 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7149e7f50e66 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:27,153 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7149e7f50e66 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:27,283 | DEBUG    | app.services.reporting_service | req=7149e7f50e66 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:28,076 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=237e700d6ebf user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:28,079 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=237e700d6ebf user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:28,084 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=237e700d6ebf user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:28,203 | DEBUG    | app.services.reporting_service | req=237e700d6ebf user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:29,581 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b6863e8f8cb0 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:29,584 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b6863e8f8cb0 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:29,591 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b6863e8f8cb0 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:29,720 | DEBUG    | app.services.reporting_service | req=b6863e8f8cb0 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:30,576 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=860684357ed6 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:30,580 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=860684357ed6 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:30,588 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=860684357ed6 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:30,717 | DEBUG    | app.services.reporting_service | req=860684357ed6 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:31,868 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=88e9897fc0cb user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:31,872 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=88e9897fc0cb user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:31,877 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=88e9897fc0cb user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:31,992 | DEBUG    | app.services.reporting_service | req=88e9897fc0cb user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:32,737 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=286f414aa8e3 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:32,741 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=286f414aa8e3 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:32,745 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=286f414aa8e3 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:32,868 | DEBUG    | app.services.reporting_service | req=286f414aa8e3 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:33,806 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d8b2a24e69ad user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:33,809 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d8b2a24e69ad user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:33,815 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d8b2a24e69ad user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:33,932 | DEBUG    | app.services.reporting_service | req=d8b2a24e69ad user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:34,694 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=52e40cf8f22e user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:34,697 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=52e40cf8f22e user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:34,701 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=52e40cf8f22e user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:34,805 | DEBUG    | app.services.reporting_service | req=52e40cf8f22e user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:35,841 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=15f338f480aa user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:35,845 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=15f338f480aa user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:35,850 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=15f338f480aa user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:35,970 | DEBUG    | app.services.reporting_service | req=15f338f480aa user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:36,030 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c2e0b4ac0b6f user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:36,033 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c2e0b4ac0b6f user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:36,038 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c2e0b4ac0b6f user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:36,165 | DEBUG    | app.services.reporting_service | req=c2e0b4ac0b6f user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:36,953 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d5b7f890c093 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:36,956 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d5b7f890c093 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:36,960 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d5b7f890c093 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:37,068 | DEBUG    | app.services.reporting_service | req=d5b7f890c093 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:38,039 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a62050f601ab user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:38,042 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a62050f601ab user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:38,048 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a62050f601ab user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:38,178 | DEBUG    | app.services.reporting_service | req=a62050f601ab user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:38,242 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b1ef3087fb2a user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:38,247 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b1ef3087fb2a user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:38,253 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b1ef3087fb2a user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:38,388 | DEBUG    | app.services.reporting_service | req=b1ef3087fb2a user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:39,135 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6808fc74a409 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:39,138 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6808fc74a409 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:39,143 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6808fc74a409 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:39,259 | DEBUG    | app.services.reporting_service | req=6808fc74a409 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:40,225 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=4e2730e7dcd0 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:40,229 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=4e2730e7dcd0 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:40,235 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=4e2730e7dcd0 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:40,343 | DEBUG    | app.services.reporting_service | req=4e2730e7dcd0 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:41,131 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=eca0a968b6ca user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:41,134 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=eca0a968b6ca user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:41,138 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=eca0a968b6ca user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:41,257 | DEBUG    | app.services.reporting_service | req=eca0a968b6ca user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:42,174 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a624d74c9f86 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:42,177 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a624d74c9f86 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:42,183 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a624d74c9f86 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:42,322 | DEBUG    | app.services.reporting_service | req=a624d74c9f86 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:42,378 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=af787773dfaa user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:42,383 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=af787773dfaa user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:42,390 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=af787773dfaa user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:42,516 | DEBUG    | app.services.reporting_service | req=af787773dfaa user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:43,285 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9af7c680aaa6 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:43,289 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9af7c680aaa6 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:43,294 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9af7c680aaa6 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:43,402 | DEBUG    | app.services.reporting_service | req=9af7c680aaa6 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:44,352 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2efa27906305 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:44,356 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2efa27906305 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:44,361 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2efa27906305 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:44,503 | DEBUG    | app.services.reporting_service | req=2efa27906305 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:44,539 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6ef484a435df user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:44,543 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6ef484a435df user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:44,549 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6ef484a435df user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:44,676 | DEBUG    | app.services.reporting_service | req=6ef484a435df user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:45,486 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=bcb41ef9e3b2 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:45,490 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=bcb41ef9e3b2 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:45,496 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=bcb41ef9e3b2 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:45,615 | DEBUG    | app.services.reporting_service | req=bcb41ef9e3b2 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:46,611 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a385e4a699f5 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:46,614 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a385e4a699f5 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:46,618 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a385e4a699f5 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:46,732 | DEBUG    | app.services.reporting_service | req=a385e4a699f5 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:48,272 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e614bf7cf0ab user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:48,275 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e614bf7cf0ab user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:48,280 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e614bf7cf0ab user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:48,402 | DEBUG    | app.services.reporting_service | req=e614bf7cf0ab user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:49,397 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5c68cd5625a3 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:49,401 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5c68cd5625a3 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:49,406 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5c68cd5625a3 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:49,518 | DEBUG    | app.services.reporting_service | req=5c68cd5625a3 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:49,583 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0be709b057ea user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:49,586 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0be709b057ea user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:49,592 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0be709b057ea user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:49,695 | DEBUG    | app.services.reporting_service | req=0be709b057ea user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:07:50,682 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=021700ffc44a user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:50,685 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=021700ffc44a user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:50,690 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=021700ffc44a user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:50,789 | DEBUG    | app.services.reporting_service | req=021700ffc44a user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 0/19766
+2026-07-06 10:07:51,436 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d0fd535d1e69 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:51,449 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d0fd535d1e69 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:51,455 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=d0fd535d1e69 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:51,567 | DEBUG    | app.services.reporting_service | req=d0fd535d1e69 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 0/19766
+2026-07-06 10:07:52,978 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c1d3bcf2cc39 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:07:52,981 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c1d3bcf2cc39 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:07:52,985 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c1d3bcf2cc39 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:07:53,077 | DEBUG    | app.services.reporting_service | req=c1d3bcf2cc39 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 0/19766
+2026-07-06 10:24:36,336 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=1930e1c80be5 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:24:36,338 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=1930e1c80be5 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:24:36,343 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=1930e1c80be5 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:24:36,455 | DEBUG    | app.services.reporting_service | req=1930e1c80be5 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:24:40,471 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9465a45d7542 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:24:40,474 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9465a45d7542 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:24:40,479 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=9465a45d7542 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:24:40,554 | DEBUG    | app.services.reporting_service | req=9465a45d7542 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:24:45,174 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c060edbdd5ab user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:24:45,177 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c060edbdd5ab user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:24:45,182 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c060edbdd5ab user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:24:45,261 | DEBUG    | app.services.reporting_service | req=c060edbdd5ab user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:24:48,454 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c30999a20497 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:24:48,457 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c30999a20497 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:24:48,462 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c30999a20497 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:24:48,521 | DEBUG    | app.services.reporting_service | req=c30999a20497 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:24:52,095 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8c0bf78bdb28 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:24:52,098 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8c0bf78bdb28 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:24:52,102 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8c0bf78bdb28 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:24:52,197 | DEBUG    | app.services.reporting_service | req=8c0bf78bdb28 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:25:37,030 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=735ca86151f3 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:37,034 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=735ca86151f3 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:37,039 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=735ca86151f3 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:37,155 | DEBUG    | app.services.reporting_service | req=735ca86151f3 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:25:39,066 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6093921ec1b2 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:39,069 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6093921ec1b2 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:39,073 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=6093921ec1b2 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:39,155 | DEBUG    | app.services.reporting_service | req=6093921ec1b2 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 41/19766
+2026-07-06 10:25:40,689 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7d2cd72ae6ed user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:40,692 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7d2cd72ae6ed user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:40,697 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7d2cd72ae6ed user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:40,798 | DEBUG    | app.services.reporting_service | req=7d2cd72ae6ed user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:25:42,039 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=62e3b60eac5f user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:42,041 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=62e3b60eac5f user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:42,046 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=62e3b60eac5f user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:42,149 | DEBUG    | app.services.reporting_service | req=62e3b60eac5f user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:25:43,365 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51b759fffb7a user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:43,368 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51b759fffb7a user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:43,374 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=51b759fffb7a user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:43,491 | DEBUG    | app.services.reporting_service | req=51b759fffb7a user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 266/19766
+2026-07-06 10:25:46,294 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a01238f01cd1 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:46,297 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a01238f01cd1 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:46,302 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=a01238f01cd1 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:46,427 | DEBUG    | app.services.reporting_service | req=a01238f01cd1 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:25:48,159 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b6083c5cbc31 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:48,162 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b6083c5cbc31 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:48,167 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b6083c5cbc31 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:48,289 | DEBUG    | app.services.reporting_service | req=b6083c5cbc31 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 266/19766
+2026-07-06 10:25:49,014 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0d852a6355e5 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:25:49,017 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0d852a6355e5 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:25:49,021 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=0d852a6355e5 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:25:49,158 | DEBUG    | app.services.reporting_service | req=0d852a6355e5 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 300/19766
+2026-07-06 10:30:20,784 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5f1f4dafd841 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:30:20,787 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5f1f4dafd841 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:30:20,793 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=5f1f4dafd841 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:30:20,918 | DEBUG    | app.services.reporting_service | req=5f1f4dafd841 user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 266/19766
+2026-07-06 10:30:25,252 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8a7436f7953c user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:30:25,253 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8a7436f7953c user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:30:25,268 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8a7436f7953c user=anonymous | CSVAdapter loaded entity=errors rows=18 path=F:\Office\SampleApp4\data\errors.csv
+2026-07-06 10:30:25,270 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=8a7436f7953c user=anonymous | CSVAdapter.fetch entity=errors entity_key=None rows_returned=18
+2026-07-06 10:30:25,283 | DEBUG    | app.services.reporting_service | req=8a7436f7953c user=anonymous | get_entity entity=obligations entity_key=None fic_mis_date='2024-01-31' -> 12/12
+2026-07-06 10:30:29,006 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=1bebd7a779b4 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:30:29,010 | DEBUG    | app.services.reporting_service | req=1bebd7a779b4 user=anonymous | get_entity entity=property entity_key=None fic_mis_date='2024-01-31' -> 8/8
+2026-07-06 10:30:31,797 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f8ee69c3089e user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:30:31,799 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f8ee69c3089e user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:30:31,805 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f8ee69c3089e user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:30:31,915 | DEBUG    | app.services.reporting_service | req=f8ee69c3089e user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:30:34,578 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b7f62f853347 user=anonymous | CSVAdapter.fetch entity=obligations entity_key={'LOAN_NUMBER': 'LN-001'} rows_returned=2
+2026-07-06 10:30:34,580 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b7f62f853347 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:30:34,587 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=b7f62f853347 user=anonymous | CSVAdapter.fetch entity=errors entity_key=None rows_returned=18
+2026-07-06 10:30:34,600 | DEBUG    | app.services.reporting_service | req=b7f62f853347 user=anonymous | get_entity entity=obligations entity_key={'LOAN_NUMBER': 'LN-001'} fic_mis_date='2024-01-31' -> 2/2
+2026-07-06 10:30:36,677 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7b0cce4c9d59 user=anonymous | CSVAdapter.fetch entity=property entity_key={'FACLTY_ID': 'FAC-001', 'FACLTY_OBLGR_ID': 'OBLGR-001'} rows_returned=2
+2026-07-06 10:30:36,680 | DEBUG    | app.services.reporting_service | req=7b0cce4c9d59 user=anonymous | get_entity entity=property entity_key={'FACLTY_ID': 'FAC-001', 'FACLTY_OBLGR_ID': 'OBLGR-001'} fic_mis_date='2024-01-31' -> 2/2
+2026-07-06 10:34:25,774 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f3de02b4cddc user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-06 10:34:25,777 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f3de02b4cddc user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-06 10:34:25,781 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f3de02b4cddc user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-06 10:34:25,895 | DEBUG    | app.services.reporting_service | req=f3de02b4cddc user=anonymous | get_entity entity=facilities entity_key=None fic_mis_date='2024-01-31' -> 75/19766
+2026-07-06 10:34:26,697 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=643ace3cb9c6 user=anonymous | CSVAdapter.fetch entity=errors entity_key=None rows_returned=18
+2026-07-06 10:34:26,699 | DEBUG    | app.services.reporting_service | req=643ace3cb9c6 user=anonymous | get_entity entity=errors entity_key=None fic_mis_date='2024-01-31' -> 18/18

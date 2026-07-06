@@ -13,7 +13,7 @@ Usage (in routes / services):
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from app.adapters.base_adapter       import BaseAdapter
 from app.adapters.csv_adapter        import CSVAdapter
@@ -81,18 +81,6 @@ class DataService:
 
     #  Public API ─
 
-    def get_adapter(self, source_type: Optional[str] = None) -> BaseAdapter:
-        """Return the adapter for *source_type*, or the primary adapter."""
-        if source_type:
-            adapter = self.adapters.get(source_type)
-            if adapter is None:
-                raise ValueError(
-                    f"Adapter '{source_type}' is not configured. "
-                    f"Enabled sources: {list(self.adapters)}"
-                )
-            return adapter
-        return next(iter(self.adapters.values()))
-
     def get_adapter_for_entity(self, entity_type: str) -> BaseAdapter:
         """Return the adapter configured for *entity_type* in ENTITIES config."""
         source = self._config.get("ENTITIES", {}).get(entity_type, {}).get("source")
@@ -100,6 +88,3 @@ class DataService:
             return self.adapters[source]
         return next(iter(self.adapters.values()))
 
-    def health(self) -> Dict[str, bool]:
-        """Return a health-check result for every registered adapter."""
-        return {name: adapter.health_check() for name, adapter in self.adapters.items()}
