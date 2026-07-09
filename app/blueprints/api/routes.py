@@ -11,6 +11,7 @@ log = logging.getLogger(__name__)
 
 
 
+# Rolando's code does not have _to_str and _build_entity_key, but they are needed to support child entity queries.
 def _to_str(val):
     """Convert a value to string, reversing float coercion for integer-valued floats."""
     if isinstance(val, float) and val == int(val):
@@ -18,14 +19,18 @@ def _to_str(val):
     return str(val) if val is not None else ""
 
 
-def _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep=None):
+def _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep=None, static_filter=None):
     if not fk_vals or not all(fk_vals.get(c) for c in fk_cols):
         return None
     if concat_sep:
         concat_val = concat_sep.join(_to_str(fk_vals.get(c, "")) for c in fk_cols)
-        return {child_fk_cols[0]: concat_val}
-    return {child_col: fk_vals.get(parent_col, "")
-            for parent_col, child_col in zip(fk_cols, child_fk_cols)}
+        entity_key = {child_fk_cols[0]: concat_val}
+    else:
+        entity_key = {child_col: fk_vals.get(parent_col, "")
+                      for parent_col, child_col in zip(fk_cols, child_fk_cols)}
+    if static_filter:
+        entity_key[static_filter["field"]] = static_filter["value"]
+    return entity_key
 
 
 #  Schema endpoint (registered first so literal "schema" beats /<entity_type>) 
@@ -44,8 +49,9 @@ def get_entity_schema(entity_type: str):
 
 #  Generic entity routes ─
 
-@api_bp.route("/<entity_type>/query", methods=["POST"])
-def query_entity(entity_type: str):
+# Rolando updated below route and function name:
+@api_bp.route("/<entity_type>", methods=["POST"])
+def get_entity(entity_type: str):
     entities = current_app.config.get("ENTITIES", {})
     if entity_type not in entities:
         return error_response(f"Unknown entity: '{entity_type}'", 404)
@@ -60,7 +66,7 @@ def query_entity(entity_type: str):
             entity_type,
             search=payload.get("quick_filter", ""),
             page=page, per_page=per_page,
-            fic_mis_date=payload.get("fic_mis_date", ""),
+            period_dt=payload.get("period_dt", ""),
             sorts=payload.get("sorts", []),
             col_filters=payload.get("col_filters", {}),
         )
@@ -75,10 +81,11 @@ def query_entity(entity_type: str):
     except Exception:
         log.exception("Unexpected error querying %s", entity_type)
         return error_response("Internal server error", 500)
+    
 
-
-@api_bp.route("/<parent_entity>/<child_entity>/query", methods=["POST"])
-def query_child_entity(parent_entity: str, child_entity: str):
+# Rolando updated below route and function name:
+@api_bp.route("/<parent_entity>/<child_entity>", methods=["POST"])
+def get_child_entity(parent_entity: str, child_entity: str):
     entities = current_app.config.get("ENTITIES", {})
     if parent_entity not in entities:
         return error_response(f"Unknown entity: '{parent_entity}'", 404)
@@ -94,18 +101,19 @@ def query_child_entity(parent_entity: str, child_entity: str):
             payload.get("per_page", current_app.config["DEFAULT_PAGE_SIZE"]),
             current_app.config["MAX_PAGE_SIZE"],
         ))
-        child_rel     = children[child_entity]
-        fk_cols       = child_rel["fk"]
-        child_fk_cols = child_rel["child_fk"]
-        concat_sep    = child_rel.get("concat_separator")
+        child_rel      = children[child_entity]
+        fk_cols        = child_rel["fk"]
+        child_fk_cols  = child_rel["fk_child"]
+        concat_sep     = child_rel.get("concat_separator")
+        static_filter  = child_rel.get("child_static_filter")
 
         fk_vals    = payload.get("entity_key", {})
-        entity_key = _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep)
+        entity_key = _build_entity_key(fk_cols, child_fk_cols, fk_vals, concat_sep, static_filter)
         result = current_app.reporting_service.get_entity(
             child_entity, entity_key=entity_key,
             search=payload.get("quick_filter", ""),
             page=page, per_page=per_page,
-            fic_mis_date=payload.get("fic_mis_date", ""),
+            period_dt=payload.get("period_dt", ""),
             sorts=payload.get("sorts", []),
             col_filters=payload.get("col_filters", {}),
         )

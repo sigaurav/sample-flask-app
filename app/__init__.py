@@ -15,6 +15,7 @@ from app.config import config_map
 from app.utils.logger import configure_logging
 from app.services.data_service      import DataService
 from app.services.reporting_service import ReportingService
+from app.services.jira_service import JiraService
 
 
 def create_app(config_name: str = "default") -> Flask:
@@ -61,15 +62,26 @@ def create_app(config_name: str = "default") -> Flask:
     app.data_service      = DataService(app.config)
     app.reporting_service = ReportingService(app.data_service, app.config)
 
+    #  Jira service (optional — only constructed when configured) ─
+    if app.config.get("JIRA_BASE_URL") and app.config.get("JIRA_TOKEN"):
+        app.jira_service = JiraService(app.config)
+    else:
+        app.jira_service = None
+        logging.getLogger(__name__).warning(
+            "JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled"
+        )
+
     #  Register Blueprints ─
     from app.blueprints.main   import main_bp
     from app.blueprints.api    import api_bp
     from app.blueprints.export import export_bp, internal_export_bp
+    from app.blueprints.jira import jira_bp
 
     app.register_blueprint(main_bp)
     app.register_blueprint(api_bp,             url_prefix="/api")
     app.register_blueprint(export_bp,          url_prefix="/api/exports")
     app.register_blueprint(internal_export_bp, url_prefix="/api/internal/exports")
+    app.register_blueprint(jira_bp, url_prefix="/jira")
 
     #  Global error handlers ─
     _register_error_handlers(app)

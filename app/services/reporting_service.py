@@ -51,8 +51,8 @@ class ReportingService:
             list(self._entities),
         )
 
-    def _ctx(self, fic_mis_date: str) -> dict:
-        return {"_fic_mis_date": fic_mis_date}
+    def _ctx(self, period_dt: str) -> dict:
+        return {"_period_dt": period_dt}
 
     #  Generic entry point 
 
@@ -63,14 +63,14 @@ class ReportingService:
         search:       str  = "",
         page:         int  = 1,
         per_page:     Optional[int]  = None,
-        fic_mis_date: str  = "",
+        period_dt: str  = "",
         sorts:        Optional[list] = None,
         col_filters:  Optional[dict] = None,
     ) -> dict[str, Any]:
         if per_page is None:
             per_page = self._config.get("DEFAULT_PAGE_SIZE", 50)
         adapter = self._data_service.get_adapter_for_entity(entity_type)
-        ctx     = self._ctx(fic_mis_date)
+        ctx     = self._ctx(period_dt)
 
         filters = {"quick_filter": search, "col_filters": col_filters or {}, **ctx}
         use_db_pagination = (
@@ -104,14 +104,43 @@ class ReportingService:
             df_page = BaseRepository.paginate(df, page, per_page)
             records = _schema_coerce_records(df_page, entity_type)
         log.debug(
-            "get_entity entity=%s entity_key=%s fic_mis_date=%r -> %d/%d",
-            entity_type, entity_key, fic_mis_date, len(records), total,
+            "get_entity entity=%s entity_key=%s period_dt=%r -> %d/%d",
+            entity_type, entity_key, period_dt, len(records), total,
         )
         return {
             "records": records, "total": total,
             "active": active,
             "page": page, "per_page": per_page,
         }
+
+    # ── Write path (used by the Jira investigation workflow) ────────────────
+
+    def put_entity(self, entity_type: str, data) -> dict[str, Any]:
+        """Append record(s) to entity_type's backing store.  Returns {"total": <rows written>}."""
+        adapter = self._data_service.get_adapter_for_entity(entity_type)
+        total = adapter.push(entity_type, data)
+        return {"total": total}
+
+    def get_reference_records_csv_outputfile_path(
+        self,
+        entity_type: str,
+        records: list,
+        origin_pk_columns: list,
+        reference_pk_columns: list,
+        output_file: str,
+        selected_columns: Optional[list] = None,
+    ) -> str:
+        """Export matching rows from entity_type into a CSV under EXPORT_DIR, return its path."""
+        adapter = self._data_service.get_adapter_for_entity(entity_type)
+        return adapter.export_reference_records_to_csv(
+            entity_type=entity_type,
+            records=records,
+            origin_pk_columns=origin_pk_columns,
+            reference_pk_columns=reference_pk_columns,
+            output_file=output_file,
+            selected_columns=selected_columns,
+            export_folder=self._config.get("EXPORT_DIR"),
+        )
 
     # ── Sort helper (post-enrichment) ────────────────────────────────────────
 
@@ -156,16 +185,24 @@ class ReportingService:
         for child_entity, child_cfg in children.items():
             count_col     = child_cfg.get("count_col", child_entity.upper() + "_COUNT")
             fk_cols       = child_cfg["fk"]
-            child_fk_cols = child_cfg["child_fk"]
+            child_fk_cols = child_cfg["fk_child"]
+
+            # Rolando's Addition
             concat_sep    = child_cfg.get("concat_separator")
 
             child_adapter = self._data_service.get_adapter_for_entity(child_entity)
             child_df      = child_adapter.fetch(child_entity, filters=ctx)
 
+            static_filter = child_cfg.get("child_static_filter")
+            if static_filter and static_filter["field"] in child_df.columns:
+                child_df = child_df[
+                    child_df[static_filter["field"]] == static_filter["value"]
+                ]
+
             parent_ok = all(c in df.columns for c in fk_cols)
             child_ok  = all(c in child_df.columns for c in child_fk_cols)
 
-            if not child_df.empty and parent_ok and child_ok:
+            if not df.empty and not child_df.empty and parent_ok and child_ok:
                 if concat_sep:
                     # Many-to-one: concatenate parent columns → match child's single column
                     concat_key = df[fk_cols].astype(str).agg(concat_sep.join, axis=1)

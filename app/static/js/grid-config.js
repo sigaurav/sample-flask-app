@@ -34,8 +34,8 @@ const CellRenderer = (function () {
     const d = new Date(s);
     if (isNaN(d.getTime())) return s;
     const yyyy = d.getUTCFullYear();
-    const mm   = String(d.getUTCMonth() + 1).padStart(2, '0');
-    const dd   = String(d.getUTCDate()).padStart(2, '0');
+    const mm = String(d.getUTCMonth() + 1).padStart(2, '0');
+    const dd = String(d.getUTCDate()).padStart(2, '0');
     return `${yyyy}-${mm}-${dd}`;
   }
 
@@ -48,8 +48,8 @@ const CellRenderer = (function () {
       return span;
     }
     const a = document.createElement('a');
-    a.href        = 'javascript:void(0)';
-    a.className   = 'drill-link';
+    a.href = 'javascript:void(0)';
+    a.className = 'drill-link';
     a.textContent = val.toLocaleString();
     a.addEventListener('click', (e) => {
       e.stopPropagation();
@@ -58,7 +58,68 @@ const CellRenderer = (function () {
     return a;
   }
 
-  return { money, date, drillDownLink };
+  // Rolando's Addition of Row Actions
+  function rowActions(params) {
+    const wrap = document.createElement('div')
+    wrap.className = 'row-action-cell';
+
+    const cb = document.createElement('input');
+    cb.type = 'checkbox';
+    cb.className = 'row-select-checkbox';
+
+    cb.checked = params.grid ? params.grid.isRowSelected(params.data) : false;
+
+    cb.addEventListener('click', function (e) {
+      e.stopPropagation();
+      if (params.grid) {
+        params.grid.toggleRowSelected(params.data, cb.checked);
+        params.grid._render();
+      }
+    });
+
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'row-action-btn';
+    btn.title = 'Row Actions';
+    btn.innerHTML = '...';
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+
+      if (
+        params.grid &&
+        params.grid._options &&
+        typeof params.grid._options.onRowAction === 'function'
+      ) {
+        let selectedRows = params.grid.getSelectedRows();
+
+        if (selectedRows.length === 0) {
+          params.grid.toggleRowSelected(params.data, true);
+
+          cb.checked = true;
+          const tr = btn.closest('tr');
+          if (tr) {
+            tr.classList.add('wf-tr-selected');
+          }
+          selectedRows = params.grid.getSelectedRows();
+        }
+
+        params.grid._options.onRowAction({
+          action: 'menu',
+          row: params.data,
+          selectedRows: selectedRows,
+          anchor: btn,
+          grid: params.grid,
+        });
+      }
+    });
+
+
+    wrap.appendChild(cb);
+    wrap.appendChild(btn);
+    return wrap;
+  }
+
+  return { money, date, drillDownLink, rowActions };
 
 }());
 
@@ -73,47 +134,62 @@ const CellRenderer = (function () {
  *                                   e.g. { obligations: (p) => DrillDown.open('facilities', 'obligations', p.data, ...) }
  * @returns {Object[]} Column defs ready to pass to new GridManager(id, colDefs, opts).
  */
-function buildColumnsFromSchema(schema, drillHandlers) {
+function buildColumnsFromSchema(schema, drillHandlers, options) {
   drillHandlers = drillHandlers || {};
+  options = options || {};
   var filterMap = {
-    text:   'wfTextFilter',
+    text: 'wfTextFilter',
     number: 'wfNumberFilter',
-    money:  'wfNumberFilter',
-    date:   'wfDateFilter',
-    drill:  'wfNumberFilter',
+    money: 'wfNumberFilter',
+    date: 'wfDateFilter',
+    drill: 'wfNumberFilter',
   };
 
-  return schema.map(function (col) {
+  // ROlando's Addition
+  var actionCol = {
+    field: '__row_actions',
+    headerName: 'Action',
+    sortable: false,
+    resizable: false,
+    filter: false,
+    width: 80,
+    minWidth: 80,
+    pinned: 'left',
+    cellClass: 'row-action-cell-wrap',
+    cellRenderer: CellRenderer.rowActions,
+  };
+
+  var cols = schema.map(function (col) {
     var base = {
-      field:      col.field,
+      field: col.field,
       headerName: col.label,
-      sortable:   true,
-      resizable:  true,
-      filter:     filterMap[col.type] || 'wfTextFilter',
-      minWidth:   col.minWidth || 80,
+      sortable: true,
+      resizable: true,
+      filter: filterMap[col.type] || 'wfTextFilter',
+      minWidth: col.minWidth || 80,
     };
 
-    if (col.width)   base.width  = col.width;
-    if (col.flex)    base.flex   = col.flex;
-    if (col.pinned)  base.pinned = col.pinned;
-    if (col.hide)    base.hide   = true;
-    if (col.values)  base.values = col.values;
+    if (col.width) base.width = col.width;
+    if (col.flex) base.flex = col.flex;
+    if (col.pinned) base.pinned = col.pinned;
+    if (col.hide) base.hide = true;
+    if (col.values) base.values = col.values;
     if (col.tooltip) base.tooltipField = col.field;
-    if (col.wrap)  { base.wrapText = true; base.cellClass = 'comment-text-cell'; }
+    if (col.wrap) { base.wrapText = true; base.cellClass = 'comment-text-cell'; }
 
     if (col.type === 'drill') {
-      var target  = col.drill_target;
-      var handler = drillHandlers[target] || function () {};
-      base.pinned      = base.pinned || 'right';
-      base.cellClass   = 'drill-down-cell';
+      var target = col.drill_target;
+      var handler = drillHandlers[target] || function () { };
+      base.pinned = base.pinned || 'right';
+      base.cellClass = 'drill-down-cell';
       base.cellRenderer = (function (h) {
         return function (p) { return CellRenderer.drillDownLink(p, h); };
       }(handler));
 
     } else if (col.type === 'money') {
       base.cellRenderer = CellRenderer.money;
-      base.cellClass    = 'cell-numeric';
-      base._alignRight  = true;
+      base.cellClass = 'cell-numeric';
+      base._alignRight = true;
 
     } else if (col.type === 'date') {
       base.cellRenderer = CellRenderer.date;
@@ -125,6 +201,11 @@ function buildColumnsFromSchema(schema, drillHandlers) {
 
     return base;
   });
+
+  if (options.showRowActions) {
+    cols = [actionCol].concat(cols);
+  }
+  return cols;
 }
 
 
@@ -140,39 +221,39 @@ class GridManager {
    */
   constructor(containerId, columnDefs, options = {}) {
     this._containerId = containerId;
-    this._columnDefs  = columnDefs;
-    this._options     = options;
+    this._columnDefs = columnDefs;
+    this._options = options;
 
     // Dataset state
-    this._allData      = [];
+    this._allData = [];
     this._filteredData = [];
 
     // Multi-column sort state: [{field, dir}] in priority order (index 0 = primary).
     this._sortState = options.initialSort ? [...options.initialSort] : [];
 
     // Pagination state
-    this._page     = 0;
+    this._page = 0;
     this._pageSize = options.paginationPageSize ?? 25;
     this._pageSizeOptions = options.paginationPageSizeSelector ?? [10, 25, 50, 100];
 
     // Filter state
     this._quickFilter = '';
-    this._colFilters  = new Map();   // field → { op, val }
+    this._colFilters = new Map();   // field → { op, val }
 
     // Column visibility — initialise from col.hide
     this._hiddenCols = new Set(columnDefs.filter(c => c.hide).map(c => c.field));
 
     // UI state
-    this._colPanel     = null;   // open column-picker dropdown
-    this._filterPopup  = null;   // open column-filter popup
+    this._colPanel = null;   // open column-picker dropdown
+    this._filterPopup = null;   // open column-filter popup
 
     // DOM ref for <colgroup>
     this._colgroup = null;
 
     // Column resize / reorder state
     this._colWidthOverrides = new Map();  // field → user-dragged px width
-    this._dragSrcField      = null;       // field being column-dragged
-    this._didDrag           = false;      // suppresses sort click after a drop
+    this._dragSrcField = null;       // field being column-dragged
+    this._didDrag = false;      // suppresses sort click after a drop
 
     // Resize tracking — per-header mousedown position for click-vs-drag detection.
     // A sort click is only fired when mouse has moved ≤ 4px since mousedown on th.
@@ -180,22 +261,25 @@ class GridManager {
     this._thDownY = 0;
 
     // Server-side pagination mode (activated when options.queryFn is provided)
-    this._serverMode     = !!options.queryFn;
-    this._queryFn        = options.queryFn || null;
-    this._totalRows      = 0;
+    this._serverMode = !!options.queryFn;
+    this._queryFn = options.queryFn || null;
+    this._totalRows = 0;
+
+    // Row-selection state (row-action feature)
+    this._selectedRowIds = new Set();
     this._pendingChanges = false;
-    this._batchPages     = 3;
-    this._batchData      = [];
+    this._batchPages = 3;
+    this._batchData = [];
     this._batchStartPage = 0;
-    this._applyBtnEl     = null;
+    this._applyBtnEl = null;
 
     // DOM refs (set in _buildTable)
     this._container = null;
-    this._wrapper   = null;
-    this._table     = null;
-    this._thead     = null;
-    this._tbody     = null;
-    this._pagBar    = null;
+    this._wrapper = null;
+    this._table = null;
+    this._thead = null;
+    this._tbody = null;
+    this._pagBar = null;
   }
 
   //  Public lifecycle ─
@@ -213,6 +297,14 @@ class GridManager {
     return this;
   }
 
+  // Rolando's addition:
+  setData(rows) {
+    this._selectedRowIds.clear();
+    this._allData = (rows || []).map(function (row, idx) {
+      return Object.assign({ __wf_row_id: idx }, row);
+    });
+
+  }
   //  Public data API 
 
   setQuickFilter(text) {
@@ -257,8 +349,8 @@ class GridManager {
   getFilterSortState() {
     return {
       quick_filter: this._quickFilter,
-      col_filters:  Object.fromEntries(this._colFilters),
-      sort_state:   this._sortState.map(s => ({ field: s.field, dir: s.dir })),
+      col_filters: Object.fromEntries(this._colFilters),
+      sort_state: this._sortState.map(s => ({ field: s.field, dir: s.dir })),
     };
   }
 
@@ -288,9 +380,9 @@ class GridManager {
     const searchWrap = document.createElement('div');
     searchWrap.className = 'col-picker-search';
     const searchInput = document.createElement('input');
-    searchInput.type        = 'text';
+    searchInput.type = 'text';
     searchInput.placeholder = 'Search columns…';
-    searchInput.className   = 'col-picker-search-input';
+    searchInput.className = 'col-picker-search-input';
     searchWrap.appendChild(searchInput);
     panel.appendChild(searchWrap);
 
@@ -304,16 +396,16 @@ class GridManager {
     const allCb = document.createElement('input');
     allCb.type = 'checkbox';
 
-    const visibleDefs  = this._columnDefs.filter(c => c.headerName || c.field);
-    const allVisible   = visibleDefs.every(c => !this._hiddenCols.has(c.field));
-    const noneVisible  = visibleDefs.every(c =>  this._hiddenCols.has(c.field));
-    allCb.checked       = allVisible;
+    const visibleDefs = this._columnDefs.filter(c => c.headerName || c.field);
+    const allVisible = visibleDefs.every(c => !this._hiddenCols.has(c.field));
+    const noneVisible = visibleDefs.every(c => this._hiddenCols.has(c.field));
+    allCb.checked = allVisible;
     allCb.indeterminate = !allVisible && !noneVisible;
 
     const updateAllCb = () => {
       const cbs = list.querySelectorAll('input[type="checkbox"]:not(.col-picker-all-cb)');
       const checkedCount = [...cbs].filter(c => c.checked).length;
-      allCb.checked       = checkedCount === cbs.length;
+      allCb.checked = checkedCount === cbs.length;
       allCb.indeterminate = checkedCount > 0 && checkedCount < cbs.length;
     };
 
@@ -349,11 +441,11 @@ class GridManager {
       item.className = 'col-picker-item';
 
       const cb = document.createElement('input');
-      cb.type    = 'checkbox';
+      cb.type = 'checkbox';
       cb.checked = !this._hiddenCols.has(col.field);
       cb.addEventListener('change', () => {
         if (cb.checked) this._hiddenCols.delete(col.field);
-        else            this._hiddenCols.add(col.field);
+        else this._hiddenCols.add(col.field);
         updateAllCb();
         this._render();
       });
@@ -379,8 +471,8 @@ class GridManager {
     setTimeout(() => searchInput.focus(), 0);
 
     const rect = anchorEl.getBoundingClientRect();
-    panel.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
-    panel.style.left = (rect.left  + window.scrollX)      + 'px';
+    panel.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+    panel.style.left = (rect.left + window.scrollX) + 'px';
 
     const onOutside = (e) => {
       if (!panel.contains(e.target) && e.target !== anchorEl) {
@@ -404,8 +496,8 @@ class GridManager {
     this._table.className = 'wf-table';
 
     this._colgroup = document.createElement('colgroup');
-    this._thead    = document.createElement('thead');
-    this._tbody    = document.createElement('tbody');
+    this._thead = document.createElement('thead');
+    this._tbody = document.createElement('tbody');
     this._table.appendChild(this._colgroup);
     this._table.appendChild(this._thead);
     this._table.appendChild(this._tbody);
@@ -427,7 +519,7 @@ class GridManager {
     }
     this._applyFilters();
     this._applySort();
-    const start    = this._page * this._pageSize;
+    const start = this._page * this._pageSize;
     const pageData = this._filteredData.slice(start, start + this._pageSize);
     this._buildHeaders();
     this._buildRows(pageData);
@@ -437,7 +529,7 @@ class GridManager {
 
   _applyFilters() {
     let rows = this._allData;
-    const q  = this._quickFilter.trim().toLowerCase();
+    const q = this._quickFilter.trim().toLowerCase();
 
     if (q) {
       rows = rows.filter(row =>
@@ -452,17 +544,17 @@ class GridManager {
       if (val === '' || val === null || val === undefined) return;
       rows = rows.filter(row => {
         const cell = row[field];
-        const s    = String(cell ?? '').toLowerCase();
-        const sv   = String(val).toLowerCase();
+        const s = String(cell ?? '').toLowerCase();
+        const sv = String(val).toLowerCase();
         switch (op) {
-          case 'contains':   return s.includes(sv);
-          case 'equals':     return s === sv;
+          case 'contains': return s.includes(sv);
+          case 'equals': return s === sv;
           case 'startsWith': return s.startsWith(sv);
-          case 'numEq':      return parseFloat(cell) === parseFloat(val);
-          case 'gt':         return parseFloat(cell) >  parseFloat(val);
-          case 'gte':        return parseFloat(cell) >= parseFloat(val);
-          case 'lt':         return parseFloat(cell) <  parseFloat(val);
-          case 'lte':        return parseFloat(cell) <= parseFloat(val);
+          case 'numEq': return parseFloat(cell) === parseFloat(val);
+          case 'gt': return parseFloat(cell) > parseFloat(val);
+          case 'gte': return parseFloat(cell) >= parseFloat(val);
+          case 'lt': return parseFloat(cell) < parseFloat(val);
+          case 'lte': return parseFloat(cell) <= parseFloat(val);
           // Date ops
           case 'dateEq': {
             const d = new Date(cell); const ref = new Date(val);
@@ -502,7 +594,7 @@ class GridManager {
       return {
         field, dir,
         isNumeric: col && col.filter === 'wfNumberFilter',
-        isDate:    col && col.filter === 'wfDateFilter',
+        isDate: col && col.filter === 'wfDateFilter',
       };
     });
 
@@ -520,8 +612,8 @@ class GridManager {
           bv = String(bv ?? '').toLowerCase();
         }
 
-        if (av < bv) return dir === 'asc' ? -1 :  1;
-        if (av > bv) return dir === 'asc' ?  1 : -1;
+        if (av < bv) return dir === 'asc' ? -1 : 1;
+        if (av > bv) return dir === 'asc' ? 1 : -1;
       }
       return 0;
     });
@@ -534,7 +626,7 @@ class GridManager {
   //  Header building 
 
   _buildHeaders() {
-    this._thead.innerHTML    = '';
+    this._thead.innerHTML = '';
     this._colgroup.innerHTML = '';
     const cols = this._visibleCols();
     cols.forEach(col => {
@@ -544,12 +636,12 @@ class GridManager {
     });
 
     const tr = document.createElement('tr');
-    const leftOffsets  = this._stickyOffsets('left');
+    const leftOffsets = this._stickyOffsets('left');
     const rightOffsets = this._stickyOffsets('right');
 
     cols.forEach(col => {
       const th = document.createElement('th');
-      th.className     = 'wf-th';
+      th.className = 'wf-th';
       th.dataset.field = col.field;
 
       if (this._isAlignedRight(col)) th.classList.add('wf-th-right');
@@ -557,17 +649,17 @@ class GridManager {
       if (col.pinned === 'left') {
         th.classList.add('wf-th-pinned-left');
         th.style.position = 'sticky';
-        th.style.left     = leftOffsets[col.field] + 'px';
-        th.style.zIndex   = '3';
+        th.style.left = leftOffsets[col.field] + 'px';
+        th.style.zIndex = '3';
       } else if (col.pinned === 'right') {
         th.classList.add('wf-th-pinned-right');
         th.style.position = 'sticky';
-        th.style.right    = rightOffsets[col.field] + 'px';
-        th.style.zIndex   = '3';
+        th.style.right = rightOffsets[col.field] + 'px';
+        th.style.zIndex = '3';
       }
 
       // Sort state for this column
-      const sortIdx   = this._sortState.findIndex(s => s.field === col.field);
+      const sortIdx = this._sortState.findIndex(s => s.field === col.field);
       const sortEntry = sortIdx !== -1 ? this._sortState[sortIdx] : null;
       if (sortEntry) th.classList.add('wf-th-sorted');
 
@@ -576,7 +668,7 @@ class GridManager {
       inner.className = 'wf-th-inner';
 
       const label = document.createElement('span');
-      label.className   = 'wf-th-label';
+      label.className = 'wf-th-label';
       label.textContent = col.headerName || col.field;
       inner.appendChild(label);
 
@@ -584,7 +676,7 @@ class GridManager {
       const sortIcon = document.createElement('span');
       sortIcon.className = 'wf-sort-icon';
       if (sortEntry) {
-        const arrow    = sortEntry.dir === 'asc' ? '↑' : '↓';
+        const arrow = sortEntry.dir === 'asc' ? '↑' : '↓';
         const showPrio = this._sortState.length > 1;
         sortIcon.innerHTML = showPrio
           ? `${arrow}<sup class="wf-sort-priority">${sortIdx + 1}</sup>`
@@ -596,7 +688,7 @@ class GridManager {
       if (col.filter && col.filter !== false) {
         const filterBtn = document.createElement('button');
         filterBtn.className = 'wf-filter-btn';
-        filterBtn.title     = 'Filter column';
+        filterBtn.title = 'Filter column';
         filterBtn.innerHTML = '<svg viewBox="0 0 24 24" width="11" height="11" fill="currentColor"><path d="M10 18h4v-2h-4v2zM3 6v2h18V6H3zm3 7h12v-2H6v2z"/></svg>';
         if (this._colFilters.has(col.field)) filterBtn.classList.add('wf-filter-active');
 
@@ -618,13 +710,13 @@ class GridManager {
           e.stopPropagation();
           e.preventDefault();
 
-          const startX      = e.clientX;
-          const startW      = th.offsetWidth;
+          const startX = e.clientX;
+          const startW = th.offsetWidth;
           const startTableW = this._table.offsetWidth;
-          const minW        = col.minWidth ?? 50;
-          const colEl       = this._colgroup.querySelector(`col[data-field="${col.field}"]`);
+          const minW = col.minWidth ?? 50;
+          const colEl = this._colgroup.querySelector(`col[data-field="${col.field}"]`);
 
-          document.body.style.cursor     = 'col-resize';
+          document.body.style.cursor = 'col-resize';
           document.body.style.userSelect = 'none';
 
           // Disable sort click for this th for the duration of the drag.
@@ -640,7 +732,7 @@ class GridManager {
           const onUp = (ev) => {
             document.removeEventListener('mousemove', onMove);
             document.removeEventListener('mouseup', onUp);
-            document.body.style.cursor     = '';
+            document.body.style.cursor = '';
             document.body.style.userSelect = '';
             this._colWidthOverrides.set(col.field, Math.max(minW, startW + (ev.clientX - startX)));
             this._recalcWidths();
@@ -775,16 +867,16 @@ class GridManager {
       const cols = this._visibleCols();
       const tr = document.createElement('tr');
       const td = document.createElement('td');
-      td.className   = 'wf-no-rows';
-      td.colSpan     = cols.length || 1;
+      td.className = 'wf-no-rows';
+      td.colSpan = cols.length || 1;
       td.textContent = 'No records match the current filters.';
       tr.appendChild(td);
       this._tbody.appendChild(tr);
       return;
     }
 
-    const cols         = this._visibleCols();
-    const leftOffsets  = this._stickyOffsets('left');
+    const cols = this._visibleCols();
+    const leftOffsets = this._stickyOffsets('left');
     const rightOffsets = this._stickyOffsets('right');
 
     pageData.forEach(row => {
@@ -793,7 +885,7 @@ class GridManager {
 
       cols.forEach(col => {
         const td = document.createElement('td');
-        td.className    = 'wf-td';
+        td.className = 'wf-td';
         td.dataset.field = col.field;
 
         if (col.cellClass) {
@@ -805,13 +897,13 @@ class GridManager {
         if (col.pinned === 'left') {
           td.classList.add('wf-td-pinned-left');
           td.style.position = 'sticky';
-          td.style.left     = leftOffsets[col.field] + 'px';
-          td.style.zIndex   = '2';
+          td.style.left = leftOffsets[col.field] + 'px';
+          td.style.zIndex = '2';
         } else if (col.pinned === 'right') {
           td.classList.add('wf-td-pinned-right');
           td.style.position = 'sticky';
-          td.style.right    = rightOffsets[col.field] + 'px';
-          td.style.zIndex   = '2';
+          td.style.right = rightOffsets[col.field] + 'px';
+          td.style.zIndex = '2';
         }
 
         if (col.tooltipField && row[col.tooltipField]) {
@@ -819,14 +911,14 @@ class GridManager {
         }
 
         if (col.wrapText) {
-          td.style.whiteSpace    = 'normal';
-          td.style.height        = 'auto';
+          td.style.whiteSpace = 'normal';
+          td.style.height = 'auto';
           td.style.verticalAlign = 'top';
-          td.style.paddingTop    = '8px';
+          td.style.paddingTop = '8px';
           td.style.paddingBottom = '8px';
         }
 
-        const params = { value: row[col.field], data: row, colDef: col };
+        const params = { value: row[col.field], data: row, colDef: col, grid: this };
         if (typeof col.cellRenderer === 'function') {
           const result = col.cellRenderer(params);
           if (result instanceof HTMLElement) td.appendChild(result);
@@ -847,10 +939,10 @@ class GridManager {
   _buildPagination() {
     this._pagBar.innerHTML = '';
 
-    const total      = this._filteredData.length;
+    const total = this._filteredData.length;
     const totalPages = Math.max(1, Math.ceil(total / this._pageSize));
-    const start      = total === 0 ? 0 : this._page * this._pageSize + 1;
-    const end        = Math.min(total, (this._page + 1) * this._pageSize);
+    const start = total === 0 ? 0 : this._page * this._pageSize + 1;
+    const end = Math.min(total, (this._page + 1) * this._pageSize);
 
     // Active sort hint
     const sortHint = this._sortState.length > 0
@@ -875,37 +967,37 @@ class GridManager {
     sizeSelect.className = 'wf-pag-size';
     this._pageSizeOptions.forEach(n => {
       const opt = document.createElement('option');
-      opt.value    = n;
+      opt.value = n;
       opt.textContent = n;
       opt.selected = n === this._pageSize;
       sizeSelect.appendChild(opt);
     });
     sizeSelect.addEventListener('change', () => {
       this._pageSize = parseInt(sizeSelect.value, 10);
-      this._page     = 0;
+      this._page = 0;
       this._render();
     });
     controls.appendChild(sizeSelect);
 
     const mkBtn = (label, action, disabled) => {
       const btn = document.createElement('button');
-      btn.className   = 'wf-pag-btn';
+      btn.className = 'wf-pag-btn';
       btn.textContent = label;
-      btn.disabled    = disabled;
+      btn.disabled = disabled;
       btn.addEventListener('click', () => { this._page = action(); this._render(); });
       return btn;
     };
 
-    controls.appendChild(mkBtn('«', () => 0,              this._page === 0));
+    controls.appendChild(mkBtn('«', () => 0, this._page === 0));
     controls.appendChild(mkBtn('‹', () => this._page - 1, this._page === 0));
 
     const pageLabel = document.createElement('span');
-    pageLabel.className   = 'wf-pag-page';
+    pageLabel.className = 'wf-pag-page';
     pageLabel.textContent = `Page ${this._page + 1} of ${totalPages}`;
     controls.appendChild(pageLabel);
 
-    controls.appendChild(mkBtn('›', () => this._page + 1,       this._page >= totalPages - 1));
-    controls.appendChild(mkBtn('»', () => totalPages - 1,        this._page >= totalPages - 1));
+    controls.appendChild(mkBtn('›', () => this._page + 1, this._page >= totalPages - 1));
+    controls.appendChild(mkBtn('»', () => totalPages - 1, this._page >= totalPages - 1));
 
     this._pagBar.appendChild(controls);
   }
@@ -916,8 +1008,8 @@ class GridManager {
     const containerWidth = this._container.clientWidth;
     if (!containerWidth) return;
 
-    const cols     = this._visibleCols();
-    let   fixedSum = 0, flexSum = 0;
+    const cols = this._visibleCols();
+    let fixedSum = 0, flexSum = 0;
 
     cols.forEach(col => {
       if (this._colWidthOverrides.has(col.field)) {
@@ -930,7 +1022,7 @@ class GridManager {
     });
 
     const flexPool = Math.max(0, containerWidth - fixedSum);
-    const widths   = {};
+    const widths = {};
 
     cols.forEach(col => {
       if (this._colWidthOverrides.has(col.field)) {
@@ -1000,16 +1092,16 @@ class GridManager {
     }
     this._filterPopupField = col.field;
 
-    const isNumeric      = col.filter === 'wfNumberFilter';
-    const isDate         = col.filter === 'wfDateFilter';
-    const isCategorical  = Array.isArray(col.values) && col.values.length > 0;
-    const current        = this._colFilters.get(col.field) || {};
+    const isNumeric = col.filter === 'wfNumberFilter';
+    const isDate = col.filter === 'wfDateFilter';
+    const isCategorical = Array.isArray(col.values) && col.values.length > 0;
+    const current = this._colFilters.get(col.field) || {};
 
     const popup = document.createElement('div');
     popup.className = 'wf-col-filter-popup';
 
     const hdr = document.createElement('div');
-    hdr.className   = 'wf-cfp-header';
+    hdr.className = 'wf-cfp-header';
     hdr.textContent = 'Filter: ' + (col.headerName || col.field);
     popup.appendChild(hdr);
 
@@ -1031,8 +1123,8 @@ class GridManager {
         const lbl = document.createElement('label');
         lbl.style.cssText = 'display:flex;align-items:center;gap:6px;font-size:12px;cursor:pointer';
         const cb = document.createElement('input');
-        cb.type    = 'checkbox';
-        cb.value   = v;
+        cb.type = 'checkbox';
+        cb.value = v;
         cb.checked = selected.has(String(v));
         cb.style.accentColor = '#D71E28';
         lbl.appendChild(cb);
@@ -1052,22 +1144,22 @@ class GridManager {
 
     } else if (isDate) {
       //  Date filter ─
-      const dateOps = [['dateEq','On date'],['dateBefore','Before'],['dateAfter','After']];
+      const dateOps = [['dateEq', 'On date'], ['dateBefore', 'Before'], ['dateAfter', 'After']];
 
       const opSel = document.createElement('select');
       opSel.className = 'wf-cfp-op';
       dateOps.forEach(([val, lbl]) => {
         const opt = document.createElement('option');
-        opt.value       = val;
+        opt.value = val;
         opt.textContent = lbl;
-        opt.selected    = val === (current.op || 'dateEq');
+        opt.selected = val === (current.op || 'dateEq');
         opSel.appendChild(opt);
       });
 
       const dateInput = document.createElement('input');
       dateInput.className = 'wf-cfp-val';
-      dateInput.type      = 'date';
-      dateInput.value     = current.val ?? '';
+      dateInput.type = 'date';
+      dateInput.value = current.val ?? '';
       dateInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
 
       body.appendChild(opSel);
@@ -1076,29 +1168,29 @@ class GridManager {
       applyFn = () => {
         const val = dateInput.value;
         if (val) this._colFilters.set(col.field, { op: opSel.value, val });
-        else     this._colFilters.delete(col.field);
+        else this._colFilters.delete(col.field);
       };
 
     } else {
       //  Text / numeric filter 
-      const textOps    = [['contains','Contains'],['equals','Equals'],['startsWith','Starts with']];
-      const numericOps = [['numEq','='],['gt','>'],['gte','≥'],['lt','<'],['lte','≤']];
+      const textOps = [['contains', 'Contains'], ['equals', 'Equals'], ['startsWith', 'Starts with']];
+      const numericOps = [['numEq', '='], ['gt', '>'], ['gte', '≥'], ['lt', '<'], ['lte', '≤']];
 
       const opSel = document.createElement('select');
       opSel.className = 'wf-cfp-op';
       (isNumeric ? numericOps : textOps).forEach(([val, lbl]) => {
         const opt = document.createElement('option');
-        opt.value       = val;
+        opt.value = val;
         opt.textContent = lbl;
-        opt.selected    = val === (current.op || (isNumeric ? 'numEq' : 'contains'));
+        opt.selected = val === (current.op || (isNumeric ? 'numEq' : 'contains'));
         opSel.appendChild(opt);
       });
 
       const valInput = document.createElement('input');
-      valInput.className   = 'wf-cfp-val';
-      valInput.type        = isNumeric ? 'number' : 'text';
+      valInput.className = 'wf-cfp-val';
+      valInput.type = isNumeric ? 'number' : 'text';
       valInput.placeholder = 'Value…';
-      valInput.value       = current.val ?? '';
+      valInput.value = current.val ?? '';
       valInput.addEventListener('keydown', e => { if (e.key === 'Enter') applyBtn.click(); });
 
       body.appendChild(opSel);
@@ -1107,7 +1199,7 @@ class GridManager {
       applyFn = () => {
         const val = valInput.value.trim();
         if (val !== '') this._colFilters.set(col.field, { op: opSel.value, val });
-        else            this._colFilters.delete(col.field);
+        else this._colFilters.delete(col.field);
       };
 
       setTimeout(() => valInput.focus(), 0);
@@ -1119,7 +1211,7 @@ class GridManager {
     footer.className = 'wf-cfp-footer';
 
     const clearBtn = document.createElement('button');
-    clearBtn.className   = 'wf-cfp-clear';
+    clearBtn.className = 'wf-cfp-clear';
     clearBtn.textContent = 'Clear';
     clearBtn.addEventListener('click', () => {
       this._colFilters.delete(col.field);
@@ -1127,11 +1219,11 @@ class GridManager {
       this._filterPopup = null;
       this._page = 0;
       if (this._serverMode) { this._setPending(true); }
-      else                  { this._render(); }
+      else { this._render(); }
     });
 
     const applyBtn = document.createElement('button');
-    applyBtn.className   = 'wf-cfp-apply';
+    applyBtn.className = 'wf-cfp-apply';
     applyBtn.textContent = 'Apply';
     applyBtn.addEventListener('click', () => {
       applyFn();
@@ -1139,7 +1231,7 @@ class GridManager {
       this._filterPopup = null;
       this._page = 0;
       if (this._serverMode) { this._setPending(true); }
-      else                  { this._render(); }
+      else { this._render(); }
     });
 
     footer.appendChild(clearBtn);
@@ -1150,13 +1242,13 @@ class GridManager {
     this._filterPopup = popup;
 
     const rect = anchorEl.getBoundingClientRect();
-    popup.style.top  = (rect.bottom + window.scrollY + 4) + 'px';
-    popup.style.left = (rect.left   + window.scrollX - 180) + 'px';
+    popup.style.top = (rect.bottom + window.scrollY + 4) + 'px';
+    popup.style.left = (rect.left + window.scrollX - 180) + 'px';
 
     const onOutside = (e) => {
       if (!popup.contains(e.target) && e.target !== anchorEl) {
         popup.remove();
-        this._filterPopup      = null;
+        this._filterPopup = null;
         this._filterPopupField = null;
         document.removeEventListener('mousedown', onOutside);
       }
@@ -1171,9 +1263,9 @@ class GridManager {
   }
 
   _stickyOffsets(side) {
-    const result   = {};
-    const cols     = this._visibleCols();
-    let   offset   = 0;
+    const result = {};
+    const cols = this._visibleCols();
+    let offset = 0;
     const colWidth = (col) =>
       this._colWidthOverrides.get(col.field) ?? col.width ?? col.minWidth ?? 80;
 
@@ -1198,6 +1290,49 @@ class GridManager {
     this._render();
   }
 
+
+  // Rolando's Addition <STARTS_HERE>
+  // For actions in the grid
+  getRowId(row) {
+    if (row.__wf_row_id !== undefined) return String(row.__wf_row_id);
+    return JSON.stringify(row);
+  }
+
+  isRowSelected(row) {
+    return this._selectedRowIds.has(this.getRowId(row));
+  }
+
+  // Updates a "N selected" indicator if the page provides one; a no-op otherwise.
+  _updateSelectionToolbar() {
+    const el = document.querySelector('#' + this._containerId + ' .selection-count');
+    if (!el) return;
+    const n = this._selectedRowIds.size;
+    el.textContent = n > 0 ? `${n} selected` : '';
+  }
+
+  toggleRowSelected(row, checked) {
+    const id = this.getRowId(row);
+    if (checked) this._selectedRowIds.add(id); else this._selectedRowIds.delete(id);
+    this._updateSelectionToolbar();
+  }
+
+  getSelectedRows() {
+    return this._allData.filter(row => this._selectedRowIds.has(this.getRowId(row)));
+  }
+
+  clearSelectedRows() {
+    this._selectedRowIds.clear();
+    this._updateSelectionToolbar();
+    this._render();
+  }
+
+  setRowSelected(row, selected) {
+    const id = this.getRowId(row);
+    selected ? this._selectedRowIds.add(id) : this._selectedRowIds.delete(id);
+    this._updateSelectionToolbar();
+  }
+
+  // Rolando's Addition <ENDS_HERE> 
   //  Server-side pagination 
 
   _setPending(pending) {
@@ -1209,22 +1344,22 @@ class GridManager {
 
   async _serverFetch() {
     this._setPending(false);
-    const batchSize      = this._pageSize * this._batchPages;
+    const batchSize = this._pageSize * this._batchPages;
     const batchStartPage = Math.floor(this._page / this._batchPages) * this._batchPages;
 
     const spec = {
-      page:         batchStartPage / this._batchPages + 1,
-      per_page:     batchSize,
-      sorts:        this._sortState.map(s => ({ field: s.field, dir: s.dir })),
-      col_filters:  Object.fromEntries(this._colFilters),
+      page: batchStartPage / this._batchPages + 1,
+      per_page: batchSize,
+      sorts: this._sortState.map(s => ({ field: s.field, dir: s.dir })),
+      col_filters: Object.fromEntries(this._colFilters),
       quick_filter: this._quickFilter,
     };
 
     try {
-      const result      = await this._queryFn(spec);
-      this._batchData      = result.data || [];
+      const result = await this._queryFn(spec);
+      this._batchData = result.data || [];
       this._batchStartPage = batchStartPage;
-      this._totalRows      = result.meta?.total || 0;
+      this._totalRows = result.meta?.total || 0;
       this._renderServerPage();
     } catch (err) {
       console.error('Server fetch error:', err);
@@ -1246,10 +1381,10 @@ class GridManager {
   _buildServerPagination() {
     this._pagBar.innerHTML = '';
 
-    const total      = this._totalRows;
+    const total = this._totalRows;
     const totalPages = Math.max(1, Math.ceil(total / this._pageSize));
-    const start      = total === 0 ? 0 : this._page * this._pageSize + 1;
-    const end        = Math.min(total, (this._page + 1) * this._pageSize);
+    const start = total === 0 ? 0 : this._page * this._pageSize + 1;
+    const end = Math.min(total, (this._page + 1) * this._pageSize);
 
     const sortHint = this._sortState.length > 0
       ? this._sortState.map(s => `${s.field} ${s.dir === 'asc' ? '↑' : '↓'}`).join(', ')
@@ -1273,14 +1408,14 @@ class GridManager {
     sizeSelect.className = 'wf-pag-size';
     this._pageSizeOptions.forEach(n => {
       const opt = document.createElement('option');
-      opt.value       = n;
+      opt.value = n;
       opt.textContent = n;
-      opt.selected    = n === this._pageSize;
+      opt.selected = n === this._pageSize;
       sizeSelect.appendChild(opt);
     });
     sizeSelect.addEventListener('change', () => {
       this._pageSize = parseInt(sizeSelect.value, 10);
-      this._page     = 0;
+      this._page = 0;
       this._serverFetch();
     });
     controls.appendChild(sizeSelect);
@@ -1297,23 +1432,23 @@ class GridManager {
 
     const mkBtn = (label, targetPage, disabled) => {
       const btn = document.createElement('button');
-      btn.className   = 'wf-pag-btn';
+      btn.className = 'wf-pag-btn';
       btn.textContent = label;
-      btn.disabled    = disabled;
+      btn.disabled = disabled;
       btn.addEventListener('click', () => navTo(targetPage));
       return btn;
     };
 
-    controls.appendChild(mkBtn('«', 0,              this._page === 0));
+    controls.appendChild(mkBtn('«', 0, this._page === 0));
     controls.appendChild(mkBtn('‹', this._page - 1, this._page === 0));
 
     const pageLabel = document.createElement('span');
-    pageLabel.className   = 'wf-pag-page';
+    pageLabel.className = 'wf-pag-page';
     pageLabel.textContent = `Page ${this._page + 1} of ${totalPages}`;
     controls.appendChild(pageLabel);
 
     controls.appendChild(mkBtn('›', this._page + 1, this._page >= totalPages - 1));
-    controls.appendChild(mkBtn('»', totalPages - 1,  this._page >= totalPages - 1));
+    controls.appendChild(mkBtn('»', totalPages - 1, this._page >= totalPages - 1));
 
     this._pagBar.appendChild(controls);
   }

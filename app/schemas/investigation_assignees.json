@@ -1,0 +1,32 @@
+[
+  {
+    "field": "assignee_emailaddress",
+    "label": "Email Address",
+    "type": "text",
+    "key": "primary",
+    "key_order": 1,
+    "pinned": "left",
+    "width": 110,
+    "searchable": true
+  },
+  {
+    "field": "assignee_name",
+    "label": "Assignee Name",
+    "type": "text",
+    "key": "primary",
+    "key_order": 2,
+    "pinned": "left",
+    "width": 110,
+    "searchable": true
+  },
+  {
+    "field": "assignee_jiraproject",
+    "label": "Jira Key",
+    "type": "text",
+    "key": "primary",
+    "key_order": 3,
+    "pinned": "left",
+    "width": 110,
+    "searchable": true
+  }
+]

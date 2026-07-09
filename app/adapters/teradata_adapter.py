@@ -13,7 +13,7 @@ Authentication uses Kerberos / Windows SSO via TDNEGO logon mechanism.
 No username or password is required or stored.
 
 Add one entry to _QUERY_MAP per entity.  Each query must accept one
-positional (?) parameter: fic_mis_date.  Everything else — joins, CTEs,
+positional (?) parameter: period_dt.  Everything else — joins, CTEs,
 column aliases — goes directly in the SQL.
 
 When page/per_page are passed to fetch(), the adapter wraps the base query
@@ -33,7 +33,7 @@ class TeradataAdapter(BaseAdapter):
 
     source_type = "teradata"
 
-    # One entry per entity.  Positional ? parameter: fic_mis_date
+    # One entry per entity.  Positional ? parameter: period_dt
     _QUERY_MAP: Dict[str, str] = {
         # "facilities": """
         #     SELECT *
@@ -109,10 +109,10 @@ class TeradataAdapter(BaseAdapter):
             return ""
         return "ORDER BY " + ", ".join(f'"{f}" {d}' for f, d in sort_fields)
 
-    def _build_cte_sql(self, base_sql, fic_mis_date, clauses, sort_fields,
+    def _build_cte_sql(self, base_sql, period_dt, clauses, sort_fields,
                        select="*", page=None, per_page=None):
         clean_base = self._strip_order_by(base_sql)
-        params = [fic_mis_date]
+        params = [period_dt]
         where_parts = self._build_where_sql(clauses, params)
         order_by = self._build_order_sql(sort_fields)
 
@@ -142,7 +142,7 @@ class TeradataAdapter(BaseAdapter):
         per_page:    Optional[int]            = None,
     ) -> pd.DataFrame:
         filters      = dict(filters or {})
-        fic_mis_date = filters.pop("_fic_mis_date", "")
+        period_dt = filters.pop("_period_dt", "")
         col_filters  = filters.get("col_filters", {})
         quick        = filters.get("quick_filter", "")
         base_sql     = self._get_query(entity_type)
@@ -153,14 +153,14 @@ class TeradataAdapter(BaseAdapter):
             clauses = self._build_filter_clauses(col_filters, entity_key)
             sort_fields = self._build_sort_fields(sorts)
             sql, params = self._build_cte_sql(
-                base_sql, fic_mis_date, clauses, sort_fields,
+                base_sql, period_dt, clauses, sort_fields,
                 page=page, per_page=per_page,
             )
             self.log.debug("TeradataAdapter paginated SQL:\n%s\nparams=%s", sql, params)
             with self._get_connection() as con:
                 df = pd.read_sql(sql, con, params=params)
         else:
-            params = [fic_mis_date]
+            params = [period_dt]
             with self._get_connection() as con:
                 df = pd.read_sql(base_sql, con, params=params)
 
@@ -187,13 +187,13 @@ class TeradataAdapter(BaseAdapter):
         filters:     Optional[Dict]           = None,
     ) -> int:
         filters      = dict(filters or {})
-        fic_mis_date = filters.pop("_fic_mis_date", "")
+        period_dt = filters.pop("_period_dt", "")
         col_filters  = filters.get("col_filters", {})
         base_sql     = self._get_query(entity_type)
 
         clauses = self._build_filter_clauses(col_filters, entity_key)
         sql, params = self._build_cte_sql(
-            base_sql, fic_mis_date, clauses, sort_fields=[],
+            base_sql, period_dt, clauses, sort_fields=[],
             select="COUNT(*) AS cnt",
         )
         with self._get_connection() as con:

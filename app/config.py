@@ -6,6 +6,7 @@ Pattern:
 """
 
 import os
+from app.schemas import get_all_fields, get_pk
 
 
 class BaseConfig:
@@ -66,7 +67,7 @@ class BaseConfig:
     # children      : dict of child-entity -> relationship config
     #   fk          : FK column(s) on the *parent* table — used as URL params
     #                 and for the parent-side groupby when computing counts
-    #   child_fk    : FK column(s) on the *child* table — REQUIRED even when
+    #   fk_child    : FK column(s) on the *child* table — REQUIRED even when
     #                 names are identical to "fk"; makes the join explicit
     #   count_col   : computed count column added to this entity's rows
     #
@@ -76,33 +77,45 @@ class BaseConfig:
         "facilities": {
             "source":        "csv",
             "label":         "Credit Facilities",
-            "pk":            ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+            "pk":            get_pk('facilities'),
             "label_field":   "OBLIGOR_NAME",
             "active_filter": {"field": "ACTIVE_FLAG", "value": "Y"},
-            "columns":       ["*"],
+            "columns":       get_all_fields('facilities'),
+            "enable_row_action": True,
             "children": {
                 "obligations": {
                     "fk":        ["LOANNUMBER"],
-                    "child_fk":  ["LOAN_NUMBER"],
+                    "fk_child":  ["LOAN_NUMBER"],
                     "count_col": "OBLIGATION_COUNT",
                 },
                 "property": {
                     "fk":        ["FACLTY_ID", "FACLTY_OBLGR_ID"],
-                    "child_fk":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+                    "fk_child":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
                     "count_col": "PROPERTY_COUNT",
+                },
+                "investigation_tracker": {
+                    "fk": [
+                        "PERIOD_DT", "FACLTY_SOR_ID", "FACLTY_BNK_NBR_ID",
+                        "FACLTY_ID", "FACLTY_OBLGR_ID", "FACLTY_AU_CD",
+                    ],
+                    "fk_child":            ["entity_key"],
+                    "concat_separator":    "|",
+                    "child_static_filter": {"field": "entity_type", "value": "facilities"},
+                    "count_col":           "INVESTIGATION_COUNT",
                 },
             },
         },
         "obligations": {
             "source":      "csv",
             "label":       "Obligations",
-            "pk":          ["OBLGN_ID"],
+            "pk":          get_pk('obligations'),
             "label_field": "OBLGN_ID",
-            "columns":     ["*"],
+            "columns":     get_all_fields('obligations'),
+            "enable_row_action": False,
             "children": {
                 "property": {
                     "fk":        ["FACLTY_ID", "FACLTY_OBLGR_ID"],
-                    "child_fk":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
+                    "fk_child":  ["FACLTY_ID", "FACLTY_OBLGR_ID"],
                     "count_col": "PROPERTY_COUNT",
                 },
                 "errors": {
@@ -113,7 +126,7 @@ class BaseConfig:
                         "OBLGR_BNK_NBR_ID", "OBLGR_ID", "OBLGR_SOR_ID",
                         "OBLGN_AU_CD",
                     ],
-                    "child_fk":          ["RECORD_ID"],
+                    "fk_child":          ["RECORD_ID"],
                     "concat_separator":  "|",
                     "count_col":         "ERROR_COUNT",
                 },
@@ -122,9 +135,10 @@ class BaseConfig:
         "property": {
             "source":      "csv",
             "label":       "Property",
-            "pk":          ["PRPRTY_ID"],
+            "pk":          get_pk('property'),  # property has no single PK; use all columns
             "label_field": "PRPRTY_ID",
-            "columns":     ["*"],
+            "columns":     get_all_fields('property'),
+            "enable_row_action": False,
             "children":    {},
         },
         "errors": {
@@ -132,12 +146,31 @@ class BaseConfig:
             "label":       "Data Load Errors",
             "pk":          ["ID"],
             "label_field": "ID",
-            "columns":     ["*"],
+            "columns":     get_all_fields('errors'),
+            "enable_row_action": False,
             "children":    {},
         },
+        "investigation_assignees":{
+            "source":      "csv",
+            "label":       "Investigation Assignees",
+            "pk":          get_pk('investigation_assignees'),
+            "label_field": "ID",
+            "columns":     get_all_fields('investigation_assignees'),
+            "enable_row_action": False,
+            "children":    {},
+        },
+        "investigation_tracker":{
+            "source":      "csv",
+            "label":       "Investigation Tracker",
+            "pk":          get_pk('investigation_tracker'),
+            "label_field": "ID",
+            "columns":     get_all_fields('investigation_tracker'),
+            "enable_row_action": False,
+            "children":    {},
+        }
     }
 
-    #  External data sources 
+    #    data sources 
     DREMIO_HOST:   str = ""
     DREMIO_PORT:   int = 32010
     DREMIO_SOURCE: str = "FR_Y14Q"
@@ -152,6 +185,11 @@ class BaseConfig:
     TERADATA_PORT:   int = 1025
     TERADATA_DB:     str = ""
     TERADATA_SCHEMA: str = ""
+
+    #  Jira integration ─
+    JIRA_BASE_URL: str = os.environ.get("JIRA_BASE_URL", "")
+    JIRA_TOKEN:    str = os.environ.get("JIRA_TOKEN", "")
+    PAGE_SIZE:     int = 100
 
 
 class DevelopmentConfig(BaseConfig):

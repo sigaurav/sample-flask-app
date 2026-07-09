@@ -13,8 +13,8 @@ const ContextBar = (function () {
   function _updateStatus(ctx) {
     const el = document.getElementById('ctx-status');
     if (!el) return;
-    if (ctx.fic_mis_date) {
-      el.textContent = ctx.fic_mis_date;
+    if (ctx.period_dt) {
+      el.textContent = ctx.period_dt;
       el.className   = 'context-bar-status has-context';
     } else {
       el.textContent = 'Enter a report date, then click Load Data';
@@ -41,23 +41,23 @@ const ContextBar = (function () {
 
     // Restore last-used context
     const saved = getContext();
-    if (saved.fic_mis_date) {
-      dateIn.value = saved.fic_mis_date;
+    if (saved.period_dt) {
+      dateIn.value = saved.period_dt;
       dateIn.classList.add('has-value');
     }
     _updateStatus(saved);
     _autoFormatDate(dateIn);
 
     loadBtn.addEventListener('click', function () {
-      const ctx = { fic_mis_date: dateIn.value.trim() };
-      if (!ctx.fic_mis_date) {
+      const ctx = { period_dt: dateIn.value.trim() };
+      if (!ctx.period_dt) {
         if (typeof Toast !== 'undefined') {
           Toast.warning('Query context required', 'Please enter a report date before loading data.');
         }
         return;
       }
       // Basic YYYY-MM-DD validation
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(ctx.fic_mis_date)) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(ctx.period_dt)) {
         if (typeof Toast !== 'undefined') {
           Toast.warning('Invalid date', 'Date must be in YYYY-MM-DD format, e.g. 2024-01-31');
         }

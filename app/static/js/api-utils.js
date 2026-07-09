@@ -23,7 +23,7 @@ const ApiUtils = (function () {
   const LOADING_DEBOUNCE_MS = 200;
 
   let _pendingRequests = 0;
-  let _loadingTimer    = null;
+  let _loadingTimer = null;
 
   //  Loading overlay management ─
 
@@ -47,12 +47,15 @@ const ApiUtils = (function () {
 
   //  Query context helpers ─
 
+  // Rolando has updated below function:
   function _withContext(url) {
     try {
       const ctx = JSON.parse(localStorage.getItem('wf_query_context') || '{}');
-      if (!ctx.fic_mis_date) return url;
+      const params = [];
+      if (ctx.period_dt) params.push('period_dt=' + encodeURIComponent(ctx.period_dt));
+      if (!params.length) return url;
       const sep = url.includes('?') ? '&' : '?';
-      return url + sep + 'fic_mis_date=' + encodeURIComponent(ctx.fic_mis_date);
+      return url + sep + params.join('&');
     } catch (_) { return url; }
   }
 
@@ -62,15 +65,15 @@ const ApiUtils = (function () {
     if (showLoader) _showLoading();
     try {
       const resp = await fetch(_withContext(url), {
-        method:  'GET',
+        method: 'GET',
         headers: { 'Accept': 'application/json' },
       });
 
       const json = await resp.json();
 
       if (!resp.ok || json.success === false) {
-        const err         = new Error(json.error || `HTTP ${resp.status}`);
-        err.status        = resp.status;
+        const err = new Error(json.error || `HTTP ${resp.status}`);
+        err.status = resp.status;
         err.serverMessage = json.error || '';
         throw err;
       }
@@ -86,17 +89,19 @@ const ApiUtils = (function () {
   async function post(url, body, showLoader = true) {
     if (showLoader) _showLoading();
     try {
-      const resp = await fetch(url, {
-        method:  'POST',
+      // Rolando updated below line
+      const resp = await fetch(_withContext(url), {
+        method: 'POST',
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body:    JSON.stringify(body),
+        body: JSON.stringify(body),
       });
 
-      const json = await resp.json();
+      const json = await resp.json().catch(() => ({}));
 
+      // Rolando changed below if
       if (!resp.ok || json.success === false) {
-        const err         = new Error(json.error || `HTTP ${resp.status}`);
-        err.status        = resp.status;
+        const err = new Error(json.error || `HTTP ${resp.status}`);
+        err.status = resp.status;
         err.serverMessage = json.error || '';
         throw err;
       }
@@ -112,7 +117,7 @@ const ApiUtils = (function () {
   function downloadFile(url) {
     _showLoading();
     const a = document.createElement('a');
-    a.href  = url;
+    a.href = url;
     a.style.display = 'none';
     document.body.appendChild(a);
     a.click();
@@ -139,9 +144,9 @@ const ApiUtils = (function () {
    */
   async function createExportJob(spec) {
     const resp = await fetch('/api/exports', {
-      method:  'POST',
+      method: 'POST',
       headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-      body:    JSON.stringify(spec),
+      body: JSON.stringify(spec),
     });
     const json = await resp.json();
     if (!resp.ok || json.success === false) {
@@ -190,14 +195,14 @@ const ApiUtils = (function () {
    * @param {string}      fileFormat  - 'csv' | 'excel' | 'parquet'.
    */
   async function triggerGridExport(grid, entityType, entityLabel, exportType, fileFormat) {
-    const state     = grid.getFilterSortState();
+    const state = grid.getFilterSortState();
     const typeLabel = exportType === 'partial' ? 'Partial' : 'Full';
     await triggerExportJob({
-      entity_type:   entityType,
-      export_type:   exportType,
+      entity_type: entityType,
+      export_type: exportType,
       schedule_type: 'H1',
-      file_format:   fileFormat,
-      filters:       exportType === 'partial'
+      file_format: fileFormat,
+      filters: exportType === 'partial'
         ? { col_filters: state.col_filters, quick_filter: state.quick_filter }
         : {},
       sorts: exportType === 'partial' ? state.sort_state : [],
@@ -218,10 +223,10 @@ const ApiUtils = (function () {
    */
   function updateKpi(meta, records, activeFn) {
     const el = (id) => document.getElementById(id);
-    const total  = meta && meta.total  !== undefined ? meta.total  : (records || []).length;
+    const total = meta && meta.total !== undefined ? meta.total : (records || []).length;
     const active = meta && meta.active !== undefined ? meta.active
-                 : (records && activeFn ? records.filter(activeFn).length : 0);
-    if (el('kpiTotal'))  el('kpiTotal').textContent  = total.toLocaleString();
+      : (records && activeFn ? records.filter(activeFn).length : 0);
+    if (el('kpiTotal')) el('kpiTotal').textContent = total.toLocaleString();
     if (el('kpiActive')) el('kpiActive').textContent = active.toLocaleString();
   }
 
@@ -273,7 +278,7 @@ const ApiUtils = (function () {
    * @param {string}      entityLabel - Display name, e.g. 'Facilities'.
    */
   function wireExportDropdown(grid, entityType, entityLabel) {
-    const btnExport  = document.getElementById('btnExport');
+    const btnExport = document.getElementById('btnExport');
     const exportMenu = document.getElementById('exportMenu');
     if (!btnExport || !exportMenu) return;
 
@@ -304,6 +309,7 @@ const ApiUtils = (function () {
 
   //  Public surface ─
 
+  // Rolando code has buildUrl also in below return.
   return {
     get, post, createExportJob, downloadExport,
     triggerExportJob, triggerGridExport,

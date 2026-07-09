@@ -1,6 +1,6 @@
 [
-  {"field": "FACLTY_ID",            "label": "Facility ID",         "type": "text",   "key": "primary", "width": 110, "pinned": "left", "searchable": true},
-  {"field": "FACLTY_OBLGR_ID",      "label": "Obligor ID",          "type": "text",   "width": 110, "searchable": true},
+  {"field": "FACLTY_ID",            "label": "Facility ID",         "type": "text",   "key": "primary", "key_order": 1, "width": 110, "pinned": "left", "searchable": true},
+  {"field": "FACLTY_OBLGR_ID",      "label": "Obligor ID",          "type": "text",   "key": "primary", "key_order": 2, "width": 110, "searchable": true},
   {"field": "LOANNUMBER",           "label": "Loan Number",         "type": "text",   "width": 110, "searchable": true},
   {"field": "OBLIGOR_NAME",         "label": "Obligor Name",        "type": "text",   "flex": 2, "minWidth": 160, "tooltip": true, "searchable": true},
   {"field": "FACILITY_TYPE",        "label": "Facility Type",       "type": "text",   "flex": 1.2, "minWidth": 130, "searchable": true},
@@ -76,5 +76,6 @@
   {"field": "ORIGINAL_ORIGINATION_DATE", "label": "Orig Date",      "type": "date",   "width": 105, "hide": true},
   {"field": "PERI_ORIGINATION_DATE","label": "Peri Orig Date",      "type": "date",   "width": 115, "hide": true},
   {"field": "OBLIGATION_COUNT",     "label": "Obligations",         "type": "drill",  "width": 105, "pinned": "right", "computed": true, "drill_target": "obligations"},
-  {"field": "PROPERTY_COUNT",       "label": "Properties",          "type": "drill",  "width": 100, "pinned": "right", "computed": true, "drill_target": "property"}
+  {"field": "PROPERTY_COUNT",       "label": "Properties",          "type": "drill",  "width": 100, "pinned": "right", "computed": true, "drill_target": "property"},
+  {"field": "INVESTIGATION_COUNT",  "label": "Investigations",      "type": "drill",  "width": 115, "pinned": "right", "computed": true, "drill_target": "investigation_tracker"}
 ]

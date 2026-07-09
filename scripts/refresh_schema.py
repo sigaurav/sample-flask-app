@@ -17,7 +17,7 @@ Each run compares the live source columns against the corresponding JSON schema 
   - REMOVED columns (in schema, not in source) -> marked {"deprecated": true}
   - Key columns ("key": "primary" or "foreign") -> never deprecated
   - Computed columns ("computed": true) -> skipped in both directions
-  - Context columns (SOR, FIC_MIS_DATE) -> always ignored
+  - Context columns (SOR, period_dt) -> always ignored
 
 Git provides the audit trail: commit the updated JSON files after applying.
 """
@@ -32,7 +32,7 @@ _SCHEMA_DIR   = os.path.join(_PROJECT_ROOT, "app", "schemas")
 
 sys.path.insert(0, _PROJECT_ROOT)
 
-_CONTEXT_COLUMNS = {"SOR", "FIC_MIS_DATE"}
+_CONTEXT_COLUMNS = {"SOR", "period_dt"}
 
 
 def _load_config() -> dict:

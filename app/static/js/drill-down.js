@@ -4,7 +4,7 @@
  * Reads the full entity graph from APP_CONFIG.entities at call-time, so adding
  * new entities or changing FK columns only requires a config change — no edits here.
  *
- * Uses server-side pagination via POST /api/<parent>/<child>/query.
+ * Uses server-side pagination via POST /api/<parent>/<child>.
  *
  * Public API:
  *   DrillDown.open(parentEntity, childEntity, rowData, parentLabel, grandparentLabel?)
@@ -76,9 +76,9 @@ const DrillDown = (function () {
     const childPkCols = ((APP_CONFIG.entities || {})[childEntity] || {}).pk || [];
 
     const queryFn = async (spec) => {
-      spec.fic_mis_date = (ContextBar.getContext()).fic_mis_date || '';
+      spec.period_dt = (ContextBar.getContext()).period_dt || '';
       spec.entity_key   = fkValues;
-      return ApiUtils.post(`/api/${parentEntity}/${childEntity}/query`, spec);
+      return ApiUtils.post(`/api/${parentEntity}/${childEntity}`, spec);
     };
 
     const mgr = new GridManager(

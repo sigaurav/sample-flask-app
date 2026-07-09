@@ -45,6 +45,8 @@ class BaseAdapter(ABC):
         entity_key:  Optional[Dict[str, str]] = None,
         filters:     Optional[Dict]           = None,
         sorts:       Optional[List]           = None,
+        page:        Optional[int]            = None, # Rolando's code doesn't have this parameter, but we added it to support pagination.
+        per_page:    Optional[int]            = None, # Rolando's code doesn't have this parameter, but we added it to support pagination.
     ) -> pd.DataFrame:
         """Retrieve data for *entity_type*, optionally scoped and filtered.
 
@@ -192,17 +194,17 @@ class BaseAdapter(ABC):
         return df[mask].reset_index(drop=True)
 
     def _apply_context_filter(
-        self, df: pd.DataFrame, fic_mis_date: str
+        self, df: pd.DataFrame, period_dt: str
     ) -> pd.DataFrame:
         # Date column is PERIOD_DT (lowercase period_dt in obligations table)
         date_col = next((c for c in df.columns if c.upper() == "PERIOD_DT"), None)
-        if fic_mis_date and date_col:
+        if period_dt and date_col:
             try:
-                target = pd.to_datetime(fic_mis_date).date()
-                parsed = pd.to_datetime(df[date_col], errors="coerce").dt.date
+                target = pd.to_datetime(period_dt).date()
+                parsed = pd.to_datetime(df[date_col], errors="coerce", format="mixed").dt.date
                 df = df[parsed == target].reset_index(drop=True)
             except Exception:
-                df = df[df[date_col] == fic_mis_date].reset_index(drop=True)
+                df = df[df[date_col] == period_dt].reset_index(drop=True)
         return df
 
     def _apply_sorts(self, df: pd.DataFrame, sorts: List[Dict]) -> pd.DataFrame:

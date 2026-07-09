@@ -11,7 +11,7 @@ Connection config keys (Flask uppercase):
 Credentials are retrieved via the injected CredentialProvider (Windows
 Credential Manager / keyring).  Passwords are never stored in config or logged.
 
-Add one entry to _QUERY_MAP per entity.  Use {fic_mis_date} as the
+Add one entry to _QUERY_MAP per entity.  Use {period_dt} as the
 placeholder — Arrow Flight does not support parameterised queries so the
 value is interpolated at runtime.  Everything else — joins, CTEs, column
 aliases — goes directly in the SQL.
@@ -38,12 +38,12 @@ class DremioAdapter(BaseAdapter):
 
     source_type = "dremio"
 
-    # One entry per entity.  Placeholder: {fic_mis_date}
+    # One entry per entity.  Placeholder: {period_dt}
     _QUERY_MAP: Dict[str, str] = {
         # "facilities": """
         #     SELECT *
         #     FROM   "FR_Y14Q"."H1_FACILITIES"
-        #     WHERE  "PERIOD_DT" = '{fic_mis_date}'
+        #     WHERE  "PERIOD_DT" = '{period_dt}'
         # """,
     }
 
@@ -122,9 +122,9 @@ class DremioAdapter(BaseAdapter):
             return ""
         return "ORDER BY " + ", ".join(f'"{f}" {d}' for f, d in sort_fields)
 
-    def _build_cte_sql(self, base_sql, fic_mis_date, clauses, sort_fields,
+    def _build_cte_sql(self, base_sql, period_dt, clauses, sort_fields,
                        select="*", page=None, per_page=None):
-        base_rendered = base_sql.format(fic_mis_date=_esc(fic_mis_date))
+        base_rendered = base_sql.format(period_dt=_esc(period_dt))
         clean_base = self._strip_order_by(base_rendered)
         where_parts = self._build_where_sql(clauses)
         order_by = self._build_order_sql(sort_fields)
@@ -152,7 +152,7 @@ class DremioAdapter(BaseAdapter):
         per_page:    Optional[int]            = None,
     ) -> pd.DataFrame:
         filters      = dict(filters or {})
-        fic_mis_date = filters.pop("_fic_mis_date", "")
+        period_dt = filters.pop("_period_dt", "")
         col_filters  = filters.get("col_filters", {})
         quick        = filters.get("quick_filter", "")
         base_sql     = self._get_query(entity_type)
@@ -163,13 +163,13 @@ class DremioAdapter(BaseAdapter):
             clauses = self._build_filter_clauses(col_filters, entity_key)
             sort_fields = self._build_sort_fields(sorts)
             sql = self._build_cte_sql(
-                base_sql, fic_mis_date, clauses, sort_fields,
+                base_sql, period_dt, clauses, sort_fields,
                 page=page, per_page=per_page,
             )
             self.log.debug("DremioAdapter paginated SQL:\n%s", sql)
             df = self._execute(sql)
         else:
-            sql = base_sql.format(fic_mis_date=_esc(fic_mis_date))
+            sql = base_sql.format(period_dt=_esc(period_dt))
             self.log.debug("DremioAdapter SQL: %s", sql)
             df = self._execute(sql)
 
@@ -196,20 +196,20 @@ class DremioAdapter(BaseAdapter):
         filters:     Optional[Dict]           = None,
     ) -> int:
         filters      = dict(filters or {})
-        fic_mis_date = filters.pop("_fic_mis_date", "")
+        period_dt = filters.pop("_period_dt", "")
         col_filters  = filters.get("col_filters", {})
         base_sql     = self._get_query(entity_type)
 
         clauses = self._build_filter_clauses(col_filters, entity_key)
         sql = self._build_cte_sql(
-            base_sql, fic_mis_date, clauses, sort_fields=[],
+            base_sql, period_dt, clauses, sort_fields=[],
             select="COUNT(*) AS cnt",
         )
         df = self._execute(sql)
         return int(df.iloc[0, 0]) if not df.empty else 0
 
     def introspect_columns(self, entity_type: str) -> List[str]:
-        sql = self._get_query(entity_type).format(fic_mis_date="")
+        sql = self._get_query(entity_type).format(period_dt="")
         df  = self._execute(f"SELECT * FROM ({sql}) AS _q LIMIT 0")
         return df.columns.tolist()
 
