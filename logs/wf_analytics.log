@@ -2057,3 +2057,47 @@
 2026-07-10 09:17:22,615 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
 2026-07-10 09:17:22,615 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
 2026-07-10 09:17:22,615 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled
+2026-07-10 16:34:33,122 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-10 16:34:33,122 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
+2026-07-10 16:34:33,123 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled
+2026-07-10 16:34:34,712 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-10 16:34:34,712 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
+2026-07-10 16:34:34,712 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled
+2026-07-10 16:34:34,725 | INFO     | app | req=- user=- | Application created with config: development
+2026-07-10 16:34:34,725 | INFO     | __main__ | req=- user=- | Starting WF Enterprise Analytics on http://localhost:5000 [development]
+2026-07-10 16:34:34,768 | WARNING  | werkzeug | req=- user=- |  * Debugger is active!
+2026-07-10 16:34:41,683 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter loaded entity=facilities rows=19774 path=F:\Office\SampleApp4\data\facilities.csv
+2026-07-10 16:34:41,765 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-10 16:34:41,795 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter loaded entity=obligations rows=12 path=F:\Office\SampleApp4\data\obligations.csv
+2026-07-10 16:34:41,802 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-10 16:34:41,831 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter loaded entity=property rows=8 path=F:\Office\SampleApp4\data\property.csv
+2026-07-10 16:34:41,835 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-10 16:34:41,911 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter loaded entity=investigation_tracker rows=8 path=F:\Office\SampleApp4\data\investigation_tracker.csv
+2026-07-10 16:34:41,912 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=7ce2ce7d5212 user=anonymous | CSVAdapter.fetch entity=investigation_tracker entity_key=None rows_returned=8
+2026-07-10 16:34:44,712 | DEBUG    | app.services.reporting_service | req=7ce2ce7d5212 user=anonymous | get_entity entity=facilities entity_key=None period_dt='2024-01-31' -> 75/19766
+2026-07-10 16:34:54,233 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2697e6fb95e2 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-10 16:34:54,239 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2697e6fb95e2 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-10 16:34:54,248 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2697e6fb95e2 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-10 16:34:54,312 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=2697e6fb95e2 user=anonymous | CSVAdapter.fetch entity=investigation_tracker entity_key=None rows_returned=8
+2026-07-10 16:34:56,671 | DEBUG    | app.services.reporting_service | req=2697e6fb95e2 user=anonymous | get_entity entity=facilities entity_key=None period_dt='2024-01-31' -> 75/19766
+2026-07-10 16:35:01,933 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e3154a69e52c user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-10 16:35:01,938 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e3154a69e52c user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-10 16:35:01,947 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e3154a69e52c user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-10 16:35:01,999 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=e3154a69e52c user=anonymous | CSVAdapter.fetch entity=investigation_tracker entity_key=None rows_returned=8
+2026-07-10 16:35:04,257 | DEBUG    | app.services.reporting_service | req=e3154a69e52c user=anonymous | get_entity entity=facilities entity_key=None period_dt='2024-01-31' -> 75/19766
+2026-07-10 16:39:35,069 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=669089d056dd user=anonymous | CSVAdapter loaded entity=investigation_assignees rows=2 path=F:\Office\SampleApp4\data\investigation_assignees.csv
+2026-07-10 16:39:35,070 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=669089d056dd user=anonymous | CSVAdapter.fetch entity=investigation_assignees entity_key=None rows_returned=2
+2026-07-10 16:39:35,071 | DEBUG    | app.services.reporting_service | req=669089d056dd user=anonymous | get_entity entity=investigation_assignees entity_key=None period_dt='2024-01-31' -> 2/2
+2026-07-10 16:39:45,090 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f34ced36b376 user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-10 16:39:45,096 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f34ced36b376 user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-10 16:39:45,105 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f34ced36b376 user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-10 16:39:45,164 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=f34ced36b376 user=anonymous | CSVAdapter.fetch entity=investigation_tracker entity_key=None rows_returned=8
+2026-07-10 16:39:47,618 | DEBUG    | app.services.reporting_service | req=f34ced36b376 user=anonymous | get_entity entity=facilities entity_key=None period_dt='2024-01-31' -> 75/19766
+2026-07-10 16:40:15,831 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c01c51da342b user=anonymous | CSVAdapter.fetch entity=facilities entity_key=None rows_returned=19766
+2026-07-10 16:40:15,838 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c01c51da342b user=anonymous | CSVAdapter.fetch entity=obligations entity_key=None rows_returned=12
+2026-07-10 16:40:15,846 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c01c51da342b user=anonymous | CSVAdapter.fetch entity=property entity_key=None rows_returned=8
+2026-07-10 16:40:15,904 | DEBUG    | app.adapters.base_adapter.CSVAdapter | req=c01c51da342b user=anonymous | CSVAdapter.fetch entity=investigation_tracker entity_key=None rows_returned=8
+2026-07-10 16:40:18,761 | DEBUG    | app.services.reporting_service | req=c01c51da342b user=anonymous | get_entity entity=facilities entity_key=None period_dt='2024-01-31' -> 75/19766
+2026-07-10 16:55:56,186 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-10 16:55:56,186 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
+2026-07-10 16:55:56,186 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled

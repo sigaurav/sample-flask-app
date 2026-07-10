@@ -121,9 +121,12 @@ def jira_investigation_create():
     # Build Jira additional fields
     additional_fields = {}
 
-    # Convert xxxxx_data to clean Jira markup
-    description = current_app.jira_service.build_jira_description(description_data)
-    acceptancecriteria = current_app.jira_service.build_jira_acceptancecriteria(acceptancecriteria_data)
+    # description_data / acceptancecriteria_data arrive as plain strings —
+    # _markdownToJiraMarkup() on the frontend already converts markdown to
+    # Jira wiki markup, so only normalization (not the dict-shaped
+    # build_jira_description/build_jira_acceptancecriteria helpers) applies here.
+    description = current_app.jira_service.normalize_jira_markup(description_data)
+    acceptancecriteria = current_app.jira_service.normalize_jira_markup(acceptancecriteria_data)
 
     additional_fields["priority"] = {"name": priority}
     additional_fields["description"] = description

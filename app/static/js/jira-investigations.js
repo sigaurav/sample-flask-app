@@ -54,6 +54,31 @@ const JiraInvestigations = (function () {
       <line x1="10" y1="14" x2="21" y2="3"/>
     </svg>`;
 
+  const META_ICONS = {
+    priority: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg>`,
+    assignee: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>`,
+    created: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>`,
+    updated: `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2v6h-6"/><path d="M3 12a9 9 0 0 1 15-6.7L21 8"/><path d="M3 22v-6h6"/><path d="M21 12a9 9 0 0 1-15 6.7L3 16"/></svg>`,
+  };
+
+  function _formatDate(value) {
+    if (!value) return '—';
+    const d = new Date(value);
+    if (isNaN(d.getTime())) return String(value);
+    return d.toLocaleString(undefined, {
+      year: 'numeric', month: 'short', day: 'numeric',
+      hour: 'numeric', minute: '2-digit',
+    });
+  }
+
+  function _initials(name) {
+    if (!name) return '?';
+    const base = String(name).split('@')[0].replace(/[._]+/g, ' ').trim();
+    const parts = base.split(/\s+/).filter(Boolean);
+    if (parts.length === 0) return '?';
+    return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
+  }
+
   //  Public: open the modal ─
 
   function open(parentEntity, rowData) {
@@ -73,6 +98,8 @@ const JiraInvestigations = (function () {
   //  Modal mount ─
 
   async function _mountModal(panel, parentEntity, fkValues) {
+    panel.classList.add('jira-investigations-modal');
+
     const body = panel.querySelector('.modal-body');
     body.innerHTML = _buildBodyHtml();
 
@@ -138,14 +165,14 @@ const JiraInvestigations = (function () {
       const el = document.createElement('div');
       el.className = 'jira-issue-row';
       el.innerHTML = `
-        <div class="jira-issue-row-main">
+        <div class="jira-issue-row-top">
           <span class="jira-issue-key">
             ${_esc(row.tracker.jira_key || '')}
             ${url ? `<a href="${_esc(url)}" target="_blank" rel="noopener" class="jira-issue-link" title="Open in Jira" onclick="event.stopPropagation()">${EXTERNAL_LINK_ICON}</a>` : ''}
           </span>
-          <span class="jira-issue-summary">${_esc(issue ? (issue.summary || '') : '')}</span>
+          <span class="jira-status-badge ${_statusClass(statusText)}">${_esc(statusText)}</span>
         </div>
-        <span class="jira-status-badge ${_statusClass(statusText)}">${_esc(statusText)}</span>
+        <div class="jira-issue-summary">${_esc(issue ? (issue.summary || '') : '')}</div>
       `;
       el.addEventListener('click', () => {
         listPane.querySelectorAll('.jira-issue-row').forEach(r => r.classList.remove('active'));
@@ -202,20 +229,32 @@ const JiraInvestigations = (function () {
 
       <div class="jira-issue-detail-meta">
         <div class="jira-issue-detail-meta-item">
-          <span class="jira-issue-detail-meta-label">Priority</span>
-          <span class="jira-issue-detail-meta-value">${_esc(issue.priority || '—')}</span>
+          <div class="jira-meta-icon">${META_ICONS.priority}</div>
+          <div class="jira-meta-text">
+            <span class="jira-issue-detail-meta-label">Priority</span>
+            <span class="jira-issue-detail-meta-value">${_esc(issue.priority || '—')}</span>
+          </div>
         </div>
         <div class="jira-issue-detail-meta-item">
-          <span class="jira-issue-detail-meta-label">Assignee</span>
-          <span class="jira-issue-detail-meta-value">${_esc(issue.assignee || '—')}</span>
+          <div class="jira-meta-icon jira-meta-avatar">${_esc(_initials(issue.assignee))}</div>
+          <div class="jira-meta-text">
+            <span class="jira-issue-detail-meta-label">Assignee</span>
+            <span class="jira-issue-detail-meta-value" title="${_esc(issue.assignee || '')}">${_esc(issue.assignee || '—')}</span>
+          </div>
         </div>
         <div class="jira-issue-detail-meta-item">
-          <span class="jira-issue-detail-meta-label">Created</span>
-          <span class="jira-issue-detail-meta-value">${_esc(issue.created || '—')}</span>
+          <div class="jira-meta-icon">${META_ICONS.created}</div>
+          <div class="jira-meta-text">
+            <span class="jira-issue-detail-meta-label">Created</span>
+            <span class="jira-issue-detail-meta-value">${_esc(_formatDate(issue.created))}</span>
+          </div>
         </div>
         <div class="jira-issue-detail-meta-item">
-          <span class="jira-issue-detail-meta-label">Updated</span>
-          <span class="jira-issue-detail-meta-value">${_esc(issue.updated || '—')}</span>
+          <div class="jira-meta-icon">${META_ICONS.updated}</div>
+          <div class="jira-meta-text">
+            <span class="jira-issue-detail-meta-label">Updated</span>
+            <span class="jira-issue-detail-meta-value">${_esc(_formatDate(issue.updated))}</span>
+          </div>
         </div>
       </div>
 
