@@ -163,7 +163,7 @@
 /*  Modal body / grid area  */
 .modal-body {
   flex:             1;
-  overflow:         hidden;
+  overflow:         auto;
   display:          flex;
   flex-direction:   column;
   padding:          16px 20px;
@@ -217,28 +217,40 @@
 /*  Utility ─ */
 .text-muted { color: #9e9e9e; font-style: italic; }
 
-/*  Jira investigations — two-pane (list / detail) modal body ─ */
+/*  Jira investigations — two-pane (list 30% / detail 70%) modal body ─ */
 .jira-issue-list-pane {
-  flex:             0 1 auto;
-  max-height:       40%;
+  flex:             0 0 30%;
+  min-height:       0;
   overflow-y:       auto;
   border:           1px solid #e0e0e0;
-  border-radius:    6px;
+  border-radius:    8px;
+  background:       #fcfcfc;
 }
+
+.jira-pane-status {
+  padding:          16px 14px;
+  font-size:        13px;
+  color:            #8a8a8a;
+  font-style:       italic;
+}
+.jira-pane-status.jira-pane-error { color: #b3261e; }
 
 .jira-issue-row {
   display:          flex;
   align-items:      center;
   justify-content:  space-between;
   gap:              10px;
-  padding:          10px 14px;
+  padding:          11px 14px;
   border-bottom:    1px solid #f0f0f0;
   cursor:           pointer;
-  transition:       background .12s ease;
+  transition:       background .12s ease, box-shadow .12s ease;
 }
 .jira-issue-row:last-child { border-bottom: none; }
 .jira-issue-row:hover { background: #fafafa; }
-.jira-issue-row.active { background: #F5E6E7; }
+.jira-issue-row.active {
+  background:       #FBEEEF;
+  box-shadow:       inset 3px 0 0 #D71E28;
+}
 
 .jira-issue-row-main {
   display:          flex;
@@ -248,11 +260,24 @@
 }
 
 .jira-issue-key {
+  display:          inline-flex;
+  align-items:      center;
+  gap:              5px;
   font-weight:      700;
   color:            #D71E28;
   font-size:        12px;
   flex-shrink:      0;
+  letter-spacing:   .2px;
 }
+.jira-issue-key-lg { font-size: 15px; }
+
+.jira-issue-link {
+  display:          inline-flex;
+  align-items:      center;
+  color:            #9e9e9e;
+  transition:       color .12s ease;
+}
+.jira-issue-link:hover { color: #D71E28; }
 
 .jira-issue-summary {
   font-size:        13px;
@@ -262,52 +287,120 @@
   text-overflow:    ellipsis;
 }
 
-.jira-issue-status-badge {
+/*  Status badges — color-coded by rough workflow bucket  */
+.jira-status-badge {
   font-size:        11px;
   font-weight:      600;
-  color:            #6e6e6e;
-  background:       #f5f5f5;
-  border-radius:    4px;
-  padding:          3px 8px;
+  border-radius:    99px;
+  padding:          3px 10px;
   flex-shrink:      0;
   white-space:      nowrap;
+  border:           1px solid transparent;
 }
+.jira-status-todo     { color: #5a5a5a; background: #f0f0f0; border-color: #e2e2e2; }
+.jira-status-progress { color: #0b5fb0; background: #e6f1fc; border-color: #cfe4f8; }
+.jira-status-done     { color: #1e7d34; background: #e8f6ec; border-color: #d1eeda; }
+.jira-status-blocked  { color: #b3261e; background: #fdecea; border-color: #f8d5d2; }
+.jira-status-default  { color: #6e6e6e; background: #f5f5f5; border-color: #e8e8e8; }
 
 .jira-issue-detail-pane {
-  flex:             1;
+  flex:             1 1 70%;
+  min-height:       0;
   overflow-y:       auto;
   border:           1px solid #e0e0e0;
-  border-radius:    6px;
-  padding:          16px;
+  border-radius:    8px;
+  padding:          20px 22px;
+  background:       #fff;
 }
 
 .jira-issue-detail-header {
   display:          flex;
   align-items:      center;
+  justify-content:  space-between;
   gap:              10px;
-  margin-bottom:    8px;
+  margin-bottom:    6px;
 }
 
 .jira-issue-detail-title {
-  font-size:        15px;
+  font-size:        16px;
   font-weight:      700;
   color:            #1a1a1a;
-  margin-bottom:    12px;
+  margin-bottom:    16px;
+  line-height:      1.35;
 }
 
-.jira-issue-detail-row {
-  font-size:        13px;
-  color:            #424242;
-  margin-bottom:    6px;
+.jira-issue-detail-meta {
+  display:          grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap:              14px;
+  padding:          14px 16px;
+  background:       #fafafa;
+  border:           1px solid #f0f0f0;
+  border-radius:    8px;
+  margin-bottom:    18px;
 }
-.jira-issue-detail-row strong { color: #2c2c2c; }
+
+.jira-issue-detail-meta-item {
+  display:          flex;
+  flex-direction:   column;
+  gap:              3px;
+}
+
+.jira-issue-detail-meta-label {
+  font-size:        10px;
+  font-weight:      700;
+  text-transform:   uppercase;
+  letter-spacing:   .5px;
+  color:            #9e9e9e;
+}
+
+.jira-issue-detail-meta-value {
+  font-size:        13px;
+  color:            #2c2c2c;
+  font-weight:      500;
+}
+
+.jira-issue-detail-section { margin-bottom: 18px; }
+.jira-issue-detail-section:last-child { margin-bottom: 0; }
+
+.jira-issue-detail-section-title {
+  font-size:        12px;
+  font-weight:      700;
+  color:            #6e6e6e;
+  text-transform:   uppercase;
+  letter-spacing:   .5px;
+  margin-bottom:    8px;
+  padding-bottom:   6px;
+  border-bottom:    1px solid #f0f0f0;
+}
 
 .jira-issue-detail-description {
   font-size:        13px;
   color:            #424242;
-  line-height:      1.5;
-  margin-top:       12px;
-  padding-top:      12px;
-  border-top:       1px solid #f0f0f0;
+  line-height:      1.6;
   white-space:      pre-wrap;
+}
+
+/*  Empty / not-found state for the detail pane  */
+.jira-empty-detail {
+  height:           100%;
+  display:          flex;
+  flex-direction:   column;
+  align-items:      center;
+  justify-content:  center;
+  text-align:       center;
+  color:            #b0b0b0;
+  padding:          30px;
+  gap:              6px;
+}
+.jira-empty-detail-title {
+  font-size:        14px;
+  font-weight:      700;
+  color:            #8a8a8a;
+  margin-top:       6px;
+}
+.jira-empty-detail-subtitle {
+  font-size:        12px;
+  color:            #b0b0b0;
+  max-width:        320px;
 }

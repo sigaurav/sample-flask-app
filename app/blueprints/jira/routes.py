@@ -1,5 +1,7 @@
 from __future__ import  annotations
 
+from datetime import datetime
+
 from flask import current_app, request, jsonify
 from app.utils.response_utils import error_response
 from app.blueprints.jira import jira_bp
@@ -64,7 +66,10 @@ def jira_issues():
     jql = "key in (" + ",".join(keys) + ")"
     result = current_app.jira_service.search_jira_issues(
         jql=jql,
-        output_fields=["key", "summary", "status", "priority", "assignee", "description", "created", "updated"],
+        output_fields=[
+            "key", "summary", "status", "priority", "assignee",
+            "description", "acceptancecriteria", "created", "updated",
+        ],
     )
     return jsonify(result)
 
@@ -153,17 +158,22 @@ def jira_investigation_create():
         # Need to create the database record
         records_to_insert = []
 
-        # RD primary key fields
-        primary_key_fields = get_pk("facilities")
+        # entity_key is a concatenation of the facilities->investigation_tracker
+        # fk columns (see ENTITIES config), joined by concat_separator — the same
+        # shape the generic child-entity drill-down route builds/matches against.
+        child_rel = current_app.config["ENTITIES"]["facilities"]["children"]["investigation_tracker"]
+        fk_cols = child_rel["fk"]
+        separator = child_rel["concat_separator"]
+        created_date = str(datetime.now())
 
         for row in records:
 
             record = {}
 
             record["entity_type"] = "facilities"
-            record["entity_key"] = row.get("composite_key")
-
+            record["entity_key"] = separator.join(str(row.get(col, "")) for col in fk_cols)
             record["jira_key"] = jira_key
+            record["createdDate"] = created_date
 
             records_to_insert.append(record)
 

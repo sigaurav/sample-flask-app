@@ -12,7 +12,7 @@ Usage (in routes / services):
 from __future__ import annotations
 
 import logging
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 
 from app.adapters.base_adapter       import BaseAdapter
 from app.adapters.csv_adapter        import CSVAdapter
@@ -86,26 +86,3 @@ class DataService:
         if source and source in self.adapters:
             return self.adapters[source]
         return next(iter(self.adapters.values()))
-
-
-    # Rolando's Addition
-    def get_adapter(self, source_type: Optional[str] = None) -> BaseAdapter:
-        if source_type:
-            adapter = self.adapters.get(source_type)
-            if adapter is None:
-                raise ValueError(
-                    f"Adapter '{source_type}' is not configured. "
-                    f"Enabled sources: {list(self.adapters)}"
-                )
-            
-            return adapter
-        return next(iter(self.adapters.values()))
-
-
-    # Rolando's Addition
-    def health(self) -> Dict[str, bool]:
-        """
-        Return a health-check result for every registered adapter.
-        """
-        return {name: adapter.health_check() for name, adapter in self.adapters.items()}
-                

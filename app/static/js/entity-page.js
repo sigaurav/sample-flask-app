@@ -125,35 +125,10 @@ const EntityPage = (function () {
     const menu = document.createElement('div');
     menu.className = 'row-action-menu';
 
-    const clearSelectedBtn = document.createElement('button');
-    clearSelectedBtn.type = 'button';
-    clearSelectedBtn.className = 'row-action-menu-item';
-    clearSelectedBtn.textContent = 'Clear selected records';
-
-    clearSelectedBtn.addEventListener('click', function () {
-      menu.remove();
-
-      if (
-        ctx.grid &&
-        typeof ctx.grid.clearSelectedRows === 'function'
-      ) {
-        ctx.grid.clearSelectedRows();
-      }
-
-      Toast.info(
-        'Selection cleared',
-        'All selected records have been cleared.'
-      );
-    });
-
     const openInvestigationBtn = document.createElement('button');
     openInvestigationBtn.type = 'button';
     openInvestigationBtn.className = 'row-action-menu-item';
-
-    openInvestigationBtn.textContent =
-      records.length > 1
-        ? `Open Investigation for ${records.length} selected records`
-        : 'Open Investigation';
+    openInvestigationBtn.textContent = 'Open Investigation';
 
     openInvestigationBtn.addEventListener('click', function () {
       menu.remove();
@@ -164,7 +139,6 @@ const EntityPage = (function () {
       );
     });
 
-    menu.appendChild(clearSelectedBtn);
     menu.appendChild(openInvestigationBtn);
 
     document.body.appendChild(menu);

@@ -2,8 +2,9 @@
  * jira-investigations.js — "Investigations" drill-down for the Facilities grid.
  *
  * Opens a two-pane modal: a list of Jira tickets filed against the clicked
- * facility on top, full ticket detail for the selected one on the bottom.
- * Reuses the existing generic child-entity endpoint to fetch investigation_tracker
+ * facility on top (30%), full ticket detail for the selected one on the
+ * bottom (70%) — populated only after a ticket is clicked. Reuses the
+ * existing generic child-entity endpoint to fetch investigation_tracker
  * rows, and JiraService.search_jira_issues (via GET /jira/issues) for live
  * Jira data — no new Jira-calling logic here.
  *
@@ -11,6 +12,20 @@
  *   JiraInvestigations.open(parentEntity, rowData)
  */
 const JiraInvestigations = (function () {
+
+  // Rough status → color-family mapping. Falls back to neutral for anything
+  // unrecognized (custom workflow statuses vary a lot between Jira projects).
+  const STATUS_COLOR_MAP = [
+    { match: /done|closed|resolved|complete/i,        cls: 'jira-status-done' },
+    { match: /progress|review|testing/i,               cls: 'jira-status-progress' },
+    { match: /block|cancel|reject/i,                   cls: 'jira-status-blocked' },
+    { match: /to ?do|open|new|backlog/i,                cls: 'jira-status-todo' },
+  ];
+
+  function _statusClass(status) {
+    const hit = STATUS_COLOR_MAP.find(s => s.match.test(status || ''));
+    return hit ? hit.cls : 'jira-status-default';
+  }
 
   function _getLabelForRow(rowData, entityType) {
     const cfg = (APP_CONFIG.entities || {})[entityType] || {};
@@ -25,6 +40,19 @@ const JiraInvestigations = (function () {
       .replace(/>/g, '&gt;')
       .replace(/"/g, '&quot;');
   }
+
+  function _ticketUrl(jiraKey) {
+    const base = (APP_CONFIG.jiraBaseUrl || '').replace(/\/+$/, '');
+    return base ? `${base}/browse/${encodeURIComponent(jiraKey)}` : null;
+  }
+
+  const EXTERNAL_LINK_ICON = `
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+      <polyline points="15 3 21 3 21 9"/>
+      <line x1="10" y1="14" x2="21" y2="3"/>
+    </svg>`;
 
   //  Public: open the modal ─
 
@@ -51,7 +79,8 @@ const JiraInvestigations = (function () {
     const listPane   = body.querySelector('.jira-issue-list-pane');
     const detailPane = body.querySelector('.jira-issue-detail-pane');
 
-    listPane.innerHTML = '<div class="text-muted">Loading investigations…</div>';
+    _renderEmptyDetail(detailPane);
+    listPane.innerHTML = '<div class="jira-pane-status">Loading investigations…</div>';
 
     let trackerRows;
     try {
@@ -63,12 +92,12 @@ const JiraInvestigations = (function () {
       });
       trackerRows = resp.data || [];
     } catch (err) {
-      listPane.innerHTML = `<div class="text-muted">Unable to load investigations: ${_esc(err.message || 'Unknown error')}</div>`;
+      listPane.innerHTML = `<div class="jira-pane-status jira-pane-error">Unable to load investigations: ${_esc(err.message || 'Unknown error')}</div>`;
       return;
     }
 
     if (trackerRows.length === 0) {
-      listPane.innerHTML = '<div class="text-muted">No investigations found for this facility.</div>';
+      listPane.innerHTML = '<div class="jira-pane-status">No investigations found for this facility.</div>';
       return;
     }
 
@@ -79,7 +108,7 @@ const JiraInvestigations = (function () {
       const resp = await ApiUtils.get(`/jira/issues?keys=${encodeURIComponent(jiraKeys.join(','))}`);
       issues = (resp && resp.data) || [];
     } catch (err) {
-      listPane.innerHTML = `<div class="text-muted">Unable to load Jira details: ${_esc(err.message || 'Unknown error')}</div>`;
+      listPane.innerHTML = `<div class="jira-pane-status jira-pane-error">Unable to load Jira details: ${_esc(err.message || 'Unknown error')}</div>`;
       return;
     }
 
@@ -101,18 +130,22 @@ const JiraInvestigations = (function () {
 
   function _renderList(listPane, detailPane, rows) {
     listPane.innerHTML = '';
-    rows.forEach((row, idx) => {
+    rows.forEach((row) => {
       const issue      = row.issue;
-      const statusText = issue ? (issue.status || '') : 'Not found in Jira';
+      const statusText = issue ? (issue.status || '') : 'Not found';
+      const url        = _ticketUrl(row.tracker.jira_key);
 
       const el = document.createElement('div');
       el.className = 'jira-issue-row';
       el.innerHTML = `
         <div class="jira-issue-row-main">
-          <span class="jira-issue-key">${_esc(row.tracker.jira_key || '')}</span>
+          <span class="jira-issue-key">
+            ${_esc(row.tracker.jira_key || '')}
+            ${url ? `<a href="${_esc(url)}" target="_blank" rel="noopener" class="jira-issue-link" title="Open in Jira" onclick="event.stopPropagation()">${EXTERNAL_LINK_ICON}</a>` : ''}
+          </span>
           <span class="jira-issue-summary">${_esc(issue ? (issue.summary || '') : '')}</span>
         </div>
-        <span class="jira-issue-status-badge">${_esc(statusText)}</span>
+        <span class="jira-status-badge ${_statusClass(statusText)}">${_esc(statusText)}</span>
       `;
       el.addEventListener('click', () => {
         listPane.querySelectorAll('.jira-issue-row').forEach(r => r.classList.remove('active'));
@@ -120,12 +153,23 @@ const JiraInvestigations = (function () {
         _renderDetail(detailPane, row);
       });
       listPane.appendChild(el);
-
-      if (idx === 0) {
-        el.classList.add('active');
-        _renderDetail(detailPane, row);
-      }
     });
+  }
+
+  function _renderEmptyDetail(detailPane) {
+    detailPane.innerHTML = `
+      <div class="jira-empty-detail">
+        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+             stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+          <line x1="9" y1="15" x2="15" y2="15"/>
+          <line x1="9" y1="11" x2="13" y2="11"/>
+        </svg>
+        <div class="jira-empty-detail-title">No investigation selected</div>
+        <div class="jira-empty-detail-subtitle">Choose an investigation from the list above to view its details.</div>
+      </div>
+    `;
   }
 
   function _renderDetail(detailPane, row) {
@@ -133,25 +177,58 @@ const JiraInvestigations = (function () {
 
     if (!issue) {
       detailPane.innerHTML = `
-        <div class="text-muted">
-          Jira issue "${_esc(row.tracker.jira_key || '')}" could not be found
-          (it may not exist in the connected Jira project).
+        <div class="jira-empty-detail">
+          <div class="jira-empty-detail-title">Issue not found</div>
+          <div class="jira-empty-detail-subtitle">
+            Jira issue "${_esc(row.tracker.jira_key || '')}" could not be found
+            (it may not exist in the connected Jira project).
+          </div>
         </div>
       `;
       return;
     }
 
+    const url = _ticketUrl(issue.key);
+
     detailPane.innerHTML = `
       <div class="jira-issue-detail-header">
-        <span class="jira-issue-key">${_esc(issue.key || '')}</span>
-        <span class="jira-issue-status-badge">${_esc(issue.status || '')}</span>
+        <span class="jira-issue-key jira-issue-key-lg">
+          ${_esc(issue.key || '')}
+          ${url ? `<a href="${_esc(url)}" target="_blank" rel="noopener" class="jira-issue-link" title="Open in Jira">${EXTERNAL_LINK_ICON}</a>` : ''}
+        </span>
+        <span class="jira-status-badge ${_statusClass(issue.status)}">${_esc(issue.status || '')}</span>
       </div>
       <div class="jira-issue-detail-title">${_esc(issue.summary || '')}</div>
-      <div class="jira-issue-detail-row"><strong>Priority:</strong> ${_esc(issue.priority || '')}</div>
-      <div class="jira-issue-detail-row"><strong>Assignee:</strong> ${_esc(issue.assignee || '')}</div>
-      <div class="jira-issue-detail-row"><strong>Created:</strong> ${_esc(issue.created || '')}</div>
-      <div class="jira-issue-detail-row"><strong>Updated:</strong> ${_esc(issue.updated || '')}</div>
-      <div class="jira-issue-detail-description">${_esc(issue.description || '')}</div>
+
+      <div class="jira-issue-detail-meta">
+        <div class="jira-issue-detail-meta-item">
+          <span class="jira-issue-detail-meta-label">Priority</span>
+          <span class="jira-issue-detail-meta-value">${_esc(issue.priority || '—')}</span>
+        </div>
+        <div class="jira-issue-detail-meta-item">
+          <span class="jira-issue-detail-meta-label">Assignee</span>
+          <span class="jira-issue-detail-meta-value">${_esc(issue.assignee || '—')}</span>
+        </div>
+        <div class="jira-issue-detail-meta-item">
+          <span class="jira-issue-detail-meta-label">Created</span>
+          <span class="jira-issue-detail-meta-value">${_esc(issue.created || '—')}</span>
+        </div>
+        <div class="jira-issue-detail-meta-item">
+          <span class="jira-issue-detail-meta-label">Updated</span>
+          <span class="jira-issue-detail-meta-value">${_esc(issue.updated || '—')}</span>
+        </div>
+      </div>
+
+      <div class="jira-issue-detail-section">
+        <div class="jira-issue-detail-section-title">Description</div>
+        <div class="jira-issue-detail-description">${issue.description ? _esc(issue.description) : '<span class="text-muted">No description provided.</span>'}</div>
+      </div>
+
+      ${issue.acceptancecriteria ? `
+      <div class="jira-issue-detail-section">
+        <div class="jira-issue-detail-section-title">Acceptance Criteria</div>
+        <div class="jira-issue-detail-description">${_esc(issue.acceptancecriteria)}</div>
+      </div>` : ''}
     `;
   }
 

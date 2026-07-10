@@ -265,8 +265,11 @@ class GridManager {
     this._queryFn = options.queryFn || null;
     this._totalRows = 0;
 
-    // Row-selection state (row-action feature)
-    this._selectedRowIds = new Set();
+    // Row-selection state (row-action feature) — Map of rowId -> row object,
+    // not just a Set of IDs, so getSelectedRows() works without depending on
+    // _allData/_batchData (which only ever hold the currently-loaded window
+    // in server-side pagination mode).
+    this._selectedRows = new Map();
     this._pendingChanges = false;
     this._batchPages = 3;
     this._batchData = [];
@@ -299,7 +302,7 @@ class GridManager {
 
   // Rolando's addition:
   setData(rows) {
-    this._selectedRowIds.clear();
+    this._selectedRows.clear();
     this._allData = (rows || []).map(function (row, idx) {
       return Object.assign({ __wf_row_id: idx }, row);
     });
@@ -1299,36 +1302,39 @@ class GridManager {
   }
 
   isRowSelected(row) {
-    return this._selectedRowIds.has(this.getRowId(row));
+    return this._selectedRows.has(this.getRowId(row));
   }
 
   // Updates a "N selected" indicator if the page provides one; a no-op otherwise.
   _updateSelectionToolbar() {
     const el = document.querySelector('#' + this._containerId + ' .selection-count');
     if (!el) return;
-    const n = this._selectedRowIds.size;
+    const n = this._selectedRows.size;
     el.textContent = n > 0 ? `${n} selected` : '';
   }
 
   toggleRowSelected(row, checked) {
     const id = this.getRowId(row);
-    if (checked) this._selectedRowIds.add(id); else this._selectedRowIds.delete(id);
+    if (checked) this._selectedRows.set(id, row); else this._selectedRows.delete(id);
     this._updateSelectionToolbar();
   }
 
+  // Keyed by row ID (not the paginated _allData/_batchData buffers, which only
+  // ever hold the currently-loaded window) so selections survive page/batch
+  // navigation and server-side pagination mode correctly.
   getSelectedRows() {
-    return this._allData.filter(row => this._selectedRowIds.has(this.getRowId(row)));
+    return Array.from(this._selectedRows.values());
   }
 
   clearSelectedRows() {
-    this._selectedRowIds.clear();
+    this._selectedRows.clear();
     this._updateSelectionToolbar();
     this._render();
   }
 
   setRowSelected(row, selected) {
     const id = this.getRowId(row);
-    selected ? this._selectedRowIds.add(id) : this._selectedRowIds.delete(id);
+    selected ? this._selectedRows.set(id, row) : this._selectedRows.delete(id);
     this._updateSelectionToolbar();
   }
 
