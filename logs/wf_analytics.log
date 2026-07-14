@@ -2101,3 +2101,12 @@
 2026-07-10 16:55:56,186 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
 2026-07-10 16:55:56,186 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
 2026-07-10 16:55:56,186 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled
+2026-07-14 09:55:44,155 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-14 09:55:44,156 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
+2026-07-14 09:55:44,156 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled
+2026-07-14 09:57:59,755 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-14 09:57:59,755 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
+2026-07-14 09:57:59,755 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled
+2026-07-14 09:58:08,438 | INFO     | app.services.data_service | req=- user=- | DataService: registered adapter 'csv'
+2026-07-14 09:58:08,438 | INFO     | app.services.reporting_service | req=- user=- | ReportingService initialised (primary adapter: csv, entities: ['facilities', 'obligations', 'property', 'errors', 'investigation_assignees', 'investigation_tracker'])
+2026-07-14 09:58:08,438 | WARNING  | app | req=- user=- | JIRA_BASE_URL/JIRA_TOKEN not configured — Jira integration disabled

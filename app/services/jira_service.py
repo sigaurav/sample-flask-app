@@ -487,6 +487,204 @@ class JiraService:
 
         return self.success(data=results)
 
+    def get_jira_issue_detail(
+        self,
+        issue_key: str,
+        fields: list[str] | None = None,
+        expand: list[str] | None = None,
+    ):
+        """
+        Fetch a single Jira issue with an explicit fields/expand selection.
+
+        Used for on-demand tab data (comments, attachments, history) that
+        the bulk /search endpoint used elsewhere in this service can't
+        provide — history in particular requires expand=changelog, which
+        /search does not support per-issue the way the single-issue GET does.
+
+        Returns:
+            dict: Standard service response containing the raw Jira issue
+            payload (fields/changelog un-normalized).
+        """
+
+        params = {}
+
+        if fields:
+            params["fields"] = ",".join(fields)
+
+        if expand:
+            params["expand"] = ",".join(expand)
+
+        return self.jira_request(
+            method="GET",
+            endpoint=f"/rest/api/2/issue/{issue_key}",
+            params=params or None,
+            raise_error=False,
+        )
+
+    def get_jira_issue_comments(self, issue_key: str):
+        """
+        Fetch and normalize comments for a single Jira issue.
+
+        Returns:
+            dict: Standard service response containing a list of
+            {id, author, body, created, updated} comment objects.
+        """
+
+        result = self.get_jira_issue_detail(issue_key, fields=["comment"])
+
+        if not result["success"]:
+            return result
+
+        fields = (result["data"] or {}).get("fields", {}) or {}
+        raw_comments = ((fields.get("comment") or {}).get("comments")) or []
+
+        comments = [
+            {
+                "id": c.get("id"),
+                "author": self.get_jira_field_value({"author": c.get("author")}, "author"),
+                "body": c.get("body", ""),
+                "created": c.get("created"),
+                "updated": c.get("updated"),
+            }
+            for c in raw_comments
+        ]
+
+        return self.success(data=comments, status_code=result.get("status_code"))
+
+    def get_jira_issue_attachments(self, issue_key: str):
+        """
+        Fetch and normalize attachment metadata for a single Jira issue.
+
+        Note: does not return attachment bytes/content — only metadata
+        (including the id used by download_attachment_content to stream
+        the file separately).
+
+        Returns:
+            dict: Standard service response containing a list of
+            {id, filename, author, created, size, mime_type} objects.
+        """
+
+        result = self.get_jira_issue_detail(issue_key, fields=["attachment"])
+
+        if not result["success"]:
+            return result
+
+        fields = (result["data"] or {}).get("fields", {}) or {}
+        raw_attachments = fields.get("attachment") or []
+
+        attachments = [
+            {
+                "id": a.get("id"),
+                "filename": a.get("filename"),
+                "author": self.get_jira_field_value({"author": a.get("author")}, "author"),
+                "created": a.get("created"),
+                "size": a.get("size"),
+                "mime_type": a.get("mimeType"),
+            }
+            for a in raw_attachments
+        ]
+
+        return self.success(data=attachments, status_code=result.get("status_code"))
+
+    def get_jira_issue_history(self, issue_key: str):
+        """
+        Fetch and normalize the change history (changelog) for a single
+        Jira issue.
+
+        Requires expand=changelog on the single-issue GET — this is not
+        available via the bulk /search endpoint, so history is always a
+        dedicated per-issue call regardless of how the issue was originally
+        listed.
+
+        Returns:
+            dict: Standard service response containing a list of
+            {id, author, created, items: [{field, from, to}]} entries,
+            most recent first.
+        """
+
+        result = self.get_jira_issue_detail(
+            issue_key,
+            fields=["created"],
+            expand=["changelog"],
+        )
+
+        if not result["success"]:
+            return result
+
+        data = result["data"] or {}
+        histories = ((data.get("changelog") or {}).get("histories")) or []
+
+        history = [
+            {
+                "id": h.get("id"),
+                "author": self.get_jira_field_value({"author": h.get("author")}, "author"),
+                "created": h.get("created"),
+                "items": [
+                    {
+                        "field": item.get("field"),
+                        "from": item.get("fromString"),
+                        "to": item.get("toString"),
+                    }
+                    for item in (h.get("items") or [])
+                ],
+            }
+            for h in histories
+        ]
+
+        history.reverse()  # most recent change first
+
+        return self.success(data=history, status_code=result.get("status_code"))
+
+    def download_attachment_content(self, attachment_id: str):
+        """
+        Fetch raw attachment bytes from Jira by attachment id.
+
+        Bypasses jira_request() (which always JSON-decodes the response
+        body) since attachment content is binary — mirrors the raw-request
+        pattern add_jira_attachment already uses for uploads. The route
+        layer streams this back to the browser rather than exposing the
+        Jira token or Jira's own attachment URL to the client.
+
+        Returns:
+            dict: Standard service response with data = {content: bytes,
+            content_type: str} on success.
+        """
+
+        try:
+            base_url = self._session["base_url"]
+            http = self._session["http"]
+
+            url = f"{base_url}/rest/api/2/attachment/content/{attachment_id}"
+
+            headers = {
+                "Authorization": self._session["headers"]["Authorization"],
+                "Accept": "*/*",
+            }
+
+            response = http.request(
+                "GET",
+                url,
+                headers=headers,
+                retries=False,
+            )
+
+            if response.status < 200 or response.status >= 300:
+                return self.failure(
+                    error=f"Attachment download failed: {response.status}",
+                    status_code=response.status,
+                )
+
+            content_type = response.headers.get("Content-Type", "application/octet-stream")
+
+            return self.success(
+                data={"content": response.data, "content_type": content_type},
+                status_code=response.status,
+            )
+
+        except Exception as e:
+            log.exception("Unexpected error during Jira attachment download")
+            return self.failure(str(e))
+
     def get_jira_field_value(
         self,
         fields: dict,

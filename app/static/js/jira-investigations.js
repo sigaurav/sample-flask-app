@@ -79,6 +79,34 @@ const JiraInvestigations = (function () {
     return (parts[0][0] + (parts[1] ? parts[1][0] : '')).toUpperCase();
   }
 
+  function _formatSize(bytes) {
+    if (bytes === null || bytes === undefined) return '';
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  const ATTACHMENT_ICON = `
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21.44 11.05l-9.19 9.19a6 6 0 0 1-8.49-8.49l9.19-9.19a4 4 0 0 1 5.66 5.66l-9.2 9.19a2 2 0 0 1-2.83-2.83l8.49-8.48"/>
+    </svg>`;
+
+  const DOWNLOAD_ICON = `
+    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+         stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>`;
+
+  const TABS = [
+    { id: 'details',     label: 'Details' },
+    { id: 'comments',    label: 'Comments' },
+    { id: 'history',     label: 'History' },
+    { id: 'attachments', label: 'Attachments' },
+  ];
+
   //  Public: open the modal ─
 
   function open(parentEntity, rowData) {
@@ -217,6 +245,14 @@ const JiraInvestigations = (function () {
 
     const url = _ticketUrl(issue.key);
 
+    // Per-row state: which tab is active, and a cache of already-fetched
+    // tab data so switching tabs (or re-selecting this ticket later) doesn't
+    // re-hit the Jira API. Comments/History/Attachments each require their
+    // own dedicated per-issue call (unlike Details, which comes from the
+    // bulk list call) so they're only fetched the first time their tab opens.
+    if (!row._activeTab) row._activeTab = 'details';
+    if (!row._tabCache) row._tabCache = { comments: null, history: null, attachments: null };
+
     detailPane.innerHTML = `
       <div class="jira-issue-detail-header">
         <span class="jira-issue-key jira-issue-key-lg">
@@ -227,6 +263,75 @@ const JiraInvestigations = (function () {
       </div>
       <div class="jira-issue-detail-title">${_esc(issue.summary || '')}</div>
 
+      <div class="jira-detail-tabs" role="tablist">
+        ${TABS.map(t => `<button type="button" class="jira-detail-tab-btn${t.id === row._activeTab ? ' active' : ''}" data-tab="${t.id}">${t.label}</button>`).join('')}
+      </div>
+
+      <div class="jira-detail-tab-content"></div>
+    `;
+
+    detailPane.querySelectorAll('.jira-detail-tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        if (btn.dataset.tab === row._activeTab) return;
+        row._activeTab = btn.dataset.tab;
+        detailPane.querySelectorAll('.jira-detail-tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        _renderTabContent(detailPane, row);
+      });
+    });
+
+    _renderTabContent(detailPane, row);
+  }
+
+  function _renderTabContent(detailPane, row) {
+    const container = detailPane.querySelector('.jira-detail-tab-content');
+    const tab = row._activeTab;
+    const issue = row.issue;
+
+    if (tab === 'details') {
+      container.innerHTML = _buildDetailsTabHtml(issue);
+      return;
+    }
+
+    const endpoints = {
+      comments:    `/jira/issues/${encodeURIComponent(row.tracker.jira_key)}/comments`,
+      history:     `/jira/issues/${encodeURIComponent(row.tracker.jira_key)}/history`,
+      attachments: `/jira/issues/${encodeURIComponent(row.tracker.jira_key)}/attachments`,
+    };
+    const renderers = {
+      comments:    _renderComments,
+      history:     _renderHistory,
+      attachments: _renderAttachments,
+    };
+
+    _renderAsyncTab(container, row, tab, endpoints[tab], renderers[tab]);
+  }
+
+  async function _renderAsyncTab(container, row, tabKey, url, renderFn) {
+    if (row._tabCache[tabKey]) {
+      renderFn(container, row._tabCache[tabKey]);
+      return;
+    }
+
+    container.innerHTML = '<div class="jira-pane-status">Loading…</div>';
+
+    try {
+      const resp = await ApiUtils.get(url);
+      const data = (resp && resp.data) || [];
+      row._tabCache[tabKey] = data;
+
+      // The user may have switched tabs (or tickets, which rebuilds this
+      // container entirely) while this request was in flight.
+      if (row._activeTab !== tabKey) return;
+      renderFn(container, data);
+    } catch (err) {
+      if (row._activeTab !== tabKey) return;
+      container.innerHTML = `<div class="jira-pane-status jira-pane-error">Unable to load ${tabKey}: ${_esc(err.message || 'Unknown error')}</div>`;
+    }
+  }
+
+  function _buildDetailsTabHtml(issue) {
+    return `
       <div class="jira-issue-detail-meta">
         <div class="jira-issue-detail-meta-item">
           <div class="jira-meta-icon">${META_ICONS.priority}</div>
@@ -269,6 +374,79 @@ const JiraInvestigations = (function () {
         <div class="jira-issue-detail-description">${_esc(issue.acceptancecriteria)}</div>
       </div>` : ''}
     `;
+  }
+
+  function _renderComments(container, comments) {
+    if (!comments || comments.length === 0) {
+      container.innerHTML = '<div class="jira-pane-status">No comments yet.</div>';
+      return;
+    }
+
+    container.innerHTML = comments.map(c => `
+      <div class="jira-comment-card">
+        <div class="jira-comment-header">
+          <div class="jira-meta-icon jira-meta-avatar">${_esc(_initials(c.author))}</div>
+          <div class="jira-comment-meta">
+            <span class="jira-comment-author">${_esc(c.author || 'Unknown')}</span>
+            <span class="jira-comment-date">${_esc(_formatDate(c.created))}</span>
+          </div>
+        </div>
+        <div class="jira-comment-body">${_esc(c.body || '')}</div>
+      </div>
+    `).join('');
+  }
+
+  function _renderHistory(container, history) {
+    if (!history || history.length === 0) {
+      container.innerHTML = '<div class="jira-pane-status">No history recorded.</div>';
+      return;
+    }
+
+    container.innerHTML = `
+      <div class="jira-history-timeline">
+        ${history.map(h => `
+          <div class="jira-history-entry">
+            <div class="jira-history-dot"></div>
+            <div class="jira-history-body">
+              <div class="jira-history-meta">
+                <span class="jira-history-author">${_esc(h.author || 'Unknown')}</span>
+                <span class="jira-history-date">${_esc(_formatDate(h.created))}</span>
+              </div>
+              ${(h.items || []).map(item => `
+                <div class="jira-history-change">
+                  Changed <strong>${_esc(item.field || '')}</strong> from
+                  <span class="jira-history-from">${item.from ? _esc(item.from) : '<em>empty</em>'}</span> to
+                  <span class="jira-history-to">${item.to ? _esc(item.to) : '<em>empty</em>'}</span>
+                </div>
+              `).join('')}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  function _renderAttachments(container, attachments) {
+    if (!attachments || attachments.length === 0) {
+      container.innerHTML = '<div class="jira-pane-status">No attachments.</div>';
+      return;
+    }
+
+    container.innerHTML = attachments.map(a => {
+      const downloadUrl = `/jira/attachments/${encodeURIComponent(a.id)}/download?filename=${encodeURIComponent(a.filename || '')}`;
+      return `
+        <div class="jira-attachment-row">
+          <div class="jira-meta-icon">${ATTACHMENT_ICON}</div>
+          <div class="jira-attachment-info">
+            <span class="jira-attachment-filename">${_esc(a.filename || 'Untitled')}</span>
+            <span class="jira-attachment-meta">${_esc(_formatSize(a.size))} · ${_esc(a.author || 'Unknown')} · ${_esc(_formatDate(a.created))}</span>
+          </div>
+          <a href="${_esc(downloadUrl)}" class="jira-attachment-download" title="Download ${_esc(a.filename || '')}">
+            ${DOWNLOAD_ICON}
+          </a>
+        </div>
+      `;
+    }).join('');
   }
 
   function _buildBodyHtml() {
