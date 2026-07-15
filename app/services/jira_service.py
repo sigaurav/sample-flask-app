@@ -551,6 +551,14 @@ class JiraService:
 
         return self.success(data=comments, status_code=result.get("status_code"))
 
+    def add_jira_comment(self, issue_key: str, comment: str) -> dict:
+    """Post a new comment to an existing Jira issue."""
+    return self.jira_request(
+        method="POST",
+        endpoint=f"/rest/api/2/issue/{issue_key}/comment",
+        payload={"body": comment}
+    )
+
     def get_jira_issue_attachments(self, issue_key: str):
         """
         Fetch and normalize attachment metadata for a single Jira issue.
