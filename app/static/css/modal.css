@@ -653,3 +653,72 @@
   border-color:     #D71E28;
   background:       #FFFAFA;
 }
+
+.jira-add-comment {
+  display:        flex;
+  flex-direction: column;
+  gap:            8px;
+  padding:        12px 0 0 0;
+  border-top:     1px solid var(--gray-200);
+  margin-top:     12px;
+}
+
+.jira-add-comment textarea {
+  width:          100%;
+  min-height:     80px;
+  padding:        8px 10px;
+  border:         1px solid var(--gray-300);
+  border-radius:  var(--radius);
+  background:     var(--bg-white);
+  color:          var(--gray-900);
+  font-size:      13px;
+  resize:         vertical;
+  font-family:    var(--font-sans);
+  box-sizing:     border-box;
+}
+
+.jira-add-comment textarea:focus {
+  outline:        none;
+  border-color:   var(--wf-red);
+  box-shadow:     0 0 0 2px var(--wf-red-light);
+}
+
+.jira-add-comment-actions {
+  display:        flex;
+  justify-content: flex-end;
+  gap:            8px;
+}
+
+.jira-add-comment-actions button {
+  padding:        6px 16px;
+  border-radius:  var(--radius);
+  font-size:      13px;
+  cursor:         pointer;
+  font-family:    var(--font-sans);
+  font-weight:    500;
+}
+
+.jira-comment-submit-btn {
+  background:     var(--wf-red);
+  color:          var(--white);
+  border:         1px solid var(--wf-red-dark);
+}
+
+.jira-comment-submit-btn:hover {
+  background:     var(--wf-red-dark);
+}
+
+.jira-comment-submit-btn:disabled {
+  opacity:        0.5;
+  cursor:         not-allowed;
+}
+
+.jira-comment-cancel-btn {
+  background:     var(--gray-100);
+  color:          var(--gray-700);
+  border:         1px solid var(--gray-300);
+}
+
+.jira-comment-cancel-btn:hover {
+  background:     var(--gray-200);
+}
