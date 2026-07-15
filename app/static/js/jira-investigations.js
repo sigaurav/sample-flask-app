@@ -376,24 +376,106 @@ const JiraInvestigations = (function () {
     `;
   }
 
-  function _renderComments(container, comments) {
-    if (!comments || comments.length === 0) {
-      container.innerHTML = '<div class="jira-pane-status">No comments yet.</div>';
-      return;
-    }
-
-    container.innerHTML = comments.map(c => `
-      <div class="jira-comment-card">
-        <div class="jira-comment-header">
-          <div class="jira-meta-icon jira-meta-avatar">${_esc(_initials(c.author))}</div>
-          <div class="jira-comment-meta">
+  function _renderComments(container, comments, issueKey) {
+  // Build existing comments HTML
+  const commentsHtml = (!comments || comments.length === 0)
+    ? '<div class="jira-pane-status">No comments yet.</div>'
+    : comments.map(c => `
+        <div class="jira-comment-card">
+          <div class="jira-comment-header">
+            <span class="jira-avatar">${_esc((c.author || '?')[0].toUpperCase())}</span>
             <span class="jira-comment-author">${_esc(c.author || 'Unknown')}</span>
             <span class="jira-comment-date">${_esc(_formatDate(c.created))}</span>
           </div>
+          <div class="jira-comment-body">${_esc(c.body || '')}</div>
         </div>
-        <div class="jira-comment-body">${_esc(c.body || '')}</div>
+      `).join('');
+
+  // Render comments list + add comment box
+  container.innerHTML = `
+    <div class="jira-comments-list" id="jira-comments-list-${_esc(issueKey)}">
+      ${commentsHtml}
+    </div>
+    <div class="jira-add-comment">
+      <textarea 
+        id="jira-new-comment-${_esc(issueKey)}"
+        placeholder="Add a comment..."
+      ></textarea>
+      <div class="jira-add-comment-actions">
+        <button class="jira-comment-cancel-btn" id="jira-comment-cancel-${_esc(issueKey)}">
+          Clear
+        </button>
+        <button class="jira-comment-submit-btn" id="jira-comment-submit-${_esc(issueKey)}">
+          Save
+        </button>
       </div>
-    `).join('');
+    </div>
+  `;
+
+  // Wire up Clear button
+  container
+    .querySelector(`#jira-comment-cancel-${_esc(issueKey)}`)
+    .addEventListener('click', function () {
+      container.querySelector(`#jira-new-comment-${_esc(issueKey)}`).value = '';
+    });
+
+  // Wire up Save button
+  container
+    .querySelector(`#jira-comment-submit-${_esc(issueKey)}`)
+    .addEventListener('click', async function () {
+      const textarea   = container.querySelector(`#jira-new-comment-${_esc(issueKey)}`);
+      const submitBtn  = this;
+      const commentText = textarea.value.trim();
+
+      if (!commentText) {
+        textarea.focus();
+        return;
+      }
+
+      // Disable button while submitting
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Saving...';
+
+      try {
+        const resp = await fetch(`/jira/issues/${encodeURIComponent(issueKey)}/comments`, {
+          method:  'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body:    JSON.stringify({ comment: commentText }),
+        });
+
+        if (!resp.ok) {
+          const err = await resp.json();
+          throw new Error(err.error || 'Failed to save comment');
+        }
+
+        // Append new comment to the list immediately
+        const list = container.querySelector(`#jira-comments-list-${_esc(issueKey)}`);
+        const noComments = list.querySelector('.jira-pane-status');
+        if (noComments) noComments.remove();
+
+        const newCard = document.createElement('div');
+        newCard.className = 'jira-comment-card';
+        newCard.innerHTML = `
+          <div class="jira-comment-header">
+            <span class="jira-avatar">Y</span>
+            <span class="jira-comment-author">You</span>
+            <span class="jira-comment-date">Just now</span>
+          </div>
+          <div class="jira-comment-body">${_esc(commentText)}</div>
+        `;
+        list.appendChild(newCard);
+        newCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+
+        // Clear textarea and invalidate cache so next open re-fetches
+        textarea.value = '';
+
+      } catch (err) {
+        alert('Error: ' + err.message);
+      } finally {
+        submitBtn.disabled    = false;
+        submitBtn.textContent = 'Save';
+      }
+    });
   }
 
   function _renderHistory(container, history) {
