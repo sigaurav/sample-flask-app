@@ -99,7 +99,7 @@ const EntityPage = (function () {
 
   // Code below here is added by rolando, this reconstruction might be faulty. Cross Validdate
   function showRowActionMenu(ctx, entityType) {
-    const existing = document.querySelector('.row-action-menu');
+    const existing = document.querySelector('.row-actions-menu');
     if (existing) {
       existing.remove();
     }
@@ -123,11 +123,11 @@ const EntityPage = (function () {
     }
 
     const menu = document.createElement('div');
-    menu.className = 'row-action-menu';
+    menu.className = 'row-actions-menu';
 
     const clearSelectedBtn = document.createElement('button');
     clearSelectedBtn.type = 'button';
-    clearSelectedBtn.className = 'row-action-menu-item';
+    clearSelectedBtn.className = 'row-actions-menu-item';
     clearSelectedBtn.textContent = 'Clear selected records';
 
     clearSelectedBtn.addEventListener('click', function () {
@@ -148,7 +148,7 @@ const EntityPage = (function () {
 
     const openInvestigationBtn = document.createElement('button');
     openInvestigationBtn.type = 'button';
-    openInvestigationBtn.className = 'row-action-menu-item';
+    openInvestigationBtn.className = 'row-actions-menu-item';
     openInvestigationBtn.textContent = 'Open Investigation';
 
     openInvestigationBtn.addEventListener('click', function () {

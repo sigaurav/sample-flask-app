@@ -654,6 +654,20 @@
   background:       #FFFAFA;
 }
 
+.jira-avatar {
+  display:          inline-flex;
+  align-items:      center;
+  justify-content:  center;
+  flex-shrink:      0;
+  width:            22px;
+  height:           22px;
+  border-radius:    50%;
+  background:       var(--wf-red);
+  color:            var(--white);
+  font-size:        11px;
+  font-weight:      700;
+}
+
 .jira-add-comment {
   display:        flex;
   flex-direction: column;

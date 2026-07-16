@@ -352,7 +352,7 @@ User clicks the "Investigations" drill cell in facilities grid
             bottom pane: full detail of the selected ticket (from the same fetch — no extra request)
 ```
 
-### "Open Investigation" row-action flow
+### "Open Investigation" row-actions flow
 
 ```
 User selects row(s) → clicks "..." action button → "Open Investigation"

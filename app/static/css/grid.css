@@ -606,12 +606,12 @@
 
 /*Below code is Rolando's addition
  Grid Action */
-.row-action-cell,
-.row-action-cell-wrap {
+.row-actions-cell,
+.row-actions-cell-wrap {
   text-align: center;
 }
 
-.row-action-cell {
+.row-actions-cell {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -623,7 +623,7 @@
   accent-color: var(--wf-red);
 }
 
-.row-action-btn {
+.row-actions-btn {
   border: 0;
   background: transparent;
   cursor: pointer;
@@ -634,11 +634,11 @@
   transition: background .12s ease;
 }
 
-.row-action-btn:hover {
+.row-actions-btn:hover {
   background: var(--gray-100);
 }
 
-.row-action-menu {
+.row-actions-menu {
   position: absolute;
   z-index: 2000;
   min-width: 220px;
@@ -649,7 +649,7 @@
   padding: 6px;
 }
 
-.row-action-menu-item {
+.row-actions-menu-item {
   display: block;
   width: 100%;
   border: 0;
@@ -665,23 +665,23 @@
 
 }
 
-.row-action-menu-item:hover {
+.row-actions-menu-item:hover {
   background: var(--wf-red-light);
   color: var(--wf-red-dark);
 
 }
 
-.row-action-menu-item+.row-action-menu-item {
+.row-actions-menu-item+.row-actions-menu-item {
   margin-top: 3px;
 }
 
-.row-action-menu-item:focus {
+.row-actions-menu-item:focus {
   outline: none;
   background: var(--wf-red-light);
   color: var(--wf-red-dark);
 }
 
-.row-action-menu-item:active {
+.row-actions-menu-item:active {
   background: rgba(215, 30, 40, 0.14);
   color: var(--wf-red-dark);
 }

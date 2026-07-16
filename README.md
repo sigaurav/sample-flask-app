@@ -15,7 +15,7 @@ SQL Server, and Teradata behind a single interface.
 | **Server-side pagination** | Sort/filter/paginate on the server; frontend receives one page at a time |
 | **Apply Filters** | Sort and filter changes are batched; user clicks Apply to send one request |
 | **Multi-level drill-down** | Facilities → Obligations → Property (auto-wired from config) |
-| **Jira investigations** | Row-action "Open Investigation" creates a Jira ticket; an "Investigations" drill-down column shows ticket status/detail per facility |
+| **Jira investigations** | row-actions "Open Investigation" creates a Jira ticket; an "Investigations" drill-down column shows ticket status/detail per facility |
 | **Async export** | CSV, Excel, Parquet — background worker with polling status |
 | **Multi-source adapters** | CSV, Dremio, SQL Server, Teradata — same interface |
 

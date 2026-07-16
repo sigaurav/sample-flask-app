@@ -61,7 +61,7 @@ const CellRenderer = (function () {
   // Rolando's Addition of Row Actions
   function rowActions(params) {
     const wrap = document.createElement('div')
-    wrap.className = 'row-action-cell';
+    wrap.className = 'row-actions-cell';
 
     const cb = document.createElement('input');
     cb.type = 'checkbox';
@@ -79,7 +79,7 @@ const CellRenderer = (function () {
 
     const btn = document.createElement('button');
     btn.type = 'button';
-    btn.className = 'row-action-btn';
+    btn.className = 'row-actions-btn';
     btn.title = 'Row Actions';
     btn.innerHTML = '...';
     btn.addEventListener('click', function (e) {
@@ -155,7 +155,7 @@ function buildColumnsFromSchema(schema, drillHandlers, options) {
     width: 80,
     minWidth: 80,
     pinned: 'left',
-    cellClass: 'row-action-cell-wrap',
+    cellClass: 'row-actions-cell-wrap',
     cellRenderer: CellRenderer.rowActions,
   };
 
@@ -265,7 +265,7 @@ class GridManager {
     this._queryFn = options.queryFn || null;
     this._totalRows = 0;
 
-    // Row-selection state (row-action feature) — Map of rowId -> row object,
+    // Row-selection state (row-actions feature) — Map of rowId -> row object,
     // not just a Set of IDs, so getSelectedRows() works without depending on
     // _allData/_batchData (which only ever hold the currently-loaded window
     // in server-side pagination mode).

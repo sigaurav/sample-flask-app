@@ -299,7 +299,7 @@ const JiraInvestigations = (function () {
       attachments: `/jira/issues/${encodeURIComponent(row.tracker.jira_key)}/attachments`,
     };
     const renderers = {
-      comments:    _renderComments,
+      comments:    (c, data) => _renderComments(c, data, row),
       history:     _renderHistory,
       attachments: _renderAttachments,
     };
@@ -376,7 +376,9 @@ const JiraInvestigations = (function () {
     `;
   }
 
-  function _renderComments(container, comments, issueKey) {
+  function _renderComments(container, comments, row) {
+  const issueKey = row.tracker.jira_key;
+
   // Build existing comments HTML
   const commentsHtml = (!comments || comments.length === 0)
     ? '<div class="jira-pane-status">No comments yet.</div>'
@@ -397,7 +399,7 @@ const JiraInvestigations = (function () {
       ${commentsHtml}
     </div>
     <div class="jira-add-comment">
-      <textarea 
+      <textarea
         id="jira-new-comment-${_esc(issueKey)}"
         placeholder="Add a comment..."
       ></textarea>
@@ -443,31 +445,25 @@ const JiraInvestigations = (function () {
           body:    JSON.stringify({ comment: commentText }),
         });
 
+        const respBody = await resp.json().catch(() => ({}));
+
         if (!resp.ok) {
-          const err = await resp.json();
-          throw new Error(err.error || 'Failed to save comment');
+          throw new Error(respBody.error || 'Failed to save comment');
         }
 
-        // Append new comment to the list immediately
-        const list = container.querySelector(`#jira-comments-list-${_esc(issueKey)}`);
-        const noComments = list.querySelector('.jira-pane-status');
-        if (noComments) noComments.remove();
-
-        const newCard = document.createElement('div');
-        newCard.className = 'jira-comment-card';
-        newCard.innerHTML = `
-          <div class="jira-comment-header">
-            <span class="jira-avatar">Y</span>
-            <span class="jira-comment-author">You</span>
-            <span class="jira-comment-date">Just now</span>
-          </div>
-          <div class="jira-comment-body">${_esc(commentText)}</div>
-        `;
-        list.appendChild(newCard);
-        newCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-
-        // Clear textarea and invalidate cache so next open re-fetches
+        // Re-fetch rather than hand-building a placeholder card: this
+        // guarantees the real author/timestamp from Jira (not "You"/"Just
+        // now") and keeps row._tabCache.comments in sync, so switching
+        // tabs and back doesn't show a stale list missing this comment.
         textarea.value = '';
+        row._tabCache.comments = null;
+        await _renderAsyncTab(
+          container,
+          row,
+          'comments',
+          `/jira/issues/${encodeURIComponent(issueKey)}/comments`,
+          (c, data) => _renderComments(c, data, row),
+        );
 
       } catch (err) {
         alert('Error: ' + err.message);
@@ -515,7 +511,8 @@ const JiraInvestigations = (function () {
     }
 
     container.innerHTML = attachments.map(a => {
-      const downloadUrl = `/jira/attachments/${encodeURIComponent(a.id)}/download?filename=${encodeURIComponent(a.filename || '')}`;
+      const base = (APP_CONFIG.jiraBaseUrl || '').replace(/\/+$/, '');
+      const downloadUrl = `${base}/secure/attachment/${encodeURIComponent(a.id)}/${encodeURIComponent(a.filename || '')}`;
       return `
         <div class="jira-attachment-row">
           <div class="jira-meta-icon">${ATTACHMENT_ICON}</div>
@@ -523,8 +520,9 @@ const JiraInvestigations = (function () {
             <span class="jira-attachment-filename">${_esc(a.filename || 'Untitled')}</span>
             <span class="jira-attachment-meta">${_esc(_formatSize(a.size))} · ${_esc(a.author || 'Unknown')} · ${_esc(_formatDate(a.created))}</span>
           </div>
-          <a href="${_esc(downloadUrl)}" class="jira-attachment-download" title="Download ${_esc(a.filename || '')}">
-            ${DOWNLOAD_ICON}
+          <a href="${_esc(downloadUrl)}" target="_blank" rel="noopener"
+            class="jira-attachment-download" title="Download ${_esc(a.filename || '')}">
+           ${DOWNLOAD_ICON}
           </a>
         </div>
       `;

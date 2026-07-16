@@ -552,12 +552,17 @@ class JiraService:
         return self.success(data=comments, status_code=result.get("status_code"))
 
     def add_jira_comment(self, issue_key: str, comment: str) -> dict:
-    """Post a new comment to an existing Jira issue."""
-    return self.jira_request(
-        method="POST",
-        endpoint=f"/rest/api/2/issue/{issue_key}/comment",
-        payload={"body": comment}
-    )
+        """Post a new comment to an existing Jira issue."""
+        try:
+            return self.jira_request(
+                method="POST",
+                endpoint=f"/rest/api/2/issue/{issue_key}/comment",
+                payload={"body": comment},
+                raise_error=False,
+            )
+        except Exception as e:
+            log.exception("Unexpected error during Jira comment creation")
+            return self.failure(str(e))
 
     def get_jira_issue_attachments(self, issue_key: str):
         """
@@ -643,55 +648,6 @@ class JiraService:
 
         return self.success(data=history, status_code=result.get("status_code"))
 
-    def download_attachment_content(self, attachment_id: str):
-        """
-        Fetch raw attachment bytes from Jira by attachment id.
-
-        Bypasses jira_request() (which always JSON-decodes the response
-        body) since attachment content is binary — mirrors the raw-request
-        pattern add_jira_attachment already uses for uploads. The route
-        layer streams this back to the browser rather than exposing the
-        Jira token or Jira's own attachment URL to the client.
-
-        Returns:
-            dict: Standard service response with data = {content: bytes,
-            content_type: str} on success.
-        """
-
-        try:
-            base_url = self._session["base_url"]
-            http = self._session["http"]
-
-            url = f"{base_url}/rest/api/2/attachment/content/{attachment_id}"
-
-            headers = {
-                "Authorization": self._session["headers"]["Authorization"],
-                "Accept": "*/*",
-            }
-
-            response = http.request(
-                "GET",
-                url,
-                headers=headers,
-                retries=False,
-            )
-
-            if response.status < 200 or response.status >= 300:
-                return self.failure(
-                    error=f"Attachment download failed: {response.status}",
-                    status_code=response.status,
-                )
-
-            content_type = response.headers.get("Content-Type", "application/octet-stream")
-
-            return self.success(
-                data={"content": response.data, "content_type": content_type},
-                status_code=response.status,
-            )
-
-        except Exception as e:
-            log.exception("Unexpected error during Jira attachment download")
-            return self.failure(str(e))
 
     def get_jira_field_value(
         self,

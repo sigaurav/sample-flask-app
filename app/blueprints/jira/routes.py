@@ -3,7 +3,6 @@ from __future__ import  annotations
 from datetime import datetime
 
 from flask import current_app, request, jsonify, Response
-from werkzeug.utils import secure_filename
 from app.utils.response_utils import error_response
 from app.blueprints.jira import jira_bp
 
@@ -84,6 +83,28 @@ def jira_issue_comments(issue_key):
     result = current_app.jira_service.get_jira_issue_comments(issue_key)
     return jsonify(result)
 
+@jira_bp.route("/issues/<issue_key>/comments", methods=["POST"])
+def jira_add_comment(issue_key):
+    guard = _require_jira_service()
+    if guard:
+        return guard
+
+    body = request.get_json(silent=True) or {}
+    comment = body.get("comment", "").strip()
+
+    if not comment:
+        return error_response("Comment cannot be empty", 400)
+
+    result = current_app.jira_service.add_jira_comment(issue_key, comment)
+
+    # result["error"] is always present as a dict key (None on success) —
+    # checking key presence instead of the success flag meant every request,
+    # including successful ones, was reported back as a 500.
+    if not result.get("success"):
+        return jsonify(result), result.get("status_code") or 500
+
+    return jsonify(result), 201
+
 
 @jira_bp.route("/issues/<issue_key>/attachments", methods=["GET"])
 def jira_issue_attachments(issue_key):
@@ -104,31 +125,6 @@ def jira_issue_history(issue_key):
     result = current_app.jira_service.get_jira_issue_history(issue_key)
     return jsonify(result)
 
-
-@jira_bp.route("/attachments/<attachment_id>/download", methods=["GET"])
-def jira_attachment_download(attachment_id):
-    guard = _require_jira_service()
-    if guard:
-        return guard
-
-    result = current_app.jira_service.download_attachment_content(attachment_id)
-
-    if not result["success"]:
-        return error_response(
-            result.get("error") or "Attachment download failed",
-            result.get("status_code") or 502,
-        )
-
-    # filename comes from Jira attachment metadata the frontend already has
-    # (from GET /jira/issues/<key>/attachments) — sanitized before use in
-    # the response header to prevent header injection / path traversal.
-    filename = secure_filename(request.args.get("filename", "")) or f"attachment-{attachment_id}"
-
-    return Response(
-        result["data"]["content"],
-        mimetype=result["data"]["content_type"],
-        headers={"Content-Disposition": f'attachment; filename="{filename}"'},
-    )
 
 
 @jira_bp.route("/investigation/create", methods=["POST"])
